@@ -58,17 +58,27 @@ public class UserMethods {
 	    return user.get(0);
 	}
 	
-//	//Get Users By firstName and lastName
+	//Get Users By firstName
+	public List<User> getUsersByFirstName(String firstName) throws Exception {	
+		return getUsers(firstName, null, null, null);
+	}
+	
+	//Get Users By lastName
+	public List<User> getUsersByLastName(String lastName) throws Exception {	
+		return getUsers(null, lastName, null, null);
+	}
+	
+	//Get Users By firstName and lastName
 	public List<User> getUsers(String firstName, String lastName) throws Exception {	
 		return getUsers(firstName, lastName, null, null);
 	}
 	
-//	//Get Users By firstName or lastName or personalEmail
+	//Get Users By firstName and lastName and personalEmail
 	public List<User> getUsers(String firstName, String lastName, String personalEmail) throws Exception {	
 		return getUsers(firstName, lastName, personalEmail, null);
 	}
 	
-	//Get Users By firstName or lastName or personalEmail or workEmail
+	//Get Users and firstName and lastName and personalEmail and workEmail
 	public List<User> getUsers(String firstName, String lastName, String personalEmail, String workEmail) throws Exception {
 		
 		SessionFactory factory = UserMethods.getFactory();
@@ -91,12 +101,6 @@ public class UserMethods {
 		if(workEmail != null && workEmail.length()>0) {
 			criteria.add(Restrictions.eq("workEmail", workEmail));
 		}
-		
-//		Criterion crt1 = Restrictions.eq("first_name", firstName);
-//		Criterion crt2 = Restrictions.eq("last_name", lastName);
-//		Criterion crt3 = Restrictions.eq("personalEmail", personalEmail);
-//		Criterion crt4 = Restrictions.eq("workEmail", workEmail);
-//		criteria.add(Restrictions.or(crt1, crt2, crt3, crt4));
 
 		List<User> user = null;
 
@@ -106,18 +110,15 @@ public class UserMethods {
 	    	session.close();
 	        factory.close();
 	        }
-	    
+
 	    return user;
 	}
-	
-	
-	//CONNESSIONE AL FACTORY
-	public static SessionFactory getFactory() throws Exception {
 
+	//CONNESSIONE AL FACTORY
+	private static SessionFactory getFactory() throws Exception {
 		SessionFactory factory = new Configuration().configure()
 				.addAnnotatedClass(User.class)
-				.buildSessionFactory();
-				
+				.buildSessionFactory();		
 		return factory;
 	}
 	
