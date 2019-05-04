@@ -4,12 +4,8 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.sql.Connection;
 import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 
@@ -34,6 +30,11 @@ import it.beije.timesheet.entities.User;
 
 public class DBImportExport {
 	
+	public static void main(String... args) throws Exception {
+		
+		importCsv("/Users/davidezacchino/Documents/Corso Java Beije/eclipse-workspace/primo/prova.csv");
+	}
+	
 	//IMPORT CSV METHOD
 	public static void importCsv(String pathFile) throws Exception{
 		
@@ -54,7 +55,7 @@ public class DBImportExport {
 		//INSERT
 		for (String conversione : rows) {
 			Transaction transaction = session.beginTransaction();
-			User utenti = new User();
+			User utente = new User();
 		    String[] parts = conversione.split(";");
 		    
 		    String first_name = parts[1];
@@ -66,25 +67,24 @@ public class DBImportExport {
 		    String admin = parts[7];
 		    String password = parts[8];
 		    
-		    utenti.setFirst_name(first_name);
-		    utenti.setLast_name(last_name);
-		    utenti.setPersonal_email(personal_email);
-		    utenti.setWork_email(work_email);
-		    utenti.setPhone(phone);
-		    utenti.setFiscal_code(fiscal_code);
-		    utenti.setAdmin(Boolean.parseBoolean(admin));
-		    utenti.setPassword(password);
+		    utente.setFirst_name(first_name);
+		    utente.setLast_name(last_name);
+		    utente.setPersonal_email(personal_email);
+		    utente.setWork_email(work_email);
+		    utente.setPhone(phone);
+		    utente.setFiscal_code(fiscal_code);
+		    utente.setAdmin(Boolean.parseBoolean(admin));
+		    utente.setPassword(password);
 		    
-		    User test = UserMethods.getUser(utenti.getFiscal_code());
-		    
-		    if (!test.getFiscal_code().equals(utenti.getFiscal_code())) {
-		    	session.save(utenti);
+		    if (UserMethods.getUser(utente.getFiscal_code()) == null) {
+		    	session.save(utente);
 		    } else {
 		    	System.out.println("Utente già esistente");
 		    }
-			transaction.commit();;
+		    
+		    transaction.commit();;
 		}
-		
+			
 		session.close();
 		factory.close();
 		

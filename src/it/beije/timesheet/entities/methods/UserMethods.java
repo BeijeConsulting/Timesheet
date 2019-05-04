@@ -55,7 +55,12 @@ public class UserMethods {
 	            factory.close();
 	        }
 	    }
+
+	    if(user.size()>0) {
 	    return user.get(0);
+	    }
+	    
+	    return null;
 	}
 	
 	//Get Users By firstName
