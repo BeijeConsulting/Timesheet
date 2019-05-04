@@ -3,7 +3,9 @@ package it.beije.timesheet;
 import java.util.Iterator;
 import java.util.List;
 
+import org.geolatte.geom.M;
 import org.hibernate.Criteria;
+import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -12,7 +14,10 @@ import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.query.Query;
 
+import it.beije.timesheet.entities.User;
 import it.beije.timesheet.entities.Utente;
+import it.beije.timesheet.entities.methods.UserMethods;
+
 
 
 public class HDButils {
@@ -37,54 +42,7 @@ public class HDButils {
 		return factory.openSession();
 		
 	}
-	
-//	public static void main(String argv[]) {
-//		
-//		Connection conn = null;
-//		Statement stmt = null;
-//		ResultSet rset= null;
-//
-//		try {
-//			conn = HDButils.getConnection();
-//			
-//			stmt = conn.createStatement();
-//
-//			//INSERT
-////			String insert = "INSERT INTO utenti VALUES (null, 'edi3', 'paperetti', 'edi3@paperetti.com', SYSDATE())";
-////			stmt.execute(insert);
-//
-//			//SELECT
-//			String query = "SELECT * from utenti";
-//			rset = stmt.executeQuery(query);
-//
-//			while (rset.next()) {
-//				int id = rset.getInt("id");
-//				String nome = rset.getString("nome");
-//				String cognome = rset.getString("cognome");
-//				String email = rset.getString(4);
-//
-//				System.out.println("" + id + ", " + nome + ", " + cognome + ", " +  email);
-//			}
-//
-//		}
-//		catch (SQLException se) {
-//			System.out.println("SQLError: " + se.getMessage() + " code: " + se.getErrorCode());
-//		}
-//		catch(Exception e) {
-//			System.out.println(e.getMessage());
-//			e.printStackTrace();
-//		}
-//		finally {
-//			try {
-////				rset.close();
-//				stmt.close();
-//				conn.close();
-//			}catch (Exception e) {
-//				e.printStackTrace();
-//			}
-//		}
-//		
-//	}
+
 
 	public static void main(String argv[]) throws Exception {
 		
@@ -132,4 +90,6 @@ public class HDButils {
 		factory.close();
 		System.out.println("is open?" + factory.isOpen());
 	}
+	
+	
 }

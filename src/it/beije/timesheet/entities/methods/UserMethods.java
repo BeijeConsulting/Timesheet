@@ -14,7 +14,7 @@ import it.beije.timesheet.entities.User;
 public class UserMethods {
 
 	//Get User By ID
-	public User getUser(int id) throws Exception {
+	public static User getUser(int id) throws Exception {
 		
 		SessionFactory factory = UserMethods.getFactory();
 		Session session = factory.openSession();
@@ -35,7 +35,7 @@ public class UserMethods {
 	}
 	
 	//Get User By FiscalCode
-	public User getUser(String fiscalCode) throws Exception {
+	public static User getUser(String fiscalCode) throws Exception {
 		
 		SessionFactory factory = UserMethods.getFactory();
 		Session session = factory.openSession();
@@ -59,27 +59,27 @@ public class UserMethods {
 	}
 	
 	//Get Users By firstName
-	public List<User> getUsersByFirstName(String firstName) throws Exception {	
+	public static List<User> getUsersByFirstName(String firstName) throws Exception {	
 		return getUsers(firstName, null, null, null);
 	}
 	
 	//Get Users By lastName
-	public List<User> getUsersByLastName(String lastName) throws Exception {	
+	public static List<User> getUsersByLastName(String lastName) throws Exception {	
 		return getUsers(null, lastName, null, null);
 	}
 	
 	//Get Users By firstName and lastName
-	public List<User> getUsers(String firstName, String lastName) throws Exception {	
+	public static List<User> getUsers(String firstName, String lastName) throws Exception {	
 		return getUsers(firstName, lastName, null, null);
 	}
 	
 	//Get Users By firstName and lastName and personalEmail
-	public List<User> getUsers(String firstName, String lastName, String personalEmail) throws Exception {	
+	public static List<User> getUsers(String firstName, String lastName, String personalEmail) throws Exception {	
 		return getUsers(firstName, lastName, personalEmail, null);
 	}
 	
 	//Get Users and firstName and lastName and personalEmail and workEmail
-	public List<User> getUsers(String firstName, String lastName, String personalEmail, String workEmail) throws Exception {
+	public static List<User> getUsers(String firstName, String lastName, String personalEmail, String workEmail) throws Exception {
 		
 		SessionFactory factory = UserMethods.getFactory();
 		Session session = factory.openSession();
