@@ -76,7 +76,7 @@ public class TimeSheetMethods {
 		
 		SessionFactory factory = null;
 		Session session = null;
-
+//ntynr
 		try {
 			factory = HDButils.getFactory(Timetable.class);
 			session = factory.openSession();
