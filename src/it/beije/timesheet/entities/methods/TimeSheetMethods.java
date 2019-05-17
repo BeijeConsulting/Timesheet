@@ -11,6 +11,7 @@ import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.criterion.Restrictions;
 
+import it.beije.timesheet.HDButils;
 import it.beije.timesheet.entities.Timetable;
 import it.beije.timesheet.entities.User;
 
@@ -19,7 +20,7 @@ public class TimeSheetMethods {
 	//Get Timesheet of a User By ID
 	public static List<Timetable> getTimeSheetOfUserById(int idUser) throws Exception {
 		
-		SessionFactory factory = TimeSheetMethods.getFactory();
+		SessionFactory factory = HDButils.getFactory(Timetable.class);
 		Session session = factory.openSession();
 		
 		Criteria criteria = session.createCriteria(Timetable.class);
@@ -47,7 +48,7 @@ public class TimeSheetMethods {
 	        throw new IllegalArgumentException("Invalid range");
 	    }
 		
-		SessionFactory factory = TimeSheetMethods.getFactory();
+		SessionFactory factory = HDButils.getFactory(Timetable.class);
 		Session session = factory.openSession();
 		
 		Criteria criteria = session.createCriteria(Timetable.class);
@@ -70,15 +71,14 @@ public class TimeSheetMethods {
 	    return table;
 	}
 
-	
-	public static void setOrUpdateTimeSheet(Timetable table) {
-	
+	//Set Or Update TimeSheet
+	public static void setOrUpdateTimeSheet(Timetable table) {	
 		
 		SessionFactory factory = null;
 		Session session = null;
-		
+
 		try {
-			factory = TimeSheetMethods.getFactory();
+			factory = HDButils.getFactory(Timetable.class);
 			session = factory.openSession();
 			
 			Transaction transaction = session.beginTransaction();
@@ -98,11 +98,11 @@ public class TimeSheetMethods {
 	
 	
 	//CONNESSIONE AL FACTORY
-	private static SessionFactory getFactory() throws Exception {
-		SessionFactory factory = new Configuration().configure()
-				.addAnnotatedClass(Timetable.class)
-				.buildSessionFactory();		
-		return factory;
-	}
+//	private static SessionFactory getFactory() throws Exception {
+//		SessionFactory factory = new Configuration().configure()
+//				.addAnnotatedClass(Timetable.class)
+//				.buildSessionFactory();		
+//		return factory;
+//	}
 	
 } //END CLASS

@@ -14,6 +14,7 @@ import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.query.Query;
 
+import it.beije.timesheet.entities.Timetable;
 import it.beije.timesheet.entities.User;
 import it.beije.timesheet.entities.Utente;
 import it.beije.timesheet.entities.methods.UserMethods;
@@ -21,6 +22,14 @@ import it.beije.timesheet.entities.methods.UserMethods;
 
 
 public class HDButils {
+	
+	//CONNESSIONE AL FACTORY
+	public static SessionFactory getFactory(Class<?> className) throws Exception {
+		SessionFactory factory = new Configuration().configure()
+				.addAnnotatedClass(className)
+				.buildSessionFactory();		
+		return factory;
+	}
 	
 //	public static Connection getConnection() throws ClassNotFoundException, SQLException {
 //		Connection conn = null;
@@ -31,65 +40,66 @@ public class HDButils {
 //		return conn;
 //	}
 
-	public static Session getSession() throws Exception {
-		
-		SessionFactory factory = new Configuration().configure()
-				.addAnnotatedClass(Utente.class)
-				.buildSessionFactory();
-		
-		System.out.println("is open?" + factory.isOpen());
-		
-		return factory.openSession();
-		
-	}
+//	public static Session getSession() throws Exception {
+//		
+//		SessionFactory factory = new Configuration().configure()
+//				.addAnnotatedClass(Utente.class)
+//				.buildSessionFactory();
+//		
+//		System.out.println("is open?" + factory.isOpen());
+//		
+//		return factory.openSession();
+//		
+//	}
+	
 
-
-	public static void main(String argv[]) throws Exception {
-		
-		SessionFactory factory = new Configuration().configure()
-				.addAnnotatedClass(Utente.class)
-				.buildSessionFactory();
-		
-		System.out.println("is open?" + factory.isOpen());
-		
-		Session session = factory.openSession();
-		Transaction transaction = session.beginTransaction();
-		
-//		String hql = "SELECT id FROM Utente";
-//		Query query = session.createQuery(hql);
-//		for (Object u : query.list()) {
-//			Long utente = (Long) u;
-//			System.out.println(utente);
+//
+//	public static void main(String argv[]) throws Exception {
+//		
+//		SessionFactory factory = new Configuration().configure()
+//				.addAnnotatedClass(Utente.class)
+//				.buildSessionFactory();
+//		
+//		System.out.println("is open?" + factory.isOpen());
+//		
+//		Session session = factory.openSession();
+//		Transaction transaction = session.beginTransaction();
+//		
+////		String hql = "SELECT id FROM Utente";
+////		Query query = session.createQuery(hql);
+////		for (Object u : query.list()) {
+////			Long utente = (Long) u;
+////			System.out.println(utente);
+////		}
+//		
+//		Criteria criteria = session.createCriteria(Utente.class);
+//		List utenti = criteria.list();//.add(Restrictions.eq("nome", "pippo"))
+//
+//		Iterator itr = utenti.iterator();
+//		while (itr.hasNext()) {
+////			Transaction transaction = session.beginTransaction();
+//			Utente u = (Utente) itr.next();
+//			System.out.println(u.getId());
+//			System.out.println(u.getCognome());		
+//			
+////			StringBuilder b = new StringBuilder();
+////			for (int i = 0; i < (u.getId()*5); i++) {
+////				b.append('c');
+////			}
+////			u.setNome(b.toString());
+////			System.out.println("new name : " + b.toString());
+////			transaction.commit();
 //		}
-		
-		Criteria criteria = session.createCriteria(Utente.class);
-		List utenti = criteria.list();//.add(Restrictions.eq("nome", "pippo"))
-
-		Iterator itr = utenti.iterator();
-		while (itr.hasNext()) {
-//			Transaction transaction = session.beginTransaction();
-			Utente u = (Utente) itr.next();
-			System.out.println(u.getId());
-			System.out.println(u.getCognome());		
-			
-//			StringBuilder b = new StringBuilder();
-//			for (int i = 0; i < (u.getId()*5); i++) {
-//				b.append('c');
-//			}
-//			u.setNome(b.toString());
-//			System.out.println("new name : " + b.toString());
-//			transaction.commit();
-		}
-		
-		
-		//System.out.println(query.list());
-
-
-		//transaction.commit();
-		session.close();
-		factory.close();
-		System.out.println("is open?" + factory.isOpen());
-	}
+//		
+//		
+//		//System.out.println(query.list());
+//
+//
+//		//transaction.commit();
+//		session.close();
+//		factory.close();
+//		System.out.println("is open?" + factory.isOpen());
+//	}
 	
 	
 }
