@@ -7,10 +7,12 @@ import org.hibernate.Criteria;
 import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.criterion.Restrictions;
 
 import it.beije.timesheet.entities.Timetable;
+import it.beije.timesheet.entities.User;
 
 public class TimeSheetMethods {
 	
@@ -68,6 +70,33 @@ public class TimeSheetMethods {
 	    return table;
 	}
 
+	
+	public static void setOrUpdateTimeSheet(Timetable table) {
+	
+		
+		SessionFactory factory = null;
+		Session session = null;
+		
+		try {
+			factory = TimeSheetMethods.getFactory();
+			session = factory.openSession();
+			
+			Transaction transaction = session.beginTransaction();
+		    
+			session.saveOrUpdate(table);
+			
+			transaction.commit();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			session.close();
+			factory.close();
+		}
+		
+	}
+	
+	
 	//CONNESSIONE AL FACTORY
 	private static SessionFactory getFactory() throws Exception {
 		SessionFactory factory = new Configuration().configure()
