@@ -70,9 +70,6 @@ public class RubricaServlet extends HttpServlet {
 		String fiscalcode = request.getParameter("fiscalcode");
 		String password = request.getParameter("password");
 
-		//		System.out.println("firstname : " + firstname);
-		//		System.out.println("lastname : " + lastname);
-		//		System.out.println("phone : " + phone);
 		System.out.println("Dati inseriti: " + firstname +", " + lastname +", " 
 				+ email +", "  + phone +", "  + fiscalcode +", " + password);
 
@@ -97,9 +94,8 @@ public class RubricaServlet extends HttpServlet {
 //				.append("email : " + email + "<br>")
 //				.append("Dati salvati");
 
-		request.setAttribute("firstname", firstname);
+//		request.setAttribute("firstname", firstname);
 //		response.sendRedirect("process.jsp");
-//		response.sendRedirect("landing.jsp");
 		request.getRequestDispatcher("process.jsp").forward(request, response);
 	}
 
@@ -149,8 +145,4 @@ public class RubricaServlet extends HttpServlet {
 		}
 
 	}
-
-
-
-
 }

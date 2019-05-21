@@ -91,7 +91,7 @@ public class User {
 		return fiscalCode;
 	}
 
-	public void setFiscal_code(String fiscalCode) {
+	public void setFiscalCode(String fiscalCode) {
 		this.fiscalCode = fiscalCode;
 	}
 

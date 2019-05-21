@@ -72,7 +72,7 @@
 
   </div>
   
-
+<%-- 
 <%
 Connection con;
 Class.forName("com.mysql.jdbc.Driver");
@@ -90,11 +90,13 @@ while(rs.next()){
 <jsp:useBean id="user" class="it.beije.web.bean.User" scope="session"></jsp:useBean>
 
 
-<%-- SET --%>
-<jsp:setProperty property="firstName" name="user" param="firstname" /> 
+SET
+<jsp:setProperty property="firstName" name="user" /> 
 <% //utente.setFirstName(request.getParameter("firstname")); %>
 <jsp:setProperty property="lastName" name="user" param="lastname"/>  
-<jsp:setProperty property="phone" name="user"/>
+
+<jsp:setProperty property="lastName" name="user"/>  
+<jsp:setProperty property="phone" name="user"/> --%>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 

@@ -15,14 +15,12 @@
   
 Dati inseriti:<br><br>
 <%-- GET 
-Nome: <jsp:getProperty property="firstName" name="user"/><br>--%>
-Cognome: <jsp:getProperty property="lastName" name="user"/><br> 
-Nome1: <% System.out.println("ciao"); user.setFirstName(request.getParameter("firstname")); %>
-Nome2: <%= request.getParameter("firstname") %>
-<% System.out.println("ciao"); %>
+Nome: <jsp:getProperty property="firstName" name="user"/><br>
+Cognome: <jsp:getProperty property="lastName" name="user"/><br> --%>
+Nome: <%= request.getParameter("firstname") %><br>
+Cognome: <%= request.getParameter("lastname") %><br>
+Codice Fiscale: <%=  request.getParameter("fiscalcode") %>
 
-<%String name = (String)request.getAttribute("firstname"); %>
-<%= name%>
 
 <br>
 
