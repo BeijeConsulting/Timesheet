@@ -1,20 +1,19 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>MyWebProject</groupId>
-  <artifactId>MyWebProject</artifactId>
+  <groupId>Timesheet</groupId>
+  <artifactId>Timesheet</artifactId>
   <version>0.0.1-SNAPSHOT</version>
-  <packaging>war</packaging>
-  <name>SurabayaWeb</name>
   <build>
     <sourceDirectory>src</sourceDirectory>
+    <resources>
+      <resource>
+        <directory>src</directory>
+        <excludes>
+          <exclude>**/*.java</exclude>
+        </excludes>
+      </resource>
+    </resources>
     <plugins>
-      <plugin>
-        <artifactId>maven-war-plugin</artifactId>
-        <version>3.2.1</version>
-        <configuration>
-          <warSourceDirectory>WebContent</warSourceDirectory>
-        </configuration>
-      </plugin>
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
         <version>3.8.0</version>
@@ -25,27 +24,6 @@
       </plugin>
     </plugins>
   </build>
-  <repositories>
-    <repository>
-        <id>adobe-public</id>
-        <url>https://repo.adobe.com/nexus/content/repositories/public/</url>
-    </repository>
-    <repository>
-        <id>central</id>
-        <name>Central Repository</name>
-        <url>http://repo.maven.apache.org/maven2</url>
-        <layout>default</layout>
-        <snapshots>
-            <enabled>false</enabled>
-        </snapshots>
-    </repository>
-    <repository>
-        <id>projectX-aws</id>
-        <url>s3://projectX-support/maven2</url>
-        <releases><enabled>true</enabled></releases>
-        <snapshots><enabled>true</enabled></snapshots>
-    </repository>
-  </repositories>
   <dependencies>
   	<dependency>
   		<groupId>mysql</groupId>
@@ -53,9 +31,14 @@
   		<version>8.0.15</version>
   	</dependency>
   	<dependency>
-  		<groupId>org.hibernate.javax.persistence</groupId>
-  		<artifactId>hibernate-jpa-2.1-api</artifactId>
-  		<version>1.0.0.Final</version>
+  		<groupId>org.springframework</groupId>
+  		<artifactId>spring-web</artifactId>
+  		<version>5.1.5.RELEASE</version>
+  	</dependency>
+  	<dependency>
+  		<groupId>org.springframework</groupId>
+  		<artifactId>spring-webmvc</artifactId>
+  		<version>5.1.5.RELEASE</version>
   	</dependency>
   	<dependency>
   		<groupId>org.hibernate</groupId>
@@ -63,9 +46,9 @@
   		<version>5.4.1.Final</version>
   	</dependency>
   	<dependency>
-  		<groupId>org.hibernate</groupId>
-  		<artifactId>hibernate-entitymanager</artifactId>
-  		<version>5.4.1.Final</version>
+  		<groupId>javax.servlet</groupId>
+  		<artifactId>javax.servlet-api</artifactId>
+  		<version>4.0.1</version>
   	</dependency>
   </dependencies>
 </project>
