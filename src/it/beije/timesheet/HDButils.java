@@ -3,7 +3,6 @@ package it.beije.timesheet;
 import java.util.Iterator;
 import java.util.List;
 
-import org.geolatte.geom.M;
 import org.hibernate.Criteria;
 import org.hibernate.Hibernate;
 import org.hibernate.Session;

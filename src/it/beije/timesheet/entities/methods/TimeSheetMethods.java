@@ -3,6 +3,7 @@ package it.beije.timesheet.entities.methods;
 import java.time.*;
 import java.util.List;
 
+import static java.time.temporal.ChronoUnit.MINUTES;
 import org.hibernate.Criteria;
 import org.hibernate.Hibernate;
 import org.hibernate.Session;
@@ -18,6 +19,7 @@ import it.beije.timesheet.entities.User;
 public class TimeSheetMethods {
 	
 	//Get Timesheet of a User By ID
+	
 	public static List<Timetable> getTimeSheetOfUserById(int idUser) throws Exception {
 		
 		SessionFactory factory = HDButils.getFactory(Timetable.class);
@@ -95,7 +97,10 @@ public class TimeSheetMethods {
 		}
 		
 	}
-	
+	public static double calculateTotalHour(LocalTime t1, LocalTime t2, LocalTime t3, LocalTime t4) {
+		double tempo = MINUTES.between(t1, t2)+MINUTES.between(t3,t4);
+		return tempo/60;
+	}
 	
 	//CONNESSIONE AL FACTORY
 //	private static SessionFactory getFactory() throws Exception {
