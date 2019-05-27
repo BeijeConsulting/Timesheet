@@ -68,7 +68,6 @@ public class HomeController {
 		return "cancellaUtente";
 	}
 	
-	
 	@RequestMapping(value = "/cercaUtente", method = RequestMethod.POST)
 	public String cercaUtente(@Validated User user, Model model) {
 
