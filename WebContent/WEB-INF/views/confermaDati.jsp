@@ -56,7 +56,7 @@
 
 	<div class="row">	
 		<div class="input-field col s6 center">
-			<form action="index" method="post">
+			<form action="inserisciUtente" method="post">
 				<input class="btn blue" type="submit" value="Annulla">
 			</form>
 		</div>
