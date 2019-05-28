@@ -1,5 +1,6 @@
 package it.beije.timesheet.controller;
 
+import java.sql.Time;
 import java.text.DateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -36,17 +37,33 @@ public class HomeController {
 	public String user(@Validated Timetable timetable, Model model) {
 //		System.out.println("UserName : " + user.getUserName());
 		
-		
-		
-		model.addAttribute("id_user", timetable.getId_user());
 	
-		model.addAttribute("data", timetable.getDate());
-		model.addAttribute("tipo", timetable.getType());
-		model.addAttribute("orariodiinizio", timetable.getStart1());
-		model.addAttribute("orariodifine", timetable.getStart2());
-		model.addAttribute("secondorariodiinizio", timetable.getEnd1());
-		model.addAttribute("secondoorariodifine", timetable.getEnd2());
-		model.addAttribute("totale", TimeSheetMethods.calculateTotalHour(timetable.getStart1(), timetable.getEnd1(), timetable.getStart2(), timetable.getEnd2()));
+		System.out.println("timetable: "+ timetable.getId_user());
+		System.out.println("timetable: "+ timetable.getStart1());
+		System.out.println("timetable: "+ timetable.getEnd1());
+		System.out.println("timetable: "+ timetable.getStart2());
+		System.out.println("timetable: "+ timetable.getEnd2());
+		System.out.println("timetable: "+ timetable.getDate());
+
+		String s1 = timetable.getStart1();
+		String e1 = timetable.getEnd1();
+		String s2 = timetable.getStart2();
+		String e2 = timetable.getEnd2();
+		
+		timetable.setTot(TimeSheetMethods.oreTrascorse(s1, e1, s2, e2));
+		
+		
+		model.addAttribute("timetable", timetable);
+		
+//		model.addAttribute("id_user", timetable.getId_user());
+//	
+//		model.addAttribute("data", timetable.getDate());
+//		model.addAttribute("type", timetable.getType());
+//		model.addAttribute("orariodiinizio", timetable.getStart1());
+//		model.addAttribute("orariodifine", timetable.getStart2());
+//		model.addAttribute("secondorariodiinizio", timetable.getEnd1());
+//		model.addAttribute("secondoorariodifine", timetable.getEnd2());
+//		model.addAttribute("totale", TimeSheetMethods.calculateTotalHour(timetable.getStart1(), timetable.getEnd1(), timetable.getStart2(), timetable.getEnd2()));
 		return "user";
 	}
 	
