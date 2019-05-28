@@ -1,6 +1,7 @@
 package it.beije.timesheet.entities.methods;
 
 import java.time.*;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import static java.time.temporal.ChronoUnit.MINUTES;
@@ -97,11 +98,59 @@ public class TimeSheetMethods {
 		}
 		
 	}
-	public static double calculateTotalHour(LocalTime t1, LocalTime t2, LocalTime t3, LocalTime t4) {
-		double tempo = MINUTES.between(t1, t2)+MINUTES.between(t3,t4);
-		return tempo/60;
+//	public static double calculateTotalHour(LocalTime t1, LocalTime t2, LocalTime t3, LocalTime t4) {
+//		double tempo = MINUTES.between(t1, t2)+MINUTES.between(t3,t4);
+//		return tempo/60;
+//	}
+	public static double oreTrascorse(String start1, String end1, String start2, String end2)  {
+
+	start1=approssimaOrario(start1);
+	end1=approssimaOrario(end1);
+	start2=approssimaOrario(start2);
+	end2=approssimaOrario(end2);
+		
+	LocalTime s1 = LocalTime.parse(start1,DateTimeFormatter.ofPattern("HH:mm"));
+	LocalTime e1 = LocalTime.parse(end1,DateTimeFormatter.ofPattern("HH:mm"));
+	LocalTime s2 = LocalTime.parse(start2,DateTimeFormatter.ofPattern("HH:mm"));
+	LocalTime e2 = LocalTime.parse(end2,DateTimeFormatter.ofPattern("HH:mm"));
+
+	double tempo = MINUTES.between(s1, e1)+MINUTES.between(s2,e2);
+	double tempoTrascorso=tempo/60;
+	return tempoTrascorso;
+	
+
 	}
 	
+	public static String approssimaOrario(String orario)  {
+		String nuovoOrario=null;
+		orario=orario.substring(0, orario.length());
+		orario=orario.trim();
+		int ora=Integer.parseInt(orario.substring(0,2));			//prendo ora in un int
+		int minuti=Integer.parseInt(orario.substring(3));  			//prendo minuti in un int
+//		System.out.println(minuti);
+		if (minuti<8)  {
+			nuovoOrario=""+ora+":"+"00";
+		 } else if (minuti >8 && minuti <=15)  {
+			 nuovoOrario=""+ora+":"+"15";
+		 } else if (minuti>15 && minuti <=24)  {
+			 nuovoOrario=""+ora+":"+"15";
+		 } else if (minuti>24 && minuti <=30)  {
+			 nuovoOrario=""+ora+":"+"30";                      //approssimo al quarto d'ora
+		 } else if (minuti>30 && minuti <=38)  {
+			 nuovoOrario=""+ora+":"+"30";
+		 } else if (minuti>38 && minuti <=45)  {
+			 nuovoOrario=""+ora+":"+"45";
+		 } else if (minuti>45 && minuti <=54)  {
+			 nuovoOrario=""+ora+":"+"45";
+		 } else {
+			 if (ora == 23)
+				 nuovoOrario="00:00";
+			 ora=ora+1;
+			 nuovoOrario=""+ora+":"+"00";
+		 }
+
+		return nuovoOrario;
+	}
 	//CONNESSIONE AL FACTORY
 //	private static SessionFactory getFactory() throws Exception {
 //		SessionFactory factory = new Configuration().configure()
