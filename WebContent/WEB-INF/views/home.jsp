@@ -63,9 +63,12 @@ input[type=submit]:hover {
 	Secondo orario di fne: <br>
 	<input type="time" name="end2" value="18:00"><br>
 	<input type="submit" value="Inserisci">
+	<%
+	
+	
+	%>
+	
 	</form>
-	
-	
 </body>
 
 

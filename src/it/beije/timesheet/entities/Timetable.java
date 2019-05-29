@@ -1,14 +1,16 @@
 package it.beije.timesheet.entities;
 
 import java.sql.Date;
+
 import javax.persistence.*;
+
 
 @Entity
 @Table(name = "timetable")
 public class Timetable {
 	
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name = "id")
 	private int id;
 	
