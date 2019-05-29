@@ -38,18 +38,18 @@ public class HomeController {
 //		System.out.println("UserName : " + user.getUserName());
 		
 	
-		System.out.println("timetable: "+ timetable.getId_user());
-		System.out.println("timetable: "+ timetable.getStart1());
-		System.out.println("timetable: "+ timetable.getEnd1());
-		System.out.println("timetable: "+ timetable.getStart2());
-		System.out.println("timetable: "+ timetable.getEnd2());
-		System.out.println("timetable: "+ timetable.getDate());
+//		System.out.println("timetable: "+ timetable.getId_user());
+//		System.out.println("timetable: "+ timetable.getStart1());
+//		System.out.println("timetable: "+ timetable.getEnd1());
+//		System.out.println("timetable: "+ timetable.getStart2());
+//		System.out.println("timetable: "+ timetable.getEnd2());
+//		System.out.println("timetable: "+ timetable.getDate());
 
 		String s1 = timetable.getStart1();
 		String e1 = timetable.getEnd1();
 		String s2 = timetable.getStart2();
 		String e2 = timetable.getEnd2();
-		
+//		System.out.println(timetable.getEnd2());
 		timetable.setTot(TimeSheetMethods.oreTrascorse(s1, e1, s2, e2));
 		
 		

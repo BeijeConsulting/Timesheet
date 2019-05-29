@@ -15,22 +15,28 @@
 	<input type="text" name="id_user"><br>
 	Password: <br><input type="password" name="password"><br>
 	Tipo di dato:<br>
-	<input type="radio" name="Tipo" value="giornata lavorativa" checked> Giornata lavorativa<br>
-	<input type="radio" name="Tipo" value="permesso"> Permeso <br>
-	<input type="radio" name="Tipo" value="ferie"> Ferie<br>
-	<input type="radio" name="Tipo" value="malattia"> Malattia<br>
-	Data (yyyy/MM/dd): <br>
-	<input type="date" name="data">
+	<input type="radio" name="type" value="w" checked> Giornata lavorativa<br>
+	<input type="radio" name="type" value="p"> Permeso <br>
+	<input type="radio" name="type" value="h"> Ferie<br>
+	<input type="radio" name="type" value="s"> Malattia<br>
+	Data (yyyy-MM-dd): <br>
+	<input type="date" name="date"><br>
        
 	Orario di inzio: <br>
-	<input type="text" name="orariodiinizio"><br>
+	<input type="time"  name="start1"><br>
 	Orario di fine: <br>
-	<input type="text" name="orariodifine"><br>
+	<input type="time" name="end1"><br>
 	Secondo orario di inizio: <br>
-	<input type="text" name="secondoorariodiinizio"><br>
+	<input type="time" name="start2"><br>
 	Secondo orario di fne: <br>
-	<input type="text" name="secondoorariodifine"><br>
+	<input type="time" name="end2"><br>
 	<input type="submit" value="Inserisci">
+	<%
+	
+	
+	%>
+	
 	</form>
+
 </body>
 </html>

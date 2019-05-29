@@ -15,7 +15,7 @@ import org.hibernate.query.Query;
 
 import it.beije.timesheet.entities.Timetable;
 import it.beije.timesheet.entities.User;
-import it.beije.timesheet.entities.Utente;
+
 import it.beije.timesheet.entities.methods.UserMethods;
 
 //fgbrtkjvh
