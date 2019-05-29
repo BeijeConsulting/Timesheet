@@ -18,41 +18,35 @@
 				Nome:<input type="text" name="firstName" value ="${user.firstName}">
 			</div>
 			<div class="input-field col s6">
-				Cognome:<input type="text" name="firstName" value ="${user.lastName}">
+				Cognome:<input type="text" name="lastName" value ="${user.lastName}">
 			</div>
 		</div>
 		
 		<div class="row">
 			<div class="input-field col s6">
-				Email di privato:<input type="text" name="firstName" value ="${user.personalEmail}">
+				Email di privato:<input type="text" name="personalEmail" value ="${user.personalEmail}">
 			</div>
 			<div class="input-field col s6">
-				Email di lavoro:<input type="text" name="firstName" value ="${user.workEmail}">
+				Email di lavoro:<input type="text" name="workEmail" value ="${user.workEmail}">
 			</div>
 		</div>	
 		
 		<div class="row">
 			
 			<div class="input-field col s6">
-				Telefono:<input type="text" name="firstName" value ="${user.phone}">
+				Telefono:<input type="text" name="phone" value ="${user.phone}">
 			</div>
 			<div class="input-field col s6">
-				Codice Fiscale:<input type="text" name="firstName" value ="${user.fiscalCode}">
+				Codice Fiscale:<input type="text" name="fiscalCode" value ="${user.fiscalCode}">
 			</div>
 			
 		</div>
 		
 		<div class="row">
 			<div class="input-field col s6">
-				Password: <input type="password" name="firstName" value ="${user.password}">
+				Password: <input type="password" name="password" value ="${user.password}">
 			</div>
 		</div>
-		
-		
-<%-- 	Nome: ${userName} <br><br>
-	<!-- Accede automaticamente attraverso i getter del bean, anche se passo direttamente la variabile lastName di User.java -->
-	Cognome: ${user.lastName}<br><br> --%>
-
 
 	<div class="row">	
 		<div class="input-field col s6 center">

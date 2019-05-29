@@ -9,10 +9,13 @@ import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.context.annotation.SessionScope;
 
 import it.beije.formazione.spring.model.User;
+import it.beije.jpa.GestioneUtenti;
 
 @Controller
+@SessionScope
 public class HomeController {
 
 	/**
@@ -34,7 +37,7 @@ public class HomeController {
 
 	@RequestMapping(value = "/confermaDati", method = RequestMethod.POST)
 	public String confermaDati(@Validated User user, Model model) {
-		System.out.println("User Page Requested: " + user.getFirstName());
+		System.out.println("pagina confermaDati: " + user.getFirstName());
 		
 		//Passa i parametri alla view ritornato
 //		model.addAttribute("userName", user.getFirstName());
@@ -44,7 +47,7 @@ public class HomeController {
 	
 	@RequestMapping(value = "/inserisciUtente", method = RequestMethod.POST)
 	public String index(@Validated User user, Model model) {
-		System.out.println("Index Page Requested: " + user.getLastName());
+		System.out.println("Pagine inseriti: " + user.getLastName());
 		model.addAttribute("userName", user.getFirstName());
 
 		return "inserisciUtente";
@@ -52,7 +55,9 @@ public class HomeController {
 	
 	@RequestMapping(value = "/conferma", method = RequestMethod.POST)
 	public String conferma(@Validated User user, Model model) {
-
+		GestioneUtenti.creaUtente(user.getFirstName(), user.getLastName(), user.getPersonalEmail(), 
+									user.getWorkEmail(), user.getPhone(), user.getFiscalCode(), 0, user.getPassword());
+		System.out.println("sono in confernama");
 		return "conferma";
 	}
 	

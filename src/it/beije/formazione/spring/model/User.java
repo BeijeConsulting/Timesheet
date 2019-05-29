@@ -1,5 +1,7 @@
 package it.beije.formazione.spring.model;
 
+import java.sql.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -38,6 +40,10 @@ public class User {
 	
 	@Column(name = "password")
 	private String password;
+	
+	@Column(name = "archived")
+	private Date archived;
+	
 
 	public int getId() {
 		return id;
@@ -110,7 +116,15 @@ public class User {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	
 
+	public Date getArchived() {
+		return archived;
+	}
+
+	public void setArchived(Date archived) {
+		this.archived = archived;
+	}
+	
+	
 
 }
