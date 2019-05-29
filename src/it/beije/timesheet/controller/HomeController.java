@@ -1,6 +1,5 @@
 package it.beije.timesheet.controller;
 
-import java.sql.Time;
 import java.text.DateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -10,13 +9,15 @@ import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.context.annotation.SessionScope;
 
 import it.beije.timesheet.entities.*;
 import it.beije.timesheet.entities.methods.TimeSheetMethods;
 //modifica per commit
 @Controller
+@SessionScope
 public class HomeController {
-
+	private static Timetable table=null;
 	/**
 	 * Simply selects the home view to render by returning its name.
 	 */
@@ -38,21 +39,26 @@ public class HomeController {
 //		System.out.println("UserName : " + user.getUserName());
 		
 	
-		System.out.println("timetable: "+ timetable.getId_user());
-		System.out.println("timetable: "+ timetable.getStart1());
-		System.out.println("timetable: "+ timetable.getEnd1());
-		System.out.println("timetable: "+ timetable.getStart2());
-		System.out.println("timetable: "+ timetable.getEnd2());
-		System.out.println("timetable: "+ timetable.getDate());
-
+//		System.out.println("timetable: "+ timetable.getId_user());
+//		System.out.println("timetable: "+ timetable.getStart1());
+//		System.out.println("timetable: "+ timetable.getEnd1());
+//		System.out.println("timetable: "+ timetable.getStart2());
+//		System.out.println("timetable: "+ timetable.getEnd2());
+//		System.out.println("timetable: "+ timetable.getDate());
+		
 		String s1 = timetable.getStart1();
 		String e1 = timetable.getEnd1();
 		String s2 = timetable.getStart2();
 		String e2 = timetable.getEnd2();
-		
+//		System.out.println(timetable.getEnd2());
 		timetable.setTot(TimeSheetMethods.oreTrascorse(s1, e1, s2, e2));
-		
-		
+		table=timetable;
+		System.out.println(table.getDate());
+		System.out.println(table.getId_user());
+		System.out.println(table.getStart1());
+		System.out.println(table.getEnd1());
+		System.out.println(table.getStart2());
+		System.out.println(table.getEnd2());
 		model.addAttribute("timetable", timetable);
 		
 //		model.addAttribute("id_user", timetable.getId_user());
@@ -68,8 +74,19 @@ public class HomeController {
 	}
 	
 	@RequestMapping(value = "/pagineDopoConferma", method = RequestMethod.POST)
-	public void elaboraDati(@Validated User user, Model model) {
+	public void elaboraDati () {
 		System.out.println("Sto elaborando i tuoi dati...");
 		
+		
+		System.out.println(table.getId_user());
+		System.out.println(table.getType());
+		System.out.println(table.getStart1());
+		System.out.println(table.getEnd1());
+		System.out.println(table.getStart2());
+		System.out.println(table.getEnd2());
+		System.out.println(table.getTot());
+		
+		
+		TimeSheetMethods.creaoModificaRecord(table);;
 	}
 }
