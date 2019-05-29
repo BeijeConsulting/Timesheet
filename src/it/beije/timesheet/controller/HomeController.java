@@ -79,7 +79,7 @@ public class HomeController {
 		System.out.println(table.getTot());
 		
 		
-		TimeSheetMethods.creaoModificaRecord(table);;
+		TimeSheetMethods.creaoModificaRecord(table);
 	}
 
 	@RequestMapping(value = "/modifica", method = RequestMethod.POST)
