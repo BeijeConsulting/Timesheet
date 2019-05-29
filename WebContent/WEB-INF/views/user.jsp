@@ -10,7 +10,6 @@
 <body>
 
 <h3>Ciao </h3>
-<form action="pagineDopoConferma"  method="post">
 <h3>Il tuo id è ${timetable.id_user}</h3>
 <h3>La data da te inserita è ${timetable.date}</h3>
 <h3>L'orario di inzizio inserito è ${timetable.start1}</h3>
@@ -22,7 +21,7 @@
 
 <h3>il totale di ore è xy ${timetable.getTot()}</h3>
 
-<form action="" method="post">
+<form action="pagineDopoConferma" method="post">
 Vuoi confermare i valori inseriti?
 <input type="submit" value="Conferma">
 </form>
