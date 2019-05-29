@@ -1,9 +1,39 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"	pageEncoding="UTF-8"%>
 <%@ page session="false"%>
 <html>
-
-
 <head>
+<style type="text/css">
+input[type=text],input[type=date],input[type=time],[type="password"] {
+  width: 50%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+input[type='radio'],
+input[type='checkbox'] {
+clip: rect(1px, 1px, 1px, 1px);
+}
+
+input[type=submit] {
+  width: 50%;
+  background-color: #4CAF50;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+input[type=submit]:hover {
+  background-color: #45a049;
+}
+</style>
+
 <title>Home</title>
 </head>
 <body>

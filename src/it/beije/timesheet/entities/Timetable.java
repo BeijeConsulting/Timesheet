@@ -1,7 +1,6 @@
 package it.beije.timesheet.entities;
 
-import java.time.*;
-
+import java.sql.Date;
 import javax.persistence.*;
 
 @Entity
@@ -17,25 +16,25 @@ public class Timetable {
 	private int id_user;
 	
 	@Column(name = "date")
-	private LocalDate date;
+	private Date date;
 	
 	@Column(name = "type")
-	private Character type;
+	private char type;
 	
 	@Column(name = "start1")
-	private LocalTime start1;
+	private String start1;
 	
 	@Column(name = "end1")
-	private LocalTime end1;
+	private String end1;
 	
 	@Column(name = "start2")
-	private LocalTime start2;
+	private String start2;
 	
 	@Column(name = "end2")
-	private LocalTime end2;
+	private String end2;
 	
 	@Column(name = "tot")
-	private Double tot;
+	private double tot;
 	
 	public int getId() {
 		return id;
@@ -53,58 +52,59 @@ public class Timetable {
 	}
 	
 	
-	public LocalDate getDate() {
+	public Date getDate() {
 		return date;
 	}
-	public void setDate(LocalDate date) {
+	public void setDate(Date date) {
 		this.date = date;
 	}
 	
 	
-	public Character getType() {
+	public char getType() {
 		return type;
 	}
+	
 	public void setType(Character type) {
 		this.type = type;
 	}
 	
 	
-	public LocalTime getStart1() {
+	public String getStart1() {
 		return start1;
 	}
-	public void setStart1(LocalTime start1) {
+	public void setStart1(String start1) {
 		this.start1 = start1;
 	}
 	
 	
-	public LocalTime getEnd1() {
+	public String getEnd1() {
 		return end1;
 	}
-	public void setEnd1(LocalTime end1) {
+	public void setEnd1(String end1) {
 		this.end1 = end1;
 	}
 	
 	
-	public LocalTime getStart2() {
+	public String getStart2() {
 		return start2;
 	}
-	public void setStart2(LocalTime start2) {
+	public void setStart2(String start2) {
 		this.start2 = start2;
 	}
 	
 	
-	public LocalTime getEnd2() {
+	public String getEnd2() {
 		return end2;
 	}
-	public void setEnd2(LocalTime end2) {
+	public void setEnd2(String end2) {
 		this.end2 = end2;
 	}
 	
 	
-	public Double getTot() {
+	public double getTot() {
 		return tot;
 	}
-	public void setTot(Double tot) {
+	public void setTot(double tot) {
 		this.tot = tot;
 	}
 

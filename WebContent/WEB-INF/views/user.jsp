@@ -1,3 +1,4 @@
+<%@page import="it.beije.timesheet.entities.methods.TimeSheetMethods"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -6,16 +7,25 @@
 <title>User Home Page</title>
 </head>
 <body>
-<h3>Ciao ${nome}</h3>
 
-<h3>La data da te inserita è ${id_user}</h3>
-<h3>La data da te inserita è ${data}</h3>
-<h3>L'orario di inzizio inserito è ${orariodiinizio}</h3>
-<h3>L'orario di fine inserito è ${orariodifine}</h3>
-<h3>Il secondo orario di inizio da te inserito è ${secondoorariodiinizio}</h3>
-<h3>Il secondo orario di fine da te inserito è ${secondoorariodifine}</h3>
-<h3>il totale di ore è xy ${totale}</h3>
+<h3>La data da te inserita è ${timetable.getId_user()}</h3>
+<h3>La data da te inserita è ${timetable.getDate()}</h3>
+<h3>L'orario di inzizio inserito è ${timetable.getStart1()}</h3>
+<h3>L'orario di fine inserito è ${timetable.getEnd1()}</h3>
+<h3>Il secondo orario di inizio da te inserito è ${timetable.getStart2()}</h3>
+<h3>Il secondo orario di fine da te inserito è ${timetable.getEnd2()}</h3>
 
+
+<h3>il totale di ore è xy ${timetable.getTot()}</h3>
+
+<form action="" method="post">
+Vuoi confermare i valori inseriti?
 <input type="submit" value="Conferma">
+</form>
+
+<form action="modifica" method="post">
+<input type="submit" value="Modifica">
+</form>
+
 </body>
 </html>
