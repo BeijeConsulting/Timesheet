@@ -13,7 +13,11 @@
 	<div class="container">
 		<h3 class="center">Dati inseriti </h3>      
 		
+		    <div class="row">
+      <form class="col s12" action="conferma" method="post">
+      
 		<div class="row">
+		
 			<div class="input-field col s6">
 				Nome:<input type="text" name="firstName" value ="${user.firstName}">
 			</div>
@@ -47,8 +51,14 @@
 				Password: <input type="password" name="password" value ="${user.password}">
 			</div>
 		</div>
+		
+		
+			<input class="btn blue" type="submit" value="Conferma">
+			</form>
+			</div>
+			
 
-	<div class="row">	
+<!-- 	<div class="row">	
 		<div class="input-field col s6 center">
 			<form action="inserisciUtente" method="post">
 				<input class="btn blue" type="submit" value="Annulla">
@@ -60,7 +70,7 @@
 				<input class="btn blue" type="submit" value="Conferma">
 			</form>
 		</div>
-	</div>
+	</div> -->
 	
 	
 </div>

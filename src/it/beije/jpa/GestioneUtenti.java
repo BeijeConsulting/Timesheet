@@ -10,6 +10,7 @@ import it.beije.formazione.spring.model.User;
 public class GestioneUtenti {
 
 		public static void creaUtente(
+//				public void creaUtente(
 				String firstName,
 				String lastName,
 				String personalEmail,
@@ -34,7 +35,7 @@ public class GestioneUtenti {
 	      utente.setWorkEmail(workEmail);
 	      utente.setPhone(phone);
 	      utente.setFiscalCode(fiscalCode);
-	      utente.setAdmin(false);
+	      utente.setAdmin(0);
 	      utente.setPassword(pass);
 	      
 	      entitymanager.persist(utente);

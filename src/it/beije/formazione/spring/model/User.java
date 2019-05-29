@@ -5,6 +5,7 @@ import java.sql.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -13,7 +14,7 @@ import javax.persistence.Table;
 public class User {
 	
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.IDENTITY) 
 	@Column(name = "id")
 	private int id;
 	
@@ -36,7 +37,7 @@ public class User {
 	private String fiscalCode;
 	
 	@Column(name = "admin")
-	private boolean admin;
+	private int admin;
 	
 	@Column(name = "password")
 	private String password;
@@ -101,12 +102,12 @@ public class User {
 		this.fiscalCode = fiscalCode;
 	}
 
-	public boolean isAdmin() {
+	public int getAdmin() {
 		return admin;
 	}
 
-	public void setAdmin(boolean admin) {
-		this.admin = admin;
+	public void setAdmin(int i) {
+		this.admin = i;
 	}
 
 	public String getPassword() {
