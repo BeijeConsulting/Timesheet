@@ -59,9 +59,6 @@ public class HomeController {
 	public String conferma(@Validated User user, Model model) {
 		GestioneUtenti.creaUtente(user.getFirstName(), user.getLastName(), user.getPersonalEmail(), 
 				user.getWorkEmail(), user.getPhone(), user.getFiscalCode(), 0, user.getPassword());
-//		GestioneUtenti u = new GestioneUtenti();
-//		u.creaUtente(user.getFirstName(), user.getLastName(), user.getPersonalEmail(), 
-//				user.getWorkEmail(), user.getPhone(), user.getFiscalCode(), 0, user.getPassword());
 		System.out.println("sono in confernama " + user.getFirstName());
 		return "conferma";
 	}
