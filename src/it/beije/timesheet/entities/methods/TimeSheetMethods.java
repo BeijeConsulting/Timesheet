@@ -4,6 +4,9 @@ import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+
 import static java.time.temporal.ChronoUnit.MINUTES;
 
 import java.text.DecimalFormat;
@@ -17,6 +20,7 @@ import org.hibernate.cfg.Configuration;
 import org.hibernate.criterion.Restrictions;
 
 import it.beije.timesheet.HDButils;
+import it.beije.timesheet.entities.JpaEntityManager;
 import it.beije.timesheet.entities.Timetable;
 import it.beije.timesheet.entities.User;
 
@@ -105,6 +109,24 @@ public class TimeSheetMethods {
 //		double tempo = MINUTES.between(t1, t2)+MINUTES.between(t3,t4);
 //		return tempo/60;
 //	}
+	
+	public static void creaoModificaRecord (Timetable table) {
+		
+	      EntityManagerFactory emfactory = JpaEntityManager.getInstance();
+	      
+	      EntityManager entitymanager = emfactory.createEntityManager();
+	      entitymanager.getTransaction().begin();
+
+	     
+	      
+	      
+	      entitymanager.persist(table);
+	      entitymanager.getTransaction().commit();
+
+	      entitymanager.close( );
+	      emfactory.close( );
+	}
+	
 	public static double oreTrascorse(String start1, String end1, String start2, String end2)  {
 		System.out.println(start1);
 		System.out.println(end1);
