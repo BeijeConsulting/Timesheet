@@ -36,8 +36,15 @@ public class HomeController {
 		return "home";
 	}
 
+
+	
 	@RequestMapping(value = "/user", method = RequestMethod.POST)
 	public String user(@Validated Timetable timetable, Model model) {
+		
+		if (TimeSheetMethods.findRecordsFromId(timetable.getId_user())==null)  {
+			System.out.println("Utente non trovato");
+			return "NonTiAbbiamoTrovato";
+		}
 		String s1 = timetable.getStart1();
 		String e1 = timetable.getEnd1();
 		String s2 = timetable.getStart2();
@@ -87,6 +94,12 @@ public class HomeController {
 		System.out.println("Modifica dei dati...");
 		model.addAttribute(table);
 		return "modifica";
+	}
+	
+	@RequestMapping(value = "/NonTiAbbiamoTrovato", method = RequestMethod.GET)
+	public String nonTrovato () {
+		System.out.println("Ti stiamo reinderizzando alla home");
+		return "home";
 	}
 
 }

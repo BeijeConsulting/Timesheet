@@ -2,10 +2,12 @@ package it.beije.timesheet.entities.methods;
 
 import java.time.*;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.TypedQuery;
 
 import static java.time.temporal.ChronoUnit.MINUTES;
 
@@ -105,6 +107,34 @@ public class TimeSheetMethods {
 		}
 		
 	}
+	
+	public static Timetable takeRecordsFromIdTimetableVersion (int id_user) {
+		Timetable table=null;
+		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
+		EntityManager entitymanager = emfactory.createEntityManager();
+		table = entitymanager.find(Timetable.class, id_user);
+		
+		return table;
+	}
+	
+	public static List takeRecordsTimetablVersion ()  {
+		List <Timetable> records = new ArrayList <Timetable> ();
+		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
+		EntityManager entitymanager = emfactory.createEntityManager();
+		TypedQuery<Timetable> q =entitymanager.createQuery("SELECT t FROM Timetable t", Timetable.class);
+		records = q.getResultList();
+		return records;
+	}
+	
+	public static User findRecordsFromId (int id)  {
+//		Timetable table=null;
+		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
+		EntityManager entitymanager = emfactory.createEntityManager();
+		User user = entitymanager.find(User.class, id);
+	
+		
+		return user;
+	}
 //	public static double calculateTotalHour(LocalTime t1, LocalTime t2, LocalTime t3, LocalTime t4) {
 //		double tempo = MINUTES.between(t1, t2)+MINUTES.between(t3,t4);
 //		return tempo/60;
@@ -132,28 +162,28 @@ public class TimeSheetMethods {
 		System.out.println(end1);
 		System.out.println(start2);
 		System.out.println(end2);
-	start1=approssimaOrario(start1);
-	end1=approssimaOrario(end1);
-	start2=approssimaOrario(start2);
-	end2=approssimaOrario(end2);
-		
-	LocalTime s1 = LocalTime.parse(start1,DateTimeFormatter.ofPattern("H:mm"));
-	LocalTime e1 = LocalTime.parse(end1,DateTimeFormatter.ofPattern("H:mm"));
-	LocalTime s2 = LocalTime.parse(start2,DateTimeFormatter.ofPattern("H:mm"));
-	LocalTime e2 = LocalTime.parse(end2,DateTimeFormatter.ofPattern("H:mm"));
-
-	double tempo = MINUTES.between(s1, e1)+MINUTES.between(s2,e2);
-	double tempoTrascorso=tempo/60;
-	System.out.println(tempoTrascorso);
-	int croppato=(int) tempo/60;
-	double minutaggioDecimale = tempoTrascorso - Math.floor(tempoTrascorso);
+		start1=approssimaOrario(start1);
+		end1=approssimaOrario(end1);
+		start2=approssimaOrario(start2);
+		end2=approssimaOrario(end2);
+			
+		LocalTime s1 = LocalTime.parse(start1,DateTimeFormatter.ofPattern("H:mm"));
+		LocalTime e1 = LocalTime.parse(end1,DateTimeFormatter.ofPattern("H:mm"));
+		LocalTime s2 = LocalTime.parse(start2,DateTimeFormatter.ofPattern("H:mm"));
+		LocalTime e2 = LocalTime.parse(end2,DateTimeFormatter.ofPattern("H:mm"));
 	
-	double minutaggioGiusto=(minutaggioDecimale/100)*60;
-	tempoTrascorso = croppato+minutaggioGiusto;
-	DecimalFormat df = new DecimalFormat("#.##");
-	tempoTrascorso= (double)Double.valueOf(df.format(tempoTrascorso));
-	System.out.println(tempoTrascorso);
-	return tempoTrascorso;
+		double tempo = MINUTES.between(s1, e1)+MINUTES.between(s2,e2);
+		double tempoTrascorso=tempo/60;
+		System.out.println(tempoTrascorso);
+		int croppato=(int) tempo/60;
+		double minutaggioDecimale = tempoTrascorso - Math.floor(tempoTrascorso);
+		
+		double minutaggioGiusto=(minutaggioDecimale/100)*60;
+		tempoTrascorso = croppato+minutaggioGiusto;
+		DecimalFormat df = new DecimalFormat("#.##");
+		tempoTrascorso= (double)Double.valueOf(df.format(tempoTrascorso));
+		System.out.println(tempoTrascorso);
+		return tempoTrascorso;
 
 	}
 	
