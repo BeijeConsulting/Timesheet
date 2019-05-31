@@ -12,7 +12,7 @@
 	<h1 class="center" >Benvenuto Utente</h1>
 
 <div class="container">
-	<P>Orario: ${serverTime}.</p>
+	<P>Hai loggato nel: ${serverTime}.</p>
 
 
     <div class="row">

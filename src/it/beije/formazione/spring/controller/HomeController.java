@@ -81,12 +81,12 @@ public class HomeController {
 		return "cercaUtente";
 	}
 	
-	@RequestMapping(value = "/conferma2", method = RequestMethod.POST)
-	public String conferma2(@Validated User user, Model model) {
-		GestioneUtenti.trovaUtente(user.getFirstName(),user.getLastName());
-		String trovati =GestioneUtenti.getTrovati();
+	@RequestMapping(value = "/utentiTrovati", method = RequestMethod.POST)
+	public String utentiTrovati(@Validated User user, Model model) {
+		String trovati = GestioneUtenti.trovaUtente(user.getFirstName(),user.getLastName());
+//		String trovati =GestioneUtenti.getTrovati();
 		user.setUtentiTrovati(trovati);
-		return "conferma2";
+		return "utentiTrovati";
 	}
 
 }

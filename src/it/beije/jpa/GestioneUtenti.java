@@ -10,13 +10,8 @@ import it.beije.formazione.spring.model.User;
 
 public class GestioneUtenti {
 
-	static String trovati="";
-	
-	public static String getTrovati() {
-		return trovati;
-	}
 	public static void creaUtente(
-			//				public void creaUtente(
+
 			String firstName,
 			String lastName,
 			String personalEmail,
@@ -51,7 +46,7 @@ public class GestioneUtenti {
 		emfactory.close( );
 	}
 
-	public static void trovaUtente(String firstName, String lastName) {
+	public static String trovaUtente(String firstName, String lastName) {
 
 		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
 		EntityManager entitymanager = emfactory.createEntityManager();
@@ -78,22 +73,19 @@ public class GestioneUtenti {
 			}
 
 		}
-		System.out.println(ricerca);
+		System.out.println("Sto cercando");
 		//OK
 		//		Query q = entitymanager.createNativeQuery("SELECT a.first_name, a.last_name FROM user a");
 		//		Query q = entitymanager.createNativeQuery("SELECT a.id, a.first_name, a.last_name FROM user a"
 		//				+ " WHERE a.first_name = " + "'"+ firstName +"'");
-
-//		Query q = entitymanager.createNativeQuery("SELECT a.id, a.first_name, a.last_name FROM user a"
-//				+ ricerca);
 
 		Query q = entitymanager.createNativeQuery("SELECT * FROM user a"
 				+ ricerca);
 		
 		List<Object[]> utenti = q.getResultList();
 
-//		String trovati ="";
-		System.out.println("Utenti trovati: ");
+		String trovati ="";
+//		System.out.println("Utenti trovati: ");
 		for (Object[] u : utenti) {
 //			System.out.println(
 //					"ID: " + u[0]  + " " +	           
@@ -101,14 +93,18 @@ public class GestioneUtenti {
 //							"Cognome: " +u[2] + " " +	
 //							"Codice Fiscale: " +u[6]			
 //					);
-			trovati += "ID: " + u[0]  + " " +	           
-					"Nome: "+ u[1] + " " +	  
-					"Cognome: " +u[2] + " " +	
-					"Codice Fiscale: " +u[6] + "<br>";
+			trovati += "<b>ID:</b> " + u[0]  + " " +	           
+					"<b>Nome:</b> "+ u[1] + " " +	  
+					"<b>Cognome:</b> " +u[2] + " " +	
+					"<b>Codice Fiscale:</b> " +u[6] + "<br><br>";
 //			System.out.println(trovati);
 
 		}
+		
+		if(trovati.length()==0)
+			trovati = "<b>Ops! Nessun utente trovato con questi parametri.<b>";
 
+		return trovati;
 	}
 
 

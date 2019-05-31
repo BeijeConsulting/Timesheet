@@ -11,24 +11,24 @@ pageEncoding="UTF-8"%>
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>My Web Project</title>
+  <title>Inserimento dati</title>
 </head>
 
 <body>
   <div class="container">
    
-    <h4 class="center"> Inserisci i tuoi dati</h4> <br>
+    <h4 class="center"> <i class="material-icons prefix">mode_edit</i> Inserisci i tuoi dati</h4> <br>
 
     <div class="row">
       <form class="col s12" action="confermaDati" method="post">
         <div class="row">
           
           <div class="input-field col s6">
-            <input id="first_name" type="text" name="firstName">
+            <input id="first_name" type="text" name="firstName" required>
             <label for="first_name">Inserisci nome</label>
           </div>
           <div class="input-field col s6">
-            <input id="last_name" type="text" name="lastName">
+            <input id="last_name" type="text" name="lastName" required>
             <label for="last_name">Inserisci cognome</label>
           </div>
         </div>
@@ -57,14 +57,14 @@ pageEncoding="UTF-8"%>
 
         <div class="row">
           <div class="input-field col s12">
-            <input id="cod_fisc" type="text" name="fiscalCode">
+            <input id="cod_fisc" type="text" name="fiscalCode" required>
             <label for="cod_fisc">Inserisci codice fiscale</label>
           </div>
         </div>
 
         <div class="row">
           <div class="input-field col s12">
-            <input id="password" type="password" name="password">
+            <input id="password" type="password" name="password" required>
             <label for="password">Inserisci password</label>
           </div>
         </div>

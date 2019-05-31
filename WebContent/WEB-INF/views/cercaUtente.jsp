@@ -14,7 +14,7 @@
 		<h3 class="center">Cerca utente </h3>      
 		
 		<div class="row">
-			<form class="col s12" action="conferma2" method="post">
+			<form class="col s12" action="utentiTrovati" method="post">
 				
 				<div class="row">
 					<div class="input-field col s6">
