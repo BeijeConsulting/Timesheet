@@ -1,7 +1,9 @@
 package it.beije.timesheet.controller;
 
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import org.springframework.stereotype.Controller;
@@ -40,11 +42,28 @@ public class HomeController {
 	
 	@RequestMapping(value = "/user", method = RequestMethod.POST)
 	public String user(@Validated Timetable timetable, Model model) {
-		
+		List <Timetable> tab = new ArrayList <Timetable> ();
 		if (TimeSheetMethods.findRecordsFromId(timetable.getId_user())==null)  {
 			System.out.println("Utente non trovato");
 			return "NonTiAbbiamoTrovato";
 		}
+		
+		//CONTROLLO DEL METODO :
+		
+//		tab =TimeSheetMethods.takeRecordsFromDate(timetable.getDate());
+//		if (tab!=null)  {
+//			System.out.println("Le occorrenze da quella data sono ");
+//			for (Timetable r: tab)  {
+//				System.out.println(r.getId_user());
+//				System.out.println(r.getDate());
+//				System.out.println(r.getType());
+//				System.out.println(r.getStart1());
+//				System.out.println(r.getEnd1());
+//				System.out.println(r.getStart2());
+//				System.out.println(r.getEnd2());
+//			}
+//		}
+		
 		String s1 = timetable.getStart1();
 		String e1 = timetable.getEnd1();
 		String s2 = timetable.getStart2();

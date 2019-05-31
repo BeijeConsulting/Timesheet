@@ -11,6 +11,7 @@ import javax.persistence.TypedQuery;
 
 import static java.time.temporal.ChronoUnit.MINUTES;
 
+import java.sql.Date;
 import java.text.DecimalFormat;
 
 import org.hibernate.Criteria;
@@ -108,13 +109,29 @@ public class TimeSheetMethods {
 		
 	}
 	
-	public static Timetable takeRecordsFromIdTimetableVersion (int id_user) {
-		Timetable table=null;
+	public static List takeRecordsFromDate (Date startDate)  {
+		List <Timetable> records = new ArrayList <Timetable> ();
 		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
 		EntityManager entitymanager = emfactory.createEntityManager();
-		table = entitymanager.find(Timetable.class, id_user);
+//		entitymanager.createQuery(criteriaQuery);
+		TypedQuery<Timetable> q =entitymanager.createQuery("SELECT t FROM Timetable t WHERE t.date >= '"+startDate+"'" ,Timetable.class);
 		
-		return table;
+		System.out.println(q.getFirstResult());
+		records = q.getResultList();
+		
+		
+		return records;
+	}
+	
+	public static List takeRecordsFromIdTimetableVersion (int id_user) {
+	//	int p = id_user;
+		List <Timetable> records = new ArrayList <Timetable> ();
+		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
+		EntityManager entitymanager = emfactory.createEntityManager();
+//		entitymanager.createQuery(criteriaQuery);
+		TypedQuery<Timetable> q =entitymanager.createQuery("SELECT t FROM Timetable t WHERE t.id_user = '" +id_user +"'" ,Timetable.class);
+		records = q.getResultList();
+		return records;
 	}
 	
 	public static List takeRecordsTimetablVersion ()  {
