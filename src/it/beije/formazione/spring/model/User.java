@@ -45,6 +45,15 @@ public class User {
 	@Column(name = "archived")
 	private Date archived;
 	
+	private String utentiTrovati;
+
+	public String getUtentiTrovati() {
+		return utentiTrovati;
+	}
+
+	public void setUtentiTrovati(String utentiTrovati) {
+		this.utentiTrovati = utentiTrovati;
+	}
 
 	public int getId() {
 		return id;

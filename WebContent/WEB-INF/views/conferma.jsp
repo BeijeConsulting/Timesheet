@@ -9,7 +9,7 @@
 <body>
 <h1>Dati inviati</h1>
 
-			<form action="conferma2" method="post">
+			<form action="conferma" method="post">
 				<input class="btn blue" type="submit" value="Conferma">
 			</form>
 		

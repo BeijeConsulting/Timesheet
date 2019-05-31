@@ -4,10 +4,11 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Insert title here</title>
+<title>Ricerca Utente</title>
 </head>
 <body>
-<h1> CIAO</h1>
+<h1> Utenti trovati</h1>
 
+${user.utentiTrovati}
 </body>
 </html>

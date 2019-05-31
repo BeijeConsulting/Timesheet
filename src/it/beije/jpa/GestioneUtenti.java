@@ -10,6 +10,11 @@ import it.beije.formazione.spring.model.User;
 
 public class GestioneUtenti {
 
+	static String trovati="";
+	
+	public static String getTrovati() {
+		return trovati;
+	}
 	public static void creaUtente(
 			//				public void creaUtente(
 			String firstName,
@@ -87,14 +92,20 @@ public class GestioneUtenti {
 		
 		List<Object[]> utenti = q.getResultList();
 
+//		String trovati ="";
 		System.out.println("Utenti trovati: ");
 		for (Object[] u : utenti) {
-			System.out.println(
-					"ID: " + u[0]  + " " +	           
-							"Nome: "+ u[1] + " " +	  
-							"Cognome: " +u[2] + " " +	
-							"Codice Fiscale: " +u[6]			
-					);
+//			System.out.println(
+//					"ID: " + u[0]  + " " +	           
+//							"Nome: "+ u[1] + " " +	  
+//							"Cognome: " +u[2] + " " +	
+//							"Codice Fiscale: " +u[6]			
+//					);
+			trovati += "ID: " + u[0]  + " " +	           
+					"Nome: "+ u[1] + " " +	  
+					"Cognome: " +u[2] + " " +	
+					"Codice Fiscale: " +u[6] + "<br>";
+//			System.out.println(trovati);
 
 		}
 
