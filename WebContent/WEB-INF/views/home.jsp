@@ -3,17 +3,20 @@
 <html>
 <head>
 
+ <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
- 
  
 <title>Home</title>
 </head>
 <body>
-	<h1 class="center" >Benvenuto Utente</h1>
+
+	<h1 class="center" > 	
+	<a class="btn-floating btn-large pulse"><i class="material-icons">account_circle</i></a>
+	Benvenuto Utente
+	<a class="btn-floating btn-large pulse"><i class="material-icons">account_circle</i></a></h1>
 
 <div class="container">
-	<P>Hai loggato nel: ${serverTime}.</p>
-
+	<br><br><P>Hai loggato nel: ${serverTime}.</p><br><br>
 
     <div class="row">
       <div class="col s3">
@@ -40,7 +43,6 @@
 	</form>
 	</div>
 	</div>
-	
 	
 	</div>
 </body>

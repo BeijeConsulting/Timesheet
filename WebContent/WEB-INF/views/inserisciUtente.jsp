@@ -4,10 +4,8 @@ pageEncoding="UTF-8"%>
 <html>
 <head>
 
-	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -17,7 +15,7 @@ pageEncoding="UTF-8"%>
 <body>
   <div class="container">
    
-    <h2 class="center"> <i class="material-icons prefix">mode_edit</i> Inserisci i tuoi dati</h2> <br>
+    <h2 class="center"> <i class="medium material-icons prefix">mode_edit</i> Inserisci i tuoi dati</h2> <br>
 
     <div class="row">
       <form class="col s12" action="confermaDati" method="post">
@@ -47,7 +45,6 @@ pageEncoding="UTF-8"%>
           </div>
         </div>
         
-        
         <div class="row">
           <div class="input-field col s12">
             <input id="phone" type="text" name="phone">
@@ -69,15 +66,16 @@ pageEncoding="UTF-8"%>
           </div>
         </div>
         
-        <input class="btn blue" type="submit" value="INVIO">
-
+        <div class="center">
+        <input class="btn-large blue" type="submit" value="INVIO">
+		</div>
+		
       </form>
     </div>
 
   </div>
   
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-
 
 </body>
 </html>
