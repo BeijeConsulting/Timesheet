@@ -80,5 +80,11 @@ public class HomeController {
 
 		return "cercaUtente";
 	}
+	
+	@RequestMapping(value = "/conferma2", method = RequestMethod.POST)
+	public String conferma2(@Validated User user, Model model) {
+		GestioneUtenti.trovaUtente(user.getFirstName(),user.getLastName());
+		return "conferma2";
+	}
 
 }

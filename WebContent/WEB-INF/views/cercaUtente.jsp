@@ -14,20 +14,20 @@
 		<h3 class="center">Cerca utente </h3>      
 		
 		<div class="row">
-			<form class="col s12" action="cercaUtente" method="post">
+			<form class="col s12" action="conferma2" method="post">
 				
 				<div class="row">
 					<div class="input-field col s6">
-						Email di privato:<input type="text" name="personalEmail" value ="${user.personalEmail}">
+						Nome:<input type="text" name="firstName">
 					</div>
 
 					<div class="input-field col s6">
-						Password: <input type="password" name="password" value ="${user.password}">
+						Cognome: <input type="text" name="lastName">
 					</div>
 				</div>	
 					<div class="row">
 				<div class="center">
-				<input class="btn blue cen" type="submit" value="Conferma">
+				<input class="btn blue" type="submit" value="Conferma">
 				</div>
 				</div>
 			</form>

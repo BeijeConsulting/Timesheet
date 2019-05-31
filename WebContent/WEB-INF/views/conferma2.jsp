@@ -7,11 +7,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-<h1>Dati inviati</h1>
+<h1> CIAO</h1>
 
-			<form action="conferma2" method="post">
-				<input class="btn blue" type="submit" value="Conferma">
-			</form>
-		
 </body>
 </html>
