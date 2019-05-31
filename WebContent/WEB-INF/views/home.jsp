@@ -5,8 +5,8 @@
 <head>
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <style type="text/css">
-input[type=text], input[type=date], input[type=time], [type="password"]
-	{
+input[type=text], input[type=number], input[type=date], input[type=time], input[type="password"],
+	input[type="select"] {
 	width: 50%;
 	padding: 12px 20px;
 	margin: 8px 0;
@@ -14,6 +14,14 @@ input[type=text], input[type=date], input[type=time], [type="password"]
 	border: 1px solid #ccc;
 	border-radius: 4px;
 	box-sizing: border-box;
+}
+
+select {
+	width: 50%;
+	padding: 16px 20px;
+	border: none;
+	border-radius: 4px;
+	background-color: #f1f1f1;
 }
 
 input[type=radio] {
@@ -42,20 +50,30 @@ input[type=submit]:hover {
 <title>Home</title>
 </head>
 <body>
-	<h1>Compilazione modulo:</h1>
+	<h1 align="center">Compilazione modulo</h1>
 
-	<P>Data: ${serverTime}.</p>
+	<p align="center">Data: ${serverTime}.</p>
+	
 	<div align="center">
+	
 		<form action="user" method="post">
-
-			<label class="w3-text-grey">ID utente</label><br> <input
-				type="text" name="id_user" value="12345"><br> <label
-				class="w3-text-grey">Password</label> <br>
-			<input type="password" name="password" minlength="8" required
-				placeholder="min 8 caratteri"><br> <label
-				class="w3-text-grey">Tipo:</label> <br>
-
-			<div align="center">
+			
+			<label class="w3-text-grey">ID utente</label><br> 
+			<input type="text" name="id_user" value="12345" required><br> 
+			
+			<label class="w3-text-grey">Password</label> <br> 
+			<input type="password" name="password" minlength="8" required min="min 8 caratteri"><br> 
+			
+			<label class="w3-text-grey">Tipo:</label> <br> 
+			<select class="w3-text-grey">
+				<option value="g">Giornata lavorativa</option>
+				<option value="p">Permesso</option>
+				<option value="f">Ferie</option>
+				<option value="m">Malattia</option>
+				<option value="h">Festività</option>
+			</select>
+			
+			<!-- <div align="center">
 				<table align="center">
 					<tr>
 						<td><input type="radio" name="type" value="g" checked>
@@ -84,8 +102,8 @@ input[type=submit]:hover {
 					</tr>
 
 				</table>
-			</div>
-			
+			</div> -->
+
 			<!-- <div align="center">
 					<p>
 						<input type="radio" name="type" value="g" checked>
@@ -113,18 +131,22 @@ input[type=submit]:hover {
 					</p>
 			</div> -->
 
-			<br>
-			<br> <label class="w3-text-grey">Data</label> <br> <input
-				type="date" name="date" value="2019-1-1" placeholder="yyyy/MM/dd">
-			<br> <label class="w3-text-grey">Orario di inzio</label> <br>
-			<input type="time" name="start1" maxlength="5" value="09:00"
-				placeholder="09:00"><br> <label class="w3-text-grey">Orario
-				di fine</label> <br> <input type="time" name="end1" value="13:00"
-				placeholder="13:00"><br> <label class="w3-text-grey">Secondo
-				orario di inizio</label> <br> <input type="time" name="start2"
-				value="14:00" placeholder="14:00"><br> <label
-				class="w3-text-grey">Secondo orario di fne</label> <br> <input
-				type="time" name="end2" value="18:00" placeholder="18:00"><br>
+			<br> <br> 
+			
+			<label class="w3-text-grey">Data</label> <br>
+			<input type="date" name="date" value="2019-1-1" placeholder="yyyy/MM/dd" > <br> 
+			
+			<label class="w3-text-grey">Orario di inzio</label> <br> 
+			<input type="time" name="start1" maxlength="5" value="09:00" placeholder="09:00"><br> 
+			
+			<label class="w3-text-grey">Orario di fine</label> <br> 
+			<input type="time" name="end1" value="13:00" placeholder="13:00"><br> 
+			
+			<label class="w3-text-grey">Secondo orario di inizio</label> <br> 
+			<input type="time" name="start2" value="14:00" placeholder="14:00"><br> 
+			
+			<label class="w3-text-grey">Secondo orario di fne</label> <br> 
+			<input type="time" name="end2" value="18:00" placeholder="18:00"><br>
 
 			<input type="submit" value="Inserisci">
 
