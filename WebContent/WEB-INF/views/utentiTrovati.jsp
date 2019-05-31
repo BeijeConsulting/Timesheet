@@ -13,7 +13,7 @@
 <h1 class="center teal accent-3 white-text"> <b>Utenti trovati</b></h1>
 
 <div class="container">
-${user.utentiTrovati}
+${user.personalEmail}
 
 </div>
 </body>

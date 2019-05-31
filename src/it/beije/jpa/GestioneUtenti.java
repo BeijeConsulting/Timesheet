@@ -42,8 +42,8 @@ public class GestioneUtenti {
 		entitymanager.persist(utente);
 		entitymanager.getTransaction().commit();
 
-		entitymanager.close( );
-		emfactory.close( );
+//		entitymanager.close( );
+//		emfactory.close( );
 	}
 
 	public static String trovaUtente(String firstName, String lastName) {
@@ -119,17 +119,7 @@ public class GestioneUtenti {
 	//		System.out.println("utente ID = " + utente.getId());
 	//		System.out.println("utente Nome = " + utente.getFirstName());
 	//		System.out.println("utente getCognome = " + utente.getLastName());
-	////		System.out.println("utente Email = " + utente.getEmail());
 	//
 	//	}
 
-
-
-	//	public static void main( String[ ] args ) {
-	//		
-	//		GestioneUtenti gestioneUtenti = new GestioneUtenti();
-	//		gestioneUtenti.creaUtente("xun", "yang","pmail","wmail","phone", "12oakh78Yaothkha",0,"passd");
-	//		gestioneUtenti.trovaUtente(7);
-	//		
-	//	}
 }

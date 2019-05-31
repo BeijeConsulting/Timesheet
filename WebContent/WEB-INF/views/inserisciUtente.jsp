@@ -17,7 +17,7 @@ pageEncoding="UTF-8"%>
 <body>
   <div class="container">
    
-    <h4 class="center"> <i class="material-icons prefix">mode_edit</i> Inserisci i tuoi dati</h4> <br>
+    <h2 class="center"> <i class="material-icons prefix">mode_edit</i> Inserisci i tuoi dati</h2> <br>
 
     <div class="row">
       <form class="col s12" action="confermaDati" method="post">
@@ -25,11 +25,11 @@ pageEncoding="UTF-8"%>
           
           <div class="input-field col s6">
             <input id="first_name" type="text" name="firstName" required>
-            <label for="first_name">Inserisci nome</label>
+            <label for="first_name" class="pink-text"><b>Inserisci nome</b></label>
           </div>
           <div class="input-field col s6">
             <input id="last_name" type="text" name="lastName" required>
-            <label for="last_name">Inserisci cognome</label>
+            <label for="last_name" class="pink-text"><b>Inserisci cognome</b></label>
           </div>
         </div>
 
@@ -58,14 +58,14 @@ pageEncoding="UTF-8"%>
         <div class="row">
           <div class="input-field col s12">
             <input id="cod_fisc" type="text" name="fiscalCode" required>
-            <label for="cod_fisc">Inserisci codice fiscale</label>
+            <label for="cod_fisc" class="pink-text"><b>Inserisci codice fiscale</b></label>
           </div>
         </div>
 
         <div class="row">
           <div class="input-field col s12">
             <input id="password" type="password" name="password" required>
-            <label for="password">Inserisci password</label>
+            <label for="password" class="pink-text"><b>Inserisci password</b></label>
           </div>
         </div>
         

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.context.annotation.SessionScope;
 
+import it.beije.formazione.spring.model.Cerca;
 import it.beije.formazione.spring.model.User;
 import it.beije.jpa.GestioneUtenti;
 
@@ -82,10 +83,13 @@ public class HomeController {
 	}
 	
 	@RequestMapping(value = "/utentiTrovati", method = RequestMethod.POST)
-	public String utentiTrovati(@Validated User user, Model model) {
+	public String utentiTrovati(@Validated User user, Model model, @Validated Cerca trovato) {
+		System.out.println("prima");
 		String trovati = GestioneUtenti.trovaUtente(user.getFirstName(),user.getLastName());
-//		String trovati =GestioneUtenti.getTrovati();
-		user.setUtentiTrovati(trovati);
+		System.out.println("medio " +trovati);
+		trovato.setUtentiTrovati(trovati);
+		System.out.println("dopo");
+		user.setPersonalEmail(trovati);
 		return "utentiTrovati";
 	}
 
