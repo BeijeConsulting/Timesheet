@@ -71,12 +71,12 @@ public class HomeController {
 
 		timetable.setTot(TimeSheetMethods.oreTrascorse(s1, e1, s2, e2));
 		table=timetable;
-		System.out.println(table.getDate());
-		System.out.println(table.getId_user());
-		System.out.println(table.getStart1());
-		System.out.println(table.getEnd1());
-		System.out.println(table.getStart2());
-		System.out.println(table.getEnd2());
+//		System.out.println(table.getDate());
+//		System.out.println(table.getId_user());
+//		System.out.println(table.getStart1());
+//		System.out.println(table.getEnd1());
+//		System.out.println(table.getStart2());
+//		System.out.println(table.getEnd2());
 		model.addAttribute("timetable", timetable);
 		
 //		model.addAttribute("id_user", timetable.getId_user());
@@ -94,23 +94,29 @@ public class HomeController {
 	@RequestMapping(value = "/pagineDopoConferma", method = RequestMethod.POST)
 	public void elaboraDati () {
 		System.out.println("Sto elaborando i tuoi dati...");
-		
-		
-		System.out.println(table.getId_user());
-		System.out.println(table.getType());
-		System.out.println(table.getStart1());
-		System.out.println(table.getEnd1());
-		System.out.println(table.getStart2());
-		System.out.println(table.getEnd2());
-		System.out.println(table.getTot());
-		
+//		
+//		
+//		System.out.println(table.getId_user());
+//		System.out.println(table.getType());
+//		System.out.println(table.getStart1());
+//		System.out.println(table.getEnd1());
+//		System.out.println(table.getStart2());
+//		System.out.println(table.getEnd2());
+//		System.out.println(table.getTot());
+//		
 		
 		TimeSheetMethods.creaoModificaRecord(table);
 	}
 
 	@RequestMapping(value = "/modifica", method = RequestMethod.POST)
-	public String modificaDati(Model model) {
+	public String modificaDati(Model model, Locale locale) {
+		Date date = new Date ();
+		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
+		
+		String formattedDate = dateFormat.format(date);
+		model.addAttribute("serverTime", formattedDate);
 		System.out.println("Modifica dei dati...");
+		
 		model.addAttribute(table);
 		return "modifica";
 	}
