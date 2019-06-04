@@ -50,19 +50,19 @@ public class HomeController {
 		
 		//CONTROLLO DEL METODO :
 		
-//		tab =TimeSheetMethods.takeRecordsFromDate(timetable.getDate());
-//		if (tab!=null)  {
-//			System.out.println("Le occorrenze da quella data sono ");
-//			for (Timetable r: tab)  {
-//				System.out.println(r.getId_user());
-//				System.out.println(r.getDate());
-//				System.out.println(r.getType());
-//				System.out.println(r.getStart1());
-//				System.out.println(r.getEnd1());
-//				System.out.println(r.getStart2());
-//				System.out.println(r.getEnd2());
-//			}
-//		}
+		tab =TimeSheetMethods.takeRecordsFromDate(timetable.getDate());
+		if (tab!=null)  {
+			System.out.println("Le occorrenze da quella data sono ");
+			for (Timetable r: tab)  {
+				System.out.println(r.getId_user());
+				System.out.println(r.getDate());
+				System.out.println(r.getType());
+				System.out.println(r.getStart1());
+				System.out.println(r.getEnd1());
+				System.out.println(r.getStart2());
+				System.out.println(r.getEnd2());
+			}
+		}
 		
 		String s1 = timetable.getStart1();
 		String e1 = timetable.getEnd1();

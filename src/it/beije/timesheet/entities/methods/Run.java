@@ -1,29 +1,80 @@
 package it.beije.timesheet.entities.methods;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.sql.Date;
-import java.sql.Time;
+import java.time.LocalDate;
 
 import it.beije.timesheet.entities.Timetable;
+import it.beije.timesheet.entities.User;
 
 public class Run {
-
+	 
+	
+	
 	public static void main(String[] args) {
-		Timetable ciao = new Timetable();
+//		User verifica = TimeSheetMethods.findRecordsFromId(1);
+		List <Timetable> record = new ArrayList <Timetable> ();
 		
+//		if (verifica==null)  {
+//			System.out.println("nessun utente");
+//		}
+//		else  {
+//			System.out.println(verifica.getFirst_name());
+//		}
+//		record = TimeSheetMethods.takeRecordsTimetablVersion();
+//		
+//		if (record!=null)  {
+//			for (Timetable r: record)  {
+//				System.out.println(r.getId_user());
+//				System.out.println(r.getDate());
+//				System.out.println(r.getType());
+//				System.out.println(r.getStart1());
+//				System.out.println(r.getEnd1());
+//				System.out.println(r.getStart2());
+//				System.out.println(r.getEnd2());
+//			}
+//		}
+//	
 		
-		ciao.setId_user(1);
-		ciao.setId(1);
-		ciao.setType('w');
-
-//		ciao.setEnd1(LocalTime.of(12, 00));
-//		ciao.setStart2(LocalTime.of(13, 00));
-//		ciao.setEnd2(LocalTime.of(17, 00));
-//		ciao.setTot(8.00);
+//		record=TimeSheetMethods.takeRecordsFromIdTimetableVersion(3);
 		
-		TimeSheetMethods.setOrUpdateTimeSheet(ciao);
+//		if (record!=null)  {
+//			for (Timetable r: record)  {
+//				System.out.println(r.getId_user());
+//				System.out.println(r.getDate());
+//				System.out.println(r.getType());
+//				System.out.println(r.getStart1());
+//				System.out.println(r.getEnd1());
+//				System.out.println(r.getStart2());
+//				System.out.println(r.getEnd2());
+//			}
+//		}
+	
+		LocalDate d2 = LocalDate.of(2015, 02, 01);
+		Date d = Date.valueOf(d2);	
+	
 		
-		
-		
+		record = TimeSheetMethods.takeRecordsFromDate(d);
+		if (record!=null)  {
+			for (Timetable r: record)  {
+				System.out.println(r.getId_user());
+				System.out.println(r.getDate());
+				System.out.println(r.getType());
+				System.out.println(r.getStart1());
+				System.out.println(r.getEnd1());
+				System.out.println(r.getStart2());
+				System.out.println(r.getEnd2());
+			}
+		}
+		else {
+			System.out.println("Dati non presenti");
+		}
+			
+	
+	
 	}
+	
+	
 
 }
