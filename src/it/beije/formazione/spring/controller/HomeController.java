@@ -84,11 +84,11 @@ public class HomeController {
 	
 	@RequestMapping(value = "/utentiTrovati", method = RequestMethod.POST)
 	public String utentiTrovati(@Validated User user, Model model, @Validated Cerca trovato) {
-		System.out.println("prima");
+//		System.out.println("prima");
 		String trovati = GestioneUtenti.trovaUtente(user.getFirstName(),user.getLastName());
-		System.out.println("medio " +trovati);
-		trovato.setUtentiTrovati(trovati);
-		System.out.println("dopo");
+//		System.out.println("medio " +trovati);
+//		trovato.setUtentiTrovati(trovati);
+//		System.out.println("dopo");
 		user.setPersonalEmail(trovati);
 		return "utentiTrovati";
 	}
