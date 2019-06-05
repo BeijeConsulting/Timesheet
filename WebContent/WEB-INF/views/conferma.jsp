@@ -14,7 +14,10 @@
 <h1 class="center">Dati inviati</h1>
 
 <div class="center">
-<a class="btn-floating btn-large pulse"><i class="material-icons">cloud</i></a>
+<!-- <a class="btn-floating btn-large pulse"><i class="material-icons">cloud</i></a> -->
+		<form action="http://localhost:8080/Timesheet/" method="get">
+				<input class="btn green" type="submit" value="Home">
+			</form>
 </div>
 <!-- 			<form action="conferma" method="post">
 				<input class="btn blue" type="submit" value="Conferma">

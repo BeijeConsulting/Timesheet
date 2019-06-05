@@ -36,10 +36,9 @@ public class ApiController {
             consumes = MediaType.APPLICATION_JSON_VALUE)
     public void createUser(@RequestBody User user, Model model,
     		HttpServletResponse response) throws IOException {
-    	System.out.println("saving user: "+user);
+    	System.out.println("saving user: "+user.getFirstName());
     	
-		GestioneUtenti.creaUtente(user.getFirstName(), user.getLastName(), user.getPersonalEmail(), 
-				user.getWorkEmail(), user.getPhone(), user.getFiscalCode(), 0, user.getPassword());
+		GestioneUtenti.creaUtente(user);
     	
     	response.setStatus(200);
 //    	response.setContentType("application/json");

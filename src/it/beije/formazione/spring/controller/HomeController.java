@@ -58,8 +58,7 @@ public class HomeController {
 
 	@RequestMapping(value = "/conferma", method = RequestMethod.POST)
 	public String conferma(@Validated User user, Model model) {
-		GestioneUtenti.creaUtente(user.getFirstName(), user.getLastName(), user.getPersonalEmail(), 
-				user.getWorkEmail(), user.getPhone(), user.getFiscalCode(), 0, user.getPassword());
+		GestioneUtenti.creaUtente(user);
 		System.out.println("sono in confernama " + user.getFirstName());
 		return "conferma";
 	}
@@ -82,7 +81,7 @@ public class HomeController {
 		return "cercaUtente";
 	}
 	
-	@RequestMapping(value = "/utentiTrovati", method = RequestMethod.POST)
+	@RequestMapping(value = "/utentiTrovati", method = RequestMethod.GET)
 	public String utentiTrovati(@Validated User user, Model model, @Validated Cerca trovato) {
 //		System.out.println("prima");
 		String trovati = GestioneUtenti.trovaUtente(user.getFirstName(),user.getLastName());

@@ -14,7 +14,7 @@
 		<h3 class="center">Cerca utente </h3>      
 		
 		<div class="row">
-			<form class="col s12" action="utentiTrovati" method="post">
+			<form class="col s12" action="utentiTrovati" method="get">
 				
 				<div class="row">
 					<div class="input-field col s6">
@@ -32,8 +32,7 @@
 				</div>
 			</form>
 		</div>
-		
-		
 	</div>
+	
 </body>
 </html>
