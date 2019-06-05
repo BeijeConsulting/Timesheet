@@ -1,6 +1,7 @@
 package it.beije.timesheet.entities.methods;
 
 import java.time.*;
+
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -8,6 +9,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
 
 import static java.time.temporal.ChronoUnit.MINUTES;
 
@@ -23,9 +25,8 @@ import org.hibernate.cfg.Configuration;
 import org.hibernate.criterion.Restrictions;
 
 import it.beije.timesheet.HDButils;
-import it.beije.timesheet.entities.JpaEntityManager;
-import it.beije.timesheet.entities.Timetable;
-import it.beije.timesheet.entities.User;
+//import it.beije.timesheet.entities.JpaEntityManager;
+import it.beije.timesheet.entities.*;
 
 public class TimeSheetMethods {
 	
@@ -107,6 +108,19 @@ public class TimeSheetMethods {
 			factory.close();
 		}
 		
+	}
+	
+	public static boolean checkPassword (int id, String password)   {
+		boolean check=false;
+		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
+		EntityManager entitymanager = emfactory.createEntityManager();
+		User user = entitymanager.find(User.class, id);
+		if (user.getPassword().equals(password) && user!=null)  {
+			check=true;
+		}
+		
+		
+		return check;
 	}
 	
 	public static List takeRecordsFromDate (Date startDate)  {

@@ -104,7 +104,9 @@ input[type=submit]:hover {
 			<input type="text" name="id_user" value=${timetable.id_user} required><br> 
 			
 			<label class="w3-text-grey">Password</label> <br> 
-			<input type="password" name="password" minlength="8" placeholder="min 8 caratteri" required><br> 
+
+			<input type="password" name="password" pattern=".{8,}"  title="Almeno 8 caratteri!" placeholder="min 8 caratteri" required><br> 
+
 			
 			<label class="w3-text-grey">Tipo:</label> <br> 
 			<select class="w3-text-grey">
