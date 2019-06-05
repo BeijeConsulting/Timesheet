@@ -68,8 +68,8 @@ tr:nth-child(even) {
 				<td>${timetable.id_user}</td>
 				<td>${timetable.date}</td>
 				<td>${timetable.start1}</td>
-				<td>${timetable.start2}</td>
 				<td>${timetable.end1}</td>
+				<td>${timetable.start2}</td>
 				<td>${timetable.end2}</td>
 				<td>${timetable.tot}</td>
 			</tr>

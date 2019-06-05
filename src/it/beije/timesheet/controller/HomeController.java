@@ -25,7 +25,23 @@ public class HomeController {
 	/**
 	 * Simply selects the home view to render by returning its name.
 	 */
+	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
+	public String preHome(Locale locale, Model model) {
+		System.out.println("Home Page Requested, locale = " + locale);
+		Date date = new Date();
+		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
+
+		String formattedDate = dateFormat.format(date);
+
+		model.addAttribute("serverTime", formattedDate);
+
+		return "preHome";
+	}
+
+	
+	
+	@RequestMapping(value = "/home", method = RequestMethod.POST)
 	public String home(Locale locale, Model model) {
 		System.out.println("Home Page Requested, locale = " + locale);
 		Date date = new Date();
@@ -36,6 +52,19 @@ public class HomeController {
 		model.addAttribute("serverTime", formattedDate);
 
 		return "home";
+	}
+
+	@RequestMapping(value = "/ricerca", method = RequestMethod.POST)
+	public String ricerca (Locale locale, Model model) {
+		System.out.println("Home Page Requested, locale = " + locale);
+		Date date = new Date();
+		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
+
+		String formattedDate = dateFormat.format(date);
+
+		model.addAttribute("serverTime", formattedDate);
+
+		return "ricerca";
 	}
 
 
@@ -109,7 +138,14 @@ public class HomeController {
 	}
 
 	@RequestMapping(value = "/modifica", method = RequestMethod.POST)
-	public String modificaDati(Model model) {
+	public String modificaDati(Model model, Locale locale) {
+		Date date = new Date();
+		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
+
+		String formattedDate = dateFormat.format(date);
+
+		model.addAttribute("serverTime", formattedDate);
+
 		System.out.println("Modifica dei dati...");
 		model.addAttribute(table);
 		return "modifica";

@@ -52,7 +52,7 @@ input[type=submit]:hover {
 <body>
 	<h1 align="center">Compilazione modulo</h1>
 
-	<p align="center">Data: ${serverTime}.</p>
+	<p align="center">Data: ${serverTime}</p>
 	
 	<div align="center">
 	
@@ -62,7 +62,7 @@ input[type=submit]:hover {
 			<input type="text" name="id_user" value="12345" required><br> 
 			
 			<label class="w3-text-grey">Password</label> <br> 
-			<input type="password" name="password" minlength="8" required min="min 8 caratteri"><br> 
+			<input type="password" name="password" minlength="8" required placeholder="min 8 caratteri"><br> 
 			
 			<label class="w3-text-grey">Tipo:</label> <br> 
 			<select class="w3-text-grey">
@@ -149,7 +149,8 @@ input[type=submit]:hover {
 			<input type="time" name="end2" value="18:00" placeholder="18:00"><br>
 
 			<input type="submit" value="Inserisci">
-
+			
+			
 		</form>
 	</div>
 </body>

@@ -3,19 +3,17 @@
 <!DOCTYPE html>
 <html>
 <head>
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <style type="text/css">
-input[type=text],input[type=date],input[type=time],[type="password"] {
-  width: 50%;
-  padding: 12px 20px;
-  margin: 8px 0;
-  display: inline-block;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  box-sizing: border-box;
-}
-
-input[type=radio] {
-clip: rect(1px, 1px, 1px, 1px);
+input[type=text], input[type=number], input[type=date], input[type=time], input[type="password"],
+	input[type="select"] {
+	width: 50%;
+	padding: 12px 20px;
+	margin: 8px 0;
+	display: inline-block;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	box-sizing: border-box;
 }
 
 select {
@@ -26,21 +24,29 @@ select {
 	background-color: #f1f1f1;
 }
 
+input[type=radio] {
+	width: 24px;
+	height: 24px;
+	position: relative;
+	top: 6px;
+}
+
 input[type=submit] {
-  width: 50%;
-  background-color: #4CAF50;
-  color: white;
-  padding: 14px 20px;
-  margin: 8px 0;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
+	width: 50%;
+	background-color: #4CAF50;
+	color: white;
+	padding: 14px 20px;
+	margin: 8px 0;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
 }
 
 input[type=submit]:hover {
-  background-color: #45a049;
+	background-color: #45a049;
 }
 </style>
+
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Modifica Dati</title>
 </head>
@@ -88,7 +94,7 @@ input[type=submit]:hover {
 	
 	<h1 align="center">Modifica i dati del modulo</h1>
 
-	<p align="center">Data: ${serverTime}.</p>
+	<p align="center">Data: ${serverTime}</p>
 	
 	<div align="center">
 	
@@ -98,7 +104,7 @@ input[type=submit]:hover {
 			<input type="text" name="id_user" value=${timetable.id_user} required><br> 
 			
 			<label class="w3-text-grey">Password</label> <br> 
-			<input type="password" name="password" minlength="8" required placeholder="min 8 caratteri"><br> 
+			<input type="password" name="password" minlength="8" placeholder="min 8 caratteri" required><br> 
 			
 			<label class="w3-text-grey">Tipo:</label> <br> 
 			<select class="w3-text-grey">
