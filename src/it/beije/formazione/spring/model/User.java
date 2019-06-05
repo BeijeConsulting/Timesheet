@@ -1,5 +1,6 @@
 package it.beije.formazione.spring.model;
 
+import java.io.Serializable;
 import java.sql.Date;
 
 import javax.persistence.Column;
@@ -11,8 +12,10 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "user")
-public class User {
+public class User implements Serializable {
+	private static final long serialVersionUID = 1L;
 	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY) 
 	@Column(name = "id")
@@ -124,7 +127,15 @@ public class User {
 	public void setArchived(Date archived) {
 		this.archived = archived;
 	}
-	
-	
 
+	
+	public String toString() {
+		StringBuilder builder = new StringBuilder("{\"id\" : ").append(id)
+				.append(",").append("\"firstName\" : \"").append(firstName)
+				.append("\",").append("\"lastName\" : \"").append(lastName)
+				.append("\",").append("\"personalEmail\" : \"").append(personalEmail)
+				.append("\"}");
+		
+		return builder.toString();
+	}
 }
