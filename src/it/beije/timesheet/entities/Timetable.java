@@ -1,5 +1,6 @@
 package it.beije.timesheet.entities;
 
+import java.io.Serializable;
 import java.sql.Date;
 
 
@@ -8,8 +9,9 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "timetable")
-public class Timetable {
-	
+public class Timetable implements Serializable {
+	private static final long serialVersionUID = 2L;
+
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name = "id")
@@ -109,6 +111,16 @@ public class Timetable {
 	}
 	public void setTot(double tot) {
 		this.tot = tot;
+	}
+	
+	public String toString() {
+		StringBuilder builder = new StringBuilder("{\"id\" : ").append(id)
+				.append(",").append("\"id_user\" : ").append(id_user)
+				.append(",").append("\"start1\" : \"").append(start1)
+				.append("\",").append("\"start2\" : \"").append(start2)
+				.append("\"}");
+		
+		return builder.toString();
 	}
 
 }
