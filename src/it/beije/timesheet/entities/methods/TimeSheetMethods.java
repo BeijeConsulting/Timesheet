@@ -128,7 +128,22 @@ public class TimeSheetMethods {
 		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
 		EntityManager entitymanager = emfactory.createEntityManager();
 //		entitymanager.createQuery(criteriaQuery);
-		TypedQuery<Timetable> q =entitymanager.createQuery("SELECT t FROM Timetable t WHERE t.date >= '"+startDate+"'" ,Timetable.class);
+		TypedQuery<Timetable> q =entitymanager.createQuery("SELECT t FROM Timetable t WHERE t.date >= '"+startDate+"'"+"ORDER BY t.id_user" ,Timetable.class);
+		
+		records = q.getResultList();
+		
+		
+		return records;
+	}
+	
+	
+	
+	public static List takeRecordsFromDateToDate (Date startDate, Date endDate)  {
+		List <Timetable> records = new ArrayList <Timetable> ();
+		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
+		EntityManager entitymanager = emfactory.createEntityManager();
+//		entitymanager.createQuery(criteriaQuery);
+		TypedQuery<Timetable> q =entitymanager.createQuery("SELECT t FROM Timetable t WHERE t.date >= '"+startDate+"'"+"AND t.date <= '"+endDate ,Timetable.class);
 		
 		System.out.println(q.getFirstResult());
 		records = q.getResultList();
