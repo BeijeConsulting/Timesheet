@@ -92,4 +92,11 @@ public class HomeController {
 		return "utentiTrovati";
 	}
 
+	
+	@RequestMapping(value = "/modificaDati", method = RequestMethod.POST)
+	public String modificaDati(@Validated User user, Model model, @Validated Cerca trovato) {
+
+		return "modificaDati";
+	}
+	
 }

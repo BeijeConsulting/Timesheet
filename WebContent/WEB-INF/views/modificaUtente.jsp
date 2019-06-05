@@ -15,7 +15,7 @@
 		<h3 class="center">Modifica Utente </h3>      
 		
 		<div class="row">
-			<form class="col s12" action="utentiTrovati" method="get">
+			<form class="col s12" action="modificaDati" method="post">
 				
 				<div class="row">
 					<div class="input-field col s6">
