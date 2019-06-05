@@ -2,6 +2,7 @@ package it.beije.timesheet.entities;
 
 import java.sql.Date;
 
+
 import javax.persistence.*;
 
 

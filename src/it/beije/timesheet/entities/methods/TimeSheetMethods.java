@@ -1,6 +1,7 @@
 package it.beije.timesheet.entities.methods;
 
 import java.time.*;
+
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,8 +26,7 @@ import org.hibernate.criterion.Restrictions;
 
 import it.beije.timesheet.HDButils;
 //import it.beije.timesheet.entities.JpaEntityManager;
-import it.beije.timesheet.entities.Timetable;
-import it.beije.timesheet.entities.User;
+import it.beije.timesheet.entities.*;
 
 public class TimeSheetMethods {
 	

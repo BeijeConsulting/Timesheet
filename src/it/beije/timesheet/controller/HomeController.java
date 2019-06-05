@@ -13,8 +13,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.context.annotation.SessionScope;
 
-import it.beije.timesheet.entities.*;
+import it.beije.timesheet.entities.Timetable;
 import it.beije.timesheet.entities.methods.TimeSheetMethods;
+
 
 @Controller
 @SessionScope
