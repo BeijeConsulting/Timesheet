@@ -10,34 +10,22 @@ import it.beije.formazione.spring.model.User;
 
 public class GestioneUtenti {
 
-	public static void creaUtente(
-
-			String firstName,
-			String lastName,
-			String personalEmail,
-			String workEmail,
-			String phone,
-			String fiscalCode,
-			int admin,
-			String pass
-
-			)
-	{
-		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
+	public static void creaUtente(User user) {
+	 EntityManagerFactory emfactory = JpaEntityManager.getInstance();
 
 		EntityManager entitymanager = emfactory.createEntityManager();
 		entitymanager.getTransaction().begin();
 
 		User utente = new User();
 		//	      utente.setId(141);
-		utente.setFirstName(firstName);
-		utente.setLastName(lastName);
-		utente.setPersonalEmail(personalEmail);
-		utente.setWorkEmail(workEmail);
-		utente.setPhone(phone);
-		utente.setFiscalCode(fiscalCode);
+		utente.setFirstName(user.getFirstName());
+		utente.setLastName(user.getLastName());
+		utente.setPersonalEmail(user.getPersonalEmail());
+		utente.setWorkEmail(user.getWorkEmail());
+		utente.setPhone(user.getPhone());
+		utente.setFiscalCode(user.getFirstName());
 		utente.setAdmin(0);
-		utente.setPassword(pass);
+		utente.setPassword(user.getPassword());
 
 		entitymanager.persist(utente);
 		entitymanager.getTransaction().commit();

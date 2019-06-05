@@ -38,8 +38,7 @@ public class ApiController {
     		HttpServletResponse response) throws IOException {
     	System.out.println("saving user: "+user);
     	
-		GestioneUtenti.creaUtente(user.getFirstName(), user.getLastName(), user.getPersonalEmail(), 
-				user.getWorkEmail(), user.getPhone(), user.getFiscalCode(), 0, user.getPassword());
+		GestioneUtenti.creaUtente(user);
     	
     	response.setStatus(200);
 //    	response.setContentType("application/json");

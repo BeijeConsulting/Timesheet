@@ -58,8 +58,7 @@ public class HomeController {
 
 	@RequestMapping(value = "/conferma", method = RequestMethod.POST)
 	public String conferma(@Validated User user, Model model) {
-		GestioneUtenti.creaUtente(user.getFirstName(), user.getLastName(), user.getPersonalEmail(), 
-				user.getWorkEmail(), user.getPhone(), user.getFiscalCode(), 0, user.getPassword());
+		GestioneUtenti.creaUtente(user);
 		System.out.println("sono in confernama " + user.getFirstName());
 		return "conferma";
 	}
