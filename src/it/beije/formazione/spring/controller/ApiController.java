@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import it.beije.erp.timesheet.service.UserService;
 import it.beije.formazione.spring.model.User;
+import it.beije.timesheet.entities.Timetable;
+
 
 
 @Controller
@@ -22,7 +24,7 @@ public class ApiController {
 	@Autowired
 	private UserService userService;
 
-    @RequestMapping(value = "/testJson", method = RequestMethod.POST,
+	@RequestMapping(value = "/testJson", method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_JSON_VALUE)
     //@ResponseStatus(HttpStatus.CREATED)
     public void handleJsonPostRequest(@RequestBody User user, Model model,
@@ -47,6 +49,18 @@ public class ApiController {
     	response.setStatus(200);
 //    	response.setContentType("application/json");
 //    	response.getWriter().append(user.toString());
+    }
+
+
+	@RequestMapping(value = "/testJsonTT", method = RequestMethod.POST,
+            consumes = MediaType.APPLICATION_JSON_VALUE)
+    public void handleJsonPostRequest(@RequestBody Timetable timetable, Model model,
+    		HttpServletResponse response) throws IOException {
+    	System.out.println("timetable : "+timetable);
+    	
+    	response.setStatus(200);
+    	response.setContentType("application/json");
+    	response.getWriter().append(timetable.toString());
     }
 
 }
