@@ -54,7 +54,7 @@ pageEncoding="UTF-8"%>
 
         <div class="row">
           <div class="input-field col s12">
-            <input id="cod_fisc" type="text" name="fiscalCode" required>
+            <input id="cod_fisc" type="text" name="fiscalCode" minlength="16" maxlength="16" required>
             <label for="cod_fisc" class="pink-text"><b>Inserisci codice fiscale</b></label>
           </div>
         </div>
