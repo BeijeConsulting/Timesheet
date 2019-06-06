@@ -1,10 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+    pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Ricerca Utente</title>
+<title>Modifica Utente</title>
 
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <style type="text/css">
@@ -69,53 +69,19 @@ input[type=reset]:hover {
 </style>
 
 </head>
-
-
-
 <body>
 	<h1 align="center">Ricerca informazioni utente</h1>
 	<br>
 	<h3 align="center">Data: ${serverTime}</h3>
 	
-	<!-- <br>
-			<h4 align="center">
-				<i>-- inserire almeno uno dei seguenti campi -- <br>
-					(ID_Utente, Data, Tipo di Orario)
-				</i>
-			</h4>
-			<br> -->
 
-
-
-	<!-- 	<p>
-						<label>ID_User:</label><br> <input type="text"
-							placeholder="Inserisci Id_User" name="Id_user">
-					</p>
-
-					<p>
-						<label>Tipo di permesso:</label><br> <select name="scelta">
-							<option value="scelta" selected>---scegli---</option>
-							<option value="w - Work">w - Work</option>
-							<option value="h - Holiday">h - Holiday</option>
-							<option value="p - Permesso">p - Permesso</option>
-							<option value="m - Malattia">m - Malattia</option>
-						</select>
-					</p>
- 				-->
 <div align="center">
-	<form action="data" method="get">
-
-		<label>Inserisci la data</label><br> <input type="date" name="date" required><br>
+	<form action="modificaUtente" method="get">
 		<label>Inserisci l'id utente</label><br><input type="number" name="id" required><br><br>
 		<div>
-		<input type="submit" value="Ricerca"> 
+		<input type="submit" value="Conferma"> 
 		<input type="reset" value="Annulla">
 		</div>	
-	</form>
-	<form action="modificaUtente" method="get">
-	<label>Inserisci la data</label><br> <input type="date" name="date" required><br>
-		<label>Inserisci l'id utente</label><br><input type="number" name="id" required><br><br>
-		<input type="submit" value="Modifica">
 	</form>
 </div>
 </body>
