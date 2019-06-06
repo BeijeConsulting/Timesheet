@@ -6,7 +6,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 
-import it.beije.formazione.spring.model.User;
+import it.beije.erp.timesheet.entity.User;
 
 public class GestioneUtenti {
 

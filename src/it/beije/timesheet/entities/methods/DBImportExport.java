@@ -26,7 +26,7 @@ import org.hibernate.criterion.Restrictions;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import it.beije.timesheet.entities.User;
+import it.beije.erp.timesheet.entity.UserT;
 
 public class DBImportExport {
 	
@@ -49,13 +49,13 @@ public class DBImportExport {
 		
 		String[] insert = new String[rows.size()]; //ritorna tutte le query necessarie
 
-		List <User> user = new ArrayList<User>();//.add(Restrictions.eq("nome", "pippo"))
+		List <UserT> user = new ArrayList<UserT>();//.add(Restrictions.eq("nome", "pippo"))
 
 		int i=0;
 		//INSERT
 		for (String conversione : rows) {
 			Transaction transaction = session.beginTransaction();
-			User utente = new User();
+			UserT utente = new UserT();
 		    String[] parts = conversione.split(";");
 		    
 		    String first_name = parts[1];
@@ -97,16 +97,16 @@ public class DBImportExport {
 		SessionFactory factory = DBImportExport.getFactory();
 		Session session = factory.openSession();
 				
-		Criteria criteria = session.createCriteria(User.class);
+		Criteria criteria = session.createCriteria(UserT.class);
 		
-		List<User> user = null;
+		List<UserT> user = null;
 		
         try {
             FileWriter fw = new FileWriter(pathfile);
 			
 	        user = criteria.list();
 
-            for (User i : user) {
+            for (UserT i : user) {
                 fw.append(String.valueOf(i.getId()));
                 fw.append(';');
                 fw.append(i.getFirst_name());
@@ -146,9 +146,9 @@ public class DBImportExport {
 		SessionFactory factory = DBImportExport.getFactory();
 		Session session = factory.openSession();
 				
-		Criteria criteria = session.createCriteria(User.class);
+		Criteria criteria = session.createCriteria(UserT.class);
 		
-		List<User> user = null;
+		List<UserT> user = null;
 		
 		 DocumentBuilderFactory dFact = DocumentBuilderFactory.newInstance();
 	        DocumentBuilder build = dFact.newDocumentBuilder();
@@ -162,7 +162,7 @@ public class DBImportExport {
 		try {
 	        user = criteria.list();
 
-	        for (User i : user) {
+	        for (UserT i : user) {
             	String row = String.valueOf(i.getId()) + ";" + i.getFirst_name() + ";" + i.getLast_name() + ";" 
             				+ i.getPersonal_email() + ";" + i.getWork_email() + ";" + i.getPhone() 
             				+ ";" + i.getFiscal_code() + ";" + String.valueOf(i.getAdmin()) + ";" + i.getPassword() + ";";
@@ -286,7 +286,7 @@ public class DBImportExport {
 	//CONNESSIONE AL FACTORY
 	private static SessionFactory getFactory() throws Exception {
 		SessionFactory factory = new Configuration().configure()
-				.addAnnotatedClass(User.class)
+				.addAnnotatedClass(UserT.class)
 				.buildSessionFactory();		
 		return factory;
 	}

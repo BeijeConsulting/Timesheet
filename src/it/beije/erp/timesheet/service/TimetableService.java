@@ -1,4 +1,4 @@
-package it.beije.timesheet.entities.methods;
+package it.beije.erp.timesheet.service;
 
 import java.time.*;
 
@@ -9,91 +9,87 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaBuilder;
 
 import static java.time.temporal.ChronoUnit.MINUTES;
 
 import java.sql.Date;
 import java.text.DecimalFormat;
 
-import org.hibernate.Criteria;
-import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.hibernate.cfg.Configuration;
-import org.hibernate.criterion.Restrictions;
+import org.springframework.stereotype.Service;
 
 import it.beije.erp.timesheet.entity.Timetable;
 import it.beije.erp.timesheet.entity.UserT;
 import it.beije.jpa.JpaEntityManager;
 import it.beije.timesheet.HDButils;
-//import it.beije.timesheet.entities.JpaEntityManager;
-import it.beije.timesheet.entities.*;
 
-public class TimeSheetMethods {
+
+@Service
+public class TimetableService {
 	
 	//Get Timesheet of a User By ID
 	
-	public static List<Timetable> getTimeSheetOfUserById(int idUser) throws Exception {
-		
-		SessionFactory factory = HDButils.getFactory(Timetable.class);
-		Session session = factory.openSession();
-		
-		Criteria criteria = session.createCriteria(Timetable.class);
-		
-		if(idUser != 0) {
-			criteria.add(Restrictions.eq("id_user", idUser));
-		}
-		
-		List<Timetable> table = null;
-
-	    table = criteria.list();
-	    
-	    if (session != null && session.isOpen()) {
-	    	session.close();
-	        factory.close();
-	        }
-
-	    return table;
-	}
+//	public static List<Timetable> getTimeSheetOfUserById(int idUser) throws Exception {
+//		
+//		SessionFactory factory = HDButils.getFactory(Timetable.class);
+//		Session session = factory.openSession();
+//		
+//		Criteria criteria = session.createCriteria(Timetable.class);
+//		
+//		if(idUser != 0) {
+//			criteria.add(Restrictions.eq("id_user", idUser));
+//		}
+//		
+//		List<Timetable> table = null;
+//
+//	    table = criteria.list();
+//	    
+//	    if (session != null && session.isOpen()) {
+//	    	session.close();
+//	        factory.close();
+//	        }
+//
+//	    return table;
+//	}
 	
 	//Get TimeSheet of a User By ID and Period
-	public static List<Timetable> getTimeSheetOfUserByIdAndPeriod(int idUser, LocalDate from, LocalDate to) throws Exception {
-	    
-		if (to.isBefore(from)) {
-	        throw new IllegalArgumentException("Invalid range");
-	    }
-		
-		SessionFactory factory = HDButils.getFactory(Timetable.class);
-		Session session = factory.openSession();
-		
-		Criteria criteria = session.createCriteria(Timetable.class);
-		
-		if(idUser != 0 && from != null && to != null) {
-			criteria.add(Restrictions.eq("id_user", idUser));
-			criteria.add(Restrictions.ge("date", from));
-			criteria.add(Restrictions.lt("date", to));
-		}
-		
-		List<Timetable> table = null;
-
-	    table = criteria.list();
-	    
-	    if (session != null && session.isOpen()) {
-	    	session.close();
-	        factory.close();
-	        }
-
-	    return table;
-	}
+//	public static List<Timetable> getTimeSheetOfUserByIdAndPeriod(int idUser, LocalDate from, LocalDate to) throws Exception {
+//	    
+//		if (to.isBefore(from)) {
+//	        throw new IllegalArgumentException("Invalid range");
+//	    }
+//		
+//		SessionFactory factory = HDButils.getFactory(Timetable.class);
+//		Session session = factory.openSession();
+//		
+//		Criteria criteria = session.createCriteria(Timetable.class);
+//		
+//		if(idUser != 0 && from != null && to != null) {
+//			criteria.add(Restrictions.eq("id_user", idUser));
+//			criteria.add(Restrictions.ge("date", from));
+//			criteria.add(Restrictions.lt("date", to));
+//		}
+//		
+//		List<Timetable> table = null;
+//
+//	    table = criteria.list();
+//	    
+//	    if (session != null && session.isOpen()) {
+//	    	session.close();
+//	        factory.close();
+//	        }
+//
+//	    return table;
+//	}
 
 	//Set Or Update TimeSheet
-	public static void setOrUpdateTimeSheet(Timetable table) {	
+	public void setOrUpdateTimeSheet(Timetable table) {	
 		
 		SessionFactory factory = null;
 		Session session = null;
-//ntynr
+
 		try {
 			factory = HDButils.getFactory(Timetable.class);
 			session = factory.openSession();
@@ -113,25 +109,25 @@ public class TimeSheetMethods {
 		
 	}
 	
-//	public static boolean checkPassword (int id, String password)   {
-//		boolean check=false;
-//		System.out.println("password in metodo: " + password);
-//		System.out.println(id);
-//		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
-//		EntityManager entitymanager = emfactory.createEntityManager();
-//		UserT user = entitymanager.find(UserT.class, id);
-//		
-//		if (user==null)  {
-//			System.out.println("non è stato trovato nulla");
-//		}
-//		System.out.println(user.getPassword());
-//		if (user.getPassword().equals(password))  
-//			check=true;
-//		
-//		
-////		System.out.println(check);
-//		return check;
-//	}
+	public boolean checkPassword (int id, String password)   {
+		boolean check=false;
+		System.out.println("password in metodo: " + password);
+		System.out.println(id);
+		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
+		EntityManager entitymanager = emfactory.createEntityManager();
+		UserT user = entitymanager.find(UserT.class, id);
+		
+		if (user==null)  {
+			System.out.println("non è stato trovato nulla");
+		}
+		System.out.println(user.getPassword());
+		if (user.getPassword().equals(password))  
+			check=true;
+		
+		
+//		System.out.println(check);
+		return check;
+	}
 	
 	//RECUPERA UTENTI PER DATA
 	public static List takeRecordsFromDate (Date startDate)  {

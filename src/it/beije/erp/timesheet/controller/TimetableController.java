@@ -1,4 +1,4 @@
-package it.beije.timesheet.controller;
+package it.beije.erp.timesheet.controller;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
@@ -7,6 +7,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Locale;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
@@ -19,14 +20,19 @@ import org.springframework.web.context.annotation.SessionScope;
 
 import com.mysql.cj.xdevapi.TableImpl;
 
-import it.beije.timesheet.entities.Timetable;
-import it.beije.timesheet.entities.User;
+import it.beije.erp.timesheet.entity.Timetable;
+import it.beije.erp.timesheet.entity.UserT;
+import it.beije.erp.timesheet.service.TimetableService;
 import it.beije.timesheet.entities.methods.TimeSheetMethods;
 
 
 @Controller
 @SessionScope
-public class HomeController {
+public class TimetableController {
+	
+	@Autowired
+	private TimetableService timetableService;
+	
 
 	private Timetable table = null;
 	String password;
@@ -35,7 +41,7 @@ public class HomeController {
 	 * Simply selects the home view to render by returning its name.
 	 */
 	
-	@RequestMapping(value = "/", method = RequestMethod.GET)
+	@RequestMapping(value = "/preHome", method = RequestMethod.GET)
 	public String preHome(Locale locale, Model model) {
 		System.out.println("Home Page Requested, locale = " + locale);
 		Date date = new Date();
@@ -91,7 +97,7 @@ public class HomeController {
 		
 		System.out.println(pass);
 		
-		if (!(TimeSheetMethods.checkPassword(id, pass)))  {
+		if (!(timetableService.checkPassword(id, pass)))  {
 			System.out.println("id e password non corrispondono");
 			return "timetable";
 		}
@@ -230,7 +236,7 @@ public class HomeController {
 		
 		//ricavo l'id degli utenti e ricerco per id_user per recuperare nome e cognome di ogni utente e fare la successiva stampa
 		
-		User utente = TimeSheetMethods.findRecordsFromId(idUser);
+		UserT utente = TimeSheetMethods.findRecordsFromId(idUser);
 				
 		model.addAttribute("utente", utente);
 

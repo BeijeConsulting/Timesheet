@@ -1,11 +1,11 @@
-package it.beije.timesheet.entities;
+package it.beije.erp.timesheet.entity;
 
 
 import javax.persistence.*;
 
 @Entity
 @Table(name = "user")
-public class User {
+public class UserT {
 	
 	@Id 
 	@GeneratedValue

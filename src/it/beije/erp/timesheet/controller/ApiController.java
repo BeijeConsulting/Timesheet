@@ -1,4 +1,4 @@
-package it.beije.formazione.spring.controller;
+package it.beije.erp.timesheet.controller;
 
 import java.io.IOException;
 
@@ -12,10 +12,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import it.beije.erp.timesheet.entity.Timetable;
+import it.beije.erp.timesheet.entity.User;
 import it.beije.erp.timesheet.service.UserService;
-import it.beije.formazione.spring.model.User;
-import it.beije.timesheet.entities.Timetable;
-
 
 
 @Controller

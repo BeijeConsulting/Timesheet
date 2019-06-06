@@ -1,4 +1,4 @@
-package it.beije.formazione.spring.controller;
+package it.beije.erp.timesheet.controller;
 
 import java.text.DateFormat;
 import java.util.Date;
@@ -11,13 +11,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
-import it.beije.formazione.spring.model.Cerca;
-import it.beije.formazione.spring.model.User;
+import it.beije.erp.timesheet.entity.Cerca;
+import it.beije.erp.timesheet.entity.User;
 import it.beije.jpa.GestioneUtenti;
 
 @Controller
 @SessionAttributes("user")
-public class HomeController {
+public class UserController {
 
 	/**
 	 * Simply selects the home view to render by returning its name.

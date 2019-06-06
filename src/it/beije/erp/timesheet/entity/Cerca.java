@@ -1,4 +1,4 @@
-package it.beije.formazione.spring.model;
+package it.beije.erp.timesheet.entity;
 
 public class Cerca {
 	private String utentiTrovati;

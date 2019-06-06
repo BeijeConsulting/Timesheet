@@ -1,4 +1,4 @@
-package it.beije.timesheet.entities;
+package it.beije.erp.timesheet.entity;
 
 import java.io.Serializable;
 import java.sql.Date;
