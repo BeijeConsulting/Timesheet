@@ -50,7 +50,7 @@ tr:nth-child(even) {
 
 <h3>il totale di ore è xy ${timetable.getTot()}</h3> --%>
 
-	<h1 align="center">Dati inseriti per l'utente
+	<h1 align="center">Dati relativi agli utenti
 		${timetable.id_user }</h1>
 
 	<div style="overflow-x: auto;">
