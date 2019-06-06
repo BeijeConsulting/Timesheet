@@ -28,9 +28,7 @@ input[type=submit] {
 <body bgcolor="lightgrey">
 	<div class="message warning" align="center">
 		<h2>Non è stato trovato nessun utente con l'id inserito!</h2>
-		<img
-			src="C:/Users/Padawan06/git/Timesheet/WebContent/WEB-INF/views/img/warning.png"
-			width="50px" height="50px">
+		<a href="https://github.com/BeijeConsulting/Timesheet/blob/gruppo2/WebContent/WEB-INF/views/img/warning.png"></a>
 	</div>
 	<div align="center">
 		<h3>Vuoi riprovare ?</h3>

@@ -123,6 +123,7 @@ public class TimeSheetMethods {
 		return check;
 	}
 	
+	//RECUPERA UTENTI PER DATA
 	public static List takeRecordsFromDate (Date startDate)  {
 		List <Timetable> records = new ArrayList <Timetable> ();
 		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
@@ -136,8 +137,28 @@ public class TimeSheetMethods {
 		return records;
 	}
 	
+	//RECUPERA UTENTE PER ID - DATA
+	public static List<Timetable> takeRecordsFromDateId (Date startDate, int idUtente)  {
+		
+		List <Timetable> records = new ArrayList <Timetable> ();
+		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
+		EntityManager entitymanager = emfactory.createEntityManager();
+//		entitymanager.createQuery(criteriaQuery);
+		TypedQuery<Timetable> q =entitymanager.createQuery("SELECT t FROM Timetable t WHERE t.date >= '"+startDate+"'"+" AND t.id_user = '" + idUtente +"'"+" ORDER BY t.date" ,Timetable.class);
+				
+//		SELECT Orders.OrderID, Customers.CustomerName, Orders.OrderDate
+//		FROM Orders
+//		INNER JOIN Customers
+//		ON Orders.CustomerID=Customers.CustomerID;
+		
+		
+		records = q.getResultList();
+		
+		
+		return records;
+	}
 	
-	
+	//RECUPERA UTENTE PER ID - da DATA a DATA
 	public static List takeRecordsFromDateToDate (Date startDate, Date endDate)  {
 		List <Timetable> records = new ArrayList <Timetable> ();
 		EntityManagerFactory emfactory = JpaEntityManager.getInstance();

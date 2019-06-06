@@ -38,7 +38,8 @@ tr:nth-child(even) {
 
 	<p></p>
 
-	<h1 align="center">Informazioni utenti per la data: ${stampa}</h1>
+	<h1 align="center">Informazioni utente "${utente.first_name}"
+		dalla data: ${data}</h1>
 
 	<div style="overflow-x: auto;">
 
@@ -52,17 +53,40 @@ tr:nth-child(even) {
 				<th>Cell</th>
 				<th>Codice Fiscale</th>
 			</tr>
+			<tr>
+				<td>${utente.id}</td>
+				<td>${utente.first_name}</td>
+				<td>${utente.last_name}</td>
+				<td>${utente.personal_email}</td>
+				<td>${utente.work_email}</td>
+				<td>${utente.phone}</td>
+				<td>${utente.fiscal_code}</td>
+			</tr>
+		</table>
+	</div>
 
-			<c:forEach items="${listaUtenti}" var="u">
-				<tr>
-					<td>${u.id}</td>
-					<td>${u.first_name}</td>
-					<td>${u.last_name}</td>
-					<td>${u.personal_email}</td>
-					<td>${u.work_email}</td>
-					<td>${u.phone}</td>
-					<td>${u.fiscal_code}</td>
-				</tr>
+	<div>
+	<br><br><br>
+		<table>
+			<tr>
+				<th>Data</th>
+				<th>Tipo</th>
+				<th>Inizio1</th>
+				<th>Fine1</th>
+				<th>Inizio2</th>
+				<th>Fine2</th>
+				<th>Totale ore</th>
+			</tr>
+			<c:forEach items="${recordsUser}" var="utente">
+			<tr>
+				<td>${utente.date}</td>
+				<td>${utente.type}</td>
+				<td>${utente.start1}</td>
+				<td>${utente.end1}</td>
+				<td>${utente.start2}</td>
+				<td>${utente.end2}</td>
+				<td>${utente.tot}</td>
+			</tr>
 			</c:forEach>
 		</table>
 	</div>

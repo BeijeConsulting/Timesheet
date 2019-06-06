@@ -35,7 +35,7 @@ input[type=radio] {
 }
 
 input[type=submit] {
-	width: 50%;
+	width: 25%;
 	background-color: #4CAF50;
 	color: white;
 	padding: 14px 20px;
@@ -46,7 +46,7 @@ input[type=submit] {
 }
 
 input[type=reset] {
-	width: 50%;
+	width: 25%;
 	background-color: #4CAF50;
 	color: white;
 	padding: 14px 20px;
@@ -58,13 +58,14 @@ input[type=reset] {
 
 input[type=submit]:hover {
 	background-color: #45a049;
-	input [type=submit]: hover{ 
+	input [type=submit]: hover{  
 	background-color: #45a049;
 }
 
 input[type=reset]:hover {
 	background-color: #45a049;
 }
+
 </style>
 
 </head>
@@ -72,22 +73,21 @@ input[type=reset]:hover {
 
 
 <body>
-	<h1 align="center">Dati di ricerca</h1>
+	<h1 align="center">Ricerca informazioni utente</h1>
 	<br>
-	<h3 align="center">
-		Data: ${serverTime}
-		</h3>
-			<br>
+	<h3 align="center">Data: ${serverTime}</h3>
+	
+	<!-- <br>
 			<h4 align="center">
 				<i>-- inserire almeno uno dei seguenti campi -- <br>
 					(ID_Utente, Data, Tipo di Orario)
 				</i>
 			</h4>
-			<br>
+			<br> -->
 
-			<form action="data" method="get">
 
-				<!-- 	<p>
+
+	<!-- 	<p>
 						<label>ID_User:</label><br> <input type="text"
 							placeholder="Inserisci Id_User" name="Id_user">
 					</p>
@@ -102,14 +102,16 @@ input[type=reset]:hover {
 						</select>
 					</p>
  				-->
- 
-						<label>Inserisci la data</label><br> <input type="date"
-							name="i">
+<div align="center">
+	<form action="data" method="get">
 
-
-					
-						<input type="submit" value="Conferma"><br> <input
-							type="reset" value="Annulla">
-			</form>
+		<label>Inserisci la data</label><br> <input type="date" name="date" required><br>
+		<label>Inserisci l'id utente</label><br><input type="number" name="id" required><br><br>
+		<div>
+		<input type="submit" value="Conferma"> 
+		<input type="reset" value="Annulla">
+		</div>	
+	</form>
+</div>
 </body>
 </html>

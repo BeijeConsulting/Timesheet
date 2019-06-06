@@ -59,7 +59,7 @@ input[type=submit]:hover {
 		<form action="user" method="post">
 			
 			<label class="w3-text-grey">ID utente</label><br> 
-			<input type="text" name="id_user" value="12345" required><br> 
+			<input type="number" name="id_user" value="12345" required><br> 
 			
 			<label class="w3-text-grey">Password</label> <br> 
 
