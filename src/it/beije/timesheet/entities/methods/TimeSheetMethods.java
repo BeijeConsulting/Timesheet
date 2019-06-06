@@ -166,6 +166,28 @@ public class TimeSheetMethods {
 		return records;
 	}
 	
+	
+	//RECUPERA UTENTE PER ID - DATA
+		public static List<Timetable> takeRecordFromDateId (Date date, int idUtente)  {
+			
+			List <Timetable> records = new ArrayList <Timetable> ();
+			EntityManagerFactory emfactory = JpaEntityManager.getInstance();
+			EntityManager entitymanager = emfactory.createEntityManager();
+//			entitymanager.createQuery(criteriaQuery);
+			TypedQuery<Timetable> q =entitymanager.createQuery("SELECT t FROM Timetable t WHERE t.date = '"+date+"'"+" AND t.id_user = '" + idUtente +"'" ,Timetable.class);
+					
+//			SELECT Orders.OrderID, Customers.CustomerName, Orders.OrderDate
+//			FROM Orders
+//			INNER JOIN Customers
+//			ON Orders.CustomerID=Customers.CustomerID;
+			
+			
+			records = q.getResultList();
+			
+			
+			return records;
+		}
+		
 	//RECUPERA UTENTE PER ID - da DATA a DATA
 
 	

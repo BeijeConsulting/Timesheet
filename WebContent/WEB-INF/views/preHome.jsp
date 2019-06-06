@@ -60,7 +60,7 @@ input[type=submit]:hover {
 			<input type="submit" value="Inserisci">
 		</form>
 		<form action="ricerca" method="post">
-			<input type="submit"value="Ricerca Utente">
+			<input type="submit"value="Ricerca/Modifica Utente">
 		</form>
 		
 </body>

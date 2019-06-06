@@ -172,7 +172,7 @@ public class HomeController {
 	@RequestMapping(value = "/NonTiAbbiamoTrovato", method = RequestMethod.GET)
 	public String nonTrovato () {
 		System.out.println("Ti stiamo reinderizzando alla home");
-		return "home";
+		return "preHome";
 	}
 	
 //	@RequestMapping(value = "/data", method = RequestMethod.GET)
@@ -243,6 +243,27 @@ public class HomeController {
 	}
 	
 	
+	@RequestMapping(value = "/modificaUtente", method = RequestMethod.GET)
+	public String modificaUtente(Model model,  @RequestParam("date") java.sql.Date data, @RequestParam("id") int idUser) throws Exception {
+		
+				
+		//ricavo l'id degli utenti e ricerco per id_user per recuperare nome e cognome di ogni utente e fare la successiva stampa
+		if (TimeSheetMethods.findRecordsFromId(idUser)==null)  {
+			System.out.println("Utente non trovato");
+			return "NonTiAbbiamoTrovato";
+		}
+		
+		List<Timetable> timetable = new ArrayList<Timetable>();
+		timetable = TimeSheetMethods.takeRecordsFromDateId(data, idUser);
+		Timetable tableU = null;
+		
+		if(timetable != null)
+			tableU = timetable.get(0);
+		
+		model.addAttribute("timetable",tableU);
+		
+		return "modifica";
+	}
 	
 	
 
