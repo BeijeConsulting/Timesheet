@@ -9,8 +9,11 @@ import java.util.Locale;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.context.annotation.SessionScope;
 
 import it.beije.timesheet.entities.Timetable;
@@ -22,6 +25,7 @@ import it.beije.timesheet.entities.methods.TimeSheetMethods;
 public class HomeController {
 
 	private Timetable table = null;
+	String password;
 
 	/**
 	 * Simply selects the home view to render by returning its name.
@@ -51,7 +55,7 @@ public class HomeController {
 		String formattedDate = dateFormat.format(date);
 
 		model.addAttribute("serverTime", formattedDate);
-
+//		model.addAttribute("password", password);
 		return "home";
 	}
 
@@ -69,30 +73,37 @@ public class HomeController {
 	}
 
 
-	
+//	@PostMapping("/user")
 	@RequestMapping(value = "/user", method = RequestMethod.POST)
-	public String user(@Validated Timetable timetable, Model model) {
+	public String user(@Validated Timetable timetable,@RequestParam("password") String pass, @RequestParam("id_user") int id, Model model) {
 		List <Timetable> tab = new ArrayList <Timetable> ();
+		
 		if (TimeSheetMethods.findRecordsFromId(timetable.getId_user())==null)  {
 			System.out.println("Utente non trovato");
 			return "NonTiAbbiamoTrovato";
 		}
 		
-		//CONTROLLO DEL METODO :
+		System.out.println(pass);
 		
-		tab =TimeSheetMethods.takeRecordsFromDate(timetable.getDate());
-		if (tab!=null)  {
-			System.out.println("Le occorrenze da quella data sono ");
-			for (Timetable r: tab)  {
-				System.out.println(r.getId_user());
-				System.out.println(r.getDate());
-				System.out.println(r.getType());
-				System.out.println(r.getStart1());
-				System.out.println(r.getEnd1());
-				System.out.println(r.getStart2());
-				System.out.println(r.getEnd2());
-			}
+		if (!(TimeSheetMethods.checkPassword(id, pass)))  {
+			System.out.println("id e password non corrispondono");
+			return "home";
 		}
+		
+		//CONTROLLO DEL METODO :
+//		tab =TimeSheetMethods.takeRecordsFromDate(timetable.getDate());
+//		if (tab!=null)  {
+//			System.out.println("Le occorrenze da quella data sono ");
+//			for (Timetable r: tab)  {
+//				System.out.println(r.getId_user());
+//				System.out.println(r.getDate());
+//				System.out.println(r.getType());
+//				System.out.println(r.getStart1());
+//				System.out.println(r.getEnd1());
+//				System.out.println(r.getStart2());
+//				System.out.println(r.getEnd2());
+//			}
+//		}
 		
 		String s1 = timetable.getStart1();
 		String e1 = timetable.getEnd1();
