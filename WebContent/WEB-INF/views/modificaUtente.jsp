@@ -11,16 +11,16 @@
 </head>
 <body>
 
-	<div class="container">
+
 		<h3 class="center">Modifica Utente </h3>      
-		
+			<div class="container">
 		<div class="row">
 			<form class="col s12" action="modificaDati" method="post">
 				
 				<div class="row">
 					<div class="input-field col s6">
 				
-            <input id="ID_utente" type="number" name="ID"  min="1">
+            <input id="ID_utente" type="number" name="id"  min="1">
             <label for="ID_utente">ID Utente</label>
 					</div>
           

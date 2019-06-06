@@ -95,8 +95,17 @@ public class HomeController {
 	
 	@RequestMapping(value = "/modificaDati", method = RequestMethod.POST)
 	public String modificaDati(@Validated User user, Model model, @Validated Cerca trovato) {
-
+		System.out.println("prima");
+		user = GestioneUtenti.trovaID(user.getId());
+		model.addAttribute("user", user);
 		return "modificaDati";
+	}
+	
+	@RequestMapping(value = "/confermaModificaDati", method = RequestMethod.POST)
+	public String confermaModificaDati(@Validated User user, Model model) {
+
+		GestioneUtenti.modificaUtente(user);
+		return "confermaModificaDati";
 	}
 	
 }
