@@ -112,14 +112,21 @@ public class TimeSheetMethods {
 	
 	public static boolean checkPassword (int id, String password)   {
 		boolean check=false;
+		System.out.println("password in metodo: " + password);
+		System.out.println(id);
 		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
 		EntityManager entitymanager = emfactory.createEntityManager();
 		User user = entitymanager.find(User.class, id);
-		if (user.getPassword().equals(password) && user!=null)  {
-			check=true;
+		
+		if (user==null)  {
+			System.out.println("non è stato trovato nulla");
 		}
+		System.out.println(user.getPassword());
+		if (user.getPassword().equals(password))  
+			check=true;
 		
 		
+//		System.out.println(check);
 		return check;
 	}
 	
@@ -127,8 +134,20 @@ public class TimeSheetMethods {
 		List <Timetable> records = new ArrayList <Timetable> ();
 		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
 		EntityManager entitymanager = emfactory.createEntityManager();
-//		entitymanager.createQuery(criteriaQuery);
 		TypedQuery<Timetable> q =entitymanager.createQuery("SELECT t FROM Timetable t WHERE t.date >= '"+startDate+"'" ,Timetable.class);
+		
+		System.out.println(q.getFirstResult());
+		records = q.getResultList();
+		
+		
+		return records;
+	}
+	
+	public static List takeRecordsFromDateToDate (Date startDate, Date endDate)  {
+		List <Timetable> records = new ArrayList <Timetable> ();
+		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
+		EntityManager entitymanager = emfactory.createEntityManager();
+		TypedQuery<Timetable> q =entitymanager.createQuery("SELECT t FROM Timetable t WHERE t.date >= '"+startDate+"' AND t.date<= '"+endDate+"'" ,Timetable.class);
 		
 		System.out.println(q.getFirstResult());
 		records = q.getResultList();
@@ -170,6 +189,42 @@ public class TimeSheetMethods {
 //		double tempo = MINUTES.between(t1, t2)+MINUTES.between(t3,t4);
 //		return tempo/60;
 //	}
+	
+	public static List searchFromType (char type)  {
+		List <Timetable> records = new ArrayList <Timetable> ();
+		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
+		EntityManager entitymanager = emfactory.createEntityManager();
+		TypedQuery<Timetable> q =entitymanager.createQuery("SELECT t FROM Timetable t WHERE t.type='"+ type +"'", Timetable.class);
+		records = q.getResultList();
+		
+		return records;
+	}
+	
+	public static List smartSearch (Date date1, Date date2, char type)  {
+		List <Timetable> records = new ArrayList <Timetable> ();
+		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
+		EntityManager entitymanager = emfactory.createEntityManager();
+		
+		if (date1==null && date2==null) 
+			records = searchFromType(type);
+		else  
+		if (date2==null && type==0)  
+			records=takeRecordsFromDate(date1);
+		else
+		if (date1!=null && date2!=null && type==0) {
+			records =  takeRecordsFromDateToDate(date1, date2);
+		} 
+		else 
+			{
+			TypedQuery<Timetable> q =entitymanager.createQuery("SELECT t FROM Timetable t WHERE t.type='"+ type +"' AND t.date >= '"+ date1 +"' AND t.date<= '"+ date2 +"'", Timetable.class);
+			records = q.getResultList();
+		} 
+		if (records.isEmpty())  {
+			System.out.println("nessun risultato trovato");
+		}
+		
+		return records;
+	}
 	
 	public static void creaoModificaRecord (Timetable table) {
 		
