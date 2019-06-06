@@ -132,51 +132,25 @@ public static void modificaUtente(User user) {
 		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
 		EntityManager entitymanager = emfactory.createEntityManager();
 		entitymanager.getTransaction().begin();
-		System.out.println("sono in metodo modificaUtente");
-		String modifica="UPDATE user a SET";
+		System.out.println("sono nel metodo modificaUtente");
+		String modifica="UPDATE User a SET";
 
-//
-//			utente.setFirstName(user.getFirstName());
-//		user.setLastName(user.getLastName());
-//		user.setPersonalEmail(user.getPersonalEmail());
-//		user.setWorkEmail(user.getWorkEmail());
-//		user.setPhone(user.getPhone());
-//		user.setFiscalCode(user.getFirstName());
-//		user.setAdmin(0);
-//		user.setPassword(user.getPassword());
-//
-//		
-//		entitymanager.persist(user);
-//		entitymanager.getTransaction().commit();
-//		
-
-
-		modifica += " a.first_name= '" +user.getFirstName();
-		modifica += "' , a.last_name= '" + user.getLastName();
-		modifica += "' , a.personal_email= '" +user.getPersonalEmail();
-		modifica += "' , a.work_email= '" + user.getWorkEmail();
+		modifica += " a.firstName= '" +user.getFirstName();
+		modifica += "' , a.lastName= '" + user.getLastName();
+		modifica += "' , a.personalEmail= '" +user.getPersonalEmail();
+		modifica += "' , a.workEmail= '" + user.getWorkEmail();
 		modifica += "' , a.phone= '" +user.getPhone();
-		modifica += "' , a.fiscal_code= '" + user.getFiscalCode();
+		modifica += "' , a.fiscalCode= '" + user.getFiscalCode();
 		modifica += "' , a.password= '" +user.getPassword() +"'";
 		
-//		modifica += " WHERE a.id= "+user.getId()+";";
-		modifica += " WHERE a.id=  4";
-		Query q = entitymanager.createNativeQuery(modifica);
+		modifica += " WHERE a.id= "+user.getId();
+//		modifica += " WHERE a.id=  10";
+		Query q = entitymanager.createQuery(modifica);
+		int rowsUpdated = q.executeUpdate();
+		
+		
+		//System.out.println(rowsUpdated);
 
-		
-		System.out.println(modifica);
-		System.out.println("modificato");
-	//s	return "trovato" + user.getFirstName();
-		
-		
-		
-//		
-//		 User u= (User)entitymanager.find(User.class , 4);
-		entitymanager
-		     .createQuery(modifica)
-		     .executeUpdate();
-		
-		entitymanager.persist(user);
 		entitymanager.getTransaction().commit();
 
 
