@@ -71,6 +71,7 @@ public class UserController {
 	
 	@RequestMapping(value = "/cercaUtente", method = RequestMethod.POST)
 	public String cercaUtente(@Validated User user, Model model) {
+		
 
 		return "cercaUtente";
 	}
