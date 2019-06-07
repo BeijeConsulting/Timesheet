@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import it.beije.erp.timesheet.entity.User;
+import it.beije.erp.timesheet.service.UserService;
 import it.beije.jpa.GestioneUtenti;
 
 @Controller
@@ -56,7 +57,7 @@ public class UserController {
 
 	@RequestMapping(value = "/conferma", method = RequestMethod.POST)
 	public String conferma(@Validated User user, Model model) {
-		GestioneUtenti.creaUtente(user);
+		new UserService().create(user);
 		System.out.println("sono in confernama " + user.getFirstName());
 		return "conferma";
 	}
