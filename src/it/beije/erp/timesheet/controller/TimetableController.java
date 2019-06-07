@@ -178,7 +178,7 @@ public class TimetableController {
 	@RequestMapping(value = "/NonTiAbbiamoTrovato", method = RequestMethod.GET)
 	public String nonTrovato () {
 		System.out.println("Ti stiamo reinderizzando alla home");
-		return "preHome";
+		return "";
 	}
 	
 //	@RequestMapping(value = "/data", method = RequestMethod.GET)

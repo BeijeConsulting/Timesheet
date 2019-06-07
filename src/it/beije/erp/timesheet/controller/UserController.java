@@ -15,7 +15,6 @@ import it.beije.erp.timesheet.entity.Cerca;
 import it.beije.erp.timesheet.entity.User;
 import it.beije.jpa.GestioneUtenti;
 
-@Controller
 @SessionAttributes("user")
 public class UserController {
 

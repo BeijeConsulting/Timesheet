@@ -67,7 +67,7 @@ public class DBImportExport {
 		    String admin = parts[7];
 		    String password = parts[8];
 		    
-		    utente.setFirst_name(first_name);
+		    utente.setFirstName(first_name);
 //		    utente.setLast_name(last_name);
 //		    utente.setPersonal_email(personal_email);
 //		    utente.setWork_email(work_email);

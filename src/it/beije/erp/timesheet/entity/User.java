@@ -33,7 +33,7 @@ public class User {
 	private String fiscalCode;
 	
 	@Column(name = "admin")
-	private Boolean admin;
+	private int admin;
 	
 	@Column(name = "password")
 	private String password;
@@ -58,7 +58,7 @@ public class User {
 	public String getFirstName() {
 		return firstName;
 	}
-	public void setFirst_name(String firstName) {
+	public void setFirstName(String firstName) {
 		this.firstName = firstName;
 	}
 	
@@ -103,10 +103,10 @@ public class User {
 	}
 	
 	
-	public Boolean getAdmin() {
+	public int getAdmin() {
 		return admin;
 	}
-	public void setAdmin(Boolean admin) {
+	public void setAdmin(int admin) {
 		this.admin = admin;
 	}
 	
