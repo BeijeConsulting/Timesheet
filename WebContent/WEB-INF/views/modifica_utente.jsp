@@ -12,10 +12,10 @@
 <body>
 
 
-		<h3 class="center">Cancella Utente </h3>      
+		<h3 class="center">Modifica Utente </h3>      
 			<div class="container">
 		<div class="row">
-			<form class="col s12" action="confermaCancellazione" method="post">
+			<form class="col s12" action="modifica_dati" method="post">
 				
 				<div class="row">
 					<div class="input-field col s6">

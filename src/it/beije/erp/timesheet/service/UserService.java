@@ -107,8 +107,8 @@ public class UserService {
 		EntityManager entitymanager = emfactory.createEntityManager();
 
 		User user = entitymanager.find(User.class, id);
-
-		System.out.println("trovato" + user.getFirstName());
+//
+//		System.out.println("trovato" + user.getFirstName());
 
 		return user;
 	}

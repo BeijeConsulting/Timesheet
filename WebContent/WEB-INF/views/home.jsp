@@ -20,25 +20,25 @@
 
     <div class="row">
       <div class="col s3">
-	<form action="inserisciUtente" method="post">
+	<form action="inserisci_utente" method="post">
         <input class="btn green" type="submit" value="Inserisci utente">
 	</form>
 	</div>
 	
 	  <div class="col s3">
-		<form action="modificaUtente" method="post">
+		<form action="modifica_utente" method="post">
         <input class="btn green" type="submit" value="modifica utente">
 	</form>
 	</div>
 	
 	  <div class="col s3">
-		<form action="cancellaUtente" method="post">
+		<form action="cancella_utente" method="post">
         <input class="btn green" type="submit" value="cancella utente">
 	</form>
 	</div>
 	
 	  <div class="col s3">
-			<form action="cercaUtente" method="post">
+			<form action="cerca_utente" method="post">
         <input class="btn green" type="submit" value="cerca utente">
 	</form>
 	</div>

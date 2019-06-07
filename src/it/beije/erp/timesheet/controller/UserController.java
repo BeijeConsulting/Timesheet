@@ -35,24 +35,24 @@ public class UserController {
 		return "home";
 	}
 
-	@RequestMapping(value = "/confermaDati", method = RequestMethod.POST)
+	@RequestMapping(value = "/conferma_dati", method = RequestMethod.POST)
 	public String confermaDati(@Validated User user, Model model) {
-		System.out.println("pagina confermaDati: " + user.getFirstName());
+		System.out.println("pagina conferma_dati: " + user.getFirstName());
 
 		//Passa i parametri alla view ritornato
 		//		model.addAttribute("userName", user.getFirstName());
 		model.addAttribute("user", user);
-		return "confermaDati";
+		return "conferma_dati";
 	}
 
-	@RequestMapping(value = "/inserisciUtente", method = RequestMethod.POST)
+	@RequestMapping(value = "/inserisci_utente", method = RequestMethod.POST)
 	public String index(@Validated User user, Model model) {
 		System.out.println("Pagine inseriti: " + user.getLastName());
 		model.addAttribute("userName", user.getFirstName());
 
-		System.out.println("sono in inserisciUtente");
+		System.out.println("sono in inserisci_utente");
 
-		return "inserisciUtente";
+		return "inserisci_utente";
 	}
 
 	@RequestMapping(value = "/conferma", method = RequestMethod.POST)
@@ -63,54 +63,69 @@ public class UserController {
 		return "conferma";
 	}
 
-	@RequestMapping(value = "/modificaUtente", method = RequestMethod.POST)
+	@RequestMapping(value = "/modifica_utente", method = RequestMethod.POST)
 	public String modificaUtente(@Validated User user, Model model) {
 
-		return "modificaUtente";
+		return "modifica_utente";
 	}
 
 
 	
-	@RequestMapping(value = "/cercaUtente", method = RequestMethod.POST)
+	@RequestMapping(value = "/cerca_utente", method = RequestMethod.POST)
 	public String cercaUtente(@Validated User user, Model model) {
 		
-		return "cercaUtente";
+		return "cerca_utente";
 	}
 	
-	@RequestMapping(value = "/utentiTrovati", method = RequestMethod.GET)
+	@RequestMapping(value = "/utenti_trovati", method = RequestMethod.GET)
 	public String utentiTrovati(@Validated User user, Model model) {
 		String trovati = new UserService().trovaUtente(user.getFirstName(),user.getLastName());
 		user.setPersonalEmail(trovati);
-		return "utentiTrovati";
+		return "utenti_trovati";
 	}
 
 	
-	@RequestMapping(value = "/modificaDati", method = RequestMethod.POST)
+	@RequestMapping(value = "/modifica_dati", method = RequestMethod.POST)
 	public String modificaDati(@Validated User user, Model model) {
-		System.out.println("prima");
+		
+		try {
+		
 		user = new UserService().trovaID(user.getId());
+		user.getFirstName();
 		model.addAttribute("user", user);
-		return "modificaDati";
+			return "modifica_dati";
+		}
+		catch (NullPointerException e) {
+			return "id_non_trovato";
+		}
+	
 	}
 	
-	@RequestMapping(value = "/confermaModificaDati", method = RequestMethod.POST)
+	@RequestMapping(value = "/id_non_trovato", method = RequestMethod.POST)
+	public String idNonTrovato(@Validated User user, Model model) {
+
+		
+		return "id_non_trovato";
+	}
+	
+	@RequestMapping(value = "/conferma_modifica_dati", method = RequestMethod.POST)
 	public String confermaModificaDati(@Validated User user, Model model) {
 
 		new UserService().modificaUtente(user);
-		return "confermaModificaDati";
+		return "conferma_modifica_dati";
 	}
 	
-	@RequestMapping(value = "/cancellaUtente", method = RequestMethod.POST)
+	@RequestMapping(value = "/cancella_utente", method = RequestMethod.POST)
 	public String cancellaUtente(@Validated User user, Model model) {
 
-		return "cancellaUtente";
+		return "cancella_utente";
 	}
 
-	@RequestMapping(value = "/confermaCancellazione", method = RequestMethod.POST)
+	@RequestMapping(value = "/conferma_cancellazione", method = RequestMethod.POST)
 	public String confermaCancellazione(@Validated User user, Model model) {
 
 		new UserService().archiviaUtente(user);
-		return "confermaCancellazione";
+		return "conferma_cancellazione";
 	}
 	
 }
