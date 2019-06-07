@@ -87,7 +87,7 @@ public class TimetableController {
 
 //	@PostMapping("/user")
 	@RequestMapping(value = "/user", method = RequestMethod.POST)
-	public String user(@Validated Timetable timetable,@RequestParam("password") String pass, @RequestParam("id_user") int id, Model model) {
+	public String user(@Validated Timetable timetable,@RequestParam("password") String pass, @RequestParam("idUser") int id, Model model) {
 		List <Timetable> tab = new ArrayList <Timetable> ();
 		
 		if (TimetableService.findRecordsFromId(timetable.getIdUser())==null)  {
