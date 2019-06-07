@@ -58,6 +58,7 @@ public class UserController {
 	@RequestMapping(value = "/conferma", method = RequestMethod.POST)
 	public String conferma(@Validated User user, Model model) {
 		new UserService().create(user);
+		
 		System.out.println("sono in confernama " + user.getFirstName());
 		return "conferma";
 	}
@@ -73,13 +74,12 @@ public class UserController {
 	@RequestMapping(value = "/cercaUtente", method = RequestMethod.POST)
 	public String cercaUtente(@Validated User user, Model model) {
 		
-
 		return "cercaUtente";
 	}
 	
 	@RequestMapping(value = "/utentiTrovati", method = RequestMethod.GET)
 	public String utentiTrovati(@Validated User user, Model model) {
-		String trovati = GestioneUtenti.trovaUtente(user.getFirstName(),user.getLastName());
+		String trovati = new UserService().trovaUtente(user.getFirstName(),user.getLastName());
 		user.setPersonalEmail(trovati);
 		return "utentiTrovati";
 	}
@@ -88,7 +88,7 @@ public class UserController {
 	@RequestMapping(value = "/modificaDati", method = RequestMethod.POST)
 	public String modificaDati(@Validated User user, Model model) {
 		System.out.println("prima");
-		user = GestioneUtenti.trovaID(user.getId());
+		user = new UserService().trovaID(user.getId());
 		model.addAttribute("user", user);
 		return "modificaDati";
 	}
@@ -96,7 +96,7 @@ public class UserController {
 	@RequestMapping(value = "/confermaModificaDati", method = RequestMethod.POST)
 	public String confermaModificaDati(@Validated User user, Model model) {
 
-		GestioneUtenti.modificaUtente(user);
+		new UserService().modificaUtente(user);
 		return "confermaModificaDati";
 	}
 	
@@ -109,7 +109,7 @@ public class UserController {
 	@RequestMapping(value = "/confermaCancellazione", method = RequestMethod.POST)
 	public String confermaCancellazione(@Validated User user, Model model) {
 
-		GestioneUtenti.archiviaUtente(user);
+		new UserService().archiviaUtente(user);
 		return "confermaCancellazione";
 	}
 	
