@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import it.beije.erp.timesheet.entity.Timetable;
 import it.beije.erp.timesheet.entity.User;
 import it.beije.erp.timesheet.service.UserService;
@@ -32,23 +34,24 @@ public class ApiController {
     	
     	user.setId(user.getId() + 1);
     	
-    	response.setStatus(200);
-    	response.setContentType("application/json");
-    	response.getWriter().append(user.toString());
+    	ObjectMapper objectMapper = new ObjectMapper();
+    	response.setStatus(200);//STATO RISPOSTA
+    	response.setContentType("application/json");//TIPO RISPOSTA
+    	response.getWriter().append(objectMapper.writeValueAsString(user));//CORPO RISPOSTA
     }
 
-    @RequestMapping(value = "/user", method = RequestMethod.POST,
-            consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void createUser(@RequestBody User user, Model model,
-    		HttpServletResponse response) throws IOException {
-    	System.out.println("saving user: "+user.getFirstName());
-    	
-    	userService.create(user);
-    	
-    	response.setStatus(200);
-//    	response.setContentType("application/json");
-//    	response.getWriter().append(user.toString());
-    }
+//    @RequestMapping(value = "/user", method = RequestMethod.POST,
+//            consumes = MediaType.APPLICATION_JSON_VALUE)
+//    public void createUser(@RequestBody User user, Model model,
+//    		HttpServletResponse response) throws IOException {
+//    	System.out.println("saving user: "+user.getFirstName());
+//    	
+//    	userService.create(user);
+//    	
+//    	response.setStatus(200);
+////    	response.setContentType("application/json");
+////    	response.getWriter().append(user.toString());
+//    }
 
 
 	@RequestMapping(value = "/testJsonTT", method = RequestMethod.POST,
@@ -57,9 +60,10 @@ public class ApiController {
     		HttpServletResponse response) throws IOException {
     	System.out.println("timetable : "+timetable);
     	
-    	response.setStatus(200);
-    	response.setContentType("application/json");
-    	response.getWriter().append(timetable.toString());
+    	ObjectMapper objectMapper = new ObjectMapper();
+    	response.setStatus(200);//STATO RISPOSTA
+    	response.setContentType("application/json");//TIPO RISPOSTA
+    	response.getWriter().append(objectMapper.writeValueAsString(timetable));//CORPO RISPOSTA
     }
 
 }
