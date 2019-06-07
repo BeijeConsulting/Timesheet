@@ -26,7 +26,7 @@ import org.hibernate.criterion.Restrictions;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import it.beije.erp.timesheet.entity.UserT;
+import it.beije.erp.timesheet.entity.User;
 
 public class DBImportExport {
 	
@@ -49,13 +49,13 @@ public class DBImportExport {
 		
 		String[] insert = new String[rows.size()]; //ritorna tutte le query necessarie
 
-		List <UserT> user = new ArrayList<UserT>();//.add(Restrictions.eq("nome", "pippo"))
+		List <User> user = new ArrayList<User>();//.add(Restrictions.eq("nome", "pippo"))
 
 		int i=0;
 		//INSERT
 		for (String conversione : rows) {
 			Transaction transaction = session.beginTransaction();
-			UserT utente = new UserT();
+			User utente = new User();
 		    String[] parts = conversione.split(";");
 		    
 		    String first_name = parts[1];
@@ -68,19 +68,19 @@ public class DBImportExport {
 		    String password = parts[8];
 		    
 		    utente.setFirst_name(first_name);
-		    utente.setLast_name(last_name);
-		    utente.setPersonal_email(personal_email);
-		    utente.setWork_email(work_email);
-		    utente.setPhone(phone);
-		    utente.setFiscal_code(fiscal_code);
-		    utente.setAdmin(Boolean.parseBoolean(admin));
-		    utente.setPassword(password);
-		    
-		    if (UserMethods.getUser(utente.getFiscal_code()) == null) {
-		    	session.save(utente);
-		    } else {
-		    	System.out.println("Utente già esistente");
-		    }
+//		    utente.setLast_name(last_name);
+//		    utente.setPersonal_email(personal_email);
+//		    utente.setWork_email(work_email);
+//		    utente.setPhone(phone);
+//		    utente.setFiscal_code(fiscal_code);
+//		    utente.setAdmin(Boolean.parseBoolean(admin));
+//		    utente.setPassword(password);
+//		    
+//		    if (UserMethods.getUser(utente.getFiscal_code()) == null) {
+//		    	session.save(utente);
+//		    } else {
+//		    	System.out.println("Utente già esistente");
+//		    }
 		    
 		    transaction.commit();;
 		}
@@ -97,35 +97,35 @@ public class DBImportExport {
 		SessionFactory factory = DBImportExport.getFactory();
 		Session session = factory.openSession();
 				
-		Criteria criteria = session.createCriteria(UserT.class);
+		Criteria criteria = session.createCriteria(User.class);
 		
-		List<UserT> user = null;
+		List<User> user = null;
 		
         try {
             FileWriter fw = new FileWriter(pathfile);
 			
 	        user = criteria.list();
 
-            for (UserT i : user) {
-                fw.append(String.valueOf(i.getId()));
-                fw.append(';');
-                fw.append(i.getFirst_name());
-                fw.append(';');
-                fw.append(i.getLast_name());
-                fw.append(';');
-                fw.append(i.getPersonal_email());
-                fw.append(';');
-                fw.append(i.getWork_email());
-                fw.append(';');
-                fw.append(i.getPhone());
-                fw.append(';');
-                fw.append(i.getFiscal_code());
-                fw.append(';');
-                fw.append(String.valueOf(i.getAdmin()));
-                fw.append(';');
-                fw.append(i.getPassword());
-                fw.append('\n');
-               }
+//            for (User i : user) {
+//                fw.append(String.valueOf(i.getId()));
+//                fw.append(';');
+//                fw.append(i.getFirst_name());
+//                fw.append(';');
+//                fw.append(i.getLast_name());
+//                fw.append(';');
+//                fw.append(i.getPersonal_email());
+//                fw.append(';');
+//                fw.append(i.getWork_email());
+//                fw.append(';');
+//                fw.append(i.getPhone());
+//                fw.append(';');
+//                fw.append(i.getFiscal_code());
+//                fw.append(';');
+//                fw.append(String.valueOf(i.getAdmin()));
+//                fw.append(';');
+//                fw.append(i.getPassword());
+//                fw.append('\n');
+//               }
             fw.flush();
             fw.close();
             System.out.println("CSV File creato correttamente.");
@@ -146,9 +146,9 @@ public class DBImportExport {
 		SessionFactory factory = DBImportExport.getFactory();
 		Session session = factory.openSession();
 				
-		Criteria criteria = session.createCriteria(UserT.class);
+		Criteria criteria = session.createCriteria(User.class);
 		
-		List<UserT> user = null;
+		List<User> user = null;
 		
 		 DocumentBuilderFactory dFact = DocumentBuilderFactory.newInstance();
 	        DocumentBuilder build = dFact.newDocumentBuilder();
@@ -162,69 +162,69 @@ public class DBImportExport {
 		try {
 	        user = criteria.list();
 
-	        for (UserT i : user) {
-            	String row = String.valueOf(i.getId()) + ";" + i.getFirst_name() + ";" + i.getLast_name() + ";" 
-            				+ i.getPersonal_email() + ";" + i.getWork_email() + ";" + i.getPhone() 
-            				+ ";" + i.getFiscal_code() + ";" + String.valueOf(i.getAdmin()) + ";" + i.getPassword() + ";";
-            	String[] parts = row.split(";");
-            	
-            	Element Details = doc.createElement("Dipendente");
-		        root.appendChild(Details);	
-		        
-		        String id_element = parts[0];
-		        String first_name_element = parts[1];
-		        String last_name_element = parts[2];
-		        String personal_email_element = parts[3];
-		        String work_email_element = parts[4];
-		        String phone_element = parts[5];
-		        String fiscal_code_element = parts[6];
-		        String admin_element = parts[7];
-		        String password_element = parts[8];
-
-	            Element id = doc.createElement("id");
-	            id.appendChild(doc.createTextNode(id_element));
-	            Details.appendChild(id);
-
-		        
-	            Element first_name = doc.createElement("first_name");
-	            first_name.appendChild(doc.createTextNode(first_name_element));
-	            Details.appendChild(first_name);
-
-	            
-	            Element last_name = doc.createElement("last_name");
-	            last_name.appendChild(doc.createTextNode(last_name_element));
-	            Details.appendChild(last_name);
-
-	            
-	            Element personal_email = doc.createElement("personal_mail");
-	            personal_email.appendChild(doc.createTextNode(personal_email_element));
-	            Details.appendChild(personal_email);
-
-	            
-	            Element work_email = doc.createElement("work_mail");
-	            work_email.appendChild(doc.createTextNode(work_email_element));
-	            Details.appendChild(work_email);
-	            
-	            
-	            Element phone = doc.createElement("phone");
-	            phone.appendChild(doc.createTextNode(phone_element));
-	            Details.appendChild(phone);
-
-	            
-	            Element fiscal_code = doc.createElement("fiscal_code");
-	            fiscal_code.appendChild(doc.createTextNode(fiscal_code_element));
-	            Details.appendChild(fiscal_code);
-
-	            
-	            Element admin = doc.createElement("admin");
-	            admin.appendChild(doc.createTextNode(admin_element));
-	            Details.appendChild(admin);
-
-
-	            Element password = doc.createElement("password");
-	            password.appendChild(doc.createTextNode(password_element));
-	            Details.appendChild(password);
-               } //end while
+//	        for (User i : user) {
+//            	String row = String.valueOf(i.getId()) + ";" + i.getFirst_name() + ";" + i.getLast_name() + ";" 
+//            				+ i.getPersonal_email() + ";" + i.getWork_email() + ";" + i.getPhone() 
+//            				+ ";" + i.getFiscal_code() + ";" + String.valueOf(i.getAdmin()) + ";" + i.getPassword() + ";";
+//            	String[] parts = row.split(";");
+//            	
+//            	Element Details = doc.createElement("Dipendente");
+//		        root.appendChild(Details);	
+//		        
+//		        String id_element = parts[0];
+//		        String first_name_element = parts[1];
+//		        String last_name_element = parts[2];
+//		        String personal_email_element = parts[3];
+//		        String work_email_element = parts[4];
+//		        String phone_element = parts[5];
+//		        String fiscal_code_element = parts[6];
+//		        String admin_element = parts[7];
+//		        String password_element = parts[8];
+//
+//	            Element id = doc.createElement("id");
+//	            id.appendChild(doc.createTextNode(id_element));
+//	            Details.appendChild(id);
+//
+//		        
+//	            Element first_name = doc.createElement("first_name");
+//	            first_name.appendChild(doc.createTextNode(first_name_element));
+//	            Details.appendChild(first_name);
+//
+//	            
+//	            Element last_name = doc.createElement("last_name");
+//	            last_name.appendChild(doc.createTextNode(last_name_element));
+//	            Details.appendChild(last_name);
+//
+//	            
+//	            Element personal_email = doc.createElement("personal_mail");
+//	            personal_email.appendChild(doc.createTextNode(personal_email_element));
+//	            Details.appendChild(personal_email);
+//
+//	            
+//	            Element work_email = doc.createElement("work_mail");
+//	            work_email.appendChild(doc.createTextNode(work_email_element));
+//	            Details.appendChild(work_email);
+//	            
+//	            
+//	            Element phone = doc.createElement("phone");
+//	            phone.appendChild(doc.createTextNode(phone_element));
+//	            Details.appendChild(phone);
+//
+//	            
+//	            Element fiscal_code = doc.createElement("fiscal_code");
+//	            fiscal_code.appendChild(doc.createTextNode(fiscal_code_element));
+//	            Details.appendChild(fiscal_code);
+//
+//	            
+//	            Element admin = doc.createElement("admin");
+//	            admin.appendChild(doc.createTextNode(admin_element));
+//	            Details.appendChild(admin);
+//
+//
+//	            Element password = doc.createElement("password");
+//	            password.appendChild(doc.createTextNode(password_element));
+//	            Details.appendChild(password);
+//               } //end while
 		} 
 		catch(Exception e) {
 			System.out.println(e.getMessage());
@@ -286,7 +286,7 @@ public class DBImportExport {
 	//CONNESSIONE AL FACTORY
 	private static SessionFactory getFactory() throws Exception {
 		SessionFactory factory = new Configuration().configure()
-				.addAnnotatedClass(UserT.class)
+				.addAnnotatedClass(User.class)
 				.buildSessionFactory();		
 		return factory;
 	}

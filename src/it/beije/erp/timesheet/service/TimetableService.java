@@ -15,99 +15,19 @@ import static java.time.temporal.ChronoUnit.MINUTES;
 import java.sql.Date;
 import java.text.DecimalFormat;
 
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
+
 import org.springframework.stereotype.Service;
 
 import it.beije.erp.timesheet.entity.Timetable;
-import it.beije.erp.timesheet.entity.UserT;
+import it.beije.erp.timesheet.entity.User;
 import it.beije.jpa.JpaEntityManager;
-import it.beije.timesheet.HDButils;
+
 
 
 @Service
 public class TimetableService {
-	
-	//Get Timesheet of a User By ID
-	
-//	public static List<Timetable> getTimeSheetOfUserById(int idUser) throws Exception {
-//		
-//		SessionFactory factory = HDButils.getFactory(Timetable.class);
-//		Session session = factory.openSession();
-//		
-//		Criteria criteria = session.createCriteria(Timetable.class);
-//		
-//		if(idUser != 0) {
-//			criteria.add(Restrictions.eq("id_user", idUser));
-//		}
-//		
-//		List<Timetable> table = null;
-//
-//	    table = criteria.list();
-//	    
-//	    if (session != null && session.isOpen()) {
-//	    	session.close();
-//	        factory.close();
-//	        }
-//
-//	    return table;
-//	}
-	
-	//Get TimeSheet of a User By ID and Period
-//	public static List<Timetable> getTimeSheetOfUserByIdAndPeriod(int idUser, LocalDate from, LocalDate to) throws Exception {
-//	    
-//		if (to.isBefore(from)) {
-//	        throw new IllegalArgumentException("Invalid range");
-//	    }
-//		
-//		SessionFactory factory = HDButils.getFactory(Timetable.class);
-//		Session session = factory.openSession();
-//		
-//		Criteria criteria = session.createCriteria(Timetable.class);
-//		
-//		if(idUser != 0 && from != null && to != null) {
-//			criteria.add(Restrictions.eq("id_user", idUser));
-//			criteria.add(Restrictions.ge("date", from));
-//			criteria.add(Restrictions.lt("date", to));
-//		}
-//		
-//		List<Timetable> table = null;
-//
-//	    table = criteria.list();
-//	    
-//	    if (session != null && session.isOpen()) {
-//	    	session.close();
-//	        factory.close();
-//	        }
-//
-//	    return table;
-//	}
 
-	//Set Or Update TimeSheet
-	public void setOrUpdateTimeSheet(Timetable table) {	
-		
-		SessionFactory factory = null;
-		Session session = null;
 
-		try {
-			factory = HDButils.getFactory(Timetable.class);
-			session = factory.openSession();
-			
-			Transaction transaction = session.beginTransaction();
-		    
-			session.saveOrUpdate(table);
-			
-			transaction.commit();
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}finally {
-			session.close();
-			factory.close();
-		}
-		
-	}
 	
 	public boolean checkPassword (int id, String password)   {
 		boolean check=false;
@@ -115,7 +35,7 @@ public class TimetableService {
 		System.out.println(id);
 		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
 		EntityManager entitymanager = emfactory.createEntityManager();
-		UserT user = entitymanager.find(UserT.class, id);
+		User user = entitymanager.find(User.class, id);
 		
 		if (user==null)  {
 			System.out.println("non è stato trovato nulla");
@@ -130,7 +50,7 @@ public class TimetableService {
 	}
 	
 	//RECUPERA UTENTI PER DATA
-	public static List takeRecordsFromDate (Date startDate)  {
+	public List takeRecordsFromDate (Date startDate)  {
 		List <Timetable> records = new ArrayList <Timetable> ();
 		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
 		EntityManager entitymanager = emfactory.createEntityManager();
@@ -145,19 +65,15 @@ public class TimetableService {
 	}
 	
 	//RECUPERA UTENTE PER ID - DATA
-	public static List<Timetable> takeRecordsFromDateId (Date startDate, int idUtente)  {
+	public List <Timetable> takeRecordsFromDateId (Date startDate, int idUtente)  {
 		
 		List <Timetable> records = new ArrayList <Timetable> ();
 		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
 		EntityManager entitymanager = emfactory.createEntityManager();
-//		entitymanager.createQuery(criteriaQuery);
+
 		TypedQuery<Timetable> q =entitymanager.createQuery("SELECT t FROM Timetable t WHERE t.date >= '"+startDate+"'"+" AND t.id_user = '" + idUtente +"'"+" ORDER BY t.date" ,Timetable.class);
 				
-//		SELECT Orders.OrderID, Customers.CustomerName, Orders.OrderDate
-//		FROM Orders
-//		INNER JOIN Customers
-//		ON Orders.CustomerID=Customers.CustomerID;
-		
+
 		
 		records = q.getResultList();
 		
@@ -167,7 +83,7 @@ public class TimetableService {
 	
 	
 	//RECUPERA UTENTE PER ID - DATA
-		public static List<Timetable> takeRecordFromDateId (Date date, int idUtente)  {
+		public List <Timetable> takeRecordFromDateId (Date date, int idUtente)  {
 			
 			List <Timetable> records = new ArrayList <Timetable> ();
 			EntityManagerFactory emfactory = JpaEntityManager.getInstance();
@@ -190,7 +106,7 @@ public class TimetableService {
 	//RECUPERA UTENTE PER ID - da DATA a DATA
 
 	
-	public static List takeRecordsFromDateToDate (Date startDate, Date endDate)  {
+	public List takeRecordsFromDateToDate (Date startDate, Date endDate)  {
 		List <Timetable> records = new ArrayList <Timetable> ();
 		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
 		EntityManager entitymanager = emfactory.createEntityManager();
@@ -203,7 +119,7 @@ public class TimetableService {
 		return records;
 	}
 	
-	public static List takeRecordsFromIdTimetableVersion (int id_user) {
+	public List takeRecordsFromIdTimetableVersion (int id_user) {
 	//	int p = id_user;
 		List <Timetable> records = new ArrayList <Timetable> ();
 		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
@@ -223,21 +139,18 @@ public class TimetableService {
 		return records;
 	}
 	
-	public static UserT findRecordsFromId (int id)  {
+	public static User findRecordsFromId (int id)  {
 //		Timetable table=null;
 		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
 		EntityManager entitymanager = emfactory.createEntityManager();
-		UserT user = entitymanager.find(UserT.class, id);
+		User user = entitymanager.find(User.class, id);
 	
 		
 		return user;
 	}
-//	public static double calculateTotalHour(LocalTime t1, LocalTime t2, LocalTime t3, LocalTime t4) {
-//		double tempo = MINUTES.between(t1, t2)+MINUTES.between(t3,t4);
-//		return tempo/60;
-//	}
+
 	
-	public static List searchFromType (char type)  {
+	public List searchFromType (char type)  {
 		List <Timetable> records = new ArrayList <Timetable> ();
 		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
 		EntityManager entitymanager = emfactory.createEntityManager();
@@ -247,7 +160,7 @@ public class TimetableService {
 		return records;
 	}
 	
-	public static List smartSearch (Date date1, Date date2, char type)  {
+	public List smartSearch (Date date1, Date date2, char type)  {
 		List <Timetable> records = new ArrayList <Timetable> ();
 		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
 		EntityManager entitymanager = emfactory.createEntityManager();
@@ -273,7 +186,7 @@ public class TimetableService {
 		return records;
 	}
 	
-	public static void creaoModificaRecord (Timetable table) {
+	public void creaoRecordTimetable (Timetable table) {
 		
 	      EntityManagerFactory emfactory = JpaEntityManager.getInstance();
 	      
@@ -290,7 +203,7 @@ public class TimetableService {
 	      emfactory.close( );
 	}
 	
-	public static double oreTrascorse(String start1, String end1, String start2, String end2)  {
+	public double oreTrascorse(String start1, String end1, String start2, String end2)  {
 		System.out.println(start1);
 		System.out.println(end1);
 		System.out.println(start2);
@@ -320,7 +233,7 @@ public class TimetableService {
 
 	}
 	
-	public static String approssimaOrario(String orario)  {
+	public String approssimaOrario(String orario)  {
 		String nuovoOrario=null;
 		orario=orario.substring(0, orario.length());
 		orario=orario.trim();
@@ -351,12 +264,6 @@ public class TimetableService {
 
 		return nuovoOrario;
 	}
-	//CONNESSIONE AL FACTORY
-//	private static SessionFactory getFactory() throws Exception {
-//		SessionFactory factory = new Configuration().configure()
-//				.addAnnotatedClass(Timetable.class)
-//				.buildSessionFactory();		
-//		return factory;
-//	}
+
 	
-} //END CLASS
+} 

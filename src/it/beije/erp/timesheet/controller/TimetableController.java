@@ -21,9 +21,9 @@ import org.springframework.web.context.annotation.SessionScope;
 import com.mysql.cj.xdevapi.TableImpl;
 
 import it.beije.erp.timesheet.entity.Timetable;
-import it.beije.erp.timesheet.entity.UserT;
+import it.beije.erp.timesheet.entity.User;
 import it.beije.erp.timesheet.service.TimetableService;
-import it.beije.timesheet.entities.methods.TimeSheetMethods;
+
 
 
 @Controller
@@ -90,7 +90,7 @@ public class TimetableController {
 	public String user(@Validated Timetable timetable,@RequestParam("password") String pass, @RequestParam("id_user") int id, Model model) {
 		List <Timetable> tab = new ArrayList <Timetable> ();
 		
-		if (TimeSheetMethods.findRecordsFromId(timetable.getId_user())==null)  {
+		if (TimetableService.findRecordsFromId(timetable.getId_user())==null)  {
 			System.out.println("Utente non trovato");
 			return "NonTiAbbiamoTrovato";
 		}
@@ -122,7 +122,7 @@ public class TimetableController {
 		String s2 = timetable.getStart2();
 		String e2 = timetable.getEnd2();
 
-		timetable.setTot(TimeSheetMethods.oreTrascorse(s1, e1, s2, e2));
+		timetable.setTot(timetableService.oreTrascorse(s1, e1, s2, e2));
 		table=timetable;
 //		System.out.println(table.getDate());
 //		System.out.println(table.getId_user());
@@ -158,7 +158,7 @@ public class TimetableController {
 //		System.out.println(table.getTot());
 //		
 		
-		TimeSheetMethods.creaoModificaRecord(table);
+		 timetableService.creaoRecordTimetable(table);
 	}
 
 	@RequestMapping(value = "/modifica", method = RequestMethod.POST)
@@ -236,12 +236,12 @@ public class TimetableController {
 		
 		//ricavo l'id degli utenti e ricerco per id_user per recuperare nome e cognome di ogni utente e fare la successiva stampa
 		
-		UserT utente = TimeSheetMethods.findRecordsFromId(idUser);
+		User utente = TimetableService.findRecordsFromId(idUser);
 				
 		model.addAttribute("utente", utente);
 
 		List<Timetable> tUtente = new ArrayList<Timetable>();
-		tUtente = TimeSheetMethods.takeRecordsFromDateId(data, 1);
+		tUtente = timetableService.takeRecordsFromDateId(data, 1);
 		
 		model.addAttribute("recordsUser",tUtente);
 		
@@ -254,13 +254,13 @@ public class TimetableController {
 		
 				
 		//ricavo l'id degli utenti e ricerco per id_user per recuperare nome e cognome di ogni utente e fare la successiva stampa
-		if (TimeSheetMethods.findRecordsFromId(idUser)==null)  {
+		if (TimetableService.findRecordsFromId(idUser)==null)  {
 			System.out.println("Utente non trovato");
 			return "NonTiAbbiamoTrovato";
 		}
 		
 		List<Timetable> timetable = new ArrayList<Timetable>();
-		timetable = TimeSheetMethods.takeRecordsFromDateId(data, idUser);
+		timetable = timetableService.takeRecordsFromDateId(data, idUser);
 		Timetable tableU = null;
 		
 		if(timetable != null)
