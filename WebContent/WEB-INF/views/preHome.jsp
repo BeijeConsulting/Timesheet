@@ -55,7 +55,7 @@ input[type=submit]:hover {
 	<p align="center">Data: ${serverTime}</p>
 	
 	<div align="center">
-			<form action="home" method="post">
+			<form action="home_timetable" method="post">
 				
 			<input type="submit" value="Inserisci">
 		</form>

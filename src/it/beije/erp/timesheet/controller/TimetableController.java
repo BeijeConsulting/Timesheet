@@ -41,7 +41,7 @@ public class TimetableController {
 	 * Simply selects the home view to render by returning its name.
 	 */
 	
-	@RequestMapping(value = "/preHome", method = RequestMethod.GET)
+	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String preHome(Locale locale, Model model) {
 		System.out.println("Home Page Requested, locale = " + locale);
 		Date date = new Date();
@@ -56,7 +56,7 @@ public class TimetableController {
 
 	
 	
-	@RequestMapping(value = "/home", method = RequestMethod.POST)
+	@RequestMapping(value = "/home_timetable", method = RequestMethod.POST)
 	public String home(Locale locale, Model model) {
 		System.out.println("Home Page Requested, locale = " + locale);
 		Date date = new Date();
@@ -90,7 +90,7 @@ public class TimetableController {
 	public String user(@Validated Timetable timetable,@RequestParam("password") String pass, @RequestParam("id_user") int id, Model model) {
 		List <Timetable> tab = new ArrayList <Timetable> ();
 		
-		if (TimetableService.findRecordsFromId(timetable.getId_user())==null)  {
+		if (TimetableService.findRecordsFromId(timetable.getIdUser())==null)  {
 			System.out.println("Utente non trovato");
 			return "NonTiAbbiamoTrovato";
 		}
@@ -178,7 +178,7 @@ public class TimetableController {
 	@RequestMapping(value = "/NonTiAbbiamoTrovato", method = RequestMethod.GET)
 	public String nonTrovato () {
 		System.out.println("Ti stiamo reinderizzando alla home");
-		return "";
+		return "preHome";
 	}
 	
 //	@RequestMapping(value = "/data", method = RequestMethod.GET)
@@ -249,7 +249,7 @@ public class TimetableController {
 	}
 	
 	
-	@RequestMapping(value = "/modificaUtente", method = RequestMethod.GET)
+	@RequestMapping(value = "/modifica_utente_timetable", method = RequestMethod.GET)
 	public String modificaUtente(Model model,  @RequestParam("date") java.sql.Date data, @RequestParam("id") int idUser) throws Exception {
 		
 				

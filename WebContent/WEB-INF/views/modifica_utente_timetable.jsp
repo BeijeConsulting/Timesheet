@@ -76,7 +76,7 @@ input[type=reset]:hover {
 	
 
 <div align="center">
-	<form action="modificaUtente" method="get">
+	<form action="modifica_utente_timetable" method="get">
 		<label>Inserisci l'id utente</label><br><input type="number" name="id" required><br><br>
 		<div>
 		<input type="submit" value="Conferma"> 
