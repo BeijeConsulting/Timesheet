@@ -1,5 +1,6 @@
 package it.beije.jpa;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -11,7 +12,7 @@ import it.beije.erp.timesheet.entity.User;
 public class GestioneUtenti {
 
 	public static void creaUtente(User user) {
-	 EntityManagerFactory emfactory = JpaEntityManager.getInstance();
+		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
 
 		EntityManager entitymanager = emfactory.createEntityManager();
 		entitymanager.getTransaction().begin();
@@ -30,8 +31,8 @@ public class GestioneUtenti {
 		entitymanager.persist(utente);
 		entitymanager.getTransaction().commit();
 
-//		entitymanager.close( );
-//		emfactory.close( );
+		//		entitymanager.close( );
+		//		emfactory.close( );
 	}
 
 	public static String trovaUtente(String firstName, String lastName) {
@@ -69,70 +70,44 @@ public class GestioneUtenti {
 
 		Query q = entitymanager.createNativeQuery("SELECT * FROM user a"
 				+ ricerca);
-		
+
 		List<Object[]> utenti = q.getResultList();
 
 		String trovati ="";
-//		System.out.println("Utenti trovati: ");
+		//		System.out.println("Utenti trovati: ");
 		for (Object[] u : utenti) {
-//			System.out.println(
-//					"ID: " + u[0]  + " " +	           
-//							"Nome: "+ u[1] + " " +	  
-//							"Cognome: " +u[2] + " " +	
-//							"Codice Fiscale: " +u[6]			
-//					);
 			trovati += "<b>ID:</b> " + u[0]  + " " +	           
 					"<b>Nome:</b> "+ u[1] + " " +	  
 					"<b>Cognome:</b> " +u[2] + " " +	
 					"<b>Codice Fiscale:</b> " +u[6] + "<br><br>";
-//			System.out.println(trovati);
-
+			//			System.out.println(trovati);
 		}
-		
+
 		if(trovati.length()==0)
 			trovati = "<b>Ops! Nessun utente trovato con questi parametri.<b>";
 
 		return trovati;
 	}
 
-
-	//	public static void trovaUtente(String firstName, String lastName) {
-	//		
-	//		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
-	//		EntityManager entitymanager = emfactory.createEntityManager();
-	//			
-	//		
-	//		User utente = entitymanager.find(User.class, firstName);
-	//
-	//		System.out.println("utente ID = " + utente.getId());
-	//		System.out.println("utente Nome = " + utente.getFirstName());
-	//		System.out.println("utente getCognome = " + utente.getLastName());
-	//
-	//	}
-
-	
 	public static User trovaID(int id) {
-		
+
 		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
 		EntityManager entitymanager = emfactory.createEntityManager();
-		
+
 		User user = entitymanager.find(User.class, id);
 
 		System.out.println("trovato" + user.getFirstName());
 
 		return user;
 	}
-	
-	
-public static void modificaUtente(User user) {
 
 
-		
-		
+	public static void modificaUtente(User user) {
+
 		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
 		EntityManager entitymanager = emfactory.createEntityManager();
 		entitymanager.getTransaction().begin();
-		System.out.println("sono nel metodo modificaUtente");
+		//		System.out.println("sono nel metodo modificaUtente");
 		String modifica="UPDATE User a SET";
 
 		modifica += " a.firstName= '" +user.getFirstName();
@@ -142,18 +117,38 @@ public static void modificaUtente(User user) {
 		modifica += "' , a.phone= '" +user.getPhone();
 		modifica += "' , a.fiscalCode= '" + user.getFiscalCode();
 		modifica += "' , a.password= '" +user.getPassword() +"'";
-		
+
 		modifica += " WHERE a.id= "+user.getId();
-//		modifica += " WHERE a.id=  10";
+		//		modifica += " WHERE a.id=  10";
 		Query q = entitymanager.createQuery(modifica);
-		int rowsUpdated = q.executeUpdate();
-		
-		
+		int rowsUpdated = q.executeUpdate();	
 		//System.out.println(rowsUpdated);
 
 		entitymanager.getTransaction().commit();
 
-
 	}
-	
+
+
+	public static void archiviaUtente(User user) {
+
+		LocalDate data = LocalDate.now();
+		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
+		EntityManager entitymanager = emfactory.createEntityManager();
+		entitymanager.getTransaction().begin();
+		System.out.println("sono nel metodo archiviaUtente");
+		String modifica="UPDATE User a SET";
+
+		modifica += " a.archived= '" + data + "' ";
+
+		modifica += " WHERE a.id= "+user.getId();
+
+		System.out.println(modifica);
+
+		Query q = entitymanager.createQuery(modifica);
+		int rowsUpdated = q.executeUpdate();
+
+		//System.out.println(rowsUpdated);
+		entitymanager.getTransaction().commit();
+	}
+
 }

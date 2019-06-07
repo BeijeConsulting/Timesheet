@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
-import it.beije.erp.timesheet.entity.Cerca;
 import it.beije.erp.timesheet.entity.User;
 import it.beije.jpa.GestioneUtenti;
 
@@ -30,7 +29,6 @@ public class UserController {
 
 		String dataFormattato = dateFormat.format(date);
 
-		//		model.addAttribute("serverTime", formattedDate);
 		model.addAttribute("serverTime", dataFormattato);
 
 		return "home";
@@ -69,12 +67,8 @@ public class UserController {
 		return "modificaUtente";
 	}
 
-	@RequestMapping(value = "/cancellaUtente", method = RequestMethod.POST)
-	public String cancellaUtente(@Validated User user, Model model) {
 
-		return "cancellaUtente";
-	}
-
+	
 	@RequestMapping(value = "/cercaUtente", method = RequestMethod.POST)
 	public String cercaUtente(@Validated User user, Model model) {
 
@@ -82,19 +76,15 @@ public class UserController {
 	}
 	
 	@RequestMapping(value = "/utentiTrovati", method = RequestMethod.GET)
-	public String utentiTrovati(@Validated User user, Model model, @Validated Cerca trovato) {
-//		System.out.println("prima");
+	public String utentiTrovati(@Validated User user, Model model) {
 		String trovati = GestioneUtenti.trovaUtente(user.getFirstName(),user.getLastName());
-//		System.out.println("medio " +trovati);
-//		trovato.setUtentiTrovati(trovati);
-//		System.out.println("dopo");
 		user.setPersonalEmail(trovati);
 		return "utentiTrovati";
 	}
 
 	
 	@RequestMapping(value = "/modificaDati", method = RequestMethod.POST)
-	public String modificaDati(@Validated User user, Model model, @Validated Cerca trovato) {
+	public String modificaDati(@Validated User user, Model model) {
 		System.out.println("prima");
 		user = GestioneUtenti.trovaID(user.getId());
 		model.addAttribute("user", user);
@@ -106,6 +96,19 @@ public class UserController {
 
 		GestioneUtenti.modificaUtente(user);
 		return "confermaModificaDati";
+	}
+	
+	@RequestMapping(value = "/cancellaUtente", method = RequestMethod.POST)
+	public String cancellaUtente(@Validated User user, Model model) {
+
+		return "cancellaUtente";
+	}
+
+	@RequestMapping(value = "/confermaCancellazione", method = RequestMethod.POST)
+	public String confermaCancellazione(@Validated User user, Model model) {
+
+		GestioneUtenti.archiviaUtente(user);
+		return "confermaCancellazione";
 	}
 	
 }
