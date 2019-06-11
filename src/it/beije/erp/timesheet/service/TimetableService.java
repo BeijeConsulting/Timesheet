@@ -71,7 +71,7 @@ public class TimetableService {
 		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
 		EntityManager entitymanager = emfactory.createEntityManager();
 
-		TypedQuery<Timetable> q =entitymanager.createQuery("SELECT t FROM Timetable t WHERE t.date >= '"+startDate+"'"+" AND t.id_user = '" + idUtente +"'"+" ORDER BY t.date" ,Timetable.class);
+		TypedQuery<Timetable> q =entitymanager.createQuery("SELECT t FROM Timetable t WHERE t.date = '"+startDate+"'"+" AND t.idUser = '" + idUtente +"'"+" ORDER BY t.date" ,Timetable.class);
 				
 
 		

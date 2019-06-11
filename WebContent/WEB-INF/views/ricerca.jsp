@@ -112,7 +112,7 @@ input[type=reset]:hover {
 		<input type="reset" value="Annulla">
 		</div>	
 	</form>
-	<form action="modificaUtente" method="get">
+	<form action="modifica_utente_timetable" method="get">
 	<label>Inserisci la data</label><br> <input type="date" name="date" required><br>
 		<label>Inserisci l'id utente</label><br><input type="number" name="id" required><br><br>
 		<input type="submit" value="Modifica">

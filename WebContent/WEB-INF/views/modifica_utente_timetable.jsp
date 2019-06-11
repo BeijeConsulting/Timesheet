@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Modifica Utente</title>
+<title>Modifica Utente Timetable</title>
 
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <style type="text/css">
@@ -70,19 +70,48 @@ input[type=reset]:hover {
 
 </head>
 <body>
-	<h1 align="center">Ricerca informazioni utente</h1>
-	<br>
-	<h3 align="center">Data: ${serverTime}</h3>
-	
 
-<div align="center">
-	<form action="modifica_utente_timetable" method="get">
-		<label>Inserisci l'id utente</label><br><input type="number" name="id" required><br><br>
-		<div>
-		<input type="submit" value="Conferma"> 
-		<input type="reset" value="Annulla">
-		</div>	
-	</form>
-</div>
+	<h1 align="center">Modifica i dati </h1>
+
+	<p align="center">Data: ${serverTime}</p>
+	
+	<div align="center">
+	
+		<form action="user" method="post">
+			
+			<label class="w3-text-grey">ID utente</label><br> 
+			<input type="number" name="idUser" value=${timetable.idUser} readonly="readonly"><br> 
+
+			
+			<label class="w3-text-grey">Tipo:</label> <br> 
+			<select class="w3-text-grey">
+				<option value="g">Giornata lavorativa</option>
+				<option value="p">Permesso</option>
+				<option value="f">Ferie</option>
+				<option value="m">Malattia</option>
+				<option value="h">Festività</option>
+			</select>
+
+			<br> <br> 
+			
+			<label class="w3-text-grey">Data</label> <br>
+			<input type="date" name="date" value=${timetable.getDate()} placeholder="yyyy/MM/dd"> <br> 
+			
+			<label class="w3-text-grey">Orario di inzio</label> <br> 
+			<input type="time" name="start1" maxlength="5" value=${timetable.getStart1()} placeholder="09:00"><br> 
+			
+			<label class="w3-text-grey">Orario di fine</label> <br> 
+			<input type="time" name="end1" value=${timetable.getEnd1()} placeholder="13:00"><br> 
+			
+			<label class="w3-text-grey">Secondo orario di inizio</label> <br> 
+			<input type="time" name="start2" value=${timetable.getStart2()} placeholder="14:00"><br> 
+			
+			<label class="w3-text-grey">Secondo orario di fne</label> <br> 
+			<input type="time" name="end2" value=${timetable.getEnd2()} placeholder="18:00"><br>
+
+			<input type="submit" value="Conferma">
+
+		</form>
+	</div>
 </body>
 </html>

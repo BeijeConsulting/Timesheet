@@ -1,9 +1,9 @@
 package it.beije.erp.timesheet.controller;
 
 import java.text.DateFormat;
+
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Locale;
 
@@ -11,14 +11,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.context.annotation.SessionScope;
 
-import com.mysql.cj.xdevapi.TableImpl;
 
 import it.beije.erp.timesheet.entity.Timetable;
 import it.beije.erp.timesheet.entity.User;
@@ -87,20 +84,19 @@ public class TimetableController {
 
 //	@PostMapping("/user")
 	@RequestMapping(value = "/user", method = RequestMethod.POST)
-	public String user(@Validated Timetable timetable,@RequestParam("password") String pass, @RequestParam("idUser") int id, Model model) {
-		List <Timetable> tab = new ArrayList <Timetable> ();
+	public String user(@Validated Timetable timetable, @RequestParam("idUser") int id, Model model) {
 		
 		if (TimetableService.findRecordsFromId(timetable.getIdUser())==null)  {
 			System.out.println("Utente non trovato");
 			return "NonTiAbbiamoTrovato";
 		}
 		
-		System.out.println(pass);
-		
-		if (!(timetableService.checkPassword(id, pass)))  {
-			System.out.println("id e password non corrispondono");
-			return "timetable";
-		}
+//		System.out.println(pass);
+//		
+//		if (!(timetableService.checkPassword(id, pass)))  {
+//			System.out.println("id e password non corrispondono");
+//			return "timetable";
+//		}
 		
 		//CONTROLLO DEL METODO :
 //		tab =TimeSheetMethods.takeRecordsFromDate(timetable.getDate());
@@ -268,7 +264,7 @@ public class TimetableController {
 		
 		model.addAttribute("timetable",tableU);
 		
-		return "modifica";
+		return "modifica_utente_timetable";
 	}
 	
 	
