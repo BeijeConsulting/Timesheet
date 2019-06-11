@@ -104,7 +104,7 @@ public class TimetableService {
 		}
 		
 	//RECUPERA UTENTE PER ID - da DATA a DATA
-//modifica casuale
+//modifica casuale2
 	public void updateRecord(int id, Date date,Timetable newTable) {
 		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
 		EntityManager entitymanager = emfactory.createEntityManager();
