@@ -105,7 +105,15 @@ public class TimetableService {
 		
 	//RECUPERA UTENTE PER ID - da DATA a DATA
 
-	
+	public void updateRecord(int id, Date date,Timetable newTable) {
+		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
+		EntityManager entitymanager = emfactory.createEntityManager();
+		TimetableService service = new TimetableService ();
+		double totOre =  service.oreTrascorse(newTable.getStart1(), newTable.getEnd1(), newTable.getStart2(), newTable.getEnd2());
+		int count = entitymanager.createQuery("UPDATE Timetable t "
+										+ "SET t.type =  '"+newTable.getType()+"'"+" ,t.start1= '"+newTable.getStart1()+",t.end1='"+newTable.getEnd1()+",t.start2='"+newTable.getStart2()+",t.end2='"+newTable.getEnd2()+",t.date='"+newTable.getDate()+"',t.tot='"+totOre+"'").executeUpdate();
+	}
+		
 	public List takeRecordsFromDateToDate (Date startDate, Date endDate)  {
 		List <Timetable> records = new ArrayList <Timetable> ();
 		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
@@ -187,8 +195,7 @@ public class TimetableService {
 	}
 	
 	public void creaoRecordTimetable (Timetable table) {
-		
-	      EntityManagerFactory emfactory = JpaEntityManager.getInstance();
+ 	      EntityManagerFactory emfactory = JpaEntityManager.getInstance();
 	      
 	      EntityManager entitymanager = emfactory.createEntityManager();
 	      entitymanager.getTransaction().begin();
