@@ -8,6 +8,8 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import static java.time.temporal.ChronoUnit.MINUTES;
@@ -103,15 +105,36 @@ public class TimetableService {
 			return records;
 		}
 		
-	//RECUPERA UTENTE PER ID - da DATA a DATA
-//modifica casuale
+
+
 	public void updateRecord(int id, Date date,Timetable newTable) {
 		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
 		EntityManager entitymanager = emfactory.createEntityManager();
 		TimetableService service = new TimetableService ();
-		double totOre =  service.oreTrascorse(newTable.getStart1(), newTable.getEnd1(), newTable.getStart2(), newTable.getEnd2());
-		int count = entitymanager.createQuery("UPDATE Timetable t "
-										+ "SET t.type =  '"+newTable.getType()+"'"+" ,t.start1= '"+newTable.getStart1()+",t.end1='"+newTable.getEnd1()+",t.start2='"+newTable.getStart2()+",t.end2='"+newTable.getEnd2()+",t.date='"+newTable.getDate()+"',t.tot='"+totOre+"'").executeUpdate();
+		try{
+			EntityTransaction entr = entitymanager.getTransaction();
+			entr.begin();
+			Query query = entitymanager.createQuery("UPDATE Timetable t SET t.date=?1, t.type=?2, t.start1=?3, t.end1=?4, t.start2=?5, t.end2=?6, t.tot=?7 WHERE t.id = '"+id+"'"+" AND t.date = '" + date +"'");
+			query.setParameter(1, newTable.getDate());
+			query.setParameter(2, newTable.getType());
+			query.setParameter(3, newTable.getStart1());
+			query.setParameter(4, newTable.getEnd1());
+			query.setParameter(5, newTable.getStart2());
+			query.setParameter(6, newTable.getEnd2());
+			query.setParameter(7, service.oreTrascorse(newTable.getStart1(), newTable.getEnd1(), newTable.getStart2(), newTable.getEnd2()) );
+			int x = query.executeUpdate();
+			
+			entr.commit();
+			}
+			finally{
+			entitymanager.close();
+			}
+			
+		
+//		double totOre =  service.oreTrascorse(newTable.getStart1(), newTable.getEnd1(), newTable.getStart2(), newTable.getEnd2());
+//		int count = entitymanager.createQuery("UPDATE Timetable t "										+ "SET t.type =  '"+newTable.getType()+"'"+" ,t.start1= '"+newTable.getStart1()+",t.end1='"+newTable.getEnd1()+",t.start2='"+newTable.getStart2()+",t.end2='"+newTable.getEnd2()+",t.date='"+newTable.getDate()+"',t.tot='"+totOre+"'").executeUpdate();
+//		int count2 = entitymanager.unwrap(Timetable).
+	
 	}
 		
 	public List takeRecordsFromDateToDate (Date startDate, Date endDate)  {
