@@ -267,7 +267,7 @@ public class TimetableController {
 	
 	
 	@RequestMapping(value = "/salvamodifiche", method = RequestMethod.POST)
-	public void salvamodifiche (@Validated Timetable timetable,@RequestParam("date") java.sql.Date data, @RequestParam("idUser") int idUser) {
+	public String salvaModifiche (@Validated Timetable timetable,@RequestParam("date") java.sql.Date data, @RequestParam("idUser") int idUser) {
 		System.out.println("Sto elaborando i tuoi dati...");
 //		
 //		
@@ -280,6 +280,9 @@ public class TimetableController {
 		
 		
 		 timetableService.updateRecord(idUser, data, timetable);
+		 
+		 return "pagineDopoConferma";
+
 	}
 	
 

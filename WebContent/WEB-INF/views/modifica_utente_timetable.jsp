@@ -95,7 +95,7 @@ input[type=reset]:hover {
 			<br> <br> 
 			
 			<label class="w3-text-grey">Data</label> <br>
-			<input type="date" name="date" maxlength="5" value=${timetable.getDate()} placeholder="yyyy/MM/dd"> <br> 
+			<input type="date" name="date" value=${timetable.getDate()} placeholder="yyyy/MM/dd"> <br> 
 			
 			<label class="w3-text-grey">Orario di inzio</label> <br> 
 			<input type="text" name="start1" maxlength="5" value=${timetable.getStart1()} placeholder="09:00"><br> 

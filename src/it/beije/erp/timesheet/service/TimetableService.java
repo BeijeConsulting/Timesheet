@@ -8,6 +8,7 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
@@ -25,6 +26,11 @@ import it.beije.jpa.JpaEntityManager;
 @Service
 public class TimetableService {
 
+	/*****************************************************************************************************************
+	 * 
+	 * VERIFICA PASSWORD
+	 * 
+	 *****************************************************************************************************************/
 	public boolean checkPassword(int id, String password) {
 		boolean check = false;
 		System.out.println("password in metodo: " + password);
@@ -44,7 +50,11 @@ public class TimetableService {
 		return check;
 	}
 
-	// RECUPERA UTENTI PER DATA
+	/*****************************************************************************************************************
+	 * 
+	 * RECUPERA UTENTE PER DATA
+	 * 
+	 *****************************************************************************************************************/
 	public List takeRecordsFromDate(Date startDate) {
 		List<Timetable> records = new ArrayList<Timetable>();
 		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
@@ -60,9 +70,12 @@ public class TimetableService {
 		return records;
 	}
 
-	// RECUPERA UTENTE PER ID - DATA
+	/*****************************************************************************************************************
+	 * 
+	 * RECUPERA UTENTI PER ID E DATA
+	 * 
+	 *****************************************************************************************************************/
 	public List<Timetable> takeRecordsFromDateId(Date startDate, int idUtente) {
-
 		List<Timetable> records = new ArrayList<Timetable>();
 		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
 		EntityManager entitymanager = emfactory.createEntityManager();
@@ -75,100 +88,48 @@ public class TimetableService {
 		return records;
 	}
 
-//	public void updateRecord(int id, Date date, Timetable newTable) {
-//
-//		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
-//
-//		EntityManager entitymanager = emfactory.createEntityManager();
-//		
-//		
-//		newTable.setDate(date);
-//		newTable.setId(id);
-//		
-//		entitymanager.getTransaction().begin();
-//
-//		entitymanager.persist(newTable);
-//		//entitymanager.flush();
-//		
-//		entitymanager.getTransaction().commit();
-//
-//		entitymanager.close();
-//		emfactory.close();
-//		
-//
-//	}
 
-//	public void updateRecord(int id, Date date,Timetable newTable) {
-//
-//		
-//		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
-//		EntityManager entitymanager = emfactory.createEntityManager();
-//		TimetableService service = new TimetableService ();
-//		double totOre =  service.oreTrascorse(newTable.getStart1(), newTable.getEnd1(), newTable.getStart2(), newTable.getEnd2());
-//		
-//		System.out.println("-------------------------------------------------------------------------");
-//		System.out.println(newTable.getStart1());
-//		System.out.println(newTable.getEnd1());
-//		System.out.println(newTable.getStart2());
-//		System.out.println(newTable.getEnd2());
-//		System.out.println("type" + newTable.getType());
-//		System.out.println(newTable.getDate());
-//		System.out.println(totOre);
-//
-//		System.out.println("-------------------------------------------------------------------------");
-//		
-//		Query q = entitymanager.createNativeQuery("UPDATE timetable SET start1= '"+newTable.getStart1()+"'"+",end1='"+newTable.getEnd1()+"'"+",start2='"+newTable.getStart2()+"'"+",end2='"+newTable.getEnd2()+"'"+",date='"+newTable.getDate()+"'"+",tot='"+totOre+"'"+" WHERE date = '"+date+"'"+" AND id_user = '" + id +"'");
-//		
-//		//Query q = entitymanager.createQuery("UPDATE Timetable t SET t.start1= '"+newTable.getStart1()+"'"+",t.end1='"+newTable.getEnd1()+"'"+",t.start2='"+newTable.getStart2()+"'"+",t.end2='"+newTable.getEnd2()+"'"+",t.date='"+newTable.getDate()+"'"+",t.tot='"+totOre+"'"+" WHERE t.date = '"+date+"'"+" AND t.idUser = '" + id +"'");
-//		
-//		q.executeUpdate();
-//		entitymanager.getTransaction().commit();
-//
-////		INSERT INTO table_name (column1, column2, column3, ...)
-////		VALUES (value1, value2, value3, ...);
-//		
-//		
-//		//entitymanager.createQuery("INSERT INTO Timetable (id,idUser,date,type,start1,end1,start2,end2,tot)
-//	
-//	
-//	}
-
-	
-	
-	
-	
+	/*****************************************************************************************************************
+	 * 
+	 * AGGIORNA TUPLA NEL DATABASE
+	 * 
+	 *****************************************************************************************************************/
 	
 	public void updateRecord(int id, Date date,Timetable newTable) {
-
-	EntityManagerFactory emfactory = JpaEntityManager.getInstance();
-	EntityManager entitymanager = emfactory.createEntityManager();
-	entitymanager.getTransaction().begin();
-	String modifica="UPDATE Timetable a SET";
-
-	modifica += " a.idUser= '" +id;
-	modifica += "' , a.type= '" + newTable.getType();
-	modifica += "' , a.start1= '" +newTable.getStart1();
-	modifica += "' , a.end1= '" + newTable.getEnd1();
-	modifica += "' , a.start2= '" +newTable.getStart2();
-	modifica += "' , a.end2= '" + newTable.getEnd2();
-	modifica += "' , a.date= '" +date ;
-	modifica += "' , a.tot= '" + newTable.getTot() +"'";
-	
-	modifica += " WHERE a.id= "+id;
-	modifica += " AND a.date = " + date;
-	
-//	modifica += " WHERE a.id=  10";
-	Query q = entitymanager.createQuery(modifica);
-	int rowsUpdated = q.executeUpdate();
-	
-	System.out.println("---------------- date:" + date);
-	//System.out.println(rowsUpdated);
-
-	entitymanager.getTransaction().commit();
+		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
+		EntityManager entitymanager = emfactory.createEntityManager();
+		TimetableService service = new TimetableService ();
+		try{
+			EntityTransaction entr = entitymanager.getTransaction();
+			entr.begin();
+			Query query = entitymanager.createQuery("UPDATE Timetable t SET t.date=?1, t.type=?2, t.start1=?3, t.end1=?4, t.start2=?5, t.end2=?6, t.tot=?7 WHERE t.idUser = '"+id+"'"+" AND t.date = '" + date +"'");
+			query.setParameter(1, newTable.getDate());
+			query.setParameter(2, newTable.getType());
+			query.setParameter(3, newTable.getStart1());
+			query.setParameter(4, newTable.getEnd1());
+			query.setParameter(5, newTable.getStart2());
+			query.setParameter(6, newTable.getEnd2());
+			query.setParameter(7, service.oreTrascorse(newTable.getStart1(), newTable.getEnd1(), newTable.getStart2(), newTable.getEnd2()) );
+			int x = query.executeUpdate();
+			System.out.println("NUM RECORD MODIFICATI = "+ x);
+			entr.commit();
+			}
+			finally{
+			entitymanager.close();
+			}
+			
+		
+//		double totOre =  service.oreTrascorse(newTable.getStart1(), newTable.getEnd1(), newTable.getStart2(), newTable.getEnd2());
+//		int count = entitymanager.createQuery("UPDATE Timetable t "										+ "SET t.type =  '"+newTable.getType()+"'"+" ,t.start1= '"+newTable.getStart1()+",t.end1='"+newTable.getEnd1()+",t.start2='"+newTable.getStart2()+",t.end2='"+newTable.getEnd2()+",t.date='"+newTable.getDate()+"',t.tot='"+totOre+"'").executeUpdate();
+//		int count2 = entitymanager.unwrap(Timetable).
 	
 	}
 	
-	// RECUPERA UTENTE PER ID - DATA
+	/*****************************************************************************************************************
+	 * 
+	 * RECUPERA TUPLE BY ID E DATA
+	 * 
+	 *****************************************************************************************************************/
 	public List<Timetable> takeRecordFromDateId(Date date, int idUtente) {
 
 		List<Timetable> records = new ArrayList<Timetable>();
@@ -269,6 +230,11 @@ public class TimetableService {
 		return records;
 	}
 
+	/*****************************************************************************************************************
+	 * 
+	 * INSERISCI TUPLA NEL DATABASE
+	 * 
+	 *****************************************************************************************************************/
 	public void creaoRecordTimetable(Timetable table) {
 
 		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
