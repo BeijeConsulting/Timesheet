@@ -140,15 +140,22 @@ public class TimetableService {
 				"SELECT t FROM Timetable t WHERE t.date = '" + date + "'" + " AND t.id_user = '" + idUtente + "'",
 				Timetable.class);
 
-//			SELECT Orders.OrderID, Customers.CustomerName, Orders.OrderDate
-//			FROM Orders
-//			INNER JOIN Customers
-//			ON Orders.CustomerID=Customers.CustomerID;
 
-		records = q.getResultList();
+			
+			
+			records = q.getResultList();
+			
+			
+			return records;
+		}
+		
 
-		return records;
-	}
+
+
+
+		
+
+	
 
 	// RECUPERA UTENTE PER ID - da DATA a DATA
 
@@ -229,6 +236,9 @@ public class TimetableService {
 
 		return records;
 	}
+
+
+
 
 	/*****************************************************************************************************************
 	 * 
