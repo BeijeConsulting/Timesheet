@@ -77,7 +77,7 @@ input[type=reset]:hover {
 	
 	<div align="center">
 	
-		<form action="user" method="post">
+		<form action="salvamodifiche" method="post">
 			
 			<label class="w3-text-grey">ID utente</label><br> 
 			<input type="number" name="idUser" value=${timetable.idUser} readonly="readonly"><br> 
@@ -95,19 +95,19 @@ input[type=reset]:hover {
 			<br> <br> 
 			
 			<label class="w3-text-grey">Data</label> <br>
-			<input type="date" name="date" value=${timetable.getDate()} placeholder="yyyy/MM/dd"> <br> 
+			<input type="date" name="date" maxlength="5" value=${timetable.getDate()} placeholder="yyyy/MM/dd"> <br> 
 			
 			<label class="w3-text-grey">Orario di inzio</label> <br> 
-			<input type="time" name="start1" maxlength="5" value=${timetable.getStart1()} placeholder="09:00"><br> 
+			<input type="text" name="start1" maxlength="5" value=${timetable.getStart1()} placeholder="09:00"><br> 
 			
 			<label class="w3-text-grey">Orario di fine</label> <br> 
-			<input type="time" name="end1" value=${timetable.getEnd1()} placeholder="13:00"><br> 
+			<input type="text" name="end1" maxlength="5" value=${timetable.getEnd1()} placeholder="13:00"><br> 
 			
 			<label class="w3-text-grey">Secondo orario di inizio</label> <br> 
-			<input type="time" name="start2" value=${timetable.getStart2()} placeholder="14:00"><br> 
+			<input type="text" name="start2" maxlength="5" value=${timetable.getStart2()} placeholder="14:00"><br> 
 			
 			<label class="w3-text-grey">Secondo orario di fne</label> <br> 
-			<input type="time" name="end2" value=${timetable.getEnd2()} placeholder="18:00"><br>
+			<input type="text" name="end2" maxlength="5" value=${timetable.getEnd2()} placeholder="18:00"><br>
 
 			<input type="submit" value="Conferma">
 

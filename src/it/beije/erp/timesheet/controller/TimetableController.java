@@ -239,8 +239,6 @@ public class TimetableController {
 		List<Timetable> tUtente = new ArrayList<Timetable>();
 		tUtente = timetableService.takeRecordsFromDateId(data, 1);
 		
-		model.addAttribute("recordsUser",tUtente);
-		
 		return "data";
 	}
 	
@@ -267,6 +265,22 @@ public class TimetableController {
 		return "modifica_utente_timetable";
 	}
 	
+	
+	@RequestMapping(value = "/salvamodifiche", method = RequestMethod.POST)
+	public void salvamodifiche (@Validated Timetable timetable,@RequestParam("date") java.sql.Date data, @RequestParam("idUser") int idUser) {
+		System.out.println("Sto elaborando i tuoi dati...");
+//		
+//		
+		System.out.println(timetable.getIdUser());
+		System.out.println(timetable.getType());
+		System.out.println(timetable.getStart1());
+		System.out.println(timetable.getEnd1());
+		System.out.println(timetable.getStart2());
+		System.out.println(timetable.getEnd2());
+		
+		
+		 timetableService.updateRecord(idUser, data, timetable);
+	}
 	
 
 }
