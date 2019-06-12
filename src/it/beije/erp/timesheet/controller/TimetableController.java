@@ -48,12 +48,12 @@ public class TimetableController {
 
 		model.addAttribute("serverTime", formattedDate);
 
-		return "preHome";
+		return "prehome";
 	}
 
 	
 	
-	@RequestMapping(value = "/home_timetable", method = RequestMethod.POST)
+	@RequestMapping(value = "/hometimetable", method = RequestMethod.POST)
 	public String home(Locale locale, Model model) {
 		System.out.println("Home Page Requested, locale = " + locale);
 		Date date = new Date();
@@ -88,7 +88,7 @@ public class TimetableController {
 		
 		if (TimetableService.findRecordsFromId(timetable.getIdUser())==null)  {
 			System.out.println("Utente non trovato");
-			return "NonTiAbbiamoTrovato";
+			return "utentenontrovato";
 		}
 		
 //		System.out.println(pass);
@@ -127,7 +127,7 @@ public class TimetableController {
 //		System.out.println(table.getStart2());
 //		System.out.println(table.getEnd2());
 		model.addAttribute("timetable", timetable);
-		
+		System.out.println("Controllo"+timetable.getType());
 //		model.addAttribute("id_user", timetable.getId_user());
 //	
 //		model.addAttribute("data", timetable.getDate());
@@ -140,7 +140,7 @@ public class TimetableController {
 		return "user";
 	}
 	
-	@RequestMapping(value = "/pagineDopoConferma", method = RequestMethod.POST)
+	@RequestMapping(value = "/confermadatitimetable", method = RequestMethod.POST)
 	public void elaboraDati () {
 		System.out.println("Sto elaborando i tuoi dati...");
 //		
@@ -171,10 +171,10 @@ public class TimetableController {
 		return "modifica";
 	}
 	
-	@RequestMapping(value = "/NonTiAbbiamoTrovato", method = RequestMethod.GET)
+	@RequestMapping(value = "/utentenontrovato", method = RequestMethod.GET)
 	public String nonTrovato () {
 		System.out.println("Ti stiamo reinderizzando alla home");
-		return "preHome";
+		return "prehome";
 	}
 	
 //	@RequestMapping(value = "/data", method = RequestMethod.GET)
@@ -243,7 +243,7 @@ public class TimetableController {
 	}
 	
 	
-	@RequestMapping(value = "/modifica_utente_timetable", method = RequestMethod.GET)
+	@RequestMapping(value = "/modificarecordtimetable", method = RequestMethod.GET)
 	public String modificaUtente(Model model,  @RequestParam("date") java.sql.Date data, @RequestParam("id") int idUser) throws Exception {
 		
 				
@@ -255,6 +255,15 @@ public class TimetableController {
 		
 		List<Timetable> timetable = new ArrayList<Timetable>();
 		timetable = timetableService.takeRecordsFromDateId(data, idUser);
+		String s1=timetable.get(0).getStart1().substring(0,5);
+		String e1=timetable.get(0).getEnd1().substring(0,5);
+		String s2=timetable.get(0).getStart2().substring(0,5);
+		String e2=timetable.get(0).getEnd2().substring(0,5);
+		timetable.get(0).setStart1(s1);
+		timetable.get(0).setEnd1(e1);
+		timetable.get(0).setStart2(s2);
+		timetable.get(0).setEnd2(e2);
+		
 		Timetable tableU = null;
 		
 		if(timetable != null)
@@ -262,7 +271,7 @@ public class TimetableController {
 		
 		model.addAttribute("timetable",tableU);
 		
-		return "modifica_utente_timetable";
+		return "modificarecordtimetable";
 	}
 	
 	
@@ -276,12 +285,12 @@ public class TimetableController {
 		System.out.println(timetable.getStart1());
 		System.out.println(timetable.getEnd1());
 		System.out.println(timetable.getStart2());
-		System.out.println(timetable.getEnd2());
+		System.out.println("controlloCosimo" + timetable.getEnd2());
 		
 		
 		 timetableService.updateRecord(idUser, data, timetable);
 		 
-		 return "pagineDopoConferma";
+		 return "confermadatitimetable";
 
 	}
 	

@@ -56,18 +56,16 @@ input[type=submit]:hover {
 	
 	<div align="center">
 	
-		<form action="user" method="post">
+		<form action="user" method="post" id="1">
 			
 			<label class="w3-text-grey">ID utente</label><br> 
 			<input type="number" name="idUser" value="12345" required><br> 
 			
-			<label class="w3-text-grey">Password</label> <br> 
-
-			<input type="password" name="password" pattern=".{8,}"  title="Almeno 8 caratteri!"  placeholder="min 8 caratteri" required><br> 
-
+		<!--  	<input type="password" name="password" pattern=".{8,}"  title="Almeno 8 caratteri!"  placeholder="min 8 caratteri" required><br> 
+			-->
 			
 			<label class="w3-text-grey">Tipo:</label> <br> 
-			<select class="w3-text-grey">
+			<select class="w3-text-grey" name="type">
 				<option value="g">Giornata lavorativa</option>
 				<option value="p">Permesso</option>
 				<option value="f">Ferie</option>

@@ -104,7 +104,7 @@ input[type=reset]:hover {
  				-->
 <div align="center">
 
-	<form action="modifica_utente_timetable" method="get">
+	<form action="modificarecordtimetable" method="get">
 	<label>Inserisci la data</label><br> <input type="date" name="date" required><br>
 		<label>Inserisci l'id utente</label><br><input type="number" name="id" required><br><br>
 		<input type="submit" value="Modifica">

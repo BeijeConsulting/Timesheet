@@ -55,13 +55,13 @@ input[type=submit]:hover {
 	<p align="center">Data: ${serverTime}</p>
 	
 	<div align="center">
-			<form action="home_timetable" method="post">
+			<form action="hometimetable" method="post">
 				
 			<input type="submit" value="Inserisci">
 		</form>
 		<form action="ricerca" method="post">
 			<input type="submit"value="Ricerca/Modifica Utente">
 		</form>
-		
+	</div>	
 </body>
 </html>

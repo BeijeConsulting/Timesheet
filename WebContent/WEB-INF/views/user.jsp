@@ -81,7 +81,7 @@ tr:nth-child(even) {
 	<table>
 		<tr>
 			<td>
-				<form action="pagineDopoConferma" method="post">
+				<form action="confermadatitimetable" method="post">
 					<input type="submit" value="Salva">
 				</form>
 			</td>
