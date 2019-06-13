@@ -43,14 +43,16 @@ pageEncoding="UTF-8"%>
     <div class="row">
 
       <div class="col s6">
-         <form class="col s12" action="DA-INSERIRE" method="post">
-        <a class="waves-effect waves-light btn-large sfondo"><i class="material-icons left">person</i>Gestione Utenti</a>
+         <form class="col s12" action="home" method="get">
+<!--         <a class="waves-effect waves-light btn-large sfondo"><i class="material-icons left">person</i>Gestione Utenti</a> -->
+        <input class="btn green" type="submit" value="Gestione Utenti">
       </form>
       </div>
 
       <div class="col s6">
-         <form class="col s12" action="DA-INSERIRE" method="post">
-        <a class="waves-effect waves-light btn-large sfondo"><i class="material-icons left">domain</i>Gestione Timetable</a>
+         <form class="col s12" action="prehome" method="get">
+   <!--      <a class="waves-effect waves-light btn-large sfondo"><i class="material-icons left">domain</i>Gestione Timetable</a> -->
+          <input class="btn green" type="submit" value="Gestione TimeTable">
       </form>
       </div>
 

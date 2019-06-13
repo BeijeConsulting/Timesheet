@@ -25,6 +25,7 @@ public class UserController {
 	/**
 	 * Simply selects the home view to render by returning its name.
 	 */
+
 	@RequestMapping(value = "/home", method = RequestMethod.GET)
 	public String home(Locale locale, Model model) {
 		System.out.println("Home Page Requested, locale = " + locale);
@@ -38,24 +39,24 @@ public class UserController {
 		return "home";
 	}
 
-	@RequestMapping(value = "/conferma_dati", method = RequestMethod.POST)
+	@RequestMapping(value = "/confermadati", method = RequestMethod.POST)
 	public String confermaDati(@Validated User user, Model model) {
-		System.out.println("pagina conferma_dati: " + user.getFirstName());
+		System.out.println("pagina confermadati: " + user.getFirstName());
 
 		//Passa i parametri alla view ritornato
 		//		model.addAttribute("userName", user.getFirstName());
 		model.addAttribute("user", user);
-		return "conferma_dati";
+		return "confermadati";
 	}
 
-	@RequestMapping(value = "/inserisci_utente", method = RequestMethod.POST)
+	@RequestMapping(value = "/inserisciutente", method = RequestMethod.POST)
 	public String index(@Validated User user, Model model) {
 		System.out.println("Pagine inseriti: " + user.getLastName());
 		model.addAttribute("userName", user.getFirstName());
 
-		System.out.println("sono in inserisci_utente");
+		System.out.println("sono in inserisciutente");
 
-		return "inserisci_utente";
+		return "inserisciutente";
 	}
 
 	@RequestMapping(value = "/conferma", method = RequestMethod.POST)
@@ -66,29 +67,29 @@ public class UserController {
 		return "conferma";
 	}
 
-	@RequestMapping(value = "/modifica_utente", method = RequestMethod.POST)
+	@RequestMapping(value = "/modificautente", method = RequestMethod.POST)
 	public String modificaUtente(@Validated User user, Model model) {
 
-		return "modifica_utente";
+		return "modificautente";
 	}
 
 
 	
-	@RequestMapping(value = "/cerca_utente", method = RequestMethod.POST)
+	@RequestMapping(value = "/cercautente", method = RequestMethod.POST)
 	public String cercaUtente(@Validated User user, Model model) {
 		
-		return "cerca_utente";
+		return "cercautente";
 	}
 	
-	@RequestMapping(value = "/utenti_trovati", method = RequestMethod.GET)
+	@RequestMapping(value = "/utentitrovati", method = RequestMethod.GET)
 	public String utentiTrovati(@Validated User user, Model model) {
 		String trovati = new UserService().trovaUtente(user.getFirstName(),user.getLastName());
 		user.setPersonalEmail(trovati);
-		return "utenti_trovati";
+		return "utentitrovati";
 	}
 
 	
-	@RequestMapping(value = "/modifica_dati", method = RequestMethod.POST)
+	@RequestMapping(value = "/modificadati", method = RequestMethod.POST)
 	public String modificaDati(@Validated User user, Model model) {
 		
 		try {
@@ -96,39 +97,39 @@ public class UserController {
 		user = new UserService().trovaID(user.getId());
 		user.getFirstName();
 		model.addAttribute("user", user);
-			return "modifica_dati";
+			return "modificadati";
 		}
 		catch (NullPointerException e) {
-			return "id_non_trovato";
+			return "idnontrovato";
 		}
 	
 	}
 	
-	@RequestMapping(value = "/id_non_trovato", method = RequestMethod.POST)
+	@RequestMapping(value = "/idnontrovato", method = RequestMethod.POST)
 	public String idNonTrovato(@Validated User user, Model model) {
 
 		
-		return "id_non_trovato";
+		return "idnontrovato";
 	}
 	
-	@RequestMapping(value = "/conferma_modifica_dati", method = RequestMethod.POST)
+	@RequestMapping(value = "/confermamodificadati", method = RequestMethod.POST)
 	public String confermaModificaDati(@Validated User user, Model model) {
 
 		new UserService().modificaUtente(user);
-		return "conferma_modifica_dati";
+		return "confermamodificadati";
 	}
 	
-	@RequestMapping(value = "/cancella_utente", method = RequestMethod.POST)
+	@RequestMapping(value = "/cancellautente", method = RequestMethod.POST)
 	public String cancellaUtente(@Validated User user, Model model) {
 
-		return "cancella_utente";
+		return "cancellautente";
 	}
 
-	@RequestMapping(value = "/conferma_cancellazione", method = RequestMethod.POST)
+	@RequestMapping(value = "/confermacancellazione", method = RequestMethod.POST)
 	public String confermaCancellazione(@Validated User user, Model model) {
 
 		new UserService().archiviaUtente(user);
-		return "conferma_cancellazione";
+		return "confermacancellazione";
 	}
 	
 	
@@ -136,14 +137,20 @@ public class UserController {
 	@RequestMapping(value = "/homepage", method = RequestMethod.GET)
 	public String homepage(@Validated User user, Model model) {
 
-		new UserService().archiviaUtente(user);
 		return "homepage";
 	}
 	
-	@RequestMapping(value = "/login", method = RequestMethod.GET)
+	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String login(@Validated User user, Model model) {
 
-		new UserService().archiviaUtente(user);
 		return "login";
+		
+	
+	}
+	
+	@RequestMapping(value = "/temporanea", method = RequestMethod.GET)
+	public String temporanea(@Validated User user, Model model) {
+
+		return "temporanea";
 	}
 }

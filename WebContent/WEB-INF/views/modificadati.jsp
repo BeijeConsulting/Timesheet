@@ -14,7 +14,7 @@
 <div class="container">
 
 <div class="row">
-      <form class="col s12" action="conferma_modifica_dati" method="post">
+      <form class="col s12" action="confermamodificadati" method="post">
         <div class="row">
           
           <div class="input-field col s6">
