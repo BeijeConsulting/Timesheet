@@ -22,6 +22,7 @@ public class UserService {
 		EntityManager entitymanager = emfactory.createEntityManager();
 		entitymanager.getTransaction().begin();
 
+
 		User utente = new User();
 		//	      utente.setId(141);
 //		utente.setFirstName(user.getFirstName());
@@ -33,7 +34,9 @@ public class UserService {
 //		utente.setAdmin(0);
 		utente.setPassword(user.getPassword());
 
-		entitymanager.persist(utente);
+
+//		entitymanager.persist(utente);
+		entitymanager.persist(user);
 		entitymanager.getTransaction().commit();
 
 //		entitymanager.close( );

@@ -19,6 +19,7 @@ import it.beije.erp.timesheet.service.UserService;
 
 @Controller
 @SessionAttributes("user")
+//@RequestMapping("/user")
 public class UserController {
 
 	/**
@@ -130,4 +131,19 @@ public class UserController {
 		return "conferma_cancellazione";
 	}
 	
+	
+	///////////////NEW METHOD
+	@RequestMapping(value = "/homepage", method = RequestMethod.GET)
+	public String homepage(@Validated User user, Model model) {
+
+		new UserService().archiviaUtente(user);
+		return "homepage";
+	}
+	
+	@RequestMapping(value = "/login", method = RequestMethod.GET)
+	public String login(@Validated User user, Model model) {
+
+		new UserService().archiviaUtente(user);
+		return "login";
+	}
 }
