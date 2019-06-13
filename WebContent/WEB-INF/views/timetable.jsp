@@ -62,6 +62,7 @@ input[type=submit]:hover {
 			<input type="number" name="idUser" value="12345" required><br> 
 			
 		<!--  	<input type="password" name="password" pattern=".{8,}"  title="Almeno 8 caratteri!"  placeholder="min 8 caratteri" required><br> 
+				commento
 			-->
 			
 			<label class="w3-text-grey">Tipo:</label> <br> 

@@ -214,6 +214,7 @@ public class TimetableService {
 		return records;
 	}
 
+	//metodo
 	public List smartSearch(Date date1, Date date2, char type) {
 		List<Timetable> records = new ArrayList<Timetable>();
 		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
