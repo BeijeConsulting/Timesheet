@@ -12,7 +12,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import it.beije.erp.timesheet.entity.User;
+
 import it.beije.erp.timesheet.service.UserService;
+
+//import it.beije.jpa.GestioneUtenti;
 
 @Controller
 @SessionAttributes("user")
@@ -21,7 +24,7 @@ public class UserController {
 	/**
 	 * Simply selects the home view to render by returning its name.
 	 */
-	@RequestMapping(value = "/", method = RequestMethod.GET)
+	@RequestMapping(value = "/home", method = RequestMethod.GET)
 	public String home(Locale locale, Model model) {
 		System.out.println("Home Page Requested, locale = " + locale);
 		Date date = new Date();

@@ -1,4 +1,4 @@
-<%@page import="it.beije.timesheet.entities.methods.TimeSheetMethods"%>
+<%@page import="it.beije.erp.timesheet.service.TimetableService"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ page import="java.util.*"%>
@@ -51,7 +51,7 @@ tr:nth-child(even) {
 <h3>il totale di ore è xy ${timetable.getTot()}</h3> --%>
 
 	<h1 align="center">Dati relativi agli utenti
-		${timetable.id_user }</h1>
+		${timetable.idUser }</h1>
 
 	<div style="overflow-x: auto;">
 		<table>
@@ -65,7 +65,7 @@ tr:nth-child(even) {
 				<th>Totale ore</th>
 			</tr>
 			<tr>
-				<td>${timetable.id_user}</td>
+				<td>${timetable.idUser}</td>
 				<td>${timetable.date}</td>
 				<td>${timetable.start1}</td>
 				<td>${timetable.end1}</td>
@@ -81,7 +81,7 @@ tr:nth-child(even) {
 	<table>
 		<tr>
 			<td>
-				<form action="pagineDopoConferma" method="post">
+				<form action="confermadatitimetable" method="post">
 					<input type="submit" value="Salva">
 				</form>
 			</td>

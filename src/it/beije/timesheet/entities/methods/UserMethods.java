@@ -9,19 +9,19 @@ import org.hibernate.cfg.Configuration;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
 
-import it.beije.erp.timesheet.entity.UserT;
+import it.beije.erp.timesheet.entity.User;
 
 public class UserMethods {
 
 	//Get User By ID
-	public static UserT getUser(int id) throws Exception {
+	public static User getUser(int id) throws Exception {
 		
 		SessionFactory factory = UserMethods.getFactory();
 		Session session = factory.openSession();
 		
-	    UserT user = null;
+	    User user = null;
 	    try {
-	        user = session.get(UserT.class, id);
+	        user = session.get(User.class, id);
 	        Hibernate.initialize(user);
 	    } catch (Exception e) {
 	       e.printStackTrace();
@@ -35,15 +35,15 @@ public class UserMethods {
 	}
 	
 	//Get User By FiscalCode
-	public static UserT getUser(String fiscalCode) throws Exception {
+	public static User getUser(String fiscalCode) throws Exception {
 		
 		SessionFactory factory = UserMethods.getFactory();
 		Session session = factory.openSession();
 			
-		Criteria criteria = session.createCriteria(UserT.class);
+		Criteria criteria = session.createCriteria(User.class);
 		criteria.add(Restrictions.eq("fiscal_code", fiscalCode));
 
-		List<UserT> user = null;
+		List<User> user = null;
 	    try {
 	        user = criteria.list();
 	        Hibernate.initialize(user);
@@ -64,32 +64,32 @@ public class UserMethods {
 	}
 	
 	//Get Users By firstName
-	public static List<UserT> getUsersByFirstName(String firstName) throws Exception {	
+	public static List<User> getUsersByFirstName(String firstName) throws Exception {	
 		return getUsers(firstName, null, null, null);
 	}
 	
 	//Get Users By lastName
-	public static List<UserT> getUsersByLastName(String lastName) throws Exception {	
+	public static List<User> getUsersByLastName(String lastName) throws Exception {	
 		return getUsers(null, lastName, null, null);
 	}
 	
 	//Get Users By firstName and lastName
-	public static List<UserT> getUsers(String firstName, String lastName) throws Exception {	
+	public static List<User> getUsers(String firstName, String lastName) throws Exception {	
 		return getUsers(firstName, lastName, null, null);
 	}
 	
 	//Get Users By firstName and lastName and personalEmail
-	public static List<UserT> getUsers(String firstName, String lastName, String personalEmail) throws Exception {	
+	public static List<User> getUsers(String firstName, String lastName, String personalEmail) throws Exception {	
 		return getUsers(firstName, lastName, personalEmail, null);
 	}
 	
 	//Get Users and firstName and lastName and personalEmail and workEmail
-	public static List<UserT> getUsers(String firstName, String lastName, String personalEmail, String workEmail) throws Exception {
+	public static List<User> getUsers(String firstName, String lastName, String personalEmail, String workEmail) throws Exception {
 		
 		SessionFactory factory = UserMethods.getFactory();
 		Session session = factory.openSession();
 		
-		Criteria criteria = session.createCriteria(UserT.class);
+		Criteria criteria = session.createCriteria(User.class);
 		
 		if(firstName != null && firstName.length()>0) {
 			criteria.add(Restrictions.eq("first_name", firstName));
@@ -107,7 +107,7 @@ public class UserMethods {
 			criteria.add(Restrictions.eq("workEmail", workEmail));
 		}
 
-		List<UserT> user = null;
+		List<User> user = null;
 
 	    user = criteria.list();
 	    
@@ -122,7 +122,7 @@ public class UserMethods {
 	//CONNESSIONE AL FACTORY
 	private static SessionFactory getFactory() throws Exception {
 		SessionFactory factory = new Configuration().configure()
-				.addAnnotatedClass(UserT.class)
+				.addAnnotatedClass(User.class)
 				.buildSessionFactory();		
 		return factory;
 	}

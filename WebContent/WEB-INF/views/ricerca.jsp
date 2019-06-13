@@ -103,16 +103,8 @@ input[type=reset]:hover {
 					</p>
  				-->
 <div align="center">
-	<form action="data" method="get">
 
-		<label>Inserisci la data</label><br> <input type="date" name="date" required><br>
-		<label>Inserisci l'id utente</label><br><input type="number" name="id" required><br><br>
-		<div>
-		<input type="submit" value="Ricerca"> 
-		<input type="reset" value="Annulla">
-		</div>	
-	</form>
-	<form action="modificaUtente" method="get">
+	<form action="modificarecordtimetable" method="get">
 	<label>Inserisci la data</label><br> <input type="date" name="date" required><br>
 		<label>Inserisci l'id utente</label><br><input type="number" name="id" required><br><br>
 		<input type="submit" value="Modifica">

@@ -24,13 +24,13 @@ public class UserService {
 
 		User utente = new User();
 		//	      utente.setId(141);
-		utente.setFirstName(user.getFirstName());
-		utente.setLastName(user.getLastName());
-		utente.setPersonalEmail(user.getPersonalEmail());
-		utente.setWorkEmail(user.getWorkEmail());
-		utente.setPhone(user.getPhone());
-		utente.setFiscalCode(user.getFirstName());
-		utente.setAdmin(0);
+//		utente.setFirstName(user.getFirstName());
+//		utente.setLastName(user.getLastName());
+//		utente.setPersonalEmail(user.getPersonalEmail());
+//		utente.setWorkEmail(user.getWorkEmail());
+//		utente.setPhone(user.getPhone());
+//		utente.setFiscalCode(user.getFirstName());
+//		utente.setAdmin(0);
 		utente.setPassword(user.getPassword());
 
 		entitymanager.persist(utente);

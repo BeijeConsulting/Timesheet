@@ -18,7 +18,7 @@ public class Timetable implements Serializable {
 	private int id;
 	
 	@Column(name = "id_user")
-	private int id_user;
+	private int idUser;
 	
 	@Column(name = "date")
 	private Date date;
@@ -49,11 +49,11 @@ public class Timetable implements Serializable {
 	}
 	
 	
-	public int getId_user() {
-		return id_user;
+	public int getIdUser() {
+		return idUser;
 	}
-	public void setId_user(int id_user) {
-		this.id_user = id_user;
+	public void setIdUser(int idUser) {
+		this.idUser = idUser;
 	}
 	
 	
@@ -115,7 +115,7 @@ public class Timetable implements Serializable {
 	
 	public String toString() {
 		StringBuilder builder = new StringBuilder("{\"id\" : ").append(id)
-				.append(",").append("\"id_user\" : ").append(id_user)
+				.append(",").append("\"id_user\" : ").append(idUser)
 				.append(",").append("\"start1\" : \"").append(start1)
 				.append("\",").append("\"start2\" : \"").append(start2)
 				.append("\"}");
