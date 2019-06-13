@@ -20,6 +20,7 @@ import it.beije.erp.timesheet.service.UserService;
 
 
 @Controller
+@RequestMapping("/api")
 public class ApiController {
 	
 	@Autowired
@@ -40,18 +41,19 @@ public class ApiController {
     	response.getWriter().append(objectMapper.writeValueAsString(user));//CORPO RISPOSTA
     }
 
-//    @RequestMapping(value = "/user", method = RequestMethod.POST,
-//            consumes = MediaType.APPLICATION_JSON_VALUE)
-//    public void createUser(@RequestBody User user, Model model,
-//    		HttpServletResponse response) throws IOException {
-//    	System.out.println("saving user: "+user.getFirstName());
-//    	
-//    	userService.create(user);
-//    	
-//    	response.setStatus(200);
-////    	response.setContentType("application/json");
-////    	response.getWriter().append(user.toString());
-//    }
+    @RequestMapping(value = "/user", method = RequestMethod.POST,
+            consumes = MediaType.APPLICATION_JSON_VALUE)
+    public void createUser(@RequestBody User user, Model model,
+    		HttpServletResponse response) throws IOException {
+    	System.out.println("saving user: "+user.getFirstName());
+    	
+    	userService.create(user);
+    	
+       	ObjectMapper objectMapper = new ObjectMapper();
+    	response.setStatus(200);//STATO RISPOSTA
+    	response.setContentType("application/json");//TIPO RISPOSTA
+    	response.getWriter().append(objectMapper.writeValueAsString(user));//CORPO RISPOSTA
+    }
 
 
 	@RequestMapping(value = "/testJsonTT", method = RequestMethod.POST,
