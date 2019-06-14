@@ -9,7 +9,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-<h1 class="center"> Sono in modificaDati</h1>
+<h1 class="center"> Sono in modifica Dati</h1>
 
 <div class="container">
 

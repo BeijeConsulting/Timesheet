@@ -53,42 +53,70 @@ tr:nth-child(even) {
 	<h1 align="center">Dati relativi agli utenti
 		${timetable.idUser }</h1>
 
-	<div style="overflow-x: auto;">
-		<table>
-			<tr>
-				<th>ID utente</th>
-				<th>Data</th>
-				<th>Ora inizio</th>
-				<th>Ora fine</th>
-				<th>Ora inizio</th>
-				<th>Ora fine</th>
-				<th>Totale ore</th>
-			</tr>
-			<tr>
-				<td>${timetable.idUser}</td>
-				<td>${timetable.date}</td>
-				<td>${timetable.start1}</td>
-				<td>${timetable.end1}</td>
-				<td>${timetable.start2}</td>
-				<td>${timetable.end2}</td>
-				<td>${timetable.tot}</td>
-			</tr>
-		</table>
-	</div>
+<div class="container">
 
+<div class="row">
+      <form class="col s12" action="confermadatitimetable" method="post">
+        <div class="row">
+          
+          <div class="input-field col s6">
+            <input id="id_utente" type="text" name="idUser" value ="${timetable.idUser}" required>
+            <label for="id_utente" class="pink-text"><b>Id Utente</b></label>
+          </div>
+          <div class="input-field col s6">
+            <input id="date" type="date" name="date" value ="${timetable.date}" required>
+            <label for="date" class="pink-text"><b>Date</b></label>
+          </div>
+        </div>
+        
+<label class="w3-text-grey">Tipo:</label> <br> 
+			<select class="w3-text-grey" name="type">
+				<option value="g">Giornata lavorativa</option>
+				<option value="p">Permesso</option>
+				<option value="f">Ferie</option>
+				<option value="m">Malattia</option>
+				<option value="h">Festività</option>
+			</select>
+			
+	<div class="row">
+          <div class="input-field col s12">
+            <input id="start1" type="time" class="validate" name="start1" value ="${timetable.start1}" >
+            <label for="start1">Orario inizio:</label>
+          </div>
+        </div>
+         <div class="input-field col s12">
+            <input id="end1" type="time" class="validate" name="end1" value ="${timetable.end1}" >
+            <label for="end1">Orario fine:</label>
+          </div>
+        </div>
+        
+        
+        <div class="row">
+          <div class="input-field col s12">
+            <input id="start2" type="time" class="validate" name="start2" value ="${timetable.start2}" >
+            <label for="start2">Orario inizio:</label>
+          </div>
+        </div>
+         <div class="input-field col s12">
+            <input id="end2" type="time" class="validate" name="end2" value ="${timetable.end2 }" >
+            <label for="end2">Orario fine:</label>
+          </div>
+        </div>
+        <div class="input-field col s12">
+            <input id="tot" type="time" class="validate" name="tot" value ="${timetable.tot}" >
+            <label for="tot">Totale:</label>
+          </div>
+        <input type="submit" value="conferma">
+        
+      </form>
+    </div>
+    
+    
+</div>
 
-	<h3>Salva o modifica i dati:</h3>
-	<table>
-		<tr>
 			<td>
-				<form action="confermadatitimetable" method="post">
-					<input type="submit" value="Salva">
-				</form>
-			</td>
-			<td>
-				<form action="modifica" method="post">
-					<input type="submit" value="Modifica">
-				</form>
+				<!-- <form action="user" method="post">
+				</form> -->
 			</td>
 		</tr>
 	</table>

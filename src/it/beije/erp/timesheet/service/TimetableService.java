@@ -290,6 +290,35 @@ public class TimetableService {
 
 	}
 
+	public double oreTrascorse(String start1, String end1) {
+		System.out.println(start1);
+		System.out.println(end1);
+		
+		start1 = approssimaOrario(start1);
+		end1 = approssimaOrario(end1);
+		
+
+		LocalTime s1 = LocalTime.parse(start1, DateTimeFormatter.ofPattern("H:mm"));
+		LocalTime e1 = LocalTime.parse(end1, DateTimeFormatter.ofPattern("H:mm"));
+	
+
+		double tempo = MINUTES.between(s1, e1);
+		double tempoTrascorso = tempo / 60;
+		System.out.println(tempoTrascorso);
+		int croppato = (int) tempo / 60;
+		double minutaggioDecimale = tempoTrascorso - Math.floor(tempoTrascorso);
+
+		double minutaggioGiusto = (minutaggioDecimale / 100) * 60;
+		tempoTrascorso = croppato + minutaggioGiusto;
+		DecimalFormat df = new DecimalFormat("#.##");
+		tempoTrascorso = (double) Double.valueOf(df.format(tempoTrascorso));
+		System.out.println(tempoTrascorso);
+		return tempoTrascorso;
+
+	}
+
+	
+	
 	public String approssimaOrario(String orario) {
 		String nuovoOrario = null;
 		orario = orario.substring(0, orario.length());

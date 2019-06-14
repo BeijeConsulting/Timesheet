@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import it.beije.erp.timesheet.entity.User;
@@ -40,9 +41,9 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "/confermadati", method = RequestMethod.POST)
-	public String confermaDati(@Validated User user, Model model) {
+	public String confermaDati(@Validated User user, String lastName, Model model) {
 		System.out.println("pagina confermadati: " + user.getFirstName());
-
+		System.out.println(user.getLastName());
 		//Passa i parametri alla view ritornato
 		//		model.addAttribute("userName", user.getFirstName());
 		model.addAttribute("user", user);
@@ -52,7 +53,7 @@ public class UserController {
 	@RequestMapping(value = "/inserisciutente", method = RequestMethod.POST)
 	public String index(@Validated User user, Model model) {
 		System.out.println("Pagine inseriti: " + user.getLastName());
-		model.addAttribute("userName", user.getFirstName());
+		model.addAttribute("userName", user);
 
 		System.out.println("sono in inserisciutente");
 
