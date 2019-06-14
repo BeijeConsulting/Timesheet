@@ -1,0 +1,50 @@
+
+
+body{
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;}
+
+
+ .beije-logo {
+  height: 5.5em;
+  width: 5.5em;
+}
+
+.sfondo {
+  background-color: #201D1D;
+}
+
+footer {
+  position: sticky;
+  top: 1600px;
+  right: 0;
+}
+
+  main{
+    flex: 1 0 auto;}
+
+    input {
+      width: 30em;
+    }
+
+    .barra-menu {
+      border-style: solid;
+      border-color:#201D1D;
+      height: 6em;
+      width: 100%;
+    }
+
+    .material-icons.bianco {
+      color: white;
+    }
+
+    .margine{
+      margin-top: 30px;
+
+    }
+
+    .marginefaccina{
+      margin-top: 15px;
+
+    }
