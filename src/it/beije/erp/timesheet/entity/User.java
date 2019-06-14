@@ -14,6 +14,7 @@ public class User {
 	@Column(name = "id")
 	private int id;
 	
+
 	@Column(name = "first_name")
 	private String firstName;
 	
@@ -62,15 +63,18 @@ public class User {
 		this.firstName = firstName;
 	}
 	
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+	
+	public void setWorkEmail(String workEmail) {
+		this.workEmail = workEmail;
+	}
 	
 	public String getLastName() {
 		return lastName;
 	}
-	public void setLastName(String last_name) {
-		this.lastName = lastName;
-	}
-	
-	
+
 	public String getPersonalEmail() {
 		return personalEmail;
 	}
@@ -82,10 +86,7 @@ public class User {
 	public String getWorkEmail() {
 		return workEmail;
 	}
-	public void setWorkEmail(String work_email) {
-		this.workEmail = workEmail;
-	}
-	
+
 	
 	public String getPhone() {
 		return phone;

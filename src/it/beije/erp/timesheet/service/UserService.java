@@ -23,22 +23,21 @@ public class UserService {
 		entitymanager.getTransaction().begin();
 
 
-		User utente = new User();
-//			      utente.setId(141);
-		utente.setFirstName(user.getFirstName());
-		utente.setLastName(user.getLastName());
-		utente.setPersonalEmail(user.getPersonalEmail());
-		utente.setWorkEmail(user.getWorkEmail());
-		utente.setPhone(user.getPhone());
-		utente.setFiscalCode(user.getFiscalCode());
-		utente.setAdmin(0);
-		utente.setPassword(user.getPassword());
+//		User utente = new User();
+////			      utente.setId(141);
+//		utente.setFirstName(user.getFirstName());
+//		utente.setLastName(user.getLastName());
+//		utente.setPersonalEmail(user.getPersonalEmail());
+//		utente.setWorkEmail(user.getWorkEmail());
+//		utente.setPhone(user.getPhone());
+//		utente.setFiscalCode(user.getFiscalCode());
+//		utente.setAdmin(0);
+//		utente.setPassword(user.getPassword());
 
 
-		System.out.println("nome: " + utente.getFirstName());
-		System.out.println("cognome: " +utente.getLastName());
-		entitymanager.persist(utente);
-//		entitymanager.persist(user);
+
+//		entitymanager.persist(utente);
+		entitymanager.persist(user);
 		entitymanager.getTransaction().commit();
 
 //		entitymanager.close( );
