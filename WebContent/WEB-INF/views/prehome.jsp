@@ -94,7 +94,7 @@ pageEncoding="ISO-8859-1"%>
 
     
     <div align="center">
-     <form action="hometimetable" method="post">
+     <form action="timetable" method="post">
       <input class="btn green" type="submit" value="Inserisci">
     </form>
     <br><br><br>

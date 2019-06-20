@@ -285,6 +285,7 @@ public class TimetableController {
 		
 		List<Timetable> timetable = new ArrayList<Timetable>();
 		timetable = timetableService.takeRecordsFromDateId(data, idUser);
+		
 		String s1=timetable.get(0).getStart1().substring(0,5);
 		String e1=timetable.get(0).getEnd1().substring(0,5);
 		String s2=timetable.get(0).getStart2().substring(0,5);
