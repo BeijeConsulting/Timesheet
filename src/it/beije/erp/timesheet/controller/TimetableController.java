@@ -321,7 +321,7 @@ public class TimetableController {
 		
 		 timetableService.updateRecord(idUser, data, timetable);
 		 
-		 return "confermadatitimetable";
+		 return "conferma";
 
 	}
 	

@@ -16,36 +16,55 @@ pageEncoding="UTF-8"%>
 	<title>Login</title>
 
 	<style type="text/css">
-		.beije-logo {
-			height: 10em;
-			width: 10em;
-		}
+    .beije-logo {
+      height: 5.5em;
+      width: 5.5em;
+    }
 
-		.sfondo {
-			background-color: #201D1D;
-		}
-
-
-		.bordo{
-			width :100%;
-			height: 100;
-			margin: auto;
-			text-align: center;
-			border-style: solid;
-			border-width: 2px;
-			border-color: #201D1D;
-		}
-
-		body{
-			background-image: url("img/logo_beije_30.png");
-			background-repeat: no-repeat;
-			background-position: center;
-
-
-		}
-
-
-	</style>
+    .sfondo {
+      background-color: #201D1D;
+    }
+    
+    footer {
+      position: sticky;
+      top: 1600px;
+      right: 0;
+    }
+    
+    body{
+      display: flex;
+      min-height: 100vh;
+      flex-direction: column;}
+      
+      main{
+        flex: 1 0 auto;}
+        
+        input {
+          width: 30em;
+        }
+        
+        .barra-menu {
+          border-style: solid;
+          border-color:#201D1D;
+          height: 6em;
+          width: 100%;
+        }
+        
+        .material-icons.bianco {
+          color: white;
+        }
+        
+        .margine{
+          margin-top: 30px;
+          
+        }
+        
+        .marginefaccina{
+          margin-top: 15px;
+          
+        }
+        
+      </style>
 
 </head>
 
@@ -53,7 +72,7 @@ pageEncoding="UTF-8"%>
 
 	<nav>
 		<div class="nav-wrapper sfondo">
-			<a href="#"><img class="responsive-img beije-logo" src="img/logo.png"></a>
+			<a href="#"><img class="responsive-img beije-logo" src="https://i.postimg.cc/3JbPt5ZZ/logo-beije.png"></a>
 		</div>
 	</nav>
 

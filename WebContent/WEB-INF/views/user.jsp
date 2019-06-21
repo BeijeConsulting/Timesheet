@@ -71,10 +71,10 @@ tr:nth-child(even) {
         
 <label class="w3-text-grey">Tipo:</label> <br> 
 			<select class="w3-text-grey" name="type">
-				<option value="g">Giornata lavorativa</option>
+				<option value="w">Giornata lavorativa</option>
 				<option value="p">Permesso</option>
-				<option value="f">Ferie</option>
-				<option value="m">Malattia</option>
+				<option value="v">Ferie</option>
+				<option value="s">Malattia</option>
 				<option value="h">Festività</option>
 			</select>
 			

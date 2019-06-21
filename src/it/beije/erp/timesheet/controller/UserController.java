@@ -117,7 +117,7 @@ public class UserController {
 	public String confermaModificaDati(@Validated User user, Model model) {
 
 		new UserService().modificaUtente(user);
-		return "confermamodificadati";
+		return "conferma";
 	}
 	
 	@RequestMapping(value = "/cancellautente", method = RequestMethod.POST)

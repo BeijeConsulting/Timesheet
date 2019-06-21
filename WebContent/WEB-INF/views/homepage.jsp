@@ -15,22 +15,62 @@ pageEncoding="UTF-8"%>
 
   <style type="text/css">
     .beije-logo {
-      height: 10em;
-      width: 10em;
+      height: 5.5em;
+      width: 5.5em;
     }
 
     .sfondo {
       background-color: #201D1D;
     }
-  </style>
+    
+    footer {
+      position: sticky;
+      top: 1600px;
+      right: 0;
+    }
+    
+    body{
+      display: flex;
+      min-height: 100vh;
+      flex-direction: column;}
+      
+      main{
+        flex: 1 0 auto;}
+        
+        input {
+          width: 30em;
+        }
+        
+        .barra-menu {
+          border-style: solid;
+          border-color:#201D1D;
+          height: 6em;
+          width: 100%;
+        }
+        
+        .material-icons.bianco {
+          color: white;
+        }
+        
+        .margine{
+          margin-top: 30px;
+          
+        }
+        
+        .marginefaccina{
+          margin-top: 15px;
+          
+        }
+        
+      </style>
 
 </head>
 
 <body>
 
  <nav>
-  <div class="nav-wrapper sfondo center">
-    <a href="#"><img class="responsive-img beije-logo" src="img/logo.png"></a>
+  <div class="nav-wrapper sfondo">
+    <a href="#"><img class="responsive-img beije-logo" src="https://i.postimg.cc/3JbPt5ZZ/logo-beije.png"></a>
   </div>
 </nav>
 
