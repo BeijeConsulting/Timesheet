@@ -105,7 +105,7 @@ public class User {
 	
 	
 	public int getAdmin() {
-		return admin;
+		return 0;//admin;
 	}
 	public void setAdmin(int admin) {
 		this.admin = admin;

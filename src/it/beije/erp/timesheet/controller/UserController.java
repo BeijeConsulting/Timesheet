@@ -95,7 +95,7 @@ public class UserController {
 		
 		try {
 		
-		user = new UserService().trovaID(user.getId());
+		user = new UserService().find(user.getId());
 		user.getFirstName();
 		model.addAttribute("user", user);
 			return "modificadati";

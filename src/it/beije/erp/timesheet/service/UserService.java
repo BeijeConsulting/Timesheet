@@ -16,32 +16,55 @@ import it.beije.jpa.JpaEntityManager;
 @Service
 public class UserService {
 
-	public void create(User user) {
+	public User find(int id) {
+
+		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
+		EntityManager entitymanager = emfactory.createEntityManager();
+
+		User user = entitymanager.find(User.class, id);
+
+//		System.out.println("trovato" + user.getFirstName());
+		
+		entitymanager.close();
+
+		return user;
+	}
+	
+	public User create(User user) {
 		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
 
 		EntityManager entitymanager = emfactory.createEntityManager();
 		entitymanager.getTransaction().begin();
 
-
-//		User utente = new User();
-////			      utente.setId(141);
-//		utente.setFirstName(user.getFirstName());
-//		utente.setLastName(user.getLastName());
-//		utente.setPersonalEmail(user.getPersonalEmail());
-//		utente.setWorkEmail(user.getWorkEmail());
-//		utente.setPhone(user.getPhone());
-//		utente.setFiscalCode(user.getFiscalCode());
-//		utente.setAdmin(0);
-//		utente.setPassword(user.getPassword());
-
-
-
-//		entitymanager.persist(utente);
 		entitymanager.persist(user);
 		entitymanager.getTransaction().commit();
+		entitymanager.close();
+		
+		return user;
+	}
+	
+	public User update(int id, User userData) {
+		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
 
-//		entitymanager.close( );
-//		emfactory.close( );
+		EntityManager entitymanager = emfactory.createEntityManager();
+		entitymanager.getTransaction().begin();
+
+		User user = entitymanager.find(User.class, id);
+    	
+    	if (userData.getFirstName() != null) user.setFirstName(userData.getFirstName());
+    	if (userData.getLastName() != null) user.setLastName(userData.getLastName());
+    	if (userData.getWorkEmail() != null) user.setWorkEmail(userData.getWorkEmail());
+    	if (userData.getPersonalEmail() != null) user.setPersonalEmail(userData.getPersonalEmail());
+    	if (userData.getPhone() != null) user.setPhone(userData.getPhone());
+    	if (userData.getFiscalCode() != null) user.setFiscalCode(userData.getFiscalCode());
+    	if (userData.getPassword() != null) user.setPassword(userData.getPassword());
+    	if (userData.getArchived() != null) user.setArchived(userData.getArchived());
+
+		entitymanager.persist(user);
+		entitymanager.getTransaction().commit();
+		entitymanager.close();
+		
+		return user;
 	}
 	
 	public String trovaUtente(String firstName, String lastName) {
@@ -105,16 +128,21 @@ public class UserService {
 
 		return trovati;
 	}
-	public User trovaID(int id) {
+	
+	public List<User> caricaTutti() {
 
 		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
 		EntityManager entitymanager = emfactory.createEntityManager();
 
-		User user = entitymanager.find(User.class, id);
-//
-//		System.out.println("trovato" + user.getFirstName());
+		Query q = entitymanager.createQuery("SELECT u FROM User u");
 
-		return user;
+		List<User> utenti = q.getResultList();
+
+		entitymanager.close();
+		
+		System.out.println("caricaTutti : " + utenti.size());
+		
+		return utenti;
 	}
 	
 	public void modificaUtente(User user) {

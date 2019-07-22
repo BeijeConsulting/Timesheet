@@ -109,7 +109,7 @@ pageEncoding="UTF-8"%>
 
 
 						<div class="row">
-							<form class="col s12 right" action="http://localhost:8080/Timesheet/temporanea" method="get">
+							<form class="col s12 right" action="/timesheet/temporanea" method="get">
 							<!-- 	<a class="waves-effect waves-light btn-large sfondo"><i class="material-icons left">person</i>Loggo</a> -->
 								<input class="btn green" type="submit" value="LOG">
 							</form>

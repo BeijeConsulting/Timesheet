@@ -6,8 +6,8 @@
 		<properties>
 			<property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
 			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/beije?serverTimezone=CET"/>
-			<property name="javax.persistence.jdbc.user" value="privategriffe"/>
-			<property name="javax.persistence.jdbc.password" value="privategriffe"/>
+			<property name="javax.persistence.jdbc.user" value="root"/>
+			<property name="javax.persistence.jdbc.password" value="OVbw4OuweS5v"/>
 			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5Dialect"/>
 
 		</properties>
