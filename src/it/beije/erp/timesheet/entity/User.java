@@ -21,11 +21,11 @@ public class User {
 	@Column(name = "last_name")
 	private String lastName;
 	
-	@Column(name = "personal_email")
-	private String personalEmail;
-	
 	@Column(name = "work_email")
-	private String workEmail;
+	private String email;
+	
+	@Column(name = "personal_email")
+	private String secondaryEmail;
 	
 	@Column(name = "phone")
 	private String phone;
@@ -42,20 +42,17 @@ public class User {
 	@Column(name = "archived")
 	private Date archived;
 	
-	public Date getArchived() {
-		return archived;
-	}
-	public void setArchived(Date archived) {
-		this.archived = archived;
-	}
+	@Column(name = "note")
+	private String note;
+
+	
 	public int getId() {
 		return id;
 	}
 	public void setId(int id) {
 		this.id = id;
 	}
-	
-	
+		
 	public String getFirstName() {
 		return firstName;
 	}
@@ -67,26 +64,23 @@ public class User {
 		this.lastName = lastName;
 	}
 	
-	public void setWorkEmail(String workEmail) {
-		this.workEmail = workEmail;
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
 	}
 	
 	public String getLastName() {
 		return lastName;
 	}
 
-	public String getPersonalEmail() {
-		return personalEmail;
+	public String getSecondaryEmail() {
+		return secondaryEmail;
 	}
-	public void setPersonalEmail(String personalEmail) {
-		this.personalEmail = personalEmail;
+	public void setSecondaryEmail(String secondaryEmail) {
+		this.secondaryEmail = secondaryEmail;
 	}
-	
-	
-	public String getWorkEmail() {
-		return workEmail;
-	}
-
 	
 	public String getPhone() {
 		return phone;
@@ -117,6 +111,20 @@ public class User {
 	}
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public String getNote() {
+		return note;
+	}
+	public void setNote(String note) {
+		this.note = note;
+	}
+
+	public Date getArchived() {
+		return archived;
+	}
+	public void setArchived(Date archived) {
+		this.archived = archived;
 	}
 }
 	

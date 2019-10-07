@@ -9,7 +9,6 @@ import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import it.beije.erp.timesheet.entity.User;
@@ -85,7 +84,7 @@ public class UserController {
 	@RequestMapping(value = "/utentitrovati", method = RequestMethod.GET)
 	public String utentiTrovati(@Validated User user, Model model) {
 		String trovati = new UserService().trovaUtente(user.getFirstName(),user.getLastName());
-		user.setPersonalEmail(trovati);
+		user.setSecondaryEmail(trovati);
 		return "utentitrovati";
 	}
 

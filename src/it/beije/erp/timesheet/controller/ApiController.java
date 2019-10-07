@@ -14,18 +14,17 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import it.beije.erp.timesheet.entity.Timetable;
 import it.beije.erp.timesheet.entity.User;
+import it.beije.erp.timesheet.service.TimetableService;
 import it.beije.erp.timesheet.service.UserService;
 
-import java.text.DateFormat;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+
 
 @Controller
 @RequestMapping("api")
@@ -33,6 +32,9 @@ public class ApiController {
 	
 	@Autowired
 	private UserService userService;
+
+	@Autowired
+	private TimetableService timetableService;
 
 	///////// TEST //////////////////////
 	@RequestMapping(value = "/test", method = RequestMethod.GET)
@@ -50,13 +52,13 @@ public class ApiController {
 	}
 	//////////////////////////////////////
 	
-	///////// START USERS //////////////////////
+	///////// START USER //////////////////////
 	@RequestMapping(value = "/users", method = RequestMethod.GET)
     public @ResponseBody List<User> getUsers(Model model, HttpServletResponse response) throws IOException {
     	return userService.caricaTutti();
 	}
 
-	@RequestMapping(value = "/users/{id}", method = RequestMethod.GET)
+	@RequestMapping(value = "/user/{id}", method = RequestMethod.GET)
     public @ResponseBody User getUser(@PathVariable int id, Model model,
     		HttpServletResponse response) throws IOException {
     	System.out.println("get user by id: " + id);
@@ -64,7 +66,7 @@ public class ApiController {
     	return userService.find(id);
 	}
 
-	@RequestMapping(value = "/users", method = RequestMethod.POST,
+	@RequestMapping(value = "/user", method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody User insertUser(@RequestBody User user, Model model,
     		HttpServletResponse response) throws IOException {
@@ -72,7 +74,8 @@ public class ApiController {
     	
     	return userService.create(user);
 	}
-	@RequestMapping(value = "/users/{id}", method = RequestMethod.PUT,
+	
+	@RequestMapping(value = "/user/{id}", method = RequestMethod.PUT,
             consumes = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody User updateUser(@PathVariable int id, @RequestBody User user, Model model,
     		HttpServletResponse response) throws IOException {
@@ -81,8 +84,24 @@ public class ApiController {
     	
     	return userService.update(id, user);
 	}
-	///////// END USERS //////////////////////
+	///////// END USER //////////////////////
 
+	///////// START TIMESHEET //////////////////////
+	@RequestMapping(value = "/timesheets", method = RequestMethod.GET)
+    public @ResponseBody List<Timetable> getTimesheets(Model model, HttpServletResponse response) throws IOException {
+    	return timetableService.caricaTutto();
+	}
+
+	@RequestMapping(value = "/timesheets", method = RequestMethod.POST,
+            consumes = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody List<Timetable> insertTimesheets(@RequestBody List<Timetable> timesheets, Model model,
+    		HttpServletResponse response) throws IOException {
+    	System.out.println("insert timesheets: " + timesheets);
+    	
+    	return timetableService.insert(timesheets);
+	}
+	
+	///////// END TIMESHEET //////////////////////
 	
 	@RequestMapping(value = "/testJsonTT", method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -115,7 +134,7 @@ public class ApiController {
 	@RequestMapping(value = "/utenti_trovati", method = RequestMethod.GET)
 	public String utentiTrovati(@Validated User user, Model model) {
 		String trovati = new UserService().trovaUtente(user.getFirstName(),user.getLastName());
-		user.setPersonalEmail(trovati);
+		user.setSecondaryEmail(trovati);
 		return "utenti_trovati";
 	}
 
@@ -138,8 +157,6 @@ public class ApiController {
 	
 	@RequestMapping(value = "/id_non_trovato", method = RequestMethod.POST)
 	public String idNonTrovato(@Validated User user, Model model) {
-
-		
 		return "id_non_trovato";
 	}
 	

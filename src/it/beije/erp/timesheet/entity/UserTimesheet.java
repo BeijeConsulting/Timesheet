@@ -5,9 +5,7 @@ import java.io.Serializable;
 import javax.persistence.*;
 
 
-@Entity
-@Table(name = "timetable")
-public class Timetable implements Serializable {
+public class UserTimesheet implements Serializable {
 	private static final long serialVersionUID = 2L;
 
 	@Id

@@ -53,8 +53,8 @@ public class UserService {
     	
     	if (userData.getFirstName() != null) user.setFirstName(userData.getFirstName());
     	if (userData.getLastName() != null) user.setLastName(userData.getLastName());
-    	if (userData.getWorkEmail() != null) user.setWorkEmail(userData.getWorkEmail());
-    	if (userData.getPersonalEmail() != null) user.setPersonalEmail(userData.getPersonalEmail());
+    	if (userData.getEmail() != null) user.setEmail(userData.getEmail());
+    	if (userData.getSecondaryEmail() != null) user.setSecondaryEmail(userData.getSecondaryEmail());
     	if (userData.getPhone() != null) user.setPhone(userData.getPhone());
     	if (userData.getFiscalCode() != null) user.setFiscalCode(userData.getFiscalCode());
     	if (userData.getPassword() != null) user.setPassword(userData.getPassword());
@@ -155,8 +155,8 @@ public class UserService {
 
 		modifica += " a.firstName= '" +user.getFirstName();
 		modifica += "' , a.lastName= '" + user.getLastName();
-		modifica += "' , a.personalEmail= '" +user.getPersonalEmail();
-		modifica += "' , a.workEmail= '" + user.getWorkEmail();
+		modifica += "' , a.email= '" + user.getEmail();
+		modifica += "' , a.secondaryEmail= '" +user.getSecondaryEmail();
 		modifica += "' , a.phone= '" +user.getPhone();
 		modifica += "' , a.fiscalCode= '" + user.getFiscalCode();
 		modifica += "' , a.password= '" +user.getPassword() +"'";

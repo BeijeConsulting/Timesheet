@@ -118,8 +118,8 @@ public class TimetableController {
 	
 	@RequestMapping(value = "/confermadatitimetable", method = RequestMethod.POST)
 	public String elaboraDati () {
-		System.out.println("Sto elaborando i tuoi dati...");	
-		 timetableService.creaoRecordTimetable(table);
+		System.out.println("Sto elaborando i tuoi dati...");
+		 timetableService.creaRecordTimetable(table);
 		 return "conferma";
 	}
 
@@ -169,7 +169,7 @@ public class TimetableController {
 		if (s1==null||e1==null) {
 			if (!(s2==null||e2==null)) {
 			table.setTot(timetableService.oreTrascorse(s2, e2));
-			 timetableService.creaoRecordTimetable(table);
+			 timetableService.creaRecordTimetable(table);
 			return "conferma";
 			}
 			else return "erroremodificaorari";
@@ -180,7 +180,7 @@ public class TimetableController {
 				System.out.println("dopo if prima metodo");
 			table.setTot(timetableService.oreTrascorse(s1, e1));
 			System.out.println("dopo if dopo metodo");
-			 timetableService.creaoRecordTimetable(table);
+			 timetableService.creaRecordTimetable(table);
 			return "conferma";
 			}
 			else return "erroremodificaorari";
@@ -190,7 +190,7 @@ public class TimetableController {
 //		table=timetable;
 		model.addAttribute("timetable", table);
 		System.out.println("Controllo"+table.getType());
-		 timetableService.creaoRecordTimetable(table);
+		 timetableService.creaRecordTimetable(table);
 		return "conferma";}
 	}
 		

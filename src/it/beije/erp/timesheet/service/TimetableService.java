@@ -25,7 +25,39 @@ import it.beije.jpa.JpaEntityManager;
 
 @Service
 public class TimetableService {
+	
+	public List<Timetable> caricaTutto() {
 
+		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
+		EntityManager entitymanager = emfactory.createEntityManager();
+
+		Query q = entitymanager.createQuery("SELECT t FROM Timetable t");
+
+		List<Timetable> timetables = q.getResultList();
+
+		entitymanager.close();
+		
+		System.out.println("caricaTutto : " + timetables.size());
+		
+		return timetables;
+	}
+
+	public List<Timetable> insert(List<Timetable> timetables) {
+		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
+
+		EntityManager entitymanager = emfactory.createEntityManager();
+		entitymanager.getTransaction().begin();
+		
+		for(Timetable timetable : timetables) {
+			entitymanager.persist(timetable);			
+		}
+
+		entitymanager.getTransaction().commit();
+		entitymanager.close();
+		
+		return timetables;
+	}
+	
 	/*****************************************************************************************************************
 	 * 
 	 * VERIFICA PASSWORD
@@ -246,7 +278,7 @@ public class TimetableService {
 	 * INSERISCI TUPLA NEL DATABASE
 	 * 
 	 *****************************************************************************************************************/
-	public void creaoRecordTimetable(Timetable table) {
+	public void creaRecordTimetable(Timetable table) {
 
 		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
 
