@@ -104,6 +104,15 @@ public class ApiController {
 		return timetableService.insert(timesheets);
 	}
 
+	@RequestMapping(value = "/timesheets/user/{id}", method = RequestMethod.GET)
+	public @ResponseBody Map<String, Object> retrieveTimeSheetTables(@PathVariable int id) {
+		Map<String, Object> result = new HashMap<String, Object>();
+		List<Timetable> timetablelist = timetableService.retrieveListById(id);
+		result.put("user", id);
+		result.put("timesheets", timetablelist);
+		return result;
+	}
+
 	@RequestMapping(value = "/timesheets/user/byId", method = RequestMethod.GET)
 	public @ResponseBody Map<String, Object> mockedTimeSheetList() {
 		
