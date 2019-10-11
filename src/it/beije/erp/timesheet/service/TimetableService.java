@@ -406,4 +406,30 @@ public class TimetableService {
 		return nuovoOrario;
 	}
 
+	public List<Timetable> retrieveListById(int id) {
+		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
+		EntityManager entitymanager = emfactory.createEntityManager();
+
+		Query q = entitymanager.createQuery("FROM Timetable t WHERE t.idUser = "+id);
+
+		List<Timetable> timetables = q.getResultList();
+
+		entitymanager.close();
+		
+		return timetables;
+	}
+
+	public List<Timetable> retrieveTimatablesInDateRangeByUserId(int userId, Date dateFrom, Date dateTo) {
+		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
+		EntityManager entitymanager = emfactory.createEntityManager();
+
+		Query q = entitymanager.createQuery("FROM Timetable t WHERE t.idUser = "+userId+" and t.date >= '"+dateFrom+"' and t.date <= '"+dateTo+"'");
+
+		List<Timetable> timetables = q.getResultList();
+
+		entitymanager.close();
+		
+		return timetables;
+	}
+
 }
