@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -105,19 +106,47 @@ public class ApiController {
 	}
 
 	@RequestMapping(value = "/timesheets/user/{id}", method = RequestMethod.GET)
-	public @ResponseBody Map<String, Object> retrieveTimeSheetTables(@PathVariable int id) {
+	public @ResponseBody Map<String, Object> retrieveTimeSheetTables(@PathVariable int id,@RequestParam(value = "datefrom", required = true)Date datefrom,@RequestParam(value = "dateto", required = false)Date dateto) {
 		Map<String, Object> result = new HashMap<String, Object>();
-		List<Timetable> timetablelist = timetableService.retrieveListById(id);
+		dateto = dateto == null? new Date(System.currentTimeMillis()):dateto;
+		List<Timetable> timetablelist = timetableService.retrieveTimatablesInDateRangeByUserId(id,datefrom,dateto);
+		List<Object> timesheets = new ArrayList<Object>();
+		Map<String, List> byDate = new HashMap<String, List>();		
+		
+		timetablelist.forEach(timetable-> {
+			Map<String, Object> ts = new HashMap<String, Object>();
+			String currentDate = timetable.getDate();
+			ts.put("id", timetable.getId());
+			ts.put("type", timetable.getType());
+			ts.put("tot", timetable.getTot());
+			ts.put("start1", timetable.getStart1());
+			ts.put("end1", timetable.getEnd1());
+			if(timetable.getStart2() != null && timetable.getEnd2() != null) {
+				ts.put("start2", timetable.getStart2());
+				ts.put("end2", timetable.getEnd2());				
+			}
+			if(!byDate.containsKey(currentDate))
+				byDate.put(currentDate, new ArrayList<Map>());
+			byDate.get(currentDate).add(ts);			
+		});	
+		
+		byDate.forEach((date,list) -> {
+			Map<String, Object> timesheet = new HashMap<String, Object>();
+			timesheet.put("date", date);
+			timesheet.put("ts", list);
+			timesheets.add(timesheet);
+		});
 		result.put("user", id);
-		result.put("timesheets", timetablelist);
+		result.put("timesheets", timesheets);
+
 		return result;
 	}
 
 	@RequestMapping(value = "/timesheets/user/byId", method = RequestMethod.GET)
 	public @ResponseBody Map<String, Object> mockedTimeSheetList() {
-		
+
 		Map<String, Object> result = mockedTimeTables();
-		
+
 		return result;
 	}
 	///////// END TIMESHEET //////////////////////
@@ -131,17 +160,17 @@ public class ApiController {
 		el.put("start2","14:00");
 		el.put("end2","18:00");
 		el.put("tot",8);
-		
+
 		List<Map<String, Object>> ts = new ArrayList<Map<String, Object>>();		
 		ts.add(el);
-		
+
 		Map<String, Object> timesheet = new HashMap<String, Object>();
 		timesheet.put("date", new Date(2019-1900, 9, 29).toString());
 		timesheet.put("ts", ts);
-		
+
 		List<Map<String, Object>> timesheets = new ArrayList<Map<String, Object>>();
 		timesheets.add(timesheet);
-		
+
 		Map<String, Object> result = new HashMap<String, Object>();
 		result.put("user", new Integer(1));
 		result.put("timesheets", timesheets);
@@ -199,19 +228,19 @@ public class ApiController {
 		}
 
 	}
-	
+
 	@RequestMapping(value = "/id_non_trovato", method = RequestMethod.POST)
 	public String idNonTrovato(@Validated User user, Model model) {
 		return "id_non_trovato";
 	}
-	
+
 	@RequestMapping(value = "/conferma_modifica_dati", method = RequestMethod.POST)
 	public String confermaModificaDati(@Validated User user, Model model) {
 
 		new UserService().modificaUtente(user);
 		return "conferma_modifica_dati";
 	}
-	
+
 	@RequestMapping(value = "/cancella_utente", method = RequestMethod.POST)
 	public String cancellaUtente(@Validated User user, Model model) {
 
@@ -224,7 +253,7 @@ public class ApiController {
 		new UserService().archiviaUtente(user);
 		return "conferma_cancellazione";
 	}
-	
+
 	///////////////NEW METHOD
 	@RequestMapping(value = "/homepage", method = RequestMethod.GET)
 	public String homepage(@Validated User user, Model model) {
