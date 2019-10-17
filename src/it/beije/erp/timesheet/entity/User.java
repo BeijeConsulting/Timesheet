@@ -34,7 +34,7 @@ public class User {
 	private String fiscalCode;
 	
 	@Column(name = "admin")
-	private int admin;
+	private boolean admin;
 	
 	@Column(name = "password")
 	private String password;
@@ -98,10 +98,10 @@ public class User {
 	}
 	
 	
-	public int getAdmin() {
-		return 0;//admin;
+	public boolean isAdmin() {
+		return this.admin;
 	}
-	public void setAdmin(int admin) {
+	public void setAdmin(boolean admin) {
 		this.admin = admin;
 	}
 	
