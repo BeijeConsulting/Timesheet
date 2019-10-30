@@ -25,6 +25,7 @@
 				</configuration>
 			</plugin>
 		</plugins>
+
 	</build>
 	<dependencies>
 		<dependency>
@@ -45,12 +46,12 @@
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-web</artifactId>
-			<version>5.1.7.RELEASE</version>
+			<version>5.2.0.RELEASE</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-webmvc</artifactId>
-			<version>5.1.7.RELEASE</version>
+			<version>5.2.0.RELEASE</version>
 		</dependency>
 		<dependency>
 			<groupId>javax.servlet</groupId>
@@ -76,6 +77,27 @@
 			<groupId>jstl</groupId>
 			<artifactId>jstl</artifactId>
 			<version>1.2</version>
-		</dependency>		
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-config</artifactId>
+			<version>5.2.0.RELEASE</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-web</artifactId>
+			<version>5.2.0.RELEASE</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-jpa</artifactId>
+			<version>2.2.0.RELEASE</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jdbc</artifactId>
+			<version>5.2.0.RELEASE</version>
+		</dependency>
 	</dependencies>
+
 </project>

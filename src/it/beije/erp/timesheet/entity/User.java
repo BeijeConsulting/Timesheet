@@ -44,8 +44,26 @@ public class User {
 	
 	@Column(name = "note")
 	private String note;
-
+		
 	
+	public User() {
+		super();
+	}
+
+	public User(User user) {super();
+		this.id = user.id;
+		this.firstName = user.firstName;
+		this.lastName = user.lastName;
+		this.email = user.email;
+		this.secondaryEmail = user.secondaryEmail;
+		this.phone = user.phone;
+		this.fiscalCode = user.fiscalCode;
+		this.admin = user.admin;
+		this.password = user.password;
+		this.archived = user.archived;
+		this.note = user.note;
+	}
+
 	public int getId() {
 		return id;
 	}

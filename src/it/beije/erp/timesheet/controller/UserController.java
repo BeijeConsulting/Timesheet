@@ -4,6 +4,7 @@ import java.text.DateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
@@ -25,7 +26,6 @@ public class UserController {
 	/**
 	 * Simply selects the home view to render by returning its name.
 	 */
-
 	@RequestMapping(value = "/home", method = RequestMethod.GET)
 	public String home(Locale locale, Model model) {
 		System.out.println("Home Page Requested, locale = " + locale);
@@ -148,6 +148,7 @@ public class UserController {
 	
 	}
 	
+	@PreAuthorize("hasAnyRole('USER')")	
 	@RequestMapping(value = "/temporanea", method = RequestMethod.GET)
 	public String temporanea(@Validated User user, Model model) {
 
