@@ -26,6 +26,7 @@ public class UserController {
 	/**
 	 * Simply selects the home view to render by returning its name.
 	 */
+	@PreAuthorize("hasAnyRole('USER')")	
 	@RequestMapping(value = "/home", method = RequestMethod.GET)
 	public String home(Locale locale, Model model) {
 		System.out.println("Home Page Requested, locale = " + locale);
@@ -38,6 +39,7 @@ public class UserController {
 
 		return "home";
 	}
+	
 
 	@RequestMapping(value = "/confermadati", method = RequestMethod.POST)
 	public String confermaDati(@Validated User user, String lastName, Model model) {
@@ -59,6 +61,7 @@ public class UserController {
 		return "inserisciutente";
 	}
 
+	@PreAuthorize("hasAnyRole('ADMIN')")		
 	@RequestMapping(value = "/conferma", method = RequestMethod.POST)
 	public String conferma(@Validated User user, Model model) {
 		new UserService().create(user);
@@ -67,6 +70,7 @@ public class UserController {
 		return "conferma";
 	}
 
+	@PreAuthorize("hasAnyRole('ADMIN')")		
 	@RequestMapping(value = "/modificautente", method = RequestMethod.POST)
 	public String modificaUtente(@Validated User user, Model model) {
 
@@ -75,12 +79,14 @@ public class UserController {
 
 
 	
+	@PreAuthorize("hasAnyRole('ADMIN')")		
 	@RequestMapping(value = "/cercautente", method = RequestMethod.POST)
 	public String cercaUtente(@Validated User user, Model model) {
 		
 		return "cercautente";
 	}
 	
+	@PreAuthorize("hasAnyRole('ADMIN')")		
 	@RequestMapping(value = "/utentitrovati", method = RequestMethod.GET)
 	public String utentiTrovati(@Validated User user, Model model) {
 		String trovati = new UserService().trovaUtente(user.getFirstName(),user.getLastName());
@@ -89,6 +95,7 @@ public class UserController {
 	}
 
 	
+	@PreAuthorize("hasAnyRole('ADMIN')")		
 	@RequestMapping(value = "/modificadati", method = RequestMethod.POST)
 	public String modificaDati(@Validated User user, Model model) {
 		
@@ -105,6 +112,7 @@ public class UserController {
 	
 	}
 	
+	@PreAuthorize("hasAnyRole('ADMIN')")		
 	@RequestMapping(value = "/idnontrovato", method = RequestMethod.POST)
 	public String idNonTrovato(@Validated User user, Model model) {
 
@@ -112,6 +120,8 @@ public class UserController {
 		return "idnontrovato";
 	}
 	
+	
+	@PreAuthorize("hasAnyRole('ADMIN')")		
 	@RequestMapping(value = "/confermamodificadati", method = RequestMethod.POST)
 	public String confermaModificaDati(@Validated User user, Model model) {
 
@@ -119,12 +129,14 @@ public class UserController {
 		return "conferma";
 	}
 	
+	@PreAuthorize("hasAnyRole('ADMIN')")
 	@RequestMapping(value = "/cancellautente", method = RequestMethod.POST)
 	public String cancellaUtente(@Validated User user, Model model) {
 
 		return "cancellautente";
 	}
 
+	@PreAuthorize("hasAnyRole('ADMIN')")		
 	@RequestMapping(value = "/confermacancellazione", method = RequestMethod.POST)
 	public String confermaCancellazione(@Validated User user, Model model) {
 
@@ -134,13 +146,14 @@ public class UserController {
 	
 	
 	///////////////NEW METHOD
+	@PreAuthorize("hasAnyRole('ADMIN')")	
 	@RequestMapping(value = "/homepage", method = RequestMethod.GET)
 	public String homepage(@Validated User user, Model model) {
 
 		return "homepage";
 	}
 	
-	@RequestMapping(value = "/", method = RequestMethod.GET)
+	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String login(@Validated User user, Model model) {
 
 		return "login";
@@ -148,8 +161,7 @@ public class UserController {
 	
 	}
 	
-	@PreAuthorize("hasAnyRole('USER')")	
-	@RequestMapping(value = "/temporanea", method = RequestMethod.GET)
+	@RequestMapping(value = {"/temporanea","/"}, method = RequestMethod.GET)
 	public String temporanea(@Validated User user, Model model) {
 
 		return "temporanea";

@@ -23,19 +23,17 @@ public class ConfigurationClass extends WebSecurityConfigurerAdapter {
 
 	@Override
     protected void configure(HttpSecurity http) throws Exception {
-		System.out.println("Security configuration http");
 		http.csrf().disable();
         http.authorizeRequests()
                 .antMatchers("/","/**").authenticated()
                 .anyRequest().permitAll()
                 .and()
-                .formLogin()//.loginPage("/login")
+                .formLogin()//.loginPage("/login")-> de-commentare quando il login custom sarà agganciato a security
                 .permitAll();        
     }
 	
 	@Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		System.out.println("Security configuration auth");
 		auth.userDetailsService(userDetailsService).passwordEncoder(getPasswordEncoder());
 	}
 
