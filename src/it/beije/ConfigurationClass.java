@@ -1,4 +1,4 @@
-package it.beije.timesheet;
+package it.beije;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -11,13 +11,12 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import it.beije.erp.timesheet.service.UserService;
-import it.beije.timesheet.repositories.UserRepository;
 
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @EnableJpaRepositories("it.beije.timesheet.repositories")
-public class SecurityConf extends WebSecurityConfigurerAdapter {
+public class ConfigurationClass extends WebSecurityConfigurerAdapter {
 	
 	@Autowired
 	private UserService userDetailsService;
@@ -27,10 +26,10 @@ public class SecurityConf extends WebSecurityConfigurerAdapter {
 		System.out.println("Security configuration http");
 		http.csrf().disable();
         http.authorizeRequests()
-                .antMatchers("/**").authenticated()
+                .antMatchers("/","/**").authenticated()
                 .anyRequest().permitAll()
                 .and()
-                .formLogin()//.loginPage("/")
+                .formLogin()//.loginPage("/login")
                 .permitAll();        
     }
 	
