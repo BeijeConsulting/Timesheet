@@ -15,13 +15,13 @@ public class User {
 	private int id;
 	
 
-	@Column(name = "first_name")
+	@Column(name = "first_name", nullable=false)
 	private String firstName;
 	
-	@Column(name = "last_name")
+	@Column(name = "last_name", nullable=false)
 	private String lastName;
 	
-	@Column(name = "work_email")
+	@Column(name = "work_email", unique=true, nullable=false)
 	private String email;
 	
 	@Column(name = "personal_email")
@@ -30,13 +30,22 @@ public class User {
 	@Column(name = "phone")
 	private String phone;
 	
-	@Column(name = "fiscal_code")
+	@Column(name = "fiscal_code", unique=true)
 	private String fiscalCode;
+	
+	@Column(name = "birth_date")
+	private Date birthdate;
+	
+	@Column(name = "document", unique=true)
+	private String document;
+	
+	@Column(name = "id_skype")
+	private String idskype;
 	
 	@Column(name = "admin")
 	private boolean admin;
 	
-	@Column(name = "password")
+	@Column(name = "password", nullable=false)
 	private String password;
 
 	@Column(name = "archived")
@@ -58,6 +67,9 @@ public class User {
 		this.secondaryEmail = user.secondaryEmail;
 		this.phone = user.phone;
 		this.fiscalCode = user.fiscalCode;
+		this.birthdate = user.birthdate;
+		this.document = user.document;
+		this.idskype = user.idskype;
 		this.admin = user.admin;
 		this.password = user.password;
 		this.archived = user.archived;
@@ -67,6 +79,7 @@ public class User {
 	public int getId() {
 		return id;
 	}
+	
 	public void setId(int id) {
 		this.id = id;
 	}
@@ -74,6 +87,7 @@ public class User {
 	public String getFirstName() {
 		return firstName;
 	}
+	
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
 	}
@@ -85,6 +99,7 @@ public class User {
 	public String getEmail() {
 		return email;
 	}
+	
 	public void setEmail(String email) {
 		this.email = email;
 	}
@@ -92,10 +107,11 @@ public class User {
 	public String getLastName() {
 		return lastName;
 	}
-
+	
 	public String getSecondaryEmail() {
 		return secondaryEmail;
 	}
+	
 	public void setSecondaryEmail(String secondaryEmail) {
 		this.secondaryEmail = secondaryEmail;
 	}
@@ -103,30 +119,55 @@ public class User {
 	public String getPhone() {
 		return phone;
 	}
+	
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
 	
-	
 	public String getFiscalCode() {
 		return fiscalCode;
 	}
+	
 	public void setFiscalCode(String fiscalCode) {
 		this.fiscalCode = fiscalCode;
 	}
 	
+	public Date getBirthdate() {
+		return birthdate;
+	}
+	
+	public void setBirthdate(Date birthdate) {
+		this.birthdate = birthdate;
+	}
+	
+	public String getDocument() {
+		return document;
+	}
+	
+	public void setDocument(String document) {
+		this.document = document;
+	}
+	
+	public String getIdskype() {
+		return idskype;
+	}
+	
+	public void setIdskype(String idskype) {
+		this.idskype = idskype;
+	}
 	
 	public boolean isAdmin() {
 		return this.admin;
 	}
+	
 	public void setAdmin(boolean admin) {
 		this.admin = admin;
 	}
 	
-	
 	public String getPassword() {
 		return password;
 	}
+	
 	public void setPassword(String password) {
 		this.password = password;
 	}
@@ -134,6 +175,7 @@ public class User {
 	public String getNote() {
 		return note;
 	}
+	
 	public void setNote(String note) {
 		this.note = note;
 	}
@@ -141,6 +183,7 @@ public class User {
 	public Date getArchived() {
 		return archived;
 	}
+	
 	public void setArchived(Date archived) {
 		this.archived = archived;
 	}
