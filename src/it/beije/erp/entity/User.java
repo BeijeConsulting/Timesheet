@@ -2,6 +2,7 @@ package it.beije.erp.entity;
 
 
 import java.sql.Date;
+import java.util.List;
 
 import javax.persistence.*;
 
@@ -14,6 +15,14 @@ public class User {
 	@Column(name = "id")
 	private int id;
 	
+	@OneToMany(mappedBy = "user")
+	private List<Address> addresses;
+	
+	@OneToMany(mappedBy = "user")
+	private List<BankCredentials> bankCredentials;
+	
+	@OneToMany(mappedBy = "user")
+	private List<Contract> contracts;
 
 	@Column(name = "first_name", nullable=false)
 	private String firstName;
@@ -53,7 +62,6 @@ public class User {
 	
 	@Column(name = "note")
 	private String note;
-		
 	
 	public User() {
 		super();
@@ -187,5 +195,67 @@ public class User {
 	public void setArchived(Date archived) {
 		this.archived = archived;
 	}
+
+	
+	public List<Address> getAddresses() {
+		return addresses;
+	}
+	
+
+	public void setAddresses(List<Address> addresses) {
+		this.addresses = addresses;
+	}
+	
+
+	public List<BankCredentials> getBankCredentials() {
+		return bankCredentials;
+	}
+	
+
+	public void setBankCredentials(List<BankCredentials> bankCredentials) {
+		this.bankCredentials = bankCredentials;
+	}
+	
+
+	public List<Contract> getContracts() {
+		return contracts;
+	}
+	
+
+	public void setContracts(List<Contract> contracts) {
+		this.contracts = contracts;
+	}
+	
+	public void addAddress(Address address) {
+		addresses.add(address);
+		address.setUser(this);
+	}
+	
+	public void removeAddress(Address address) {
+		addresses.remove(address);
+		address.setUser(null);
+	}
+	
+	public void addBankCredentials(BankCredentials credentials) {
+		bankCredentials.add(credentials);
+		credentials.setUser(this);
+	}
+	
+	public void removeBankCredentials(BankCredentials credentials) {
+		bankCredentials.remove(credentials);
+		credentials.setUser(null);
+	}
+	
+	public void addContract(Contract contract) {
+		contracts.add(contract);
+		contract.setUser(this);
+	}
+	
+	public void removeContractType(Contract contract) {
+		contracts.remove(contract);
+		contract.setUser(null);
+	}
+	
+	
 }
 	

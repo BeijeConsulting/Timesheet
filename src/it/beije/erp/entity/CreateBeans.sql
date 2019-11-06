@@ -1,3 +1,5 @@
+/* FIX: nome della tabella user */
+
 CREATE TABLE bank_credential(
 	id INT NOT NULL AUTO_INCREMENT,
 	id_user INT NOT NULL,
@@ -27,27 +29,34 @@ CREATE TABLE address(
 	FOREIGN KEY(id_user) REFERENCES beijedb.user(id)  
 );
 
-CREATE TABLE contract(
+CREATE TABLE contratto(
 	id INT NOT NULL AUTO_INCREMENT,
-    ccnl VARCHAR(30) NOT NULL,
-    lvl SMALLINT NOT NULL,
+    id_user INT NOT NULL,
+	contract_type CHAR(1) NOT NULL,
+    ccnl VARCHAR(50) NULL,
+    liv SMALLINT  NULL,
+    minimo_contrattuale DOUBLE  NULL,
+    superminimo DOUBLE  NULL,
+    retribuzione_mensile DOUBLE  NULL,
+    ral DOUBLE  NULL,
+    netto_mensile DOUBLE NULL,
+    costo_interno DOUBLE NOT NULL DEFAULT 0,
+    note VARCHAR(200) NULL,
     
-	PRIMARY KEY(id)
+	PRIMARY KEY(id),
+	FOREIGN KEY(contract_type) REFERENCES beijedb.contract_type(cod),
+    FOREIGN KEY(id_user) REFERENCES beijedb.user(id)
 );
 
 CREATE TABLE contract_type(
     cod CHAR(1) NOT NULL,													/* PK (I, D, C, S, P) */
-    id_contract INT NOT NULL,												/* FK (contract) */
     description VARCHAR(30) NOT NULL,
     PRIMARY KEY(cod)
-    FOREIGN KEY(id_contract) REFERENCES beijedb.contract(id)
 );
 
 /* Versione con ENUM come PK */
 CREATE TABLE contract_type(
     cod ENUM("I", "D", "C", "S", "P") NOT NULL,								/* PK (I, D, C, S, P) */
-    id_contract INT NOT NULL,												/* FK (contract) */
     description VARCHAR(30) NOT NULL,
-    PRIMARY KEY(cod),
-    FOREIGN KEY(id_contract) REFERENCES beijedb.contract(id)
+    PRIMARY KEY(cod)
 );
