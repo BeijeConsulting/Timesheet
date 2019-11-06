@@ -1,5 +1,5 @@
 package it.beije.erp.entity;
-
+ 
 import java.time.LocalDate;
 
 import javax.persistence.Column;
