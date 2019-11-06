@@ -19,8 +19,8 @@ import java.text.DecimalFormat;
 
 import org.springframework.stereotype.Service;
 
+import it.beije.erp.entity.User;
 import it.beije.erp.timesheet.entity.Timetable;
-import it.beije.erp.timesheet.entity.User;
 import it.beije.jpa.JpaEntityManager;
 
 @Service

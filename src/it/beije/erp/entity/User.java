@@ -1,4 +1,4 @@
-package it.beije.erp.timesheet.entity;
+package it.beije.erp.entity;
 
 
 import java.sql.Date;

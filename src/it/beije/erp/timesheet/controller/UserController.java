@@ -12,8 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
-import it.beije.erp.timesheet.entity.User;
-
+import it.beije.erp.entity.User;
 import it.beije.erp.timesheet.service.UserService;
 
 //import it.beije.jpa.GestioneUtenti;

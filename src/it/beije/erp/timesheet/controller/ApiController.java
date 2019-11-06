@@ -24,8 +24,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import it.beije.erp.entity.User;
 import it.beije.erp.timesheet.entity.Timetable;
-import it.beije.erp.timesheet.entity.User;
 import it.beije.erp.timesheet.service.TimetableService;
 import it.beije.erp.timesheet.service.UserService;
 

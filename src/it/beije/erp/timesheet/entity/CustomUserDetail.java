@@ -8,6 +8,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import it.beije.erp.entity.User;
+
 public class CustomUserDetail extends User implements UserDetails{
 	
 	private static final String ROLE_ADMIN = "ROLE_ADMIN";

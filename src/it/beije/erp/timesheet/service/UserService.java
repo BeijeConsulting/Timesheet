@@ -14,8 +14,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import it.beije.erp.entity.User;
 import it.beije.erp.timesheet.entity.CustomUserDetail;
-import it.beije.erp.timesheet.entity.User;
 import it.beije.jpa.JpaEntityManager;
 import it.beije.timesheet.repositories.UserRepository;
 

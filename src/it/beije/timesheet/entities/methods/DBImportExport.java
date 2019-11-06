@@ -26,7 +26,7 @@ import org.hibernate.criterion.Restrictions;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import it.beije.erp.timesheet.entity.User;
+import it.beije.erp.entity.User;
 
 public class DBImportExport {
 	

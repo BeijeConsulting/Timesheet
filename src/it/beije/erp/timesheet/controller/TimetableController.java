@@ -16,9 +16,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.context.annotation.SessionScope;
 
-
+import it.beije.erp.entity.User;
 import it.beije.erp.timesheet.entity.Timetable;
-import it.beije.erp.timesheet.entity.User;
 import it.beije.erp.timesheet.service.TimetableService;
 
 

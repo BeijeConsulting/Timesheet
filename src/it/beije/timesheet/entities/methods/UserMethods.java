@@ -9,7 +9,7 @@ import org.hibernate.cfg.Configuration;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
 
-import it.beije.erp.timesheet.entity.User;
+import it.beije.erp.entity.User;
 
 public class UserMethods {
 
