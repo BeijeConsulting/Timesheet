@@ -41,7 +41,7 @@ pageEncoding="UTF-8"%>
         <div class="row">
           <div class="input-field col s12">
             <input id="wemail" type="email" class="validate" name="workEmail">
-            <label for="wemail">Inserisci email di lavoro</label>
+            <label for="wemail">Inserisci email secondaria</label>
           </div>
         </div>
         
