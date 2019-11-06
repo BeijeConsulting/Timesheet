@@ -21,10 +21,13 @@ public class User {
 	@Column(name = "last_name", nullable=false)
 	private String lastName;
 	
-	@Column(name = "work_email", unique=true, nullable=false)
+	@Column(name = "email", unique=true, nullable=false)
 	private String email;
 	
-	@Column(name = "personal_email")
+	@Column(name = "password", nullable=false)
+	private String password;
+	
+	@Column(name = "secondary_email")
 	private String secondaryEmail;
 	
 	@Column(name = "phone")
@@ -36,6 +39,12 @@ public class User {
 	@Column(name = "birth_date")
 	private Date birthdate;
 	
+	@Column(name = "birth_place")
+	private String birthplace;
+	
+	@Column(name = "nationality")
+	private String nationality;
+	
 	@Column(name = "document", unique=true)
 	private String document;
 	
@@ -44,12 +53,9 @@ public class User {
 	
 	@Column(name = "admin")
 	private boolean admin;
-	
-	@Column(name = "password", nullable=false)
-	private String password;
 
-	@Column(name = "archived")
-	private Date archived;
+	@Column(name = "archive_date")
+	private Date archiveDate;
 	
 	@Column(name = "note")
 	private String note;
@@ -72,8 +78,32 @@ public class User {
 		this.idskype = user.idskype;
 		this.admin = user.admin;
 		this.password = user.password;
-		this.archived = user.archived;
+		this.archiveDate = user.archiveDate;
 		this.note = user.note;
+	}
+
+	public String getBirthplace() {
+		return birthplace;
+	}
+
+	public void setBirthplace(String birthplace) {
+		this.birthplace = birthplace;
+	}
+
+	public String getNationality() {
+		return nationality;
+	}
+
+	public void setNationality(String nationality) {
+		this.nationality = nationality;
+	}
+
+	public Date getArchiveDate() {
+		return archiveDate;
+	}
+
+	public void setArchiveDate(Date archiveDate) {
+		this.archiveDate = archiveDate;
 	}
 
 	public int getId() {
@@ -181,11 +211,11 @@ public class User {
 	}
 
 	public Date getArchived() {
-		return archived;
+		return archiveDate;
 	}
 	
-	public void setArchived(Date archived) {
-		this.archived = archived;
+	public void setArchived(Date archiveDate) {
+		this.archiveDate = archiveDate;
 	}
 }
 	
