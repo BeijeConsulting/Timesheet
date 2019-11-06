@@ -32,30 +32,66 @@ pageEncoding="UTF-8"%>
         </div>
 
         <div class="row">
-          <div class="input-field col s12">
-            <input id="email" type="email" class="validate" name="personalEmail">
-            <label for="email">Inserisci email</label>
+          <div class="input-field col s6">
+            <input id="email" type="email" class="validate" name="email" required>
+            <label for="email" class="pink-text"><b>Inserisci email</b></label>
           </div>
-        </div>
         
-        <div class="row">
-          <div class="input-field col s12">
-            <input id="wemail" type="email" class="validate" name="workEmail">
-            <label for="wemail">Inserisci email secondaria</label>
+          <div class="input-field col s6">
+            <input id="secondary_email" type="email" class="validate" name="secondaryEmail">
+            <label for="secondary_email">Inserisci email secondaria</label>
           </div>
         </div>
         
         <div class="row">
           <div class="input-field col s12">
             <input id="phone" type="text" name="phone">
-            <label for="phone">Inserisci numero telefono</label>
+            <label for="phone">Inserisci numero di telefono</label>
           </div>
         </div>
 
         <div class="row">
           <div class="input-field col s12">
-            <input id="cod_fisc" type="text" name="fiscalCode" minlength="16" maxlength="16" required>
-            <label for="cod_fisc" class="pink-text"><b>Inserisci codice fiscale</b></label>
+            <input id="fiscal_code" type="text" name="fiscalCode" minlength="16" maxlength="16" required>
+            <label for="fiscal_code" class="pink-text"><b>Inserisci codice fiscale</b></label>
+          </div>
+        </div>
+        
+        <div class="row">
+          <div class="input-field col s6">
+            <input id="birth_date" type="date" name="birthdate">
+            <label for="birth_date">Inserisci data di nascita</label>
+        </div>
+        
+          <div class="input-field col s6">
+            <input id="birth_place" type="text" name="birthplace">
+            <label for="birth_place">Inserisci luogo di nascita</label>
+          </div>
+        </div>
+        
+        <div class="row">
+          <div class="input-field col s12">
+            <input id="nationality" type="text" name="nationality">
+            <label for="nationality">Nazionalità</label>
+          </div>
+        </div>
+        
+        <div class="row">
+          <div class="input-field col s12">
+            <input id="document" type="text" name="document">
+            <label for="document">Documento</label>
+          </div>
+        </div>
+        
+        <div class="row">
+          <div class="input-field col s6">
+            <input id="id_skype" type="text" name="idskype">
+            <label for="id_skype">ID Skype</label>
+          </div>
+        
+          <div class="input-field col s6">
+            <input id="note" type="text" name="note">
+            <label for="note">Note</label>
           </div>
         </div>
 
