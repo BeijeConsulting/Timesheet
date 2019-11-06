@@ -53,24 +53,3 @@ public class ConfigurationClass extends WebSecurityConfigurerAdapter {
 	}
 	
 }
-
-//CREATE TABLE `user` (
-//		  `id_user` int(11) NOT NULL AUTO_INCREMENT,
-//		  `first_name` varchar(30) NOT NULL,
-//		  `last_name` varchar(30) NOT NULL,
-//		  `work_email` varchar(70) NOT NULL,
-//		  `personal_email` varchar(80) DEFAULT NULL,
-//		  `phone` varchar(20) DEFAULT NULL,
-//		  `fiscal_code` varchar(16) DEFAULT NULL,
-//		  `birth_date` date DEFAULT NULL,
-//		  `document` varchar(50) DEFAULT NULL,
-//		  `id_skype` varchar(30) DEFAULT NULL,
-//		  `password` varchar(50) NOT NULL,
-//		  `admin` bit(1) DEFAULT NULL,
-//		  `archived` date DEFAULT NULL,
-//		  `note` varchar(255) DEFAULT NULL,
-//		  PRIMARY KEY (`id_user`),
-//		  UNIQUE KEY `work_email` (`work_email`),
-//		  UNIQUE KEY `fiscal_code` (`fiscal_code`),
-//		  UNIQUE KEY `document` (`document`)
-//		) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
