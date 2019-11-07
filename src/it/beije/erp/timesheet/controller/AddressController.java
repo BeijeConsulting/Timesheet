@@ -19,8 +19,6 @@ import it.beije.erp.entity.User;
 @Controller
 public class AddressController {
 	
-	//TODO: lista, form e post, modifica
-	
 	// GET : read addresses from User within id
 	@RequestMapping(value = "/addresses", method = RequestMethod.GET)
 	public String getAddresses(@RequestParam(name="id") int idUser, Model model) {
