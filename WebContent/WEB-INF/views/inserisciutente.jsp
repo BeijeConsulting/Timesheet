@@ -59,12 +59,12 @@ pageEncoding="UTF-8"%>
         
         <div class="row">
           <div class="input-field col s6">
-            <input id="birth_date" type="date" name="birthdate">
+            <input id="birth_date" type="date" name="birthDate">
             <label for="birth_date">Inserisci data di nascita</label>
         </div>
         
           <div class="input-field col s6">
-            <input id="birth_place" type="text" name="birthplace">
+            <input id="birth_place" type="text" name="birthPlace">
             <label for="birth_place">Inserisci luogo di nascita</label>
           </div>
         </div>
@@ -85,7 +85,7 @@ pageEncoding="UTF-8"%>
         
         <div class="row">
           <div class="input-field col s6">
-            <input id="id_skype" type="text" name="idskype">
+            <input id="id_skype" type="text" name="idSkype">
             <label for="id_skype">ID Skype</label>
           </div>
         

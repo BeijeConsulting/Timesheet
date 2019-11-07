@@ -37,10 +37,10 @@ public class User {
 	private String fiscalCode;
 	
 	@Column(name = "birth_date")
-	private Date birthdate;
+	private Date birthDate;
 	
 	@Column(name = "birth_place")
-	private String birthplace;
+	private String birthPlace;
 	
 	@Column(name = "nationality")
 	private String nationality;
@@ -49,7 +49,7 @@ public class User {
 	private String document;
 	
 	@Column(name = "id_skype")
-	private String idskype;
+	private String idSkype;
 	
 	@Column(name = "admin")
 	private boolean admin;
@@ -73,9 +73,9 @@ public class User {
 		this.secondaryEmail = user.secondaryEmail;
 		this.phone = user.phone;
 		this.fiscalCode = user.fiscalCode;
-		this.birthdate = user.birthdate;
+		this.birthDate = user.birthDate;
 		this.document = user.document;
-		this.idskype = user.idskype;
+		this.idSkype = user.idSkype;
 		this.admin = user.admin;
 		this.password = user.password;
 		this.archiveDate = user.archiveDate;
@@ -83,11 +83,11 @@ public class User {
 	}
 
 	public String getBirthplace() {
-		return birthplace;
+		return birthPlace;
 	}
 
 	public void setBirthplace(String birthplace) {
-		this.birthplace = birthplace;
+		this.birthPlace = birthplace;
 	}
 
 	public String getNationality() {
@@ -163,11 +163,11 @@ public class User {
 	}
 	
 	public Date getBirthdate() {
-		return birthdate;
+		return birthDate;
 	}
 	
 	public void setBirthdate(Date birthdate) {
-		this.birthdate = birthdate;
+		this.birthDate = birthdate;
 	}
 	
 	public String getDocument() {
@@ -179,11 +179,11 @@ public class User {
 	}
 	
 	public String getIdskype() {
-		return idskype;
+		return idSkype;
 	}
 	
 	public void setIdskype(String idskype) {
-		this.idskype = idskype;
+		this.idSkype = idskype;
 	}
 	
 	public boolean isAdmin() {
