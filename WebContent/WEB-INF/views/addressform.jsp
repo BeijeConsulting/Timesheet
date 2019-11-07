@@ -8,7 +8,7 @@
 </head>
 <body>
 
-<form action="form" method="post">
+<form action="registeraddress" method="post">
 
 	ID_UTENTE : <input type="text" name="id_user" value=""><br>
 	INDIRIZZO : <input type="text" name="street" value=""><br>

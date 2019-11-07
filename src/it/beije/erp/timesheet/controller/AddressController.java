@@ -39,7 +39,7 @@ public class AddressController {
 	
 	//Insert form
 	@RequestMapping(value = "/addressform", method = RequestMethod.GET)
-	public String getAddresses() {
+	public String getForm() {
 		return "addressform";
 	}
 	

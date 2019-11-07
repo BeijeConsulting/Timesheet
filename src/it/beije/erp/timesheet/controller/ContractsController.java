@@ -7,9 +7,4 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class ContractsController {
 
-	@RequestMapping(value = "/form", method = RequestMethod.GET)
-	public String getForm() {
-		return "form";
-	}
-	
 }
