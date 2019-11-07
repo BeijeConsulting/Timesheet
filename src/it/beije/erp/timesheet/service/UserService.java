@@ -189,7 +189,7 @@ public class UserService implements UserDetailsService{
 		System.out.println("sono nel metodo archiviaUtente");
 		String modifica="UPDATE User a SET";
 
-		modifica += " a.archived= '" + data + "' ";
+		modifica += " a.archiveDate= '" + data + "' ";
 
 		modifica += " WHERE a.id= "+user.getId();
 
