@@ -2,6 +2,7 @@ package it.beije.erp.entity;
 
 
 import java.sql.Date;
+import java.util.List;
 
 import javax.persistence.*;
 
@@ -14,53 +15,61 @@ public class User {
 	@Column(name = "id")
 	private int id;
 	
+	@OneToMany(mappedBy = "user")
+	private List<Address> addresses;
+	
+	@OneToMany(mappedBy = "user")
+	private List<BankCredentials> bankCredentials;
+	
+	@OneToMany(mappedBy = "user")
+	private List<Contract> contracts;
 
 	@Column(name = "first_name", nullable=false)
 	private String firstName;
-	
+		
 	@Column(name = "last_name", nullable=false)
 	private String lastName;
-	
+		
 	@Column(name = "email", unique=true, nullable=false)
 	private String email;
-	
+		
 	@Column(name = "password", nullable=false)
 	private String password;
-	
+		
 	@Column(name = "secondary_email")
 	private String secondaryEmail;
-	
+		
 	@Column(name = "phone")
 	private String phone;
-	
+		
 	@Column(name = "fiscal_code", unique=true)
 	private String fiscalCode;
-	
+		
 	@Column(name = "birth_date")
 	private Date birthDate;
-	
+		
 	@Column(name = "birth_place")
 	private String birthPlace;
-	
+		
 	@Column(name = "nationality")
 	private String nationality;
-	
+		
 	@Column(name = "document", unique=true)
 	private String document;
-	
+		
 	@Column(name = "id_skype")
 	private String idSkype;
-	
+		
 	@Column(name = "admin")
 	private boolean admin;
 
 	@Column(name = "archive_date")
 	private Date archiveDate;
-	
+		
 	@Column(name = "note")
 	private String note;
+			
 		
-	
 	public User() {
 		super();
 	}
@@ -85,7 +94,7 @@ public class User {
 	public String getBirthplace() {
 		return birthPlace;
 	}
-
+	
 	public void setBirthplace(String birthplace) {
 		this.birthPlace = birthplace;
 	}
@@ -109,87 +118,87 @@ public class User {
 	public int getId() {
 		return id;
 	}
-	
+		
 	public void setId(int id) {
 		this.id = id;
 	}
-		
+			
 	public String getFirstName() {
 		return firstName;
 	}
-	
+		
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
 	}
-	
+		
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
-	
+		
 	public String getEmail() {
 		return email;
 	}
-	
+		
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	
+		
 	public String getLastName() {
 		return lastName;
 	}
-	
+		
 	public String getSecondaryEmail() {
 		return secondaryEmail;
 	}
-	
+		
 	public void setSecondaryEmail(String secondaryEmail) {
 		this.secondaryEmail = secondaryEmail;
 	}
-	
+		
 	public String getPhone() {
 		return phone;
 	}
-	
+		
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
-	
+		
 	public String getFiscalCode() {
 		return fiscalCode;
 	}
-	
+		
 	public void setFiscalCode(String fiscalCode) {
 		this.fiscalCode = fiscalCode;
 	}
-	
+		
 	public Date getBirthdate() {
 		return birthDate;
 	}
-	
+		
 	public void setBirthdate(Date birthdate) {
 		this.birthDate = birthdate;
 	}
-	
+		
 	public String getDocument() {
 		return document;
 	}
-	
+		
 	public void setDocument(String document) {
 		this.document = document;
 	}
-	
+		
 	public String getIdskype() {
 		return idSkype;
 	}
-	
+		
 	public void setIdskype(String idskype) {
 		this.idSkype = idskype;
 	}
-	
+		
 	public boolean isAdmin() {
 		return this.admin;
 	}
-	
+		
 	public void setAdmin(boolean admin) {
 		this.admin = admin;
 	}
@@ -197,15 +206,15 @@ public class User {
 	public String getPassword() {
 		return password;
 	}
-	
+		
 	public void setPassword(String password) {
 		this.password = password;
 	}
-
+	
 	public String getNote() {
 		return note;
 	}
-	
+		
 	public void setNote(String note) {
 		this.note = note;
 	}
@@ -213,9 +222,69 @@ public class User {
 	public Date getArchived() {
 		return archiveDate;
 	}
-	
+		
 	public void setArchived(Date archiveDate) {
 		this.archiveDate = archiveDate;
 	}
-}
 	
+	public List<Address> getAddresses() {
+		return addresses;
+	}
+	
+
+	public void setAddresses(List<Address> addresses) {
+		this.addresses = addresses;
+	}
+	
+
+	public List<BankCredentials> getBankCredentials() {
+		return bankCredentials;
+	}
+	
+
+	public void setBankCredentials(List<BankCredentials> bankCredentials) {
+		this.bankCredentials = bankCredentials;
+	}
+	
+
+	public List<Contract> getContracts() {
+		return contracts;
+	}
+	
+
+	public void setContracts(List<Contract> contracts) {
+		this.contracts = contracts;
+	}
+	
+	public void addAddress(Address address) {
+		addresses.add(address);
+		address.setUser(this);
+	}
+	
+	public void removeAddress(Address address) {
+		addresses.remove(address);
+		address.setUser(null);
+	}
+	
+	public void addBankCredentials(BankCredentials credentials) {
+		bankCredentials.add(credentials);
+		credentials.setUser(this);
+	}
+	
+	public void removeBankCredentials(BankCredentials credentials) {
+		bankCredentials.remove(credentials);
+		credentials.setUser(null);
+	}
+	
+	public void addContract(Contract contract) {
+		contracts.add(contract);
+		contract.setUser(this);
+	}
+	
+	public void removeContractType(Contract contract) {
+		contracts.remove(contract);
+		contract.setUser(null);
+	}
+	
+	
+}

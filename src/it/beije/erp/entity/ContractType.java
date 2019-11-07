@@ -1,14 +1,9 @@
 package it.beije.erp.entity;
- 
-import javax.persistence.CascadeType;
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -20,33 +15,53 @@ public class ContractType {
 	@Column(name="id")
 	private char cod;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_contract")
-	private Contract contract;
+	@OneToMany(mappedBy = "type")
+	private List<Contract> contracts;
 	
 	@Column(name="description")
 	private String description;
 	
+	public ContractType() {
+		
+	}
+	
+	
+
 	public char getCod() {
 		return cod;
 	}
+
+
+
 	public void setCod(char cod) {
 		this.cod = cod;
 	}
 
-	public Contract getContract() {
-		return contract;
+
+
+	public List<Contract> getContracts() {
+		return contracts;
 	}
-	public void setContract(Contract contract) {
-		this.contract = contract;
+
+
+
+	public void setContracts(List<Contract> contracts) {
+		this.contracts = contracts;
 	}
+
+
 
 	public String getDescription() {
 		return description;
 	}
+
+
+
 	public void setDescription(String description) {
 		this.description = description;
 	}
+
+
 
 	@Override
 	public boolean equals(Object o) {
