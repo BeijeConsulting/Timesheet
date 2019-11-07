@@ -178,14 +178,30 @@ public class User {
 		this.document = document;
 	}
 	
-	public String getIdskype() {
+	public Date getBirthDate() {
+		return birthDate;
+	}
+
+	public void setBirthDate(Date birthDate) {
+		this.birthDate = birthDate;
+	}
+
+	public String getBirthPlace() {
+		return birthPlace;
+	}
+
+	public void setBirthPlace(String birthPlace) {
+		this.birthPlace = birthPlace;
+	}
+
+	public String getIdSkype() {
 		return idSkype;
 	}
-	
-	public void setIdskype(String idskype) {
-		this.idSkype = idskype;
+
+	public void setIdSkype(String idSkype) {
+		this.idSkype = idSkype;
 	}
-	
+
 	public boolean isAdmin() {
 		return this.admin;
 	}
