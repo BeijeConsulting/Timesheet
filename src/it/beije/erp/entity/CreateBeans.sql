@@ -1,6 +1,6 @@
 /* FIX: nome della tabella user */
 
-CREATE TABLE bank_credential(
+CREATE TABLE bank_credentials(
 	id INT NOT NULL AUTO_INCREMENT,
 	id_user INT NOT NULL,
     accountholder VARCHAR(100) NOT NULL,
