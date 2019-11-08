@@ -20,13 +20,13 @@
 
     <div class="row">
       <div class="col s3">
-	<form action="inserisciutente" method="get">
+	<form action="insertuser" method="get">
         <input class="btn green" type="submit" value="Inserisci utente">
 	</form>
 	</div>
 	
 	  <div class="col s3">
-		<form action="modificautente" method="post">
+		<form action="modificautente" method="get">
         <input class="btn green" type="submit" value="modifica utente">
 	</form>
 	</div>
@@ -38,7 +38,7 @@
 	</div>
 	
 	  <div class="col s3">
-			<form action="cercautente" method="post">
+			<form action="cercautente" method="get">
         <input class="btn green" type="submit" value="cerca utente">
 	</form>
 	</div>

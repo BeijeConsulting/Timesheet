@@ -18,7 +18,7 @@ pageEncoding="UTF-8"%>
     <h2 class="center"> <i class="medium material-icons prefix">mode_edit</i> Inserisci i tuoi dati</h2> <br>
 
     <div class="row">
-      <form class="col s12" action="confermadati" method="post">
+      <form class="col s12" action="confirmdata" method="post">
         <div class="row">
           
           <div class="input-field col s6">
