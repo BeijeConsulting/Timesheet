@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import it.beije.erp.entity.Address;
 import it.beije.erp.entity.User;
+import it.beije.erp.service.JPAService;
 
 @Controller
 public class AddressController {
@@ -24,16 +25,10 @@ public class AddressController {
 	@RequestMapping(value = "/addresses", method = RequestMethod.GET)
 	public String getAddresses(@RequestParam(name="id") int idUser, Model model) {
 		
-		EntityManager entityManager = Persistence.createEntityManagerFactory("timesheet").createEntityManager();
-		
-		//Get user with the specified id
-		List<Address> addresses = entityManager.find(User.class, idUser).getAddresses();
+		List<Address> addresses = JPAService.getBean(User.class, idUser).getAddresses();
 
-		entityManager.close();
-		
 		model.addAttribute("addresses", addresses);
-
-		return "addresses";
+		return "useraddresses";
 	}
 	
 	//Insert form
@@ -45,25 +40,13 @@ public class AddressController {
 	//POST : insert of new User
 	@RequestMapping(value = "/registeraddress", method = RequestMethod.POST)
 	public String getAddresses(@Validated Address address, Model model) {
-		System.out.println(address);
-		try {
-		EntityManagerFactory factory = Persistence.createEntityManagerFactory("timesheet");
-		EntityManager entityManager = factory.createEntityManager();
-		entityManager.getTransaction().begin();
+		
+		System.out.println("Input : " + address);
+		
 		address.setStartDate(LocalDate.now());
-		entityManager.persist(address);
-		entityManager.getTransaction().commit();
-			      
-		entityManager.close();
-		}
-	    catch (Exception e)
-	    {
-	      System.err.println("Got an exception!");
-	      System.err.println(e.getMessage());
-	    }
+		JPAService.save(address);
 		
 		model.addAttribute("address", address);
-		
 		return "addressform";	
 	}
 	

@@ -19,7 +19,6 @@ import javax.persistence.Table;
 public class Contract {
 	
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="id")
 	private int id;
 	

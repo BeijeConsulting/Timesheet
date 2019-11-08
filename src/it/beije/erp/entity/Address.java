@@ -21,7 +21,7 @@ public class Address {
 	@Column(name="id")
 	private int id;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne
     @JoinColumn(name = "id_user")
 	private User user;
 
@@ -162,14 +162,14 @@ public class Address {
 
 	public String toString() {
 		StringBuilder row = new StringBuilder();
-		row.append("Id: ").append(id);
-		row.append("Street: ").append(street);
-		row.append("City: ").append(city);
-		row.append("Province: ").append(province);
-		row.append("Cap: ").append(cap);
-		row.append("Country: ").append(country);
-		row.append("Start Date: ").append(startDate);
-		row.append("End Date: ").append(endDate);
+		row.append("Id: ").append(id).append("\n");
+		row.append("Street: ").append(street).append("\n");
+		row.append("City: ").append(city).append("\n");
+		row.append("Province: ").append(province).append("\n");
+		row.append("Cap: ").append(cap).append("\n");
+		row.append("Country: ").append(country).append("\n");
+		row.append("Start Date: ").append(startDate).append("\n");
+		row.append("End Date: ").append(endDate).append("\n");
 		return row.toString();
 	}
 	
