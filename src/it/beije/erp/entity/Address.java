@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -12,35 +13,34 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-@Table(name = "address")
 @Entity
+@Table(name = "address")
 public class Address {
 	
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="id")
 	private int id;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_user")
 	private User user;
-	
-	@Column(name="street")
+
+	@Column(name="street", nullable=false)
 	private String street;
 	
-	@Column(name="city")
+	@Column(name="city", nullable=false)
 	private String city;
 	
-	@Column(name="province")
+	@Column(name="province", nullable=false)
 	private String province;
 	
-	@Column(name="cap")
+	@Column(name="cap", nullable=false)
 	private int cap;
 	
-	@Column(name="country")
+	@Column(name="country" , nullable=false)
 	private String country;
 	
-	@Column(name="start_date")
+	@Column(name="start_date" , nullable=false)
 	private LocalDate startDate;
 	
 	@Column(name="end_date")

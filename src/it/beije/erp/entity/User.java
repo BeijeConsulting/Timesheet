@@ -186,15 +186,7 @@ public class User {
 	public void setDocument(String document) {
 		this.document = document;
 	}
-		
-	public String getIdskype() {
-		return idSkype;
-	}
-		
-	public void setIdskype(String idskype) {
-		this.idSkype = idskype;
-	}
-		
+
 	public boolean isAdmin() {
 		return this.admin;
 	}
@@ -218,14 +210,31 @@ public class User {
 	public void setNote(String note) {
 		this.note = note;
 	}
+	
+	public Date getBirthDate() {
+		return birthDate;
+	}
 
-	public Date getArchived() {
-		return archiveDate;
+	public void setBirthDate(Date birthDate) {
+		this.birthDate = birthDate;
 	}
-		
-	public void setArchived(Date archiveDate) {
-		this.archiveDate = archiveDate;
+
+	public String getBirthPlace() {
+		return birthPlace;
 	}
+
+	public void setBirthPlace(String birthPlace) {
+		this.birthPlace = birthPlace;
+	}
+
+	public String getIdSkype() {
+		return idSkype;
+	}
+
+	public void setIdSkype(String idSkype) {
+		this.idSkype = idSkype;
+	}
+
 	
 	public List<Address> getAddresses() {
 		return addresses;

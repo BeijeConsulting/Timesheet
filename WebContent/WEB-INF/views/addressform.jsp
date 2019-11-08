@@ -10,7 +10,7 @@
 
 <form action="registeraddress" method="post">
 
-	ID_UTENTE : <input type="text" name="id_user" value=""><br>
+	ID_UTENTE : <input type="text" name="user.id" value=""><br>
 	INDIRIZZO : <input type="text" name="street" value=""><br>
 	CITTA' : <input type="text" name="city" value=""><br>
 	PROVINCIA : <input type="text" name="province" value=""><br>

@@ -2,6 +2,8 @@
 <persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
 	<persistence-unit name="timesheet" transaction-type="RESOURCE_LOCAL">
 		<class>it.beije.erp.entity.User</class>
+		<class>it.beije.erp.entity.Address</class>
+		<class>it.beije.erp.entity.Contract</class>
 		<class>it.beije.erp.timesheet.entity.Timetable</class>
 		<properties>
 			<property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>

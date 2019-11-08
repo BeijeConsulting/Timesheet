@@ -67,7 +67,7 @@ public class UserService implements UserDetailsService{
     	if (userData.getPhone() != null) user.setPhone(userData.getPhone());
     	if (userData.getFiscalCode() != null) user.setFiscalCode(userData.getFiscalCode());
     	if (userData.getPassword() != null) user.setPassword(userData.getPassword());
-    	if (userData.getArchived() != null) user.setArchived(userData.getArchived());
+    	if (userData.getArchiveDate() != null) user.setArchiveDate(userData.getArchiveDate());
 
 		entitymanager.persist(user);
 		entitymanager.getTransaction().commit();

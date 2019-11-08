@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
 import org.springframework.stereotype.Controller;
@@ -25,7 +26,7 @@ public class AddressController {
 	@RequestMapping(value = "/addresses", method = RequestMethod.GET)
 	public String getAddresses(@RequestParam(name="id") int idUser, Model model) {
 		
-		EntityManager entityManager = Persistence.createEntityManagerFactory("Timesheet").createEntityManager();
+		EntityManager entityManager = Persistence.createEntityManagerFactory("timesheet").createEntityManager();
 		
 		//Get user with the specified id
 		List<Address> addresses = entityManager.find(User.class, idUser).getAddresses();
@@ -46,19 +47,26 @@ public class AddressController {
 	//POST : insert of new User
 	@RequestMapping(value = "/registeraddress", method = RequestMethod.POST)
 	public String getAddresses(@Validated Address address, Model model) {
-		
-		EntityManager entityManager = Persistence.createEntityManagerFactory("Timesheet").createEntityManager();
+		System.out.println(address);
+		try {
+		EntityManagerFactory factory = Persistence.createEntityManagerFactory("timesheet");
+		EntityManager entityManager = factory.createEntityManager();
 		entityManager.getTransaction().begin();
-		
-		//Register new address
+		address.setStartDate(LocalDate.now());
 		entityManager.persist(address);
-		
 		entityManager.getTransaction().commit();
+			      
 		entityManager.close();
+		}
+	    catch (Exception e)
+	    {
+	      System.err.println("Got an exception!");
+	      System.err.println(e.getMessage());
+	    }
 		
 		model.addAttribute("address", address);
 		
-		return "";	
+		return "addressform";	
 	}
 	
 }
