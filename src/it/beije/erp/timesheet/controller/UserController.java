@@ -50,7 +50,7 @@ public class UserController {
 		return "confermadati";
 	}
 
-	@RequestMapping(value = "/inserisciutente", method = RequestMethod.GET)
+	@RequestMapping(value = "/inserisciutente", method = RequestMethod.POST)
 	public String index(@Validated User user, Model model) {
 		System.out.println("Pagine inseriti: " + user.getLastName());
 		model.addAttribute("userName", user);
