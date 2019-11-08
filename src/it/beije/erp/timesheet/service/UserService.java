@@ -22,6 +22,7 @@ import it.beije.timesheet.repositories.UserRepository;
 
 @Service
 public class UserService implements UserDetailsService{
+	
 	@Autowired
 	private UserRepository userRepository;
 
