@@ -20,8 +20,8 @@
 				<div class="row">
 					<div class="input-field col s6">
 				
-            <input id="ID_utente" type="number" name="id"  min="1">
-            <label for="ID_utente">ID Utente</label>
+            <input id="id" type="number" name="id"  min="1">
+            <label for="id">ID Utente</label>
 					</div>
           
 				<div class="input-field col s6">

@@ -169,6 +169,12 @@ public class UserService implements UserDetailsService{
 		modifica += "' , a.secondaryEmail= '" +user.getSecondaryEmail();
 		modifica += "' , a.phone= '" +user.getPhone();
 		modifica += "' , a.fiscalCode= '" + user.getFiscalCode();
+		modifica += "' , a.birthDate= '" + user.getBirthDate();
+		modifica += "' , a.birthPlace= '" + user.getBirthplace();
+		modifica += "' , a.nationality= '" + user.getNationality();
+		modifica += "' , a.document= '" + user.getDocument();
+		modifica += "' , a.idSkype= '" + user.getIdSkype();
+		modifica += "' , a.note= '" + user.getNote();
 		modifica += "' , a.password= '" +user.getPassword() +"'";
 
 		modifica += " WHERE a.id= "+user.getId();
