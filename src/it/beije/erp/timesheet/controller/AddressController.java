@@ -1,6 +1,7 @@
 package it.beije.erp.timesheet.controller;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -10,6 +11,7 @@ import javax.persistence.Persistence;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -22,10 +24,11 @@ import it.beije.erp.service.JPAService;
 public class AddressController {
 	
 	// GET : read addresses from User within id
-	@RequestMapping(value = "/addresses", method = RequestMethod.GET)
-	public String getAddresses(@RequestParam(name="id") int idUser, Model model) {
+	@RequestMapping(value = "/addresses/{id}", method = RequestMethod.GET)
+	public String getAddresses(@PathVariable int id, Model model) {
 		
-		List<Address> addresses = JPAService.getBean(User.class, idUser).getAddresses();
+		User user = JPAService.getBean(User.class, id);
+		List<Address> addresses = user.getAddresses();
 
 		model.addAttribute("addresses", addresses);
 		return "useraddresses";
@@ -40,8 +43,6 @@ public class AddressController {
 	//POST : insert of new User
 	@RequestMapping(value = "/registeraddress", method = RequestMethod.POST)
 	public String getAddresses(@Validated Address address, Model model) {
-		
-		System.out.println("Input : " + address);
 		
 		address.setStartDate(LocalDate.now());
 		JPAService.save(address);
