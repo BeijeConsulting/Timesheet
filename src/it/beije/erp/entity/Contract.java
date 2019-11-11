@@ -13,6 +13,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
  
 @Table(name = "contract")
 @Entity
@@ -22,11 +24,13 @@ public class Contract {
 	@Column(name="id")
 	private int id;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@JsonIgnore
+	@ManyToOne
     @JoinColumn(name = "id_user")
 	private User user;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@JsonIgnore
+	@ManyToOne		//fetchtype = "LAZY" ???
     @JoinColumn(name = "contract_type")
 	private ContractType type;
 	
