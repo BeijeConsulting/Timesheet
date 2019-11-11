@@ -13,10 +13,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+
+import it.beije.erp.entity.Address;
 import it.beije.erp.entity.User;
+import it.beije.erp.service.JPAService;
 import it.beije.erp.timesheet.entity.Timetable;
 import it.beije.erp.timesheet.service.UserService;
 
@@ -46,6 +50,34 @@ public class ApiController {
 		return new Timetable();
 	}
 	//////////////////////////////////////
+	
+	/****************** ADDRESS *****************/
+	@RequestMapping(value = "/addresses/{id}", method = RequestMethod.GET)
+	public @ResponseBody List<Address> getAddresses(@PathVariable int id) {
+		User user = JPAService.getBean(User.class, id);
+		System.out.println(user.getAddresses().size());
+		
+		List<Address> addresses = user.getAddresses();
+		
+		return addresses;
+	}
+	
+	@RequestMapping(value = "/addresspost", method = RequestMethod.POST,
+			consumes = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody Address testpost(@RequestBody Address address, @RequestParam(name = "id") int id) {
+		
+		address.setId(id);
+
+		return address;
+	}
+	
+	
+	/****************** BANK CREDENTIALS *****************/
+	
+	
+	
+	/****************** CONTRACT *****************/
+	
 
 	///////// START USER //////////////////////
 //	@RequestMapping(value = "/users", method = RequestMethod.GET)
