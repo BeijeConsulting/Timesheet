@@ -18,7 +18,7 @@ pageEncoding="UTF-8"%>
     <h2 class="center"> <i class="medium material-icons prefix">mode_edit</i> Inserisci i tuoi dati</h2> <br>
 
     <div class="row">
-      <form class="col s12" action="confermadati" method="post">
+      <form class="col s12" action="confirmdata" method="post">
         <div class="row">
           
           <div class="input-field col s6">
@@ -38,14 +38,14 @@ pageEncoding="UTF-8"%>
           </div>
         
           <div class="input-field col s6">
-            <input id="secondary_email" type="email" class="validate" name="secondaryEmail">
+            <input id="secondary_email" type="email" class="validate" name="secondaryEmail" value="">
             <label for="secondary_email">Inserisci email secondaria</label>
           </div>
         </div>
         
         <div class="row">
           <div class="input-field col s12">
-            <input id="phone" type="text" name="phone">
+            <input id="phone" type="text" name="phone" value="">
             <label for="phone">Inserisci numero di telefono</label>
           </div>
         </div>
@@ -59,38 +59,38 @@ pageEncoding="UTF-8"%>
         
         <div class="row">
           <div class="input-field col s6">
-            <input id="birth_date" type="date" name="birthDate">
+            <input id="birth_date" type="date" name="birthDate" value="">
             <label for="birth_date">Inserisci data di nascita</label>
         </div>
         
           <div class="input-field col s6">
-            <input id="birth_place" type="text" name="birthPlace">
+            <input id="birth_place" type="text" name="birthPlace" value="">
             <label for="birth_place">Inserisci luogo di nascita</label>
           </div>
         </div>
         
         <div class="row">
           <div class="input-field col s12">
-            <input id="nationality" type="text" name="nationality">
+            <input id="nationality" type="text" name="nationality" value="">
             <label for="nationality">Nazionalità</label>
           </div>
         </div>
         
         <div class="row">
           <div class="input-field col s12">
-            <input id="document" type="text" name="document">
+            <input id="document" type="text" name="document" value="">
             <label for="document">Documento</label>
           </div>
         </div>
         
         <div class="row">
           <div class="input-field col s6">
-            <input id="id_skype" type="text" name="idSkype">
+            <input id="id_skype" type="text" name="idSkype" value="">
             <label for="id_skype">ID Skype</label>
           </div>
         
           <div class="input-field col s6">
-            <input id="note" type="text" name="note">
+            <input id="note" type="text" name="note" value="">
             <label for="note">Note</label>
           </div>
         </div>

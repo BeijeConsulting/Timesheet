@@ -28,81 +28,75 @@
         </div>
 
         <div class="row">
-          <div class="input-field col s12">
-            <input id="secondaryEmail" type="email" class="validate" name="secondaryEmail" value ="${user.secondaryEmail}" >
-            <label for="secondaryEmail">Email personale</label>
-          </div>
-        </div>
-        
-        <div class="row">
-          <div class="input-field col s12">
+          <div class="input-field col s6">
             <input id="email" type="email" class="validate" name="email" value ="${user.email}" >
-            <label for="eemail">Email di lavoro</label>
+            <label for="email">Email</label>
+        </div>
+        
+          <div class="input-field col s6">
+            <input id="secondary_email" type="email" class="validate" name="secondaryEmail" value ="${user.secondaryEmail}" >
+            <label for="secondary_email">Email secondaria</label>
           </div>
         </div>
         
         <div class="row">
-          <div class="input-field col s12">
+          <div class="input-field col s6">
             <input id="phone" type="text" name="phone" value ="${user.phone}" >
             <label for="phone">Telefono</label>
           </div>
-        </div>
+          
+          
 
-        <div class="row">
-          <div class="input-field col s12">
-            <input id="fiscalCode" type="text" name="fiscalCode" minlength="16" maxlength="16" value ="${user.fiscalCode}" required>
-            <label for="fiscalCode" class="pink-text"><b>Codice fiscale</b></label>
-          </div>
-        </div>
-
-        <div class="row">
-          <div class="input-field col s12">
-            <input id="password" type="password" name="password" value ="${user.password}" required>
-            <label for="password" class="pink-text"><b>Password</b></label>
+          <div class="input-field col s6">
+            <input id="fiscal_code" type="text" name="fiscalCode" minlength="16" maxlength="16" value ="${user.fiscalCode}" required>
+            <label for="fiscal_code" class="pink-text"><b>Codice fiscale</b></label>
           </div>
         </div>
         
-<div class="row">
+        <div class="row">
           <div class="input-field col s6">
-            <input id="birth_date" type="date" name="birthDate" value ="${user.birthDate}">
+            <input id="birth_date" type="date" name="birthDate" value="${user.birthDate }">
             <label for="birth_date">Inserisci data di nascita</label>
         </div>
         
           <div class="input-field col s6">
-            <input id="birth_place" type="text" name="birthPlace" value ="${user.birthPlace}">
+            <input id="birth_place" type="text" name="birthPlace" value="${user.birthPlace }">
             <label for="birth_place">Inserisci luogo di nascita</label>
           </div>
         </div>
         
         <div class="row">
-          <div class="input-field col s12">
-            <input id="nationality" type="text" name="nationality" value ="${user.nationality}">
+          <div class="input-field col s6">
+            <input id="nationality" type="text" name="nationality" value="${user.nationality }">
             <label for="nationality">Nazionalità</label>
-          </div>
         </div>
         
-        <div class="row">
-          <div class="input-field col s12">
-            <input id="document" type="text" name="document" value ="${user.document}">
+          <div class="input-field col s6">
+            <input id="document" type="text" name="document" value="${user.document }">
             <label for="document">Documento</label>
           </div>
-        </div>
-        
-        <div class="row">
+		</div>
+		
+		<div class="row">
           <div class="input-field col s6">
-            <input id="id_skype" type="text" name="idSkype" value ="${user.idSkype}">
+            <input id="id_skype" type="text" name="idSkype" value="${user.idSkype }">
             <label for="id_skype">ID Skype</label>
           </div>
         
           <div class="input-field col s6">
-            <input id="note" type="text" name="note" value ="${user.note}">
+            <input id="note" type="text" name="note" value="${user.note }">
             <label for="note">Note</label>
           </div>
-        </div>        
-        
-               
-            <input id="password" type="hidden" name="id" value ="${user.id}" required>
+        </div>
 
+        <div class="row">
+          <div class="input-field col s6">
+            <input id="password" type="password" name="password" value ="${user.password}" required>
+            <label for="password" class="pink-text"><b>Password</b></label>
+        </div>
+        </div>
+            <input type="hidden" name="id" value ="${user.id}" required>
+           
         
         
         <div class="center">
@@ -112,6 +106,8 @@
       </form>
     </div>
     
+    
+</div>
   
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 </body>

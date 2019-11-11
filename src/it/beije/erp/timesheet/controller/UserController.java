@@ -40,17 +40,13 @@ public class UserController {
 	}
 	
 
-	@RequestMapping(value = "/confermadati", method = RequestMethod.POST)
+	@RequestMapping(value = "/confirmdata", method = RequestMethod.POST)
 	public String confermaDati(@Validated User user, String lastName, Model model) {
-		System.out.println("pagina confermadati: " + user.getFirstName());
-		System.out.println(user.getLastName());
-		//Passa i parametri alla view ritornato
-		//		model.addAttribute("userName", user.getFirstName());
 		model.addAttribute("user", user);
 		return "confermadati";
 	}
 
-	@RequestMapping(value = "/inserisciutente", method = RequestMethod.POST)
+	@RequestMapping(value = "/insertuser", method = RequestMethod.GET)
 	public String index(@Validated User user, Model model) {
 		System.out.println("Pagine inseriti: " + user.getLastName());
 		model.addAttribute("userName", user);
@@ -70,7 +66,7 @@ public class UserController {
 	}
 
 	@PreAuthorize("hasAnyRole('ADMIN')")		
-	@RequestMapping(value = "/modificautente", method = RequestMethod.POST)
+	@RequestMapping(value = "/modificautente", method = RequestMethod.GET)
 	public String modificaUtente(@Validated User user, Model model) {
 
 		return "modificautente";
@@ -79,7 +75,7 @@ public class UserController {
 
 	
 	@PreAuthorize("hasAnyRole('ADMIN')")		
-	@RequestMapping(value = "/cercautente", method = RequestMethod.POST)
+	@RequestMapping(value = "/cercautente", method = RequestMethod.GET)
 	public String cercaUtente(@Validated User user, Model model) {
 		
 		return "cercautente";

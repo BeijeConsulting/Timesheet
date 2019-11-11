@@ -163,19 +163,20 @@ public class UserService implements UserDetailsService{
 		//		System.out.println("sono nel metodo modificaUtente");
 		String modifica="UPDATE User a SET";
 
-		modifica += " a.firstName= '" +user.getFirstName();
+		modifica += " 	a.firstName= '" +user.getFirstName();
 		modifica += "' , a.lastName= '" + user.getLastName();
 		modifica += "' , a.email= '" + user.getEmail();
 		modifica += "' , a.secondaryEmail= '" +user.getSecondaryEmail();
 		modifica += "' , a.phone= '" +user.getPhone();
 		modifica += "' , a.fiscalCode= '" + user.getFiscalCode();
-		modifica += "' , a.birthDate= '" + user.getBirthDate();
-		modifica += "' , a.birthPlace= '" + user.getBirthplace();
-		modifica += "' , a.nationality= '" + user.getNationality();
-		modifica += "' , a.document= '" + user.getDocument();
+
+		modifica += "' , a.password= '" +user.getPassword();
+		modifica += "' , a.birthDate= '" +user.getBirthDate();
+		modifica += "' , a.birthPlace= '" + user.getBirthPlace();
+		modifica += "' , a.nationality= '" +user.getNationality();
+		modifica += "' , a.document= '" +user.getDocument();
 		modifica += "' , a.idSkype= '" + user.getIdSkype();
-		modifica += "' , a.note= '" + user.getNote();
-		modifica += "' , a.password= '" +user.getPassword() +"'";
+		modifica += "' , a.note= '" +user.getNote() +"'";
 
 		modifica += " WHERE a.id= "+user.getId();
 		//		modifica += " WHERE a.id=  10";

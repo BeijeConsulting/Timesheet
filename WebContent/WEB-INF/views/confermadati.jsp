@@ -19,10 +19,10 @@
 				<div class="row">
 					
 					<div class="input-field col s6">
-						Nome:<input type="text" name="firstName" value ="${user.firstName}">
+						Nome:<input type="text" name="firstName" value ="${user.firstName}" readonly>
 					</div>
 					<div class="input-field col s6">
-						Cognome:<input type="text" name="lastName" value ="${user.lastName}">
+						Cognome:<input type="text" name="lastName" value ="${user.lastName}" readonly>
 					</div>
 				</div>
 				
@@ -30,10 +30,10 @@
 				
 				<div class="row">
 					<div class="input-field col s6">
-						Email di lavoro:<input type="text" name="Email" value ="${user.email}">
+						Email di lavoro:<input type="text" name="Email" value ="${user.email}" readonly>
 					</div>
 					<div class="input-field col s6">
-						Email secondario<input type="text" name="secondary_Email" value ="${user.secondaryEmail}">
+						Email secondaria<input type="text" name="secondary_Email" value ="${user.secondaryEmail}" readonly>
 					</div>
 				</div>		
 					
@@ -42,10 +42,10 @@
 				
 		 <div class="row">
 			<div class="input-field col s6">
-		        Telefono:<input type="text" name="phone" value ="${user.phone}">
+		        Telefono:<input type="text" name="phone" value ="${user.phone}" readonly>
 			  </div>
 			  <div class="input-field col s6">
-			    Skype id: <input type="text" name="idSkype" value ="${user.idSkype}">
+			    Skype id: <input type="text" name="idSkype" value ="${user.idSkype}" readonly>
 			</div>
 					
 		  </div>
@@ -53,11 +53,11 @@
 				
 		  <div class="row">
 			    <div class="input-field col s6">
-					Data di nascita:<input type="text" name="birth_date" value ="${user.birthDate}">
+					Data di nascita:<input type="text" name="birth_date" value ="${user.birthDate}" readonly>
 				</div>
 				
 				<div class="input-field col s6">
-					Luogo di nascita  :<input type="text" name=" birth_place" value ="${user.birthPlace}">
+					Luogo di nascita  :<input type="text" name=" birth_place" value ="${user.birthPlace}" readonly>
 				</div>
 		  </div>
 		  
@@ -66,25 +66,20 @@
 		  <div class="row">
 		  
 		  	 <div class="input-field col s6">
-				Nazionalità:<input type="text" name="nationality" value ="${user.nationality}">
+				Nazionalità:<input type="text" name="nationality" value ="${user.nationality}" readonly>
 				</div>
 				
 				<div class="input-field col s6">
-			    Documento :<input type="text" name=" document" value ="${user.document}">
+			    Documento :<input type="text" name=" document" value ="${user.document}" readonly>
 			   </div>
 			   
 			   <div class="input-field col s6">
-			   Codice fiscale  :<input type="text" name="fiscal_code " value ="${user.fiscalCode}">
+			   Codice fiscale  :<input type="text" name="fiscal_code " value ="${user.fiscalCode}" readonly>
 			   </div>
-		
-		  </div>
 		  
-		  
-		  
-		  <div class="row">
 		   
 		  <div class="input-field col s6">
-			  Password :<input type="text" name=" password" value ="${user.password}">
+			  Password :<input type="text" name=" password" value ="${user.password}" readonly>
 			   </div>
 		  </div>
 		  
@@ -92,8 +87,8 @@
 		  
 		  <div class="row">
 		   
-		  <div class="input-field col s6">
-			  Note :<input type="text" name=" note" value ="${user.note}">
+		  <div class="input-field col s12">
+			  Note :<input type="text" name=" note" value ="${user.note}" readonly>
 			   </div>
 		  </div>
 		  
