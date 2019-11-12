@@ -6,14 +6,19 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.data.domain.Persistable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import it.beije.erp.entity.User;
@@ -96,7 +101,19 @@ public class UserController {
 		request.getSession().setAttribute("users", trovati);
 		return "utentitrovati";
 	}
-
+	
+	@PreAuthorize("hasAnyRole('ADMIN')")		
+	@RequestMapping(value = "/visualizzautente", method = RequestMethod.POST)
+	public String visualizzaUtente(@RequestParam("userid") int userid, Model model){
+		EntityManagerFactory factory=Persistence.createEntityManagerFactory("timesheet");
+		EntityManager em=factory.createEntityManager();
+		
+		User u=em.find(User.class, userid);
+		
+		model.addAttribute("utente",u);
+		
+		return "data";
+	}
 	
 	@PreAuthorize("hasAnyRole('ADMIN')")		
 	@RequestMapping(value = "/modificadati", method = RequestMethod.POST)

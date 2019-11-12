@@ -38,8 +38,7 @@ tr:nth-child(even) {
 
 	<p></p>
 
-	<h1 align="center">Informazioni utente "${utente.first_name}"
-		dalla data: ${data}</h1>
+	<h1 align="center">Informazioni utente "${utente.firstName}"</h1>
 
 	<div style="overflow-x: auto;">
 
@@ -48,24 +47,41 @@ tr:nth-child(even) {
 				<th>ID utente</th>
 				<th>Nome</th>
 				<th>Cognome</th>
-				<th>Email</th>
 				<th>Email Lavoro</th>
+				<th>Email</th>
 				<th>Cell</th>
 				<th>Codice Fiscale</th>
+				<th>Data di Nascita</th>
+				<th>Luogo di Nascita</th>
+				<th>Nazionalità</th>
+				<th>Numero Documento</th>
+				<th>Skype ID</th>
+				<th>Utente admin</th>
+				<th>Data di archiviazione</th>
+				<th>Note</th>
+				
 			</tr>
 			<tr>
 				<td>${utente.id}</td>
-				<td>${utente.first_name}</td>
-				<td>${utente.last_name}</td>
-				<td>${utente.personal_email}</td>
-				<td>${utente.work_email}</td>
+				<td>${utente.firstName}</td>
+				<td>${utente.lastName}</td>
+				<td>${utente.email}</td>
+				<td>${utente.secondaryEmail}</td>
 				<td>${utente.phone}</td>
-				<td>${utente.fiscal_code}</td>
+				<td>${utente.fiscalCode}</td>
+				<td>${utente.birthDate}</td>
+				<td>${utente.birthPlace}</td>
+				<td>${utente.nationality}</td>
+				<td>${utente.document}</td>
+				<td>${utente.idSkype}
+				<td>${utente.admin}</td>
+				<td>${utente.archiveDate}</td>
+				<td>${utente.note}</td>
 			</tr>
 		</table>
 	</div>
 
-	<div>
+	<%-- <div>
 	<br><br><br>
 		<table>
 			<tr>
@@ -87,8 +103,8 @@ tr:nth-child(even) {
 				<td>${utente.end2}</td>
 				<td>${utente.tot}</td>
 			</tr>
-			</c:forEach>
+			</c:forEach> 
 		</table>
-	</div>
+	</div>--%>
 </body>
 </html>
