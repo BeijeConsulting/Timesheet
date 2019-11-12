@@ -18,13 +18,24 @@
 				
 				<div class="row">
 					<div class="input-field col s6">
-						Nome:<input type="text" name="firstName">
+						Nome:<input type="text" name="firstName" value="">
 					</div>
 
 					<div class="input-field col s6">
-						Cognome: <input type="text" name="lastName">
+						Cognome: <input type="text" name="lastName" value="">
 					</div>
 				</div>	
+				
+				<div class="row">
+					<div class="input-field col s6">
+						Email:<input type="text" name="email" value="">
+					</div>
+
+					<div class="input-field col s6">
+						Codice Fiscale: <input type="text" name="fiscalCode" value="">
+					</div>
+				</div>
+				
 					<div class="row">
 				<div class="center">
 				<input class="btn blue" type="submit" value="Conferma">
