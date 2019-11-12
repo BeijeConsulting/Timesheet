@@ -15,7 +15,7 @@ CREATE TABLE `user` (
 		  `admin` bit(1) DEFAULT NULL,
 		  `archive_date` date DEFAULT NULL,
 		  `note` varchar(255) DEFAULT NULL,
-		  PRIMARY KEY (`id_user`),
+		  PRIMARY KEY (`id`),
 		  UNIQUE KEY `email` (`email`),
 		  UNIQUE KEY `fiscal_code` (`fiscal_code`),
 		  UNIQUE KEY `document` (`document`)

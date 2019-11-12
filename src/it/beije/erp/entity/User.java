@@ -2,6 +2,7 @@ package it.beije.erp.entity;
 
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.*;
@@ -15,7 +16,7 @@ public class User {
 	@Column(name = "id")
 	private int id;
 	
-	@OneToMany(mappedBy = "user")
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch=FetchType.EAGER)
 	private List<Address> addresses;
 	
 	@OneToMany(mappedBy = "user")
@@ -297,4 +298,3 @@ public class User {
 	
 	
 }
-	

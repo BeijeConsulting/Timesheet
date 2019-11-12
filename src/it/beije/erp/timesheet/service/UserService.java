@@ -22,6 +22,7 @@ import it.beije.timesheet.repositories.UserRepository;
 
 @Service
 public class UserService implements UserDetailsService{
+	
 	@Autowired
 	private UserRepository userRepository;
 
@@ -189,7 +190,7 @@ public class UserService implements UserDetailsService{
 		System.out.println("sono nel metodo archiviaUtente");
 		String modifica="UPDATE User a SET";
 
-		modifica += " a.archived= '" + data + "' ";
+		modifica += " a.archiveDate= '" + data + "' ";
 
 		modifica += " WHERE a.id= "+user.getId();
 

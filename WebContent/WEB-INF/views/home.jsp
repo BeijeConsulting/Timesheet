@@ -20,7 +20,7 @@
 
     <div class="row">
       <div class="col s3">
-	<form action="inserisciutente" method="post">
+	<form action="inserisciutente" method="get">
         <input class="btn green" type="submit" value="Inserisci utente">
 	</form>
 	</div>

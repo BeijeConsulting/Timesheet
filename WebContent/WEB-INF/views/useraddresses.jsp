@@ -16,11 +16,22 @@
 <body>
 <h1>INDIRIZZI PER UTENTE</h1>
 <ol>
+
+<%
+
+	List<Address> addresses = (List<Address>)request.getAttribute("addresses");
+	for(Address a : addresses)
+		out.println(a);
+
+%>
+
+<!--  
 	<c:forEach var="a" items="${addresses}">
 		
 		<li>${a}</li>
 			
 	</c:forEach>
+	-->
 </ol>
 
 </body>
