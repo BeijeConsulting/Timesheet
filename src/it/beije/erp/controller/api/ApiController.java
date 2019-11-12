@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 import it.beije.erp.entity.Address;
+import it.beije.erp.entity.BankCredentials;
+import it.beije.erp.entity.Contract;
 import it.beije.erp.entity.User;
 import it.beije.erp.service.JPAService;
 import it.beije.erp.timesheet.entity.Timetable;
@@ -51,32 +53,126 @@ public class ApiController {
 	}
 	//////////////////////////////////////
 	
+	
 	/****************** ADDRESS *****************/
-	@RequestMapping(value = "/addresses/{id}", method = RequestMethod.GET)
+	
+	/* 
+	 * INDIRIZZI : 
+	 * -CONTROLLER : 
+	 * 		-Modifica
+	 * 		-Tutte le view
+	 *	-API : 
+	 *		-Modifica
+	 *
+	 *
+	 *	CREDENZIALI BANCARIE : 
+	 *	-CONTROLLER : 
+	 *		-Tutto
+	 *	-API
+	 *		-Modifica
+	 *
+	 *
+	 *	CONTRATTI : 
+	 *	-CONTROLLER : 
+	 *		-Tutto
+	 	-API : 
+	 		-Tutto
+	 * 
+	 */
+	
+	//Read
+	@RequestMapping(value = "/addresses/user/{id}", method = RequestMethod.GET)
 	public @ResponseBody List<Address> getAddresses(@PathVariable int id) {
-		User user = JPAService.getBean(User.class, id);
-		System.out.println(user.getAddresses().size());
 		
+		User user = JPAService.getBean(User.class, id);
 		List<Address> addresses = user.getAddresses();
 		
 		return addresses;
 	}
 	
-	@RequestMapping(value = "/addresspost", method = RequestMethod.POST,
-			consumes = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody Address testpost(@RequestBody Address address, @RequestParam(name = "id") int id) {
+	@RequestMapping(value = "/address/{id}", method = RequestMethod.GET)
+	public @ResponseBody Address getAddress(@PathVariable int id) {
 		
+		Address address = JPAService.getBean(Address.class, id);
+		
+		return address;
+	}
+	
+	//Write
+	@RequestMapping(value = "/address", method = RequestMethod.POST,
+			consumes = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody Address addressPost(@RequestBody Address address) {
+		JPAService.save(address);
+		return address;
+	}
+	
+	//Update
+	@RequestMapping(value = "/address/{id}", method = RequestMethod.PUT,
+			consumes = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody Address addressPut(@RequestBody Address address, @PathVariable int id) {
+		System.out.println("\n\n\naddressput...\n\n\n");
 		address.setId(id);
-
+		System.out.println("\n\n\nId...\n\n\n" + id);
+		JPAService.save(address);
 		return address;
 	}
 	
 	
 	/****************** BANK CREDENTIALS *****************/
+	//Read
+	@RequestMapping(value = "/credentials/user/{id}", method = RequestMethod.GET)
+	public @ResponseBody List<BankCredentials> getCredentialsForUser(@PathVariable int id) {
+		
+		User user = JPAService.getBean(User.class, id);
+		List<BankCredentials> credentials = user.getBankCredentials();
+
+		return credentials;
+	}
+	
+	@RequestMapping(value = "/credentials/{id}", method = RequestMethod.GET)
+	public @ResponseBody BankCredentials getCredentials(@PathVariable int id) {
+		
+		BankCredentials credentials = JPAService.getBean(BankCredentials.class, id);
+		
+		return credentials;
+	}
+	
+	//Write
+	@RequestMapping(value = "/credentials", method = RequestMethod.POST,
+			consumes = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody BankCredentials credentialsPost(@RequestBody BankCredentials credentials) {
+		JPAService.save(credentials);
+		return credentials;
+	}
 	
 	
 	
 	/****************** CONTRACT *****************/
+	//Read
+	@RequestMapping(value = "/contract/user/{id}", method = RequestMethod.GET)
+	public @ResponseBody List<Contract> getContracts(@PathVariable int id) {
+		
+		User user = JPAService.getBean(User.class, id);
+		List<Contract> contracts = user.getContracts();
+		
+		return contracts;
+	}
+	
+	@RequestMapping(value = "/contract/{id}", method = RequestMethod.GET)
+	public @ResponseBody Contract getContract(@PathVariable int id) {
+		
+		Contract contract = JPAService.getBean(Contract.class, id);
+		
+		return contract;
+	}
+	
+	//Write
+	@RequestMapping(value = "/contract", method = RequestMethod.POST,
+			consumes = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody Contract addressPost(@RequestBody Contract contract) {
+		JPAService.save(contract);
+		return contract;
+	}
 	
 
 	///////// START USER //////////////////////

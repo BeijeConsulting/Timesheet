@@ -1,6 +1,6 @@
 package it.beije.erp.entity;
 
-import java.time.LocalDate;
+import java.sql.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,13 +12,16 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonSetter;
 
 @Table(name = "bank_credentials")
 @Entity
 public class BankCredentials {
 	
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="id")
 	private int id;
 	
@@ -37,10 +40,10 @@ public class BankCredentials {
 	private String swift;
 	
 	@Column(name="start_date")
-	private LocalDate startDate;
+	private Date startDate;
 	
 	@Column(name="end_date")
-	private LocalDate endDate;
+	private Date endDate;
 	
 	@Column(name="notes")
 	private String notes;
@@ -72,7 +75,17 @@ public class BankCredentials {
 		this.user = user;
 	}
 
-
+	@JsonGetter
+	public int getId_user() {
+		return user != null ? user.getId() : -1;
+	}
+	
+	@JsonSetter
+	public void setId_user(int id_user) {
+		System.out.println("setId_user : " + id_user);
+		this.user = new User();
+		user.setId(id_user);
+	}
 
 	public String getAccountholder() {
 		return accountholder;
@@ -110,25 +123,25 @@ public class BankCredentials {
 
 
 
-	public LocalDate getStartDate() {
+	public Date getStartDate() {
 		return startDate;
 	}
 
 
 
-	public void setStartDate(LocalDate startDate) {
+	public void setStartDate(Date startDate) {
 		this.startDate = startDate;
 	}
 
 
 
-	public LocalDate getEndDate() {
+	public Date getEndDate() {
 		return endDate;
 	}
 
 
 
-	public void setEndDate(LocalDate endDate) {
+	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
 	}
 
