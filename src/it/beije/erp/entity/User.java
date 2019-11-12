@@ -7,6 +7,8 @@ import java.util.List;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "user")
 public class User {
@@ -16,12 +18,15 @@ public class User {
 	@Column(name = "id")
 	private int id;
 	
+	@JsonIgnore
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch=FetchType.EAGER)
 	private List<Address> addresses;
 	
+	@JsonIgnore
 	@OneToMany(mappedBy = "user")
 	private List<BankCredentials> bankCredentials;
 	
+	@JsonIgnore
 	@OneToMany(mappedBy = "user")
 	private List<Contract> contracts;
 
