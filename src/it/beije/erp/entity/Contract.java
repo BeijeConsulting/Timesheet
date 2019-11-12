@@ -14,13 +14,16 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonSetter;
  
 @Table(name = "contract")
 @Entity
 public class Contract {
 	
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="id")
 	private int id;
 	
@@ -87,7 +90,29 @@ public class Contract {
 		this.user = user;
 	}
 
-
+	@JsonGetter
+	public int getId_user() {
+		return user != null ? user.getId() : -1;
+	}
+	
+	@JsonSetter
+	public void setId_user(int id_user) {
+		System.out.println("setId_user : " + id_user);
+		this.user = new User();
+		user.setId(id_user);
+	}
+	
+	@JsonGetter
+	public char getContract_type() {
+		return type != null ? type.getCod() : '-';
+	}
+	
+	@JsonSetter
+	public void setContract_type(char contract_type) {
+		System.out.println("setContract_type : " + contract_type);
+		this.type = new ContractType();
+		type.setCod(contract_type);
+	}
 
 	public ContractType getType() {
 		return type;

@@ -1,5 +1,6 @@
 package it.beije.erp.entity;
  
+import java.sql.Date;
 import java.time.LocalDate;
 
 import javax.persistence.Column;
@@ -12,14 +13,18 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonSetter;
 
 @Entity
 @Table(name = "address")
 public class Address {
 	
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="id")
 	private int id;
 	
@@ -27,7 +32,7 @@ public class Address {
 	@ManyToOne
     @JoinColumn(name = "id_user")
 	private User user;
-
+	
 	@Column(name="street", nullable=false)
 	private String street;
 	
@@ -44,7 +49,7 @@ public class Address {
 	private String country;
 	
 	@Column(name="start_date" , nullable=false)
-	private LocalDate startDate;
+	private Date startDate;
 	
 	@Column(name="end_date")
 	private LocalDate endDate;
@@ -71,13 +76,22 @@ public class Address {
 		return user;
 	}
 
-
-
 	public void setUser(User user) {
+		System.out.println("setUser");
 		this.user = user;
 	}
 
-
+	@JsonGetter
+	public int getId_user() {
+		return user != null ? user.getId() : -1;
+	}
+	
+	@JsonSetter
+	public void setId_user(int id_user) {
+		System.out.println("setId_user : " + id_user);
+		this.user = new User();
+		user.setId(id_user);
+	}
 
 	public String getStreet() {
 		return street;
@@ -139,13 +153,13 @@ public class Address {
 
 
 
-	public LocalDate getStartDate() {
+	public Date getStartDate() {
 		return startDate;
 	}
 
 
 
-	public void setStartDate(LocalDate startDate) {
+	public void setStartDate(Date startDate) {
 		this.startDate = startDate;
 	}
 
