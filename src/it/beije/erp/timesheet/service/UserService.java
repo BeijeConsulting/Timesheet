@@ -7,6 +7,8 @@ import java.util.Optional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.NoResultException;
+import javax.persistence.Persistence;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
@@ -32,10 +34,14 @@ public class UserService implements UserDetailsService{
 
 		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
 		EntityManager entitymanager = emfactory.createEntityManager();
-
-		User user = entitymanager.find(User.class, id);
-
-//		System.out.println("trovato" + user.getFirstName());
+		User user;
+		try {
+			user = entitymanager.createQuery("SELECT u FROM User u WHERE u.id = "+id,User.class).getSingleResult();
+		}catch (NoResultException e)
+		{
+			return new User();
+		}
+		System.out.println("trovato" + user.getFirstName());
 		
 		entitymanager.close();
 
@@ -43,8 +49,8 @@ public class UserService implements UserDetailsService{
 	}
 	
 	public User create(User user) {
-		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
-
+		//EntityManagerFactory emfactory = JpaEntityManager.getInstance();
+		EntityManagerFactory emfactory = Persistence.createEntityManagerFactory("timesheet");
 		EntityManager entitymanager = emfactory.createEntityManager();
 		entitymanager.getTransaction().begin();
 
@@ -179,7 +185,7 @@ public class UserService implements UserDetailsService{
 		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
 		EntityManager entitymanager = emfactory.createEntityManager();
 
-		Query q = entitymanager.createQuery("SELECT u FROM User u");
+		Query q = entitymanager.createNativeQuery("SELECT * FROM user");
 
 		List<User> utenti = q.getResultList();
 
