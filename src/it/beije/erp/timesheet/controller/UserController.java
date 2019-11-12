@@ -1,8 +1,12 @@
 package it.beije.erp.timesheet.controller;
 
 import java.text.DateFormat;
+import java.time.LocalDate;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -59,6 +63,10 @@ public class UserController {
 	@PreAuthorize("hasAnyRole('ADMIN')")		
 	@RequestMapping(value = "/conferma", method = RequestMethod.POST)
 	public String conferma(@Validated User user, Model model) {
+		if (user.getDocument().length()==0)
+			user.setDocument(null);
+		if (user.getBirthDate().toLocalDate().isEqual(LocalDate.parse("1900-01-01")))
+			user.setBirthDate(null);
 		new UserService().create(user);
 		
 		System.out.println("sono in confernama " + user.getFirstName());
@@ -83,9 +91,9 @@ public class UserController {
 	
 	@PreAuthorize("hasAnyRole('ADMIN')")		
 	@RequestMapping(value = "/utentitrovati", method = RequestMethod.GET)
-	public String utentiTrovati(@Validated User user, Model model) {
-		String trovati = new UserService().trovaUtente(user.getFirstName(),user.getLastName());
-		user.setSecondaryEmail(trovati);
+	public String utentiTrovati(@Validated User user, Model model,HttpServletRequest request) {
+		List<User> trovati = new UserService().trovaUtente(user.getFirstName(),user.getLastName(),user.getEmail(),user.getFiscalCode());
+		request.getSession().setAttribute("users", trovati);
 		return "utentitrovati";
 	}
 

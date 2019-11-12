@@ -1,12 +1,14 @@
 package it.beije.erp.timesheet.service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -77,66 +79,99 @@ public class UserService implements UserDetailsService{
 		return user;
 	}
 	
-	public String trovaUtente(String firstName, String lastName) {
+	public List<User> trovaUtente(String firstName, String lastName, String email, String fiscalCode) {
 
 		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
 		EntityManager entitymanager = emfactory.createEntityManager();
-
-		String ricerca =" WHERE ";
-
+		
+		List<String> searchQuery=new ArrayList<>();
+		String whereClause="";
+		
+		if (firstName.length()>0) {
+			searchQuery.add("a.firstName='"+firstName+"'");
+			whereClause+="WHERE ";
+		}
+		if (lastName.length()>0) {
+			searchQuery.add("a.lastName='"+lastName+"'");
+			whereClause+="WHERE ";
+		}
+		if (email.length()>0) {
+			searchQuery.add("a.email='"+email+"'");
+			whereClause+="WHERE ";
+		}
+		if (fiscalCode.length()>0) {
+			searchQuery.add("a.fiscalCode='"+fiscalCode+"'");
+			whereClause+="WHERE ";
+		}
+		
 		//se null o vuoto non metto condizione WHERE
-		if((firstName  == null || firstName.length() == 0 )
-				&&( lastName  == null || lastName.length() == 0)) {
-			ricerca ="";
-
-		} else {
+//		if((firstName  == null || firstName.length() == 0 )
+//				&&( lastName  == null || lastName.length() == 0)) {
+//			ricerca ="";
+//
+//		} else {
 
 			//Condizione WHERE
-			if(firstName.length() > 0 && lastName.length() > 0) {
-				ricerca += "a.first_name = '" +firstName + "'";
-				ricerca += " AND ";
-				ricerca += "a.last_name = '" +lastName + "'";
-			}else {
-				if(firstName.length() > 0)
-					ricerca += "a.first_name = '" +firstName + "'";
-				if(lastName.length() > 0)
-					ricerca += "a.last_name = '" +lastName + "'";
-			}
+//			if(firstName.length() > 0 && lastName.length() > 0) {
+//				ricerca += "a.first_name = '" +firstName + "'";
+//				ricerca += " AND ";
+//				ricerca += "a.last_name = '" +lastName + "'";
+//			}else {
+//				if(firstName.length() > 0)
+//					ricerca += "a.first_name = '" +firstName + "'";
+//				if(lastName.length() > 0)
+//					ricerca += "a.last_name = '" +lastName + "'";
+//			}
+			
+			
 
-		}
+		//}
 		System.out.println("Sto cercando");
 		//OK
 		//		Query q = entitymanager.createNativeQuery("SELECT a.first_name, a.last_name FROM user a");
 		//		Query q = entitymanager.createNativeQuery("SELECT a.id, a.first_name, a.last_name FROM user a"
 		//				+ " WHERE a.first_name = " + "'"+ firstName +"'");
 
-		Query q = entitymanager.createNativeQuery("SELECT * FROM user a"
-				+ ricerca);
-
-		List<Object[]> utenti = q.getResultList();
-
-		String trovati ="";
-		//		System.out.println("Utenti trovati: ");
+//		Query q = entitymanager.createNativeQuery("SELECT * FROM user a"
+//				+ ricerca);
+//
+//		List<Object[]> utenti = q.getResultList();
+//
+//		String trovati ="";
+//		//		System.out.println("Utenti trovati: ");
+//		
+//		for (Object[] u : utenti) {
+//			
+//			trovati += "<b>ID:</b> " + u[0]  + " " +	           
+//					"<b>Nome:</b> "+ u[1] + " " +	  
+//					"<b>Cognome:</b> " +u[2] + " " +	
+//					"<b>Codice Fiscale:</b>" +u[6] + " " ;
+//			
+//			if (u[9] == null) {
+//			trovati +=	"<b>Utente attivo</b> "  + "<br><br>";
+//			}
+//			
+//			else trovati +=	"<b>Archiviato in data:</b> " +u[9].toString().substring(0, 10) + "<br><br>";
+//					
+//		}
+//		System.out.println(trovati);
+//		if(trovati.length()==0)
+//			trovati = "<b>Ops! Nessun utente trovato con questi parametri.<b>";
 		
-		for (Object[] u : utenti) {
-			
-			trovati += "<b>ID:</b> " + u[0]  + " " +	           
-					"<b>Nome:</b> "+ u[1] + " " +	  
-					"<b>Cognome:</b> " +u[2] + " " +	
-					"<b>Codice Fiscale:</b>" +u[6] + " " ;
-			
-			if (u[9] == null) {
-			trovati +=	"<b>Utente attivo</b> "  + "<br><br>";
-			}
-			
-			else trovati +=	"<b>Archiviato in data:</b> " +u[9].toString().substring(0, 10) + "<br><br>";
-					
+		
+		
+		for (int i=0;i<searchQuery.size();i++) {
+			whereClause+=searchQuery.get(i);
+			if (i!=searchQuery.size()-1)
+				whereClause+=" AND ";
 		}
-		System.out.println(trovati);
-		if(trovati.length()==0)
-			trovati = "<b>Ops! Nessun utente trovato con questi parametri.<b>";
+		
+		TypedQuery<User> query=entitymanager.createQuery("SELECT a from User a "+whereClause,User.class);
+		
+		List<User> userlist=query.getResultList();
+		
 
-		return trovati;
+		return userlist;
 	}
 	
 	public List<User> caricaTutti() {
