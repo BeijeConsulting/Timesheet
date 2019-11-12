@@ -29,6 +29,19 @@
 				<input class="btn green" type="submit" value="Home">
 			</form>
 </div>
+
+<div class="center">
+	<form action="visualizzautente" method="post" id="form">
+<%
+	for (User u:users){
+%>
+	<button type="submit" name="userid" form="form" value="<%=u.getId() %>"><%=u.getFirstName()+" "+
+	u.getLastName()+" "+u.getEmail()%></button>
+<%
+	}
+%>
+	</form>
+</div>
 <br><br><br>
 </div>
 </body>
