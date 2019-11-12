@@ -59,7 +59,7 @@ pageEncoding="UTF-8"%>
         
         <div class="row">
           <div class="input-field col s6">
-            <input id="birth_date" type="date" name="birthDate" value="">
+            <input id="birth_date" type="date" name="birthDate" value="1900-01-01">
             <label for="birth_date">Inserisci data di nascita</label>
         </div>
         
