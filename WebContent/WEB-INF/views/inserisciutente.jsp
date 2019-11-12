@@ -13,6 +13,12 @@ pageEncoding="UTF-8"%>
 </head>
 
 <body>
+
+<script>
+	function toUP(codFiscal){
+		codFiscal.value=codFiscal.value.toUpperCase();
+	}
+</script>
   <div class="container">
    
     <h2 class="center"> <i class="medium material-icons prefix">mode_edit</i> Inserisci i tuoi dati</h2> <br>
@@ -52,7 +58,7 @@ pageEncoding="UTF-8"%>
 
         <div class="row">
           <div class="input-field col s12">
-            <input id="fiscal_code" type="text" name="fiscalCode" minlength="16" maxlength="16" required>
+            <input id="fiscal_code" type="text" name="fiscalCode" minlength="16" maxlength="16" onkeyup="toUP(this)" required>
             <label for="fiscal_code" class="pink-text"><b>Inserisci codice fiscale</b></label>
           </div>
         </div>
