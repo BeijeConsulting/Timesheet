@@ -106,15 +106,40 @@ public class ApiController {
 		return address;
 	}
 	
-	//Update
+//	//Update
+//	@RequestMapping(value = "/address/{id}", method = RequestMethod.PUT,
+//			consumes = MediaType.APPLICATION_JSON_VALUE)
+//	public @ResponseBody Address addressPut(@RequestBody Address address, @PathVariable int id) {
+//		System.out.println("\n\n\naddressput...\n\n\n");
+//		address.setId(id);
+//		System.out.println("\n\n\nId...\n\n\n" + id);
+//		JPAService.save(address);
+//		return address;
+//	}
+//	
+	
 	@RequestMapping(value = "/address/{id}", method = RequestMethod.PUT,
 			consumes = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody Address addressPut(@RequestBody Address address, @PathVariable int id) {
-		System.out.println("\n\n\naddressput...\n\n\n");
-		address.setId(id);
-		System.out.println("\n\n\nId...\n\n\n" + id);
-		JPAService.save(address);
-		return address;
+		Address existingAddress = JPAService.getBean(Address.class, id);
+		if (existingAddress.equals(null)) {
+			JPAService.save(address);
+			return address;
+		}else {
+			existingAddress.setUser(address.getUser());
+			existingAddress.setStreet(address.getStreet());
+			existingAddress.setCity(address.getCity());
+			existingAddress.setProvince(address.getProvince());
+			existingAddress.setCap(address.getCap());
+			existingAddress.setCountry(address.getCountry());
+			existingAddress.setStartDate(address.getStartDate());
+			existingAddress.setEndDate(address.getEndDate());
+			existingAddress.setCap(address.getCap());
+			
+			JPAService.save(existingAddress);
+			return existingAddress;
+		}
+		
 	}
 	
 	
