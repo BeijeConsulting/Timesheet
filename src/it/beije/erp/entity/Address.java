@@ -43,7 +43,7 @@ public class Address {
 	private String province;
 	
 	@Column(name="cap", nullable=false)
-	private int cap;
+	private String cap;
 	
 	@Column(name="country" , nullable=false)
 	private String country;
@@ -129,13 +129,13 @@ public class Address {
 
 
 
-	public int getCap() {
+	public String getCap() {
 		return cap;
 	}
 
 
 
-	public void setCap(int cap) {
+	public void setCap(String cap) {
 		this.cap = cap;
 	}
 
