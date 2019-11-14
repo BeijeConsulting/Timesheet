@@ -152,8 +152,10 @@ public class ApiController {
 	@RequestMapping(value = "/contract/user/{id}", method = RequestMethod.GET)
 	public @ResponseBody List<Contract> getContracts(@PathVariable int id) {
 		
+		System.out.println("\nLOG | id : " + id + "\n");
 		User user = JPAService.getBean(User.class, id);
 		List<Contract> contracts = user.getContracts();
+		System.out.println("\nLOG | contracts : " + contracts + "\n");
 		
 		return contracts;
 	}
@@ -161,7 +163,9 @@ public class ApiController {
 	@RequestMapping(value = "/contract/{id}", method = RequestMethod.GET)
 	public @ResponseBody Contract getContract(@PathVariable int id) {
 		
+		System.out.println("\nLOG | id : " + id + "\n");
 		Contract contract = JPAService.getBean(Contract.class, id);
+		System.out.println("\nLOG | contract : " + contract + "\n");
 		
 		return contract;
 	}

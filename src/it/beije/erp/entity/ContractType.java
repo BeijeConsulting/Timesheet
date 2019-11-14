@@ -1,21 +1,28 @@
 package it.beije.erp.entity;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Table(name = "contract_type")
 @Entity
 public class ContractType {
 	
 	@Id
+	//@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="id")
 	private char cod;
 	
-	@OneToMany(mappedBy = "type")
+	@OneToMany(mappedBy = "type", cascade = CascadeType.ALL, fetch=FetchType.EAGER)
 	private List<Contract> contracts;
 	
 	@Column(name="description")
@@ -61,7 +68,7 @@ public class ContractType {
 		this.description = description;
 	}
 
-
+	
 
 	@Override
 	public boolean equals(Object o) {
