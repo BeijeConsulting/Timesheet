@@ -77,10 +77,10 @@ public class User {
 			
 		
 	public User() {
-		super();
+		
 	}
 
-	public User(User user) {super();
+	public User(User user) {
 		this.id = user.id;
 		this.firstName = user.firstName;
 		this.lastName = user.lastName;
@@ -89,6 +89,8 @@ public class User {
 		this.phone = user.phone;
 		this.fiscalCode = user.fiscalCode;
 		this.birthDate = user.birthDate;
+		this.birthPlace = user.birthPlace;
+		this.nationality = user.nationality;
 		this.document = user.document;
 		this.idSkype = user.idSkype;
 		this.admin = user.admin;
