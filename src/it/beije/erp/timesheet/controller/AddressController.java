@@ -1,7 +1,9 @@
 package it.beije.erp.timesheet.controller;
 
+import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -44,11 +46,11 @@ public class AddressController {
 	@RequestMapping(value = "/registeraddress", method = RequestMethod.POST)
 	public String getAddresses(@Validated Address address, Model model) {
 		
-		address.setStartDate(LocalDate.now());
+		address.setStartDate(new Date(Calendar.getInstance().getTime().getTime()));
 		JPAService.save(address);
 		
 		model.addAttribute("address", address);
-		return "addressform";	
+		return "confermaaddress";	
 	}
 	
 }
