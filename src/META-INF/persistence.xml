@@ -5,6 +5,8 @@
 		<class>it.beije.erp.entity.Address</class>
 		<class>it.beije.erp.entity.Contract</class>
 		<class>it.beije.erp.timesheet.entity.Timetable</class>
+		<class>it.beije.erp.entity.UserComputer</class>
+		<class>it.beije.erp.entity.Computer</class>
 		<properties>
 			<property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
 			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://beijedev.ccc2op6yesad.eu-west-1.rds.amazonaws.com:3306/beijedb?serverTimezone=CET"/>

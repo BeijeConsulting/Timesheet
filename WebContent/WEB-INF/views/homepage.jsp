@@ -95,6 +95,13 @@ pageEncoding="UTF-8"%>
           <input class="btn green" type="submit" value="Gestione TimeTable">
       </form>
       </div>
+      
+      <div class="col s6">
+         <form class="col s12" action="homecomputer" method="get">
+   <!--      <a class="waves-effect waves-light btn-large sfondo"><i class="material-icons left">domain</i>Gestione Timetable</a> -->
+          <input class="btn green" type="submit" value="Gestione Computer">
+      </form>
+      </div>
 
     </div>
   </div>

@@ -29,6 +29,10 @@ public class User {
 	@JsonIgnore
 	@OneToMany(mappedBy = "user")
 	private List<Contract> contracts;
+	
+	@OneToMany
+	@JoinColumn(name = "id_user")
+	private List<UserComputer> computers;
 
 	@Column(name = "first_name", nullable=false)
 	private String firstName;

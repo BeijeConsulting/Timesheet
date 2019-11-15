@@ -1,5 +1,46 @@
 /* FIX: nome della tabella user */
 
+CREATE TABLE `computer` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `model` VARCHAR(45) NOT NULL,
+  `brand` VARCHAR(20) NOT NULL,
+  `cpu` VARCHAR(15) NOT NULL,
+  `ram` INT NOT NULL,
+  `hard_disk` VARCHAR(10) NOT NULL,
+  `serial_number` VARCHAR(45) NOT NULL,
+  `operating_system` VARCHAR(20) NOT NULL,
+  `availability` TINYINT NOT NULL,
+  `note` VARCHAR(45) NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `serial_number_UNIQUE` (`serial_number` ASC))ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+  
+  
+  
+CREATE TABLE `assignment` (
+  	`id` INT NOT NULL AUTO_INCREMENT,
+ 	 `delivery` DATE NOT NULL,
+ 	 `return_date` DATE NULL,
+  	`note` VARCHAR(45) NULL,
+  	`id_user` INT NOT NULL,
+  	`id_computer` INT NOT NULL,
+  	PRIMARY KEY (`id`),
+  	INDEX `id_user_idx` (`id_user` ASC),
+  	INDEX `id_computer_idx` (`id_computer` ASC),
+  	CONSTRAINT `id_user`
+    FOREIGN KEY (`id_user`)
+    REFERENCES `beijedb`.`user` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  	CONSTRAINT `id_computer`
+    FOREIGN KEY (`id_computer`)
+    REFERENCES `beijedb`.`computer` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+	ENGINE = InnoDB
+	DEFAULT CHARACTER SET = utf8
+	COLLATE = utf8_bin;
+	 
+
 CREATE TABLE bank_credentials(
 	id INT NOT NULL AUTO_INCREMENT,
 	id_user INT NOT NULL,
