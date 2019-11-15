@@ -4,17 +4,10 @@ import java.sql.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-
-import com.fasterxml.jackson.annotation.JsonGetter;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonSetter;
 
 @Table(name = "bank_credentials")
 @Entity
@@ -24,11 +17,6 @@ public class BankCredentials {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="id")
 	private int id;
-	
-	@JsonIgnore
-	@ManyToOne
-    @JoinColumn(name = "id_user")
-	private User user;
 	
 	@Column(name="accountholder")
 	private String accountholder;
@@ -61,30 +49,6 @@ public class BankCredentials {
 
 	public void setId(int id) {
 		this.id = id;
-	}
-
-
-
-	public User getUser() {
-		return user;
-	}
-
-
-
-	public void setUser(User user) {
-		this.user = user;
-	}
-
-	@JsonGetter
-	public int getId_user() {
-		return user != null ? user.getId() : -1;
-	}
-	
-	@JsonSetter
-	public void setId_user(int id_user) {
-		System.out.println("setId_user : " + id_user);
-		this.user = new User();
-		user.setId(id_user);
 	}
 
 	public String getAccountholder() {

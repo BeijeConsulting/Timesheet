@@ -1,21 +1,17 @@
 package it.beije.erp.controller.api;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -26,7 +22,6 @@ import it.beije.erp.entity.Contract;
 import it.beije.erp.entity.User;
 import it.beije.erp.service.JPAService;
 import it.beije.erp.timesheet.entity.Timetable;
-import it.beije.erp.timesheet.service.UserService;
 import it.beije.jpa.JpaEntityManager;
 
 
@@ -85,7 +80,7 @@ public class ApiController {
 
 	//Read
 	@RequestMapping(value = "/addresses/user/{id}", method = RequestMethod.GET)
-	public @ResponseBody List<Address> getAddresses(@PathVariable int id) {
+	public @ResponseBody List<Address> getAddresses(@PathVariable Long id) {
 
 		User user = JPAService.getBean(User.class, id);
 		List<Address> addresses = user.getAddresses();
@@ -94,7 +89,7 @@ public class ApiController {
 	}
 
 	@RequestMapping(value = "/address/{id}", method = RequestMethod.GET)
-	public @ResponseBody Address getAddress(@PathVariable int id) {
+	public @ResponseBody Address getAddress(@PathVariable Long id) {
 
 		Address address = JPAService.getBean(Address.class, id);
 
@@ -123,7 +118,7 @@ public class ApiController {
 
 	@RequestMapping(value = "/address/{id}", method = RequestMethod.PUT,
 			consumes = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody Address addressPut(@RequestBody Address addressData, @PathVariable int id) {
+	public @ResponseBody Address addressPut(@RequestBody Address addressData, @PathVariable Long id) {
 
 		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
 
@@ -132,7 +127,6 @@ public class ApiController {
 
 		Address address = entitymanager.find(Address.class, id);
 
-		if(addressData.getUser().equals(null)) address.setUser(addressData.getUser());
 		if(addressData.getStreet() != null)address.setStreet(addressData.getStreet());
 		if(addressData.getCity() != null)address.setCity(addressData.getCity());
 		if(addressData.getProvince() != null)address.setProvince(addressData.getProvince());
@@ -153,7 +147,7 @@ public class ApiController {
 	/****************** BANK CREDENTIALS *****************/
 	//Read
 	@RequestMapping(value = "/credentials/user/{id}", method = RequestMethod.GET)
-	public @ResponseBody List<BankCredentials> getCredentialsForUser(@PathVariable int id) {
+	public @ResponseBody List<BankCredentials> getCredentialsForUser(@PathVariable Long id) {
 
 		User user = JPAService.getBean(User.class, id);
 		List<BankCredentials> credentials = user.getBankCredentials();
@@ -162,7 +156,7 @@ public class ApiController {
 	}
 
 	@RequestMapping(value = "/credentials/{id}", method = RequestMethod.GET)
-	public @ResponseBody BankCredentials getCredentials(@PathVariable int id) {
+	public @ResponseBody BankCredentials getCredentials(@PathVariable Long id) {
 
 		BankCredentials credentials = JPAService.getBean(BankCredentials.class, id);
 
@@ -182,7 +176,7 @@ public class ApiController {
 	/****************** CONTRACT *****************/
 	//Read
 	@RequestMapping(value = "/contract/user/{id}", method = RequestMethod.GET)
-	public @ResponseBody List<Contract> getContracts(@PathVariable int id) {
+	public @ResponseBody List<Contract> getContracts(@PathVariable Long id) {
 
 		User user = JPAService.getBean(User.class, id);
 		List<Contract> contracts = user.getContracts();
@@ -191,7 +185,7 @@ public class ApiController {
 	}
 
 	@RequestMapping(value = "/contract/{id}", method = RequestMethod.GET)
-	public @ResponseBody Contract getContract(@PathVariable int id) {
+	public @ResponseBody Contract getContract(@PathVariable Long id) {
 
 		Contract contract = JPAService.getBean(Contract.class, id);
 
