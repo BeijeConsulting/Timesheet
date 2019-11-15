@@ -19,11 +19,11 @@ public class User {
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch=FetchType.EAGER)
 	private List<Address> addresses;
 	
-	@OneToMany(mappedBy = "user")
-	private List<BankCredentials> bankCredentials;
+//	@OneToMany(mappedBy = "user")//, cascade = CascadeType.ALL, fetch=FetchType.EAGER)
+//	private List<BankCredentials> bankCredentials;
 	
-	@OneToMany(mappedBy = "user")
-	private List<Contract> contracts;
+//	@OneToMany(mappedBy = "user")//, cascade = CascadeType.ALL, fetch=FetchType.EAGER)
+//	private List<Contract> contracts;
 
 	@Column(name = "first_name", nullable=false)
 	private String firstName;
@@ -247,24 +247,24 @@ public class User {
 	}
 	
 
-	public List<BankCredentials> getBankCredentials() {
-		return bankCredentials;
-	}
-	
-
-	public void setBankCredentials(List<BankCredentials> bankCredentials) {
-		this.bankCredentials = bankCredentials;
-	}
-	
-
-	public List<Contract> getContracts() {
-		return contracts;
-	}
-	
-
-	public void setContracts(List<Contract> contracts) {
-		this.contracts = contracts;
-	}
+//	public List<BankCredentials> getBankCredentials() {
+//		return bankCredentials;
+//	}
+//	
+//
+//	public void setBankCredentials(List<BankCredentials> bankCredentials) {
+//		this.bankCredentials = bankCredentials;
+//	}
+//	
+//
+//	public List<Contract> getContracts() {
+//		return contracts;
+//	}
+//	
+//
+//	public void setContracts(List<Contract> contracts) {
+//		this.contracts = contracts;
+//	}
 	
 	public void addAddress(Address address) {
 		addresses.add(address);
@@ -276,25 +276,25 @@ public class User {
 		address.setUser(null);
 	}
 	
-	public void addBankCredentials(BankCredentials credentials) {
-		bankCredentials.add(credentials);
-		credentials.setUser(this);
-	}
-	
-	public void removeBankCredentials(BankCredentials credentials) {
-		bankCredentials.remove(credentials);
-		credentials.setUser(null);
-	}
-	
-	public void addContract(Contract contract) {
-		contracts.add(contract);
-		contract.setUser(this);
-	}
-	
-	public void removeContractType(Contract contract) {
-		contracts.remove(contract);
-		contract.setUser(null);
-	}
+//	public void addBankCredentials(BankCredentials credentials) {
+//		bankCredentials.add(credentials);
+//		credentials.setUser(this);
+//	}
+//	
+//	public void removeBankCredentials(BankCredentials credentials) {
+//		bankCredentials.remove(credentials);
+//		credentials.setUser(null);
+//	}
+//	
+//	public void addContract(Contract contract) {
+//		contracts.add(contract);
+//		contract.setUser(this);
+//	}
+//	
+//	public void removeContract(Contract contract) {
+//		contracts.remove(contract);
+//		contract.setUser(null);
+//	}
 	
 	
 }

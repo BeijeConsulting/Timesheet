@@ -26,12 +26,12 @@ import it.beije.erp.service.JPAService;
 public class AddressController {
 	
 	// GET : read addresses from User within id
-	@RequestMapping(value = "/addresses/{id}", method = RequestMethod.GET)
+	@RequestMapping(value = "/addresses/user/{id}", method = RequestMethod.GET)
 	public String getAddresses(@PathVariable int id, Model model) {
 		
 		User user = JPAService.getBean(User.class, id);
 		List<Address> addresses = user.getAddresses();
-
+		
 		model.addAttribute("addresses", addresses);
 		return "useraddresses";
 	}
@@ -52,5 +52,7 @@ public class AddressController {
 		model.addAttribute("address", address);
 		return "confermaaddress";	
 	}
+	
+	
 	
 }
