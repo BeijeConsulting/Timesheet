@@ -34,7 +34,7 @@ public class UserApiController {
 	}
 
 	@RequestMapping(value = "/user/{id}", method = RequestMethod.GET)
-	public @ResponseBody User getUser(@PathVariable int id, Model model,
+	public @ResponseBody User getUser(@PathVariable Long id, Model model,
 			HttpServletResponse response) throws IOException {
 		System.out.println("get user by id: " + id);
 

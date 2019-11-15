@@ -30,7 +30,7 @@ public class UserService implements UserDetailsService{
 	@Autowired
 	private UserRepository userRepository;
 
-	public User find(int id) {
+	public User find(Long id) {
 
 		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
 		EntityManager entitymanager = emfactory.createEntityManager();
