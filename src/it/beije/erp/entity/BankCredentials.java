@@ -16,7 +16,7 @@ public class BankCredentials {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="id")
-	private int id;
+	private Long id;
 	
 	@Column(name="accountholder")
 	private String accountholder;
@@ -41,13 +41,13 @@ public class BankCredentials {
 	}
 	
 	
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
 
 
 
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -141,11 +141,5 @@ public class BankCredentials {
         if (!(o instanceof BankCredentials )) return false;
         return id == ((BankCredentials) o).getId();
 	}
-	
-	@Override
-	public int hashCode() {
-		return (int)id;
-	}
-	
 	
 }
