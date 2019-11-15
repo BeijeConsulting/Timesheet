@@ -11,7 +11,6 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.servlet.http.HttpServletRequest;
 
-import org.springframework.data.domain.Persistable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -104,7 +103,7 @@ public class UserController {
 	
 	@PreAuthorize("hasAnyRole('ADMIN')")		
 	@RequestMapping(value = "/visualizzautente", method = RequestMethod.POST)
-	public String visualizzaUtente(@RequestParam("userid") int userid, Model model){
+	public String visualizzaUtente(@RequestParam("userid") Long userid, Model model){
 		EntityManagerFactory factory=Persistence.createEntityManagerFactory("timesheet");
 		EntityManager em=factory.createEntityManager();
 		

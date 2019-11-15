@@ -50,8 +50,8 @@ public class UserService implements UserDetailsService{
 	}
 	
 	public User create(User user) {
-		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
-		//EntityManagerFactory emfactory = Persistence.createEntityManagerFactory("timesheet");
+		//EntityManagerFactory emfactory = JpaEntityManager.getInstance();
+		EntityManagerFactory emfactory = Persistence.createEntityManagerFactory("timesheet");
 		EntityManager entitymanager = emfactory.createEntityManager();
 		entitymanager.getTransaction().begin();
 
