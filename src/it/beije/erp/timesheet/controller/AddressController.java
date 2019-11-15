@@ -21,11 +21,10 @@ public class AddressController {
 	
 	// GET : read addresses from User within id
 	@RequestMapping(value = "/addresses/{id}", method = RequestMethod.GET)
-	public String getAddresses(@PathVariable Long id, Model model) {
-		
+	public String getAddresses(@PathVariable Long id, Model model) {	
 		User user = JPAService.getBean(User.class, id);
 		List<Address> addresses = user.getAddresses();
-
+		
 		model.addAttribute("addresses", addresses);
 		return "useraddresses";
 	}
@@ -44,7 +43,9 @@ public class AddressController {
 		JPAService.save(address);
 		
 		model.addAttribute("address", address);
-		return "addressform";	
+		return "confermaaddress";	
 	}
+	
+	
 	
 }

@@ -176,19 +176,16 @@ public class ApiController {
 	/****************** CONTRACT *****************/
 	//Read
 	@RequestMapping(value = "/contract/user/{id}", method = RequestMethod.GET)
-	public @ResponseBody List<Contract> getContracts(@PathVariable Long id) {
 
+	public @ResponseBody List<Contract> getContracts(@PathVariable Long id) {		
 		User user = JPAService.getBean(User.class, id);
 		List<Contract> contracts = user.getContracts();
-
 		return contracts;
 	}
 
 	@RequestMapping(value = "/contract/{id}", method = RequestMethod.GET)
 	public @ResponseBody Contract getContract(@PathVariable Long id) {
-
 		Contract contract = JPAService.getBean(Contract.class, id);
-
 		return contract;
 	}
 

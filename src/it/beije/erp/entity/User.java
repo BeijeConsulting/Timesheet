@@ -249,6 +249,7 @@ public class User {
 	}
 
 
+
 	public List<BankCredentials> getBankCredentials() {
 		return bankCredentials;
 	}
@@ -275,6 +276,7 @@ public class User {
 	public void removeAddress(Address address) {
 		addresses.remove(address);
 	}
+
 
 	public void addBankCredentials(BankCredentials credentials) {
 		bankCredentials.add(credentials);
