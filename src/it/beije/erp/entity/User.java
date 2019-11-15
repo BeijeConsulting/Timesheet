@@ -25,7 +25,7 @@ public class User {
 	@JsonIgnore
 	@OneToMany(mappedBy = "user")
 	private List<BankCredentials> bankCredentials;
-	
+
 	@JsonIgnore
 	@OneToMany(mappedBy = "user")
 	private List<Contract> contracts;
@@ -285,25 +285,25 @@ public class User {
 		address.setUser(null);
 	}
 	
-	public void addBankCredentials(BankCredentials credentials) {
-		bankCredentials.add(credentials);
-		credentials.setUser(this);
-	}
-	
-	public void removeBankCredentials(BankCredentials credentials) {
-		bankCredentials.remove(credentials);
-		credentials.setUser(null);
-	}
-	
-	public void addContract(Contract contract) {
-		contracts.add(contract);
-		contract.setUser(this);
-	}
-	
-	public void removeContractType(Contract contract) {
-		contracts.remove(contract);
-		contract.setUser(null);
-	}
+//	public void addBankCredentials(BankCredentials credentials) {
+//		bankCredentials.add(credentials);
+//		credentials.setUser(this);
+//	}
+//	
+//	public void removeBankCredentials(BankCredentials credentials) {
+//		bankCredentials.remove(credentials);
+//		credentials.setUser(null);
+//	}
+//	
+//	public void addContract(Contract contract) {
+//		contracts.add(contract);
+//		contract.setUser(this);
+//	}
+//	
+//	public void removeContract(Contract contract) {
+//		contracts.remove(contract);
+//		contract.setUser(null);
+//	}
 	
 	
 }
