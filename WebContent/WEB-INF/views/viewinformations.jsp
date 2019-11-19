@@ -6,15 +6,15 @@
 
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
 
-	<title>Pagina di conferma</title>
+	<title>Dati del pc</title>
 </head>
 <body>
 
 	<div class="container">
-		<h3 class="center">Dati inseriti </h3>      
+		<h3 class="center">Dati del pc </h3>      
 		
 		<div class="row">
-			<form class="col s12" action="regmodifycomputer" method="post">
+			<form class="col s12" action="insertdisposaldate" method="post">
 				
 				<div class="row">
 					

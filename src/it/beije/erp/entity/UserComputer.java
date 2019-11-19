@@ -16,7 +16,13 @@ public class UserComputer {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="id")
-	private int id;	
+	private int id;
+	
+	@Column(name="mouse")
+	private String mouse;
+
+	@Column(name="lan_adapter")
+	private boolean lanAdapter;
 	
 	@Column(name="start_date")
 	private Date startDate;
@@ -32,7 +38,31 @@ public class UserComputer {
 	
 	@Column(name="id_computer")
 	private int idComputer;
-	
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getMouse() {
+		return mouse;
+	}
+
+	public void setMouse(String mouse) {
+		this.mouse = mouse;
+	}
+
+	public boolean isLanAdapter() {
+		return lanAdapter;
+	}
+
+	public void setLanAdapter(boolean lanAdapter) {
+		this.lanAdapter = lanAdapter;
+	}
+
 	public Date getStartDate() {
 		return startDate;
 	}
@@ -55,14 +85,6 @@ public class UserComputer {
 
 	public void setNote(String note) {
 		this.note = note;
-	}
-
-	public int getId() {
-		return id;
-	}
-
-	public void setIdusers_computer(int id) {
-		this.id = id;
 	}
 
 	public int getIdUser() {

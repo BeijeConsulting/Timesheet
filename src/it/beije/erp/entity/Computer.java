@@ -1,5 +1,6 @@
 package it.beije.erp.entity;
 
+import java.sql.Date;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -21,15 +22,11 @@ public class Computer {
 	@Column(name="id")
 	private int id;
 	
-	@OneToMany
-	@JoinColumn(name = "id_computer")
-	private List<UserComputer> users;
+	@Column(name="brand")
+	private String brand;
 
 	@Column(name="model")
 	private String model;
-	
-	@Column(name="brand")
-	private String brand;
 	
 	@Column(name="cpu")
 	private String cpu;
@@ -43,15 +40,25 @@ public class Computer {
 	@Column(name="serial_number")
 	private String serialNumber;
 	
-	@Column(name="note")
-	private String note;
-	
 	@Column(name="operating_system")
 	private String operatingSystem;
 	
 	@Column(name="availability")
 	private boolean availability;
 	
+	@Column(name="purchase_date")
+	private Date purchaseDate;
+	
+	@Column(name="disposal_date")
+	private Date disposalDate;
+	
+	@Column(name="note")
+	private String note;
+	
+	@OneToMany
+	@JoinColumn(name = "id_computer")
+	private List<UserComputer> users;
+
 	public int getId() {
 		return id;
 	}
@@ -60,12 +67,12 @@ public class Computer {
 		this.id = id;
 	}
 
-	public List<UserComputer> getUsers() {
-		return users;
+	public String getBrand() {
+		return brand;
 	}
 
-	public void setUtenti(List<UserComputer> users) {
-		this.users = users;
+	public void setBrand(String brand) {
+		this.brand = brand;
 	}
 
 	public String getModel() {
@@ -74,14 +81,6 @@ public class Computer {
 
 	public void setModel(String model) {
 		this.model = model;
-	}
-
-	public String getBrand() {
-		return brand;
-	}
-
-	public void setBrand(String brand) {
-		this.brand = brand;
 	}
 
 	public String getCpu() {
@@ -116,6 +115,38 @@ public class Computer {
 		this.serialNumber = serialNumber;
 	}
 
+	public String getOperatingSystem() {
+		return operatingSystem;
+	}
+
+	public void setOperatingSystem(String operatingSystem) {
+		this.operatingSystem = operatingSystem;
+	}
+
+	public boolean isAvailability() {
+		return availability;
+	}
+
+	public void setAvailability(boolean availability) {
+		this.availability = availability;
+	}
+
+	public Date getPurchaseDate() {
+		return purchaseDate;
+	}
+
+	public void setPurchaseDate(Date purchaseDate) {
+		this.purchaseDate = purchaseDate;
+	}
+
+	public Date getDisposalDate() {
+		return disposalDate;
+	}
+
+	public void setDisposalDate(Date disposalDate) {
+		this.disposalDate = disposalDate;
+	}
+
 	public String getNote() {
 		return note;
 	}
@@ -124,19 +155,13 @@ public class Computer {
 		this.note = note;
 	}
 
-	public String getOperatingSystem() {
-		return operatingSystem;
+	public List<UserComputer> getUsers() {
+		return users;
 	}
 
-	public void setOperatingSystem(String operatingSystem) {
-		this.operatingSystem = operatingSystem;
+	public void setUsers(List<UserComputer> users) {
+		this.users = users;
 	}
 	
-	public boolean isAvailability() {
-		return availability;
-	}
-
-	public void setAvailability(boolean availability) {
-		this.availability = availability;
-	}
+	
 }

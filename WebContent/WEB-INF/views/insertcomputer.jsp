@@ -20,14 +20,15 @@ pageEncoding="UTF-8"%>
     <div class="row">
       <form class="col s12" action="confirmdatacomputer" method="post">
         <div class="row">
+        
+        <div class="input-field col s6">
+            <input id="brand" type="text" name="brand" required>
+            <label for="brand" class="pink-text"><b>Marca</b></label>
+          </div>
           
           <div class="input-field col s6">
             <input id="model" type="text" name="model" required>
             <label for="model" class="pink-text"><b>Modello</b></label>
-          </div>
-          <div class="input-field col s6">
-            <input id="brand" type="text" name="brand" required>
-            <label for="brand" class="pink-text"><b>Marca</b></label>
           </div>
         </div>
 
@@ -45,7 +46,7 @@ pageEncoding="UTF-8"%>
         
         <div class="row">
           <div class="input-field col s6">
-            <input id="hard_disk" type="text" name="hardDisk" value="" required>
+            <input id="hard_disk" type="text" name="hardDisk" required>
             <label for="hard_disk" class="pink-text"><b>Hard-disk</b></label>
           </div>
 
@@ -57,11 +58,18 @@ pageEncoding="UTF-8"%>
         
         <div class="row">
           <div class="input-field col s6">
-            <input id="operating_system" type="text" name="operatingSystem" value="" required>
+            <input id="operating_system" type="text" name="operatingSystem" required>
             <label for="operating_system" class="pink-text"><b>Sistema operativo</b></label>
         </div>
         
           <div class="input-field col s6">
+            <input id="purchase_date" type="date" name="purchaseDate" required>
+            <label for="purchase_date" class="pink-text"><b>Data acquisto</b></label>
+          </div>
+        </div>
+        
+        <div class="row">
+          <div class="input-field col s12">
             <input id="note" type="text" name="note" value="">
             <label for="note">Note</label>
           </div>

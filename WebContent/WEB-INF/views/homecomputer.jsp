@@ -25,19 +25,19 @@
 	</div>
 	
 	  <div class="col s3">
-		<form action="modifycomputer" method="get">
+		<form action="idmodifycomputer" method="get">
         <input class="btn green" type="submit" value="modifica computer">
 	</form>
 	</div>
 	
 	  <div class="col s3">
-		<form action="deletecomputer" method="post">
+		<form action="deletecomputer" method="get">
         <input class="btn green" type="submit" value="Cancella computer">
 	</form>
 	</div>
 	
 	  <div class="col s3">
-			<form action="searchuser" method="get">
+			<form action="searchcomputer" method="get">
         <input class="btn green" type="submit" value="Cerca computer">
         
 	</form>
