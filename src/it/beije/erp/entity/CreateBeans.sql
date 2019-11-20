@@ -16,11 +16,13 @@ CREATE TABLE `computer` (
   
   
   
-CREATE TABLE `assignment` (
+CREATE TABLE `user_computer` (
   	`id` INT NOT NULL AUTO_INCREMENT,
- 	 `delivery` DATE NOT NULL,
- 	 `return_date` DATE NULL,
+ 	`start_date` DATE NOT NULL,
+ 	`end_date` DATE NULL,
   	`note` VARCHAR(45) NULL,
+  	`mouse` VARCHAR(45) NULL,
+  	`lan_adapter` VARCHAR(45) NULL,
   	`id_user` INT NOT NULL,
   	`id_computer` INT NOT NULL,
   	PRIMARY KEY (`id`),

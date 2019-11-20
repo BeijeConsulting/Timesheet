@@ -22,10 +22,12 @@ public class User {
 	private List<Address> addresses;
 	
 	@JsonIgnore
+	@OneToMany
 	@JoinColumn(name="id")
 	private List<BankCredentials> bankCredentials;
 
 	@JsonIgnore
+	@OneToMany
 	@JoinColumn(name="id")
 	private List<Contract> contracts;
 	

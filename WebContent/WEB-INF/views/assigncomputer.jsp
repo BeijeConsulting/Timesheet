@@ -20,14 +20,16 @@ pageEncoding="UTF-8"%>
 
     <div class="row">
       <form class="col s12" action="assigncomputer" method="post">
+      <div class="row">
     	<div class="input-field s6">      
-      		<select class="browser-default waves-effect waves-light btn">
-          <option value="" disabled="" selected="">Scegli il computer</option>
+    	<select class="browser-default waves-effect waves-light btn" name="idComputer">
+      		<option value="">Scegli il computer</option>
           <c:forEach items="${computers}" var="temp">
           <option value="${temp.id}" >ID: ${temp.id} MARCA: ${temp.brand} MODELLO: ${temp.model}
           							 CPU: ${temp.cpu} RAM: ${temp.ram} HDD: ${temp.hardDisk} S/N: ${temp.serialNumber}</option>
           </c:forEach>
        </select>
+    </div>
     </div>
           
           <div class="row">
@@ -51,20 +53,22 @@ pageEncoding="UTF-8"%>
           </div>
           
           <div class="input-field col s6">
-            <input id="note" type="text" name="note">
+            <input id="note" type="text" name="note" value="">
             <label for="note" ><b>Note:</b></label>
           </div>
           </div>
 
 		<div class="row">
           <div class="input-field col s6">
-            <input id="mouse" type="text" name="mouse">
+            <input id="mouse" type="text" name="mouse" value="">
             <label for="mouse"><b>Mouse:</b></label>
           </div>
         
           <div class="input-field col s6">
-            <input id="lan_adapter" type="text" name="lanAdapter">
-            <label for="lan_adapter"><b>Adattatore LAN:</b></label>
+            <label>
+        	<input type="checkbox" name="lanAdapter" value="1" />
+        	<span><b>Adattatore LAN: </b></span>
+      	</label>
         </div>
         </div>
         
