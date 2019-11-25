@@ -47,20 +47,6 @@ public class UserController {
 		return "home";
 	}
 	
-	@PreAuthorize("hasAnyRole('USER')")	
-	@RequestMapping(value = "/homepage", method = RequestMethod.GET)
-	public String homepage(Locale locale, Model model) {
-		System.out.println("Home Page Requested, locale = " + locale);
-		Date date = new Date();
-		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
-
-		String dataFormattato = dateFormat.format(date);
-
-		model.addAttribute("serverTime", dataFormattato);
-
-		return "homepage";
-	}
-	
 
 	@RequestMapping(value = "/confirmdata", method = RequestMethod.POST)
 	public String confermaDati(@Validated User user, String lastName, Model model) {
