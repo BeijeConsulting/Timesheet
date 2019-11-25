@@ -15,13 +15,13 @@
 
 <div class="right">
 
-		<form action="http://localhost:8080/Timesheet/homepage" method="get">
+		<form action="homepage" method="get">
 				<input class="btn green" type="submit" value="Admin">
 			</form>
 </div>
 <div class="left">
 
-		<form action="http://localhost:8080/Timesheet/home" method="get"> <!--da aggiungere jsp utente-->
+		<form action="home" method="get"> <!--da aggiungere jsp utente-->
 				<input class="btn green" type="submit" value="User">
 			</form>
 </div>

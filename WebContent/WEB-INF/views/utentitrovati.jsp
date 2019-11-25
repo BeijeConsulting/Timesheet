@@ -25,7 +25,7 @@
 
 <div class="center">
 <!-- <a class="btn-floating btn-large pulse"><i class="material-icons">cloud</i></a> -->
-		<form action="http://localhost:8080/Timesheet/" method="get">
+		<form action="homepage" method="get">
 				<input class="btn green" type="submit" value="Home">
 			</form>
 </div>
