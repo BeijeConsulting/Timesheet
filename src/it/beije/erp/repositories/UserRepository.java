@@ -1,4 +1,4 @@
-package it.beije.timesheet.repositories;
+package it.beije.erp.repositories;
 
 import java.util.Optional;
 
@@ -8,6 +8,9 @@ import org.springframework.stereotype.Repository;
 import it.beije.erp.entity.User;
 
 @Repository
-public interface UserRepository extends JpaRepository<User, Integer> {
+public interface UserRepository extends JpaRepository<User, Long> {
+	
 	Optional<User> findByEmail(String email);
+	
+	Optional<User> findByFirstNameAndLastName(String firstName, String lastName);
 }
