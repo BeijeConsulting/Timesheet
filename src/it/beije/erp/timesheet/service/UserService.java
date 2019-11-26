@@ -99,21 +99,21 @@ public class UserService implements UserDetailsService{
 		List<String> searchQuery=new ArrayList<>();
 		String whereClause="";
 		
-		if (firstName.length()>0) {
-			searchQuery.add("a.firstName='"+firstName+"'");
+		if (firstName != null && firstName.length()>0) {
+			searchQuery.add("a.firstName LIKE '%"+firstName+"%'");
 			whereClause+="WHERE ";
 		}
-		if (lastName.length()>0) {
-			searchQuery.add("a.lastName='"+lastName+"'");
+		if (lastName != null && lastName.length()>0) {
+			searchQuery.add("a.lastName LIKE '%"+lastName+"%'");
 			if (whereClause.length()==0)
 				whereClause+="WHERE ";
 		}
-		if (email.length()>0) {
-			searchQuery.add("a.email='"+email+"'");
+		if (email != null && email.length()>0) {
+			searchQuery.add("a.email LIKE '%"+email+"%'");
 			if (whereClause.length()==0)
 				whereClause+="WHERE ";
 		}
-		if (fiscalCode.length()>0) {
+		if (fiscalCode != null && fiscalCode.length()>0) {
 			searchQuery.add("a.fiscalCode='"+fiscalCode+"'");
 			if (whereClause.length()==0)
 				whereClause+="WHERE ";

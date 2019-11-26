@@ -16,24 +16,18 @@ public class User {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	private Long id;
-	
+
 	@OneToMany
 	@JoinColumn(name="id")
 	private List<Address> addresses;
-	
-	@JsonIgnore
+
 	@OneToMany
 	@JoinColumn(name="id")
 	private List<BankCredentials> bankCredentials;
 
-	@JsonIgnore
 	@OneToMany
 	@JoinColumn(name="id")
 	private List<Contract> contracts;
-	
-	@OneToMany
-	@JoinColumn(name = "id_user")
-	private List<UserComputer> computers;
 
 	@Column(name = "first_name", nullable=false)
 	private String firstName;
@@ -80,27 +74,26 @@ public class User {
 	@Column(name = "note")
 	private String note;
 
+
 	public User() {
-		
+		super();
 	}
-	
-	public User(User user) {
-		this.id = user.id;
-		this.firstName = user.firstName;
-		this.lastName = user.lastName;
-		this.email = user.email;
-		this.secondaryEmail = user.secondaryEmail;
-		this.phone = user.phone;
-		this.fiscalCode = user.fiscalCode;
-		this.birthDate = user.birthDate;
-		this.birthPlace = user.birthPlace;
-		this.nationality = user.nationality;
-		this.document = user.document;
-		this.idSkype = user.idSkype;
-		this.admin = user.admin;
-		this.password = user.password;
-		this.archiveDate = user.archiveDate;
-		this.note = user.note;
+
+	public User(User user) {super();
+	this.id = user.id;
+	this.firstName = user.firstName;
+	this.lastName = user.lastName;
+	this.email = user.email;
+	this.secondaryEmail = user.secondaryEmail;
+	this.phone = user.phone;
+	this.fiscalCode = user.fiscalCode;
+	this.birthDate = user.birthDate;
+	this.document = user.document;
+	this.idSkype = user.idSkype;
+	this.admin = user.admin;
+	this.password = user.password;
+	this.archiveDate = user.archiveDate;
+	this.note = user.note;
 	}
 
 	public String getBirthplace() {
@@ -130,7 +123,7 @@ public class User {
 	public Long getId() {
 		return id;
 	}
-	
+
 	public void setId(Long id) {
 		this.id = id;
 	}
@@ -247,26 +240,32 @@ public class User {
 		this.idSkype = idSkype;
 	}
 
+
 	public List<Address> getAddresses() {
 		return addresses;
 	}
+
 
 	public void setAddresses(List<Address> addresses) {
 		this.addresses = addresses;
 	}
 
+
+
 	public List<BankCredentials> getBankCredentials() {
 		return bankCredentials;
 	}
-	
+
 
 	public void setBankCredentials(List<BankCredentials> bankCredentials) {
 		this.bankCredentials = bankCredentials;
 	}
 
+
 	public List<Contract> getContracts() {
 		return contracts;
 	}
+
 
 	public void setContracts(List<Contract> contracts) {
 		this.contracts = contracts;
@@ -279,6 +278,7 @@ public class User {
 	public void removeAddress(Address address) {
 		addresses.remove(address);
 	}
+
 
 	public void addBankCredentials(BankCredentials credentials) {
 		bankCredentials.add(credentials);
@@ -295,5 +295,6 @@ public class User {
 	public void removeContractType(Contract contract) {
 		contracts.remove(contract);
 	}
+
 
 }

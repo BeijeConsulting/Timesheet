@@ -74,6 +74,17 @@ public class UserApiController {
 	public @ResponseBody List<User> searchUser(@RequestBody UserRequest req){
 		
 		return new UserService().trovaUtente(req);
+		
+		
+		
+		
+		/*{"first_name" : "nome",
+		 * "last_name" : "cognome",
+		 * "email" : "email",
+		 * "fiscal_code" : "codice fiscale"
+		 * 
+		}
+		*/
 	}
 	
 	
