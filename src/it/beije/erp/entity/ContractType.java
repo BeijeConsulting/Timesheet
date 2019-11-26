@@ -19,7 +19,7 @@ public class ContractType {
 	
 	@Id
 	//@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="id")
+	@Column(name="cod")
 	private char cod;
 	
 	@OneToMany(mappedBy = "type", cascade = CascadeType.ALL, fetch=FetchType.EAGER)

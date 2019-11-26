@@ -2,6 +2,7 @@ package it.beije.erp.entity;
 
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.*;
@@ -16,18 +17,6 @@ public class User {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	private Long id;
-
-	@OneToMany
-	@JoinColumn(name="id")
-	private List<Address> addresses;
-
-	@OneToMany
-	@JoinColumn(name="id")
-	private List<BankCredentials> bankCredentials;
-
-	@OneToMany
-	@JoinColumn(name="id")
-	private List<Contract> contracts;
 
 	@Column(name = "first_name", nullable=false)
 	private String firstName;
@@ -74,6 +63,17 @@ public class User {
 	@Column(name = "note")
 	private String note;
 
+	@OneToMany
+	@JoinColumn(name="id")
+	private List<Address> addresses;
+
+	@OneToMany
+	@JoinColumn(name="id")
+	private List<BankCredentials> bankCredentials;
+
+	@OneToMany
+	@JoinColumn(name="id")
+	private List<Contract> contracts;
 
 	public User() {
 		super();
@@ -95,15 +95,7 @@ public class User {
 	this.archiveDate = user.archiveDate;
 	this.note = user.note;
 	}
-
-	public String getBirthplace() {
-		return birthPlace;
-	}
-
-	public void setBirthplace(String birthplace) {
-		this.birthPlace = birthplace;
-	}
-
+	
 	public String getNationality() {
 		return nationality;
 	}
@@ -176,13 +168,6 @@ public class User {
 		this.fiscalCode = fiscalCode;
 	}
 
-	public Date getBirthdate() {
-		return birthDate;
-	}
-
-	public void setBirthdate(Date birthdate) {
-		this.birthDate = birthdate;
-	}
 
 	public String getDocument() {
 		return document;
@@ -242,6 +227,12 @@ public class User {
 
 
 	public List<Address> getAddresses() {
+		EntityManager entityManager = Persistence.createEntityManagerFactory("timesheet").createEntityManager();
+		List<Address> addresses = new ArrayList<>();
+
+		addresses=entityManager.createQuery("select a from Address a where id_user="+id,
+			    Address.class).getResultList();
+		entityManager.close();
 		return addresses;
 	}
 
@@ -253,6 +244,12 @@ public class User {
 
 
 	public List<BankCredentials> getBankCredentials() {
+		EntityManager entityManager = Persistence.createEntityManagerFactory("timesheet").createEntityManager();
+		List<BankCredentials> bankCredentials = new ArrayList<>();
+
+		bankCredentials=entityManager.createQuery("select b from BankCredentials b where id_user="+id,
+			    BankCredentials.class).getResultList();
+		entityManager.close();
 		return bankCredentials;
 	}
 
@@ -263,6 +260,12 @@ public class User {
 
 
 	public List<Contract> getContracts() {
+		EntityManager entityManager = Persistence.createEntityManagerFactory("timesheet").createEntityManager();
+		List<Contract> contracts = new ArrayList<>();
+
+		contracts=entityManager.createQuery("select c from Contract c where id_user="+id,
+			    Contract.class).getResultList();
+		entityManager.close();
 		return contracts;
 	}
 

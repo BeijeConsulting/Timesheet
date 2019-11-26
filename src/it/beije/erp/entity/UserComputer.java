@@ -1,12 +1,18 @@
 package it.beije.erp.entity;
 
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityManager;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.Persistence;
 import javax.persistence.Table;
 
 @Entity
@@ -38,6 +44,24 @@ public class UserComputer {
 	
 	@Column(name="id_computer")
 	private int idComputer;
+	
+//	@OneToMany
+//	@JoinColumn(name = "id")
+//	private List<User> users;
+//
+//	public List<User> getUsers() {
+//		EntityManager entityManager = Persistence.createEntityManagerFactory("timesheet").createEntityManager();
+//		List<User> users= new ArrayList<>();
+//
+//		users=entityManager.createQuery("select u from User u where id="+idUser,
+//			    User.class).getResultList();
+//		entityManager.close();
+//		return users;
+//	}
+//
+//	public void setUsers(List<User> users) {
+//		this.users = users;
+//	}
 
 	public int getId() {
 		return id;
