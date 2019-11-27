@@ -20,6 +20,7 @@ import it.beije.erp.entity.Computer;
 import it.beije.erp.entity.User;
 import it.beije.erp.entity.UserComputer;
 import it.beije.erp.service.JPAService;
+import it.beije.erp.timesheet.service.ComputerService;
 import it.beije.erp.timesheet.service.UserService;
 
 
@@ -128,7 +129,7 @@ public class ComputerController {
 		List<Computer> computers = new ArrayList<>();
 		int check = 0;
 		check = Integer.valueOf(request.getParameter("check"));
-		computers=JPAService.getComputers(check);
+		computers=ComputerService.getComputers(check);
 		model.addAttribute("computers", computers);
 		return "showcomputer";
 	}
@@ -137,7 +138,7 @@ public class ComputerController {
 	@RequestMapping(value = "/searchcomputer", method = RequestMethod.POST)
 	public String searchComputer(@Validated Computer computer, Locale locale, Model model, HttpServletRequest request) {
 	List<Computer> computers = new ArrayList<>();
-		computers=JPAService.searchComputer(computer.getSerialNumber(),
+		computers=ComputerService.searchComputer(computer.getSerialNumber(),
 											computer.getRam(),
 											computer.getCpu(),
 											computer.getHardDisk());
@@ -150,7 +151,7 @@ public class ComputerController {
 	public String assignComputer(Locale locale, Model model) {
 		List<Computer> computers = new ArrayList<>();
 		int check = 1;
-		computers=JPAService.getComputers(check);
+		computers=ComputerService.getComputers(check);
 		model.addAttribute("computers", computers);
 		return "assigncomputer";
 	}
@@ -158,7 +159,7 @@ public class ComputerController {
 	@PreAuthorize("hasAnyRole('USER')")	
 	@RequestMapping(value = "/assigncomputer", method = RequestMethod.POST)
 	public String assignComputers(@Validated UserComputer userComputer, Locale locale, Model model, HttpServletRequest request) {
-		int id=Integer.valueOf(request.getParameter("idComputer"));
+		Long id=Long.valueOf(request.getParameter("idComputer"));
 		Computer computer = new Computer();
 		computer=JPAService.getBean(Computer.class , id);
 		computer.setAvailability(false);

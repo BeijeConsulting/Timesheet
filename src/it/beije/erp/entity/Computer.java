@@ -1,15 +1,18 @@
 package it.beije.erp.entity;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityManager;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.Persistence;
 import javax.persistence.Table;
 
 
@@ -20,7 +23,7 @@ public class Computer {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="id")
-	private int id;
+	private Long id;
 	
 	@Column(name="brand")
 	private String brand;
@@ -57,13 +60,13 @@ public class Computer {
 	
 	@OneToMany
 	@JoinColumn(name = "id_computer")
-	private List<UserComputer> users;
+	private List<UserComputer> assignments;
 
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -155,12 +158,18 @@ public class Computer {
 		this.note = note;
 	}
 
-	public List<UserComputer> getUsers() {
-		return users;
+	public List<UserComputer> getAssignment() {
+		EntityManager entityManager = Persistence.createEntityManagerFactory("timesheet").createEntityManager();
+		List<UserComputer> userComputer = new ArrayList<>();
+
+		userComputer=entityManager.createQuery("select uc from UserComputer uc where id_computer="+id,
+			    UserComputer.class).getResultList();
+		entityManager.close();
+		return userComputer;
 	}
 
-	public void setUsers(List<UserComputer> users) {
-		this.users = users;
+	public void setUsers(List<UserComputer> assignments) {
+		this.assignments = assignments;
 	}
 	
 	

@@ -1,12 +1,18 @@
 package it.beije.erp.entity;
 
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityManager;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.Persistence;
 import javax.persistence.Table;
 
 @Entity
@@ -16,7 +22,7 @@ public class UserComputer {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="id")
-	private int id;
+	private Long id;
 	
 	@Column(name="mouse")
 	private String mouse;
@@ -34,16 +40,34 @@ public class UserComputer {
 	private String note;
 
 	@Column(name="id_user")
-	private int idUser;
+	private Long idUser;
 	
 	@Column(name="id_computer")
-	private int idComputer;
+	private Long idComputer;
+	
+//	@OneToMany
+//	@JoinColumn(name = "id")
+//	private List<User> users;
+//
+//	public List<User> getUsers() {
+//		EntityManager entityManager = Persistence.createEntityManagerFactory("timesheet").createEntityManager();
+//		List<User> users= new ArrayList<>();
+//
+//		users=entityManager.createQuery("select u from User u where id="+idUser,
+//			    User.class).getResultList();
+//		entityManager.close();
+//		return users;
+//	}
+//
+//	public void setUsers(List<User> users) {
+//		this.users = users;
+//	}
 
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -87,19 +111,19 @@ public class UserComputer {
 		this.note = note;
 	}
 
-	public int getIdUser() {
+	public Long getIdUser() {
 		return idUser;
 	}
 
-	public void setIdUser(int idUser) {
+	public void setIdUser(Long idUser) {
 		this.idUser = idUser;
 	}
 
-	public int getIdComputer() {
+	public Long getIdComputer() {
 		return idComputer;
 	}
 
-	public void setIdComputer(int idComputer) {
+	public void setIdComputer(Long idComputer) {
 		this.idComputer = idComputer;
 	}
 }

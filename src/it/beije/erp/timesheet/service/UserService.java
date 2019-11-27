@@ -12,14 +12,17 @@ import javax.persistence.Persistence;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import it.beije.erp.entity.User;
 import it.beije.erp.repositories.UserRepository;
+import it.beije.erp.service.JPAService;
 import it.beije.erp.timesheet.entity.CustomUserDetail;
 import it.beije.jpa.JpaEntityManager;
 import it.beije.jpa.UserRequest;
@@ -31,13 +34,17 @@ public class UserService implements UserDetailsService{
 	@Autowired
 	private UserRepository userRepository;
 
+	@Transactional
 	public User find(Long id) {
-
+		
 		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
 		EntityManager entitymanager = emfactory.createEntityManager();
 		User user;
 		try {
 			user = entitymanager.createQuery("SELECT u FROM User u WHERE u.id = "+id,User.class).getSingleResult();
+			Hibernate.initialize(user.getAddresses());
+			Hibernate.initialize(user.getBankCredentials());
+			Hibernate.initialize(user.getContracts());
 		}catch (NoResultException e)
 		{
 			return new User();

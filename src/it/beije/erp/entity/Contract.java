@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonSetter;
  
-@Table(name = "contract")
+@Table(name = "contratto")
 @Entity
 public class Contract {
 	
@@ -30,7 +30,7 @@ public class Contract {
 	@Column(name="ccnl")
 	private String ccnl;
 	
-	@Column(name="lvl")
+	@Column(name="liv")
 	private byte lvl;
 	
 	@Column(name="minimo_contrattuale")
