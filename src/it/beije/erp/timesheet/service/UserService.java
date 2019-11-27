@@ -147,9 +147,7 @@ public class UserService implements UserDetailsService{
 		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
 		EntityManager entitymanager = emfactory.createEntityManager();
 
-		Query q = entitymanager.createNativeQuery("SELECT * FROM user");
-
-		List<User> utenti = q.getResultList();
+		List<User> utenti = entitymanager.createQuery("SELECT u FROM User u",User.class).getResultList();
 
 		entitymanager.close();
 		
