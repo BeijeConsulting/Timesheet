@@ -16,7 +16,7 @@ import it.beije.erp.timesheet.service.UserService;
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-@EnableJpaRepositories("it.beije.timesheet.repositories")
+@EnableJpaRepositories("it.beije.erp.repositories")
 public class ConfigurationClass extends WebSecurityConfigurerAdapter {
 	
 	@Autowired

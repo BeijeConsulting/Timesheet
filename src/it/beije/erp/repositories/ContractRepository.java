@@ -11,12 +11,12 @@ import it.beije.erp.entity.Contract;
 
 
 @Repository
-public interface ContractRepository extends JpaRepository<Contract, Long> {
+public interface ContractRepository extends JpaRepository<Contract, Integer> {
 	
-	Optional<Contract> find(Long id); //findOne ?
+//	Optional<Contract> find(Long id); //findOne ?
 	
 	List<Contract> findAll();
 	
-	@Query("select c from Contract c where c.userId = ?1")
-	List<Contract> getUserContract(Long userId);
+//	@Query("select c from Contract c where c.userId = ?1")
+//	List<Contract> getUserContract(Long userId);
 }
