@@ -7,10 +7,13 @@ import org.springframework.stereotype.Repository;
 
 import it.beije.erp.entity.User;
 
+
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
 	
 	Optional<User> findByEmail(String email);
 	
-	Optional<User> findByFirstNameAndLastName(String firstName, String lastName);
+	//List<User> findAll();
+	//User findOne(Long id);
+	//Optional<User> findByFirstNameAndLastName(String firstName, String lastName);
 }

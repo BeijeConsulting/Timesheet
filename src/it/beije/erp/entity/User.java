@@ -8,6 +8,9 @@ import java.util.List;
 import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+
 
 @Entity
 @Table(name = "user")
@@ -27,73 +30,85 @@ public class User {
 	@Column(name = "email", unique=true, nullable=false)
 	private String email;
 
+	@JsonIgnore
 	@Column(name = "password", nullable=false)
 	private String password;
-
-	@Column(name = "secondary_email")
-	private String secondaryEmail;
 
 	@Column(name = "phone")
 	private String phone;
 
+	@JsonInclude(Include.NON_NULL)
+	@Column(name = "secondary_email")
+	private String secondaryEmail;
+
+	@JsonInclude(Include.NON_NULL)
 	@Column(name = "fiscal_code", unique=true)
 	private String fiscalCode;
 
+	@JsonInclude(Include.NON_NULL)
 	@Column(name = "birth_date")
 	private Date birthDate;
 
+	@JsonInclude(Include.NON_NULL)
 	@Column(name = "birth_place")
 	private String birthPlace;
 
+	@JsonInclude(Include.NON_NULL)
 	@Column(name = "nationality")
 	private String nationality;
 
+	@JsonInclude(Include.NON_NULL)
 	@Column(name = "document", unique=true)
 	private String document;
 
+	@JsonInclude(Include.NON_NULL)
 	@Column(name = "id_skype")
 	private String idSkype;
 
+	@JsonInclude(Include.NON_NULL)
 	@Column(name = "admin")
-	private boolean admin;
+	private Boolean admin;
 
+	@JsonInclude(Include.NON_NULL)
 	@Column(name = "archive_date")
 	private Date archiveDate;
 
+	@JsonInclude(Include.NON_NULL)
 	@Column(name = "note")
 	private String note;
 
-	@OneToMany
-	@JoinColumn(name="id")
-	private List<Address> addresses;
-
-	@OneToMany
-	@JoinColumn(name="id")
-	private List<BankCredentials> bankCredentials;
-
-	@OneToMany
-	@JoinColumn(name="id")
-	private List<Contract> contracts;
+//	@OneToMany
+//	@JoinColumn(name="id")
+//	private List<Address> addresses;
+//
+//	@OneToMany
+//	@JoinColumn(name="id")
+//	private List<BankCredentials> bankCredentials;
+//
+//	@OneToMany
+//	@JoinColumn(name="id")
+//	private List<Contract> contracts;
 
 	public User() {
 		super();
 	}
 
-	public User(User user) {super();
-	this.id = user.id;
-	this.firstName = user.firstName;
-	this.lastName = user.lastName;
-	this.email = user.email;
-	this.secondaryEmail = user.secondaryEmail;
-	this.phone = user.phone;
-	this.fiscalCode = user.fiscalCode;
-	this.birthDate = user.birthDate;
-	this.document = user.document;
-	this.idSkype = user.idSkype;
-	this.admin = user.admin;
-	this.password = user.password;
-	this.archiveDate = user.archiveDate;
-	this.note = user.note;
+	public User(User user) {
+		super();
+		this.id = user.id;
+		this.firstName = user.firstName;
+		this.lastName = user.lastName;
+		this.email = user.email;
+		this.secondaryEmail = user.secondaryEmail;
+		this.phone = user.phone;
+		this.fiscalCode = user.fiscalCode;
+		this.birthDate = user.birthDate;
+		this.document = user.document;
+		this.idSkype = user.idSkype;
+		this.admin = user.admin;
+		this.password = user.password;
+		this.archiveDate = user.archiveDate;
+		this.note = user.note;
 	}
 	
 	public String getNationality() {
@@ -177,11 +192,11 @@ public class User {
 		this.document = document;
 	}
 
-	public boolean isAdmin() {
+	public Boolean isAdmin() {
 		return this.admin;
 	}
 
-	public void setAdmin(boolean admin) {
+	public void setAdmin(Boolean admin) {
 		this.admin = admin;
 	}
 
@@ -226,78 +241,77 @@ public class User {
 	}
 
 
-	public List<Address> getAddresses() {
-		EntityManager entityManager = Persistence.createEntityManagerFactory("timesheet").createEntityManager();
-		List<Address> addresses = new ArrayList<>();
-
-		addresses=entityManager.createQuery("select a from Address a where id_user="+id,
-			    Address.class).getResultList();
-		entityManager.close();
-		return addresses;
-	}
-
-
-	public void setAddresses(List<Address> addresses) {
-		this.addresses = addresses;
-	}
-
-
-
-	public List<BankCredentials> getBankCredentials() {
-		EntityManager entityManager = Persistence.createEntityManagerFactory("timesheet").createEntityManager();
-		List<BankCredentials> bankCredentials = new ArrayList<>();
-
-		bankCredentials=entityManager.createQuery("select b from BankCredentials b where id_user="+id,
-			    BankCredentials.class).getResultList();
-		entityManager.close();
-		return bankCredentials;
-	}
-
-
-	public void setBankCredentials(List<BankCredentials> bankCredentials) {
-		this.bankCredentials = bankCredentials;
-	}
-
-
-	public List<Contract> getContracts() {
-		EntityManager entityManager = Persistence.createEntityManagerFactory("timesheet").createEntityManager();
-		List<Contract> contracts = new ArrayList<>();
-
-		contracts=entityManager.createQuery("select c from Contract c where id_user="+id,
-			    Contract.class).getResultList();
-		entityManager.close();
-		return contracts;
-	}
-
-
-	public void setContracts(List<Contract> contracts) {
-		this.contracts = contracts;
-	}
-
-	public void addAddress(Address address) {
-		addresses.add(address);
-	}
-
-	public void removeAddress(Address address) {
-		addresses.remove(address);
-	}
-
-
-	public void addBankCredentials(BankCredentials credentials) {
-		bankCredentials.add(credentials);
-	}
-
-	public void removeBankCredentials(BankCredentials credentials) {
-		bankCredentials.remove(credentials);
-	}
-
-	public void addContract(Contract contract) {
-		contracts.add(contract);
-	}
-
-	public void removeContractType(Contract contract) {
-		contracts.remove(contract);
-	}
-
+//	public List<Address> getAddresses() {
+//		EntityManager entityManager = Persistence.createEntityManagerFactory("timesheet").createEntityManager();
+//		List<Address> addresses = new ArrayList<>();
+//
+//		addresses=entityManager.createQuery("select a from Address a where id_user="+id,
+//			    Address.class).getResultList();
+//		entityManager.close();
+//		return addresses;
+//	}
+//
+//
+//	public void setAddresses(List<Address> addresses) {
+//		this.addresses = addresses;
+//	}
+//
+//
+//
+//	public List<BankCredentials> getBankCredentials() {
+//		EntityManager entityManager = Persistence.createEntityManagerFactory("timesheet").createEntityManager();
+//		List<BankCredentials> bankCredentials = new ArrayList<>();
+//
+//		bankCredentials=entityManager.createQuery("select b from BankCredentials b where id_user="+id,
+//			    BankCredentials.class).getResultList();
+//		entityManager.close();
+//		return bankCredentials;
+//	}
+//
+//
+//	public void setBankCredentials(List<BankCredentials> bankCredentials) {
+//		this.bankCredentials = bankCredentials;
+//	}
+//
+//
+//	public List<Contract> getContracts() {
+//		EntityManager entityManager = Persistence.createEntityManagerFactory("timesheet").createEntityManager();
+//		List<Contract> contracts = new ArrayList<>();
+//
+//		contracts=entityManager.createQuery("select c from Contract c where id_user="+id,
+//			    Contract.class).getResultList();
+//		entityManager.close();
+//		return contracts;
+//	}
+//
+//
+//	public void setContracts(List<Contract> contracts) {
+//		this.contracts = contracts;
+//	}
+//
+//	public void addAddress(Address address) {
+//		addresses.add(address);
+//	}
+//
+//	public void removeAddress(Address address) {
+//		addresses.remove(address);
+//	}
+//
+//
+//	public void addBankCredentials(BankCredentials credentials) {
+//		bankCredentials.add(credentials);
+//	}
+//
+//	public void removeBankCredentials(BankCredentials credentials) {
+//		bankCredentials.remove(credentials);
+//	}
+//
+//	public void addContract(Contract contract) {
+//		contracts.add(contract);
+//	}
+//
+//	public void removeContractType(Contract contract) {
+//		contracts.remove(contract);
+//	}
 
 }

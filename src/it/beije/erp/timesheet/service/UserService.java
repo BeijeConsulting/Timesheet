@@ -22,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import it.beije.erp.entity.User;
 import it.beije.erp.repositories.UserRepository;
+import it.beije.erp.repositories.UserRepositoryCustom;
 import it.beije.erp.service.JPAService;
 import it.beije.erp.timesheet.entity.CustomUserDetail;
 import it.beije.jpa.JpaEntityManager;
@@ -34,6 +35,9 @@ public class UserService implements UserDetailsService{
 	@Autowired
 	private UserRepository userRepository;
 
+	@Autowired
+	private UserRepositoryCustom userRepositoryCustom;
+
 	@Transactional
 	public User find(Long id) {
 		
@@ -42,9 +46,9 @@ public class UserService implements UserDetailsService{
 		User user;
 		try {
 			user = entitymanager.createQuery("SELECT u FROM User u WHERE u.id = "+id,User.class).getSingleResult();
-			Hibernate.initialize(user.getAddresses());
-			Hibernate.initialize(user.getBankCredentials());
-			Hibernate.initialize(user.getContracts());
+//			Hibernate.initialize(user.getAddresses());
+//			Hibernate.initialize(user.getBankCredentials());
+//			Hibernate.initialize(user.getContracts());
 		}catch (NoResultException e)
 		{
 			return new User();
@@ -143,17 +147,17 @@ public class UserService implements UserDetailsService{
 	}
 	
 	public List<User> caricaTutti() {
-
-		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
-		EntityManager entitymanager = emfactory.createEntityManager();
-
-		List<User> utenti = entitymanager.createQuery("SELECT u FROM User u",User.class).getResultList();
-
-		entitymanager.close();
 		
-		System.out.println("caricaTutti : " + utenti.size());
+		List<User> completeUsers = userRepositoryCustom.load();
 		
-		return utenti;
+		System.out.println("caricaTutti : " + completeUsers.size());
+		
+		List<User> users = new ArrayList<User>(completeUsers.size());
+		for(User u : completeUsers) {
+			users.add(getShortVersion(u));
+		}
+		
+		return users;
 	}
 	
 	public void modificaUtente(User user) {
@@ -224,4 +228,13 @@ public class UserService implements UserDetailsService{
 		}		
 	}
 
+	public User getShortVersion(User user) {
+		User u = new User();
+		u.setId(user.getId());
+		u.setFirstName(user.getFirstName());
+		u.setLastName(user.getLastName());
+		u.setEmail(user.getEmail());
+		u.setPhone(user.getPhone());
+		return u;
+	}
 }
