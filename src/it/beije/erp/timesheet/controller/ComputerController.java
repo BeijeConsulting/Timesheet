@@ -159,7 +159,7 @@ public class ComputerController {
 	@PreAuthorize("hasAnyRole('USER')")	
 	@RequestMapping(value = "/assigncomputer", method = RequestMethod.POST)
 	public String assignComputers(@Validated UserComputer userComputer, Locale locale, Model model, HttpServletRequest request) {
-		int id=Integer.valueOf(request.getParameter("idComputer"));
+		Long id=Long.valueOf(request.getParameter("idComputer"));
 		Computer computer = new Computer();
 		computer=JPAService.getBean(Computer.class , id);
 		computer.setAvailability(false);

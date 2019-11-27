@@ -22,7 +22,7 @@ public class UserComputer {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="id")
-	private int id;
+	private Long id;
 	
 	@Column(name="mouse")
 	private String mouse;
@@ -40,10 +40,10 @@ public class UserComputer {
 	private String note;
 
 	@Column(name="id_user")
-	private int idUser;
+	private Long idUser;
 	
 	@Column(name="id_computer")
-	private int idComputer;
+	private Long idComputer;
 	
 //	@OneToMany
 //	@JoinColumn(name = "id")
@@ -63,11 +63,11 @@ public class UserComputer {
 //		this.users = users;
 //	}
 
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -111,19 +111,19 @@ public class UserComputer {
 		this.note = note;
 	}
 
-	public int getIdUser() {
+	public Long getIdUser() {
 		return idUser;
 	}
 
-	public void setIdUser(int idUser) {
+	public void setIdUser(Long idUser) {
 		this.idUser = idUser;
 	}
 
-	public int getIdComputer() {
+	public Long getIdComputer() {
 		return idComputer;
 	}
 
-	public void setIdComputer(int idComputer) {
+	public void setIdComputer(Long idComputer) {
 		this.idComputer = idComputer;
 	}
 }

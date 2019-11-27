@@ -102,7 +102,7 @@ public class ComputerService {
 		return computer;
 	}
 	
-public static Computer update(Computer computer) {
+public static Computer update(Computer computer,Long id) {
 		
 		EntityManager entityManager = Persistence.createEntityManagerFactory("timesheet").createEntityManager();
 		entityManager.getTransaction().begin();

@@ -53,7 +53,7 @@ public class ComputerApiController {
 			System.out.println("update computer by id: " + id);
 			System.out.println("update computer: " + computer);
 
-			return ComputerService.update(computer);
+			return ComputerService.update(computer, id);
 		}
 
 }
