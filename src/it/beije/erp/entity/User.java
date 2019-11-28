@@ -1,6 +1,7 @@
 package it.beije.erp.entity;
 
 
+import java.io.Serializable;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +15,9 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 @Entity
 @Table(name = "user")
-public class User {
+public class User implements Serializable {
+	
+	private static final long serialVersionUID = 4865903039190150223L;
 
 	@Id 
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,57 +40,57 @@ public class User {
 	@Column(name = "phone")
 	private String phone;
 
-	@JsonInclude(Include.NON_NULL)
+	//	@JsonInclude(Include.NON_NULL)
 	@Column(name = "secondary_email")
 	private String secondaryEmail;
 
-	@JsonInclude(Include.NON_NULL)
+	//	@JsonInclude(Include.NON_NULL)
 	@Column(name = "fiscal_code", unique=true)
 	private String fiscalCode;
 
-	@JsonInclude(Include.NON_NULL)
+	//	@JsonInclude(Include.NON_NULL)
 	@Column(name = "birth_date")
 	private Date birthDate;
 
-	@JsonInclude(Include.NON_NULL)
+	//	@JsonInclude(Include.NON_NULL)
 	@Column(name = "birth_place")
 	private String birthPlace;
 
-	@JsonInclude(Include.NON_NULL)
+	//	@JsonInclude(Include.NON_NULL)
 	@Column(name = "nationality")
 	private String nationality;
 
-	@JsonInclude(Include.NON_NULL)
+	//	@JsonInclude(Include.NON_NULL)
 	@Column(name = "document", unique=true)
 	private String document;
 
-	@JsonInclude(Include.NON_NULL)
+	//	@JsonInclude(Include.NON_NULL)
 	@Column(name = "id_skype")
 	private String idSkype;
 
-	@JsonInclude(Include.NON_NULL)
+	//	@JsonInclude(Include.NON_NULL)
 	@Column(name = "admin")
 	private Boolean admin;
 
-	@JsonInclude(Include.NON_NULL)
+	//	@JsonInclude(Include.NON_NULL)
 	@Column(name = "archive_date")
 	private Date archiveDate;
 
-	@JsonInclude(Include.NON_NULL)
+	//	@JsonInclude(Include.NON_NULL)
 	@Column(name = "note")
 	private String note;
 
-//	@OneToMany
-//	@JoinColumn(name="id")
-//	private List<Address> addresses;
-//
-//	@OneToMany
-//	@JoinColumn(name="id")
-//	private List<BankCredentials> bankCredentials;
-//
-//	@OneToMany
-//	@JoinColumn(name="id")
-//	private List<Contract> contracts;
+	@OneToMany
+	@JoinColumn(name="id")
+	private List<Address> addresses;
+
+	@OneToMany
+	@JoinColumn(name="id")
+	private List<BankCredentials> bankCredentials;
+
+	@OneToMany
+	@JoinColumn(name="id")
+	private List<Contract> contracts;
 
 	public User() {
 		super();
@@ -241,77 +244,60 @@ public class User {
 	}
 
 
-//	public List<Address> getAddresses() {
-//		EntityManager entityManager = Persistence.createEntityManagerFactory("timesheet").createEntityManager();
-//		List<Address> addresses = new ArrayList<>();
-//
-//		addresses=entityManager.createQuery("select a from Address a where id_user="+id,
-//			    Address.class).getResultList();
-//		entityManager.close();
-//		return addresses;
-//	}
-//
-//
-//	public void setAddresses(List<Address> addresses) {
-//		this.addresses = addresses;
-//	}
-//
-//
-//
-//	public List<BankCredentials> getBankCredentials() {
-//		EntityManager entityManager = Persistence.createEntityManagerFactory("timesheet").createEntityManager();
-//		List<BankCredentials> bankCredentials = new ArrayList<>();
-//
-//		bankCredentials=entityManager.createQuery("select b from BankCredentials b where id_user="+id,
-//			    BankCredentials.class).getResultList();
-//		entityManager.close();
-//		return bankCredentials;
-//	}
-//
-//
-//	public void setBankCredentials(List<BankCredentials> bankCredentials) {
-//		this.bankCredentials = bankCredentials;
-//	}
-//
-//
-//	public List<Contract> getContracts() {
-//		EntityManager entityManager = Persistence.createEntityManagerFactory("timesheet").createEntityManager();
-//		List<Contract> contracts = new ArrayList<>();
-//
-//		contracts=entityManager.createQuery("select c from Contract c where id_user="+id,
-//			    Contract.class).getResultList();
-//		entityManager.close();
-//		return contracts;
-//	}
-//
-//
-//	public void setContracts(List<Contract> contracts) {
-//		this.contracts = contracts;
-//	}
-//
-//	public void addAddress(Address address) {
-//		addresses.add(address);
-//	}
-//
-//	public void removeAddress(Address address) {
-//		addresses.remove(address);
-//	}
-//
-//
-//	public void addBankCredentials(BankCredentials credentials) {
-//		bankCredentials.add(credentials);
-//	}
-//
-//	public void removeBankCredentials(BankCredentials credentials) {
-//		bankCredentials.remove(credentials);
-//	}
-//
-//	public void addContract(Contract contract) {
-//		contracts.add(contract);
-//	}
-//
-//	public void removeContractType(Contract contract) {
-//		contracts.remove(contract);
-//	}
+	public List<Address> getAddresses() {
+		return addresses;
+	}
+
+
+	public void setAddresses(List<Address> addresses) {
+		this.addresses = addresses;
+	}
+
+
+
+	public List<BankCredentials> getBankCredentials() {
+		
+		return bankCredentials;
+	}
+
+
+	public void setBankCredentials(List<BankCredentials> bankCredentials) {
+		this.bankCredentials = bankCredentials;
+	}
+
+
+	public List<Contract> getContracts() {
+		return contracts;
+	}
+
+
+	public void setContracts(List<Contract> contracts) {
+		this.contracts = contracts;
+	}
+
+	public void addAddress(Address address) {
+		addresses.add(address);
+	}
+
+	public void removeAddress(Address address) {
+		addresses.remove(address);
+	}
+
+
+	public void addBankCredentials(BankCredentials credentials) {
+		bankCredentials.add(credentials);
+	}
+
+	public void removeBankCredentials(BankCredentials credentials) {
+		bankCredentials.remove(credentials);
+	}
+
+	public void addContract(Contract contract) {
+		contracts.add(contract);
+	}
+
+	public void removeContractType(Contract contract) {
+		contracts.remove(contract);
+	}
 
 }

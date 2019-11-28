@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -13,6 +14,7 @@ import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import org.hibernate.Hibernate;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -20,6 +22,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import it.beije.erp.dto.UserDto;
+import it.beije.erp.entity.Address;
 import it.beije.erp.entity.User;
 import it.beije.erp.repositories.UserRepository;
 import it.beije.erp.repositories.UserRepositoryCustom;
@@ -46,9 +50,9 @@ public class UserService implements UserDetailsService{
 		User user;
 		try {
 			user = entitymanager.createQuery("SELECT u FROM User u WHERE u.id = "+id,User.class).getSingleResult();
-//			Hibernate.initialize(user.getAddresses());
-//			Hibernate.initialize(user.getBankCredentials());
-//			Hibernate.initialize(user.getContracts());
+			Hibernate.initialize(user.getAddresses());
+			Hibernate.initialize(user.getBankCredentials());
+			Hibernate.initialize(user.getContracts());
 		}catch (NoResultException e)
 		{
 			return new User();
@@ -58,6 +62,30 @@ public class UserService implements UserDetailsService{
 		entitymanager.close();
 
 		return user;
+	}
+	
+		public UserDto findApi(Long id) {
+		
+		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
+		EntityManager entitymanager = emfactory.createEntityManager();
+		User user;
+		UserDto userDto = new UserDto();
+		try {
+			user = entitymanager.createQuery("SELECT u FROM User u WHERE u.id = "+id,User.class).getSingleResult();
+			BeanUtils.copyProperties(user, userDto, "password", "secondaryEmail", "fiscalCode", "birthDate", "birthPlace", "nationality",
+			"document", "idSkype", "admin", "archiveDate", "note");
+			Hibernate.initialize(userDto.getAddress());
+			Hibernate.initialize(userDto.getBankCredential());
+			Hibernate.initialize(userDto.getContract());
+		}catch (NoResultException e)
+		{
+			return new UserDto();
+		}
+		System.out.println("trovato" + user.getFirstName());
+		
+		entitymanager.close();
+
+		return userDto;
 	}
 	
 	public User create(User user) {
@@ -146,16 +174,20 @@ public class UserService implements UserDetailsService{
 		return userlist;
 	}
 	
-	public List<User> caricaTutti() {
+	public List<UserDto> caricaTutti() {
 		
 		List<User> completeUsers = userRepositoryCustom.load();
 		
+		List<UserDto> users = new ArrayList<>();
 		System.out.println("caricaTutti : " + completeUsers.size());
 		
-		List<User> users = new ArrayList<User>(completeUsers.size());
-		for(User u : completeUsers) {
-			users.add(getShortVersion(u));
-		}
+//		List<User> users = new ArrayList<User>(completeUsers.size());
+//		for(User u : completeUsers) {
+//			users.add(BeanUtils.copyProperties(u, targetObj, "propertyToIgnoreA", "propertyToIgnoreB", "propertyToIgnoreC");)
+//		}
+		
+		users=completeUsers.stream().map(e -> UserDto.valueOf(e)).collect(Collectors.toList());
+		 
 		
 		return users;
 	}

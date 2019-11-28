@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
+import it.beije.erp.dto.UserDto;
 import it.beije.erp.entity.User;
 import it.beije.erp.timesheet.service.UserService;
 import it.beije.jpa.UserRequest;
@@ -39,16 +40,16 @@ public class UserApiController {
 
 	///////// START USER //////////////////////
 	@RequestMapping(value = "/users", method = RequestMethod.GET)
-	public @ResponseBody List<User> getUsers(Model model, HttpServletResponse response) throws IOException {
+	public @ResponseBody List<UserDto> getUsers(Model model, HttpServletResponse response) throws IOException {
 		return userService.caricaTutti();
 	}
 
 	@RequestMapping(value = "/user/{id}", method = RequestMethod.GET)
-	public @ResponseBody User getUser(@PathVariable Long id, Model model,
+	public @ResponseBody UserDto getUser(@PathVariable Long id, Model model,
 			HttpServletResponse response) throws IOException {
 		System.out.println("get user by id: " + id);
 
-		return userService.find(id);
+		return userService.findApi(id);
 	}
 
 	@RequestMapping(value = "/user", method = RequestMethod.POST,
