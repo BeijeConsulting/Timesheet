@@ -164,7 +164,7 @@ public class UserService implements UserDetailsService{
 		for (int i=0;i<searchQuery.size();i++) {
 			whereClause+=searchQuery.get(i);
 			if (i!=searchQuery.size()-1)
-				whereClause+=" AND ";
+				whereClause+=" OR ";
 		}
 		
 		TypedQuery<User> query=entitymanager.createQuery("SELECT a from User a "+whereClause,User.class);
