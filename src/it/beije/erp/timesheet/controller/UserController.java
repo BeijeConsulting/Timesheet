@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+import it.beije.erp.dto.UserDto;
 import it.beije.erp.entity.User;
 import it.beije.erp.timesheet.service.UserService;
 
@@ -96,7 +97,7 @@ public class UserController {
 	@PreAuthorize("hasAnyRole('ADMIN')")		
 	@RequestMapping(value = "/utentitrovati", method = RequestMethod.GET)
 	public String utentiTrovati(@Validated User user, Model model,HttpServletRequest request) {
-		List<User> trovati = new UserService().trovaUtente(user.getFirstName(),user.getLastName(),user.getEmail(),user.getFiscalCode());
+		List<User> trovati = new UserService().trovaUtenti(user.getFirstName(),user.getLastName(),user.getEmail(),user.getFiscalCode());
 		request.getSession().setAttribute("users", trovati);
 		return "utentitrovati";
 	}

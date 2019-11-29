@@ -125,12 +125,13 @@ public class UserService implements UserDetailsService{
 		return user;
 	}
 	
-	public List<User> trovaUtente(UserRequest req) {
+	public List<UserDto> trovaUtente(UserRequest req) {
 		// TODO Auto-generated method stub
 		return trovaUtente(req.getFirst_name(),req.getLast_name(),req.getEmail(),req.getFiscal_code());
 	}
 	
-	public List<User> trovaUtente(String firstName, String lastName, String email, String fiscalCode) {
+	@Transactional
+	public List<UserDto> trovaUtente(String firstName, String lastName, String email, String fiscalCode) {
 
 		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
 		EntityManager entitymanager = emfactory.createEntityManager();
@@ -170,10 +171,14 @@ public class UserService implements UserDetailsService{
 		
 		List<User> userlist=query.getResultList();
 		
+		List<UserDto> users = new ArrayList<>();
+		
+		users=userlist.stream().map(e -> UserDto.valueOf(e)).collect(Collectors.toList());
+		
 		entitymanager.close();
 		
 
-		return userlist;
+		return users;
 	}
 	
 	public List<UserDto> caricaTutti() {
@@ -264,6 +269,53 @@ public class UserService implements UserDetailsService{
 			e.printStackTrace();
 			throw e;
 		}		
+	}
+	
+	@Transactional
+	public List<User> trovaUtenti(String firstName, String lastName, String email, String fiscalCode) {
+
+		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
+		EntityManager entitymanager = emfactory.createEntityManager();
+		
+		List<String> searchQuery=new ArrayList<>();
+		String whereClause="";
+		
+		if (firstName != null && firstName.length()>0) {
+			searchQuery.add("a.firstName LIKE '%"+firstName+"%'");
+			whereClause+="WHERE ";
+		}
+		if (lastName != null && lastName.length()>0) {
+			searchQuery.add("a.lastName LIKE '%"+lastName+"%'");
+			if (whereClause.length()==0)
+				whereClause+="WHERE ";
+		}
+		if (email != null && email.length()>0) {
+			searchQuery.add("a.email LIKE '%"+email+"%'");
+			if (whereClause.length()==0)
+				whereClause+="WHERE ";
+		}
+		if (fiscalCode != null && fiscalCode.length()>0) {
+			searchQuery.add("a.fiscalCode='"+fiscalCode+"'");
+			if (whereClause.length()==0)
+				whereClause+="WHERE ";
+		}
+		
+		System.out.println("Sto cercando");
+		
+		for (int i=0;i<searchQuery.size();i++) {
+			whereClause+=searchQuery.get(i);
+			if (i!=searchQuery.size()-1)
+				whereClause+=" AND ";
+		}
+		
+		TypedQuery<User> query=entitymanager.createQuery("SELECT a from User a "+whereClause,User.class);
+		
+		List<User> userlist=query.getResultList();
+		
+		entitymanager.close();
+		
+
+		return userlist;
 	}
 
 	public User getShortVersion(User user) {
