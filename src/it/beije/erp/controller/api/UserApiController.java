@@ -71,7 +71,7 @@ public class UserApiController {
 		return userService.update(id, user);
 	}
 	
-	@RequestMapping(value="/search", method = RequestMethod.GET, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value="/search", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody List<User> searchUser(@RequestBody UserRequest req){
 		
 		return new UserService().trovaUtente(req);
