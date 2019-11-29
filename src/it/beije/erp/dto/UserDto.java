@@ -2,7 +2,6 @@ package it.beije.erp.dto;
 
 
 import java.io.Serializable;
-
 import it.beije.erp.entity.Address;
 import it.beije.erp.entity.BankCredentials;
 import it.beije.erp.entity.Contract;
@@ -18,7 +17,7 @@ public class UserDto implements Serializable {
 	private String lastName;
 	private String email;
 	private String phone;
-	private Address address;
+	private Address address[];
 	private BankCredentials bankCredential;
 	private Contract contract;
 
@@ -63,11 +62,11 @@ public class UserDto implements Serializable {
 		this.phone = phone;
 	}
 	
-	public Address getAddress() {
+	public Address[] getAddress() {
 		return address;
 	}
 
-	public void setAddress(Address address) {
+	public void setAddress(Address[] address) {
 		this.address = address;
 	}
 

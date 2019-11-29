@@ -79,6 +79,9 @@ public class User implements Serializable {
 	//	@JsonInclude(Include.NON_NULL)
 	@Column(name = "note")
 	private String note;
+	
+	@Column(name = "pic_url")
+	private String picUrl;
 
 	@OneToMany
 	@JoinColumn(name="id")
@@ -194,6 +197,10 @@ public class User implements Serializable {
 	public void setDocument(String document) {
 		this.document = document;
 	}
+	
+	public Boolean getAdmin() {
+		return admin;
+	}
 
 	public Boolean isAdmin() {
 		return this.admin;
@@ -242,6 +249,15 @@ public class User implements Serializable {
 	public void setIdSkype(String idSkype) {
 		this.idSkype = idSkype;
 	}
+	
+	public String getPicUrl() {
+		return picUrl;
+	}
+
+	public void setPicUrl(String picUrl) {
+		this.picUrl = picUrl;
+	}
+
 
 
 	public List<Address> getAddresses() {

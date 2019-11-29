@@ -24,6 +24,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import it.beije.erp.dto.UserDto;
 import it.beije.erp.entity.Address;
+import it.beije.erp.entity.BankCredentials;
+import it.beije.erp.entity.Contract;
 import it.beije.erp.entity.User;
 import it.beije.erp.repositories.UserRepository;
 import it.beije.erp.repositories.UserRepositoryCustom;
@@ -74,9 +76,7 @@ public class UserService implements UserDetailsService{
 			user = entitymanager.createQuery("SELECT u FROM User u WHERE u.id = "+id,User.class).getSingleResult();
 			BeanUtils.copyProperties(user, userDto, "password", "secondaryEmail", "fiscalCode", "birthDate", "birthPlace", "nationality",
 			"document", "idSkype", "admin", "archiveDate", "note");
-			Hibernate.initialize(userDto.getAddress());
-			Hibernate.initialize(userDto.getBankCredential());
-			Hibernate.initialize(userDto.getContract());
+			
 		}catch (NoResultException e)
 		{
 			return new UserDto();
@@ -170,6 +170,8 @@ public class UserService implements UserDetailsService{
 		
 		List<User> userlist=query.getResultList();
 		
+		entitymanager.close();
+		
 
 		return userlist;
 	}
@@ -222,6 +224,8 @@ public class UserService implements UserDetailsService{
 		//System.out.println(rowsUpdated);
 
 		entitymanager.getTransaction().commit();
+		
+		entitymanager.close();
 
 	}
 
@@ -245,6 +249,8 @@ public class UserService implements UserDetailsService{
 
 		//System.out.println(rowsUpdated);
 		entitymanager.getTransaction().commit();
+		
+		entitymanager.close();
 	}
 
 	@Override
