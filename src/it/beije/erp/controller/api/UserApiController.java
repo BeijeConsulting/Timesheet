@@ -44,12 +44,20 @@ public class UserApiController {
 		return userService.caricaTutti();
 	}
 
-	@RequestMapping(value = "/user/{id}", method = RequestMethod.GET)
-	public @ResponseBody UserDto getUser(@PathVariable Long id, Model model,
+	@RequestMapping(value = "/userdto/{id}", method = RequestMethod.GET)
+	public @ResponseBody UserDto getUserDto(@PathVariable Long id, Model model,
 			HttpServletResponse response) throws IOException {
 		System.out.println("get user by id: " + id);
 
 		return userService.findApi(id);
+	}
+	
+	@RequestMapping(value = "/user/{id}", method = RequestMethod.GET)
+	public @ResponseBody User getUser(@PathVariable Long id, Model model,
+			HttpServletResponse response) throws IOException {
+		System.out.println("get user by id: " + id);
+
+		return userService.find(id);
 	}
 
 	@RequestMapping(value = "/user", method = RequestMethod.POST,
