@@ -19,6 +19,9 @@ public class Address {
 	@Column(name="id")
 	private Long id;
 	
+	@Column(name="id_user")
+	private Long idUser;
+	
 	@Column(name="street", nullable=false)
 	private String street;
 	
@@ -40,6 +43,9 @@ public class Address {
 	@Column(name="end_date")
 	private LocalDate endDate;
 	
+	@Column(name="type")
+	private char type;
+	
 	public Address() {
 		
 	}
@@ -50,6 +56,14 @@ public class Address {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+	
+	public Long getIdUser() {
+		return idUser;
+	}
+
+	public void setIdUser(Long idUser) {
+		this.idUser = idUser;
 	}
 
 	public String getStreet() {
@@ -106,6 +120,14 @@ public class Address {
 
 	public void setEndDate(LocalDate endDate) {
 		this.endDate = endDate;
+	}
+
+	public char getType() {
+		return type;
+	}
+
+	public void setType(char type) {
+		this.type = type;
 	}
 
 	public String toString() {

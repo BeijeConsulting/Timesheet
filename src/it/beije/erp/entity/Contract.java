@@ -1,5 +1,7 @@
 package it.beije.erp.entity;
 
+import java.sql.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -21,6 +23,9 @@ public class Contract {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="id")
 	private Long id;
+	
+	@Column(name="id_user")
+	private Long idUser;
 	
 	@JsonIgnore
 	@ManyToOne		//fetchtype = "LAZY" ???
@@ -53,6 +58,12 @@ public class Contract {
 	
 	@Column(name="note")
 	private String note;
+	
+	@Column(name="start_date")
+	private Date startDate;
+	
+	@Column(name="end_date")
+	private Date endDate;
 	
 	public Contract() {
 		
@@ -200,6 +211,29 @@ public class Contract {
 	}
 
 
+	public Long getIdUser() {
+		return idUser;
+	}
+
+	public void setIdUser(Long idUser) {
+		this.idUser = idUser;
+	}
+
+	public Date getStartDate() {
+		return startDate;
+	}
+
+	public void setStartDate(Date startDate) {
+		this.startDate = startDate;
+	}
+
+	public Date getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(Date endDate) {
+		this.endDate = endDate;
+	}
 
 	@Override
 	public String toString() {

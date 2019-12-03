@@ -43,29 +43,37 @@ public class UserApiController {
 	public @ResponseBody List<UserDto> getUsers(Model model, HttpServletResponse response) throws IOException {
 		return userService.caricaTutti();
 	}
-
-	@RequestMapping(value = "/userdto/{id}", method = RequestMethod.GET)
-	public @ResponseBody UserDto getUserDto(@PathVariable Long id, Model model,
-			HttpServletResponse response) throws IOException {
+	
+	//Quando cerco "/user/{id}/{complete}, la variabile è opzionale, il valore di default è false, se è true mi da lo User completo
+	//Quando cerco "/user/{id} automaticamente mi da la versione short di User
+//	@RequestMapping(value = {"/user/{id}/{complete}", "/user/{id}"}, method = RequestMethod.GET)
+	@RequestMapping(value = {"/user/{id}"}, method = RequestMethod.GET)
+	public @ResponseBody UserDto getUserDto(@PathVariable Long id,// @PathVariable(required=false) boolean complete,
+			@RequestParam(required = false) boolean complete,
+			Model model, HttpServletResponse response) throws IOException {
 		System.out.println("get user by id: " + id);
-
+		if (complete==false) {
 		return userService.findApi(id);
+		}
+		else{
+			return userService.findApiLong(id);
+		}
 	}
 	
-	@RequestMapping(value = "/userdtolong/{id}", method = RequestMethod.GET)
-	public @ResponseBody UserDto getUserDtoLong(@PathVariable Long id, Model model,
-			HttpServletResponse response) throws IOException {
-		System.out.println("get user by id: " + id);
-
-		return userService.findApiLong(id);
-	}
+//	@RequestMapping(value = "/userdtolong/{id}", method = RequestMethod.GET)
+//	public @ResponseBody UserDto getUserDtoLong(@PathVariable Long id, Model model,
+//			HttpServletResponse response) throws IOException {
+//		System.out.println("get user by id: " + id);
+//
+//		return userService.findApiLong(id);
+//	}
 	
-	@RequestMapping(value = "/user/{id}", method = RequestMethod.GET)
-	public @ResponseBody User getUser(@PathVariable Long id, Model model,
-			HttpServletResponse response) throws IOException {
+	//Questo metodo consente di avere lo user completo con tutti gli storici, la variabile historical è opzionale
+	@RequestMapping(value = {"/user_entity/{id}"}, method = RequestMethod.GET)
+	public @ResponseBody User getUser(@PathVariable Long id,
+			Model model,HttpServletResponse response) throws IOException {
 		System.out.println("get user by id: " + id);
-
-		return userService.find(id);
+			return userService.find(id);
 	}
 
 	@RequestMapping(value = "/user", method = RequestMethod.POST,
