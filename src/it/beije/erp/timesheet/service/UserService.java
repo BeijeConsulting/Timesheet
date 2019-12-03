@@ -102,10 +102,12 @@ public class UserService implements UserDetailsService{
 																	+ "WHERE idUser="+id+" and a.startDate < current_date() and"
 																	+ " (a.endDate > current_date() or a.endDate is null)",
 																	Address.class).getResultList());
+				
 				user.setBankCredentials(entitymanager.createQuery("Select b FROM BankCredentials b "
 																	+ "WHERE idUser="+id+" and b.startDate < current_date() and"
 																	+ " (b.endDate > current_date() or b.endDate is null)",
 																	BankCredentials.class).getResultList());
+				
 				user.setContracts(entitymanager.createQuery("Select c FROM Contract c "
 															+ "WHERE idUser="+id+" and c.startDate < current_date() and"
 															+ " (c.endDate > current_date() or c.endDate is null)",
