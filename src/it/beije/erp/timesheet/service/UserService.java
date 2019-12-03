@@ -22,6 +22,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+
 import it.beije.erp.dto.UserDto;
 import it.beije.erp.entity.Address;
 import it.beije.erp.entity.BankCredentials;
@@ -87,6 +89,32 @@ public class UserService implements UserDetailsService{
 
 		return userDto;
 	}
+		
+		public UserDto findApiLong(Long id) {
+			
+			EntityManagerFactory emfactory = JpaEntityManager.getInstance();
+			EntityManager entitymanager = emfactory.createEntityManager();
+			User user;
+			UserDto userDto = new UserDto();
+			try {
+				user = entitymanager.createQuery("SELECT u FROM User u WHERE u.id = "+id,User.class).getSingleResult();
+				user.setBankCredentials(entitymanager.createQuery("Select b FROM BankCredentials b "
+																	+ "WHERE idUser="+id+" and b.startDate < current_date() and"
+																	+ " (b.endDate > current_date() or b.endDate is null)",
+																	BankCredentials.class).getResultList());
+				
+				BeanUtils.copyProperties(user, userDto, "password", "admin", "note");
+				userDto.setBankCredential(user.getBankCredentials().get(0));
+			}catch (NoResultException e)
+			{
+				return new UserDto();
+			}
+			System.out.println("trovato" + user.getFirstName());
+			
+			entitymanager.close();
+
+			return userDto;
+		}
 	
 	public User create(User user) {
 		//EntityManagerFactory emfactory = JpaEntityManager.getInstance();

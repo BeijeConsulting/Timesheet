@@ -2,12 +2,17 @@ package it.beije.erp.dto;
 
 
 import java.io.Serializable;
+import java.sql.Date;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+
 import it.beije.erp.entity.Address;
 import it.beije.erp.entity.BankCredentials;
 import it.beije.erp.entity.Contract;
 import it.beije.erp.entity.User;
 
-
+@JsonInclude(Include.NON_NULL)
 public class UserDto implements Serializable {
 	
     private static final long serialVersionUID = 4865903039190150223L;
@@ -17,7 +22,20 @@ public class UserDto implements Serializable {
 	private String lastName;
 	private String email;
 	private String phone;
-	private Address address[];
+	
+	private String secondaryEmail;
+	
+	private String fiscalCode;
+	private Date birthDate;
+	private String birthPlace;
+	private String nationality;
+	private String document;
+	private String idSkype;
+	private Boolean admin;
+	private Date archiveDate;
+	private String note;
+	private String picUrl;
+	private Address addresses[];
 	private BankCredentials bankCredential;
 	private Contract contract;
 
@@ -62,12 +80,101 @@ public class UserDto implements Serializable {
 		this.phone = phone;
 	}
 	
-	public Address[] getAddress() {
-		return address;
+	public String getSecondaryEmail() {
+		return secondaryEmail;
 	}
 
-	public void setAddress(Address[] address) {
-		this.address = address;
+	public void setSecondaryEmail(String secondaryEmail) {
+		this.secondaryEmail = secondaryEmail;
+	}
+
+	public String getFiscalCode() {
+		return fiscalCode;
+	}
+
+	public void setFiscalCode(String fiscalCode) {
+		this.fiscalCode = fiscalCode;
+	}
+
+	public Date getBirthDate() {
+		return birthDate;
+	}
+
+	public void setBirthDate(Date birthDate) {
+		this.birthDate = birthDate;
+	}
+
+	public String getBirthPlace() {
+		return birthPlace;
+	}
+
+	public void setBirthPlace(String birthPlace) {
+		this.birthPlace = birthPlace;
+	}
+
+	public String getNationality() {
+		return nationality;
+	}
+
+	public void setNationality(String nationality) {
+		this.nationality = nationality;
+	}
+
+	public String getDocument() {
+		return document;
+	}
+
+	public void setDocument(String document) {
+		this.document = document;
+	}
+
+	public String getIdSkype() {
+		return idSkype;
+	}
+
+	public void setIdSkype(String idSkype) {
+		this.idSkype = idSkype;
+	}
+
+	
+	public Boolean getAdmin() {
+		return admin;
+	}
+
+	public void setAdmin(Boolean admin) {
+		this.admin = admin;
+	}
+
+	public Date getArchiveDate() {
+		return archiveDate;
+	}
+
+	public void setArchiveDate(Date archiveDate) {
+		this.archiveDate = archiveDate;
+	}
+
+	public String getNote() {
+		return note;
+	}
+
+	public void setNote(String note) {
+		this.note = note;
+	}
+
+	public String getPicUrl() {
+		return picUrl;
+	}
+
+	public void setPicUrl(String picUrl) {
+		this.picUrl = picUrl;
+	}
+
+	public Address[] getAddresses() {
+		return addresses;
+	}
+
+	public void setAddresses(Address[] addresses) {
+		this.addresses = addresses;
 	}
 
 	public BankCredentials getBankCredential() {

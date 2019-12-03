@@ -18,6 +18,9 @@ public class BankCredentials {
 	@Column(name="id")
 	private Long id;
 	
+	@Column(name="id_user")
+	private Long idUser;
+	
 	@Column(name="accountholder")
 	private String accountholder;
 	
