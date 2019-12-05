@@ -3,6 +3,7 @@ package it.beije.erp.controller.api;
 import java.io.IOException;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.http.MediaType;
@@ -25,7 +26,7 @@ public class ComputerApiController {
 
 		///////// START USER //////////////////////
 		@RequestMapping(value = "/computers", method = RequestMethod.GET)
-		public @ResponseBody List<Computer> getUsers(Model model, HttpServletResponse response) throws IOException {
+		public @ResponseBody List<Computer> getUsers(Model model) throws IOException {
 			return ComputerService.all();
 		}
 

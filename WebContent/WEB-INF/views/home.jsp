@@ -42,6 +42,13 @@
         <input class="btn green" type="submit" value="cerca utente">
 	</form>
 	</div>
+	
+	<div class="col s3">
+		<form action="importdocuments" method="get">
+        <input class="btn green" type="submit" value="importa allegati">
+	</form>
+	</div>
+	
 	</div>
 	
 	<div class="center">

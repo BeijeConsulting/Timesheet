@@ -186,4 +186,10 @@ public class UserController {
 
 		return "temporanea";
 	}
+	
+	@RequestMapping(value = {"/importdocuments"}, method = RequestMethod.GET)
+	public String importDocuments(@Validated User user, Model model) {
+
+		return "importdocuments";
+	}
 }
