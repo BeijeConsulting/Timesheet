@@ -53,6 +53,7 @@ public class ComputerController {
 	@PreAuthorize("hasAnyRole('USER')")	
 	@RequestMapping(value = "/registercomputer", method = RequestMethod.POST)
 	public String registerComputer(@Validated Computer computer, Model model) {
+		computer.setAvailability(true);
 		JPAService.save(computer);
 		return "conferma";
 	}

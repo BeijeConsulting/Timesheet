@@ -35,6 +35,9 @@ import it.beije.jpa.UserRequest;
 @RequestMapping("api")
 public class UserApiController {
 
+	/**
+	 * ANDARE NELLA CLASSE USERSERVICE PER VEDERE TUTTI I METODI UTILIZZATI PER LE API
+	 */
 	@Autowired
 	private UserService userService;
 
@@ -84,7 +87,8 @@ public class UserApiController {
 
 		return userService.create(user);
 	}
-
+	
+	//FIXARE QUESTA API (PROBLEMA DI LAZILY INITIALIZE SUGLI INDIRIZZI)
 	@RequestMapping(value = "/user/{id}", method = RequestMethod.PUT,
 			consumes = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody User updateUser(@PathVariable Long id, @RequestBody User user, Model model,

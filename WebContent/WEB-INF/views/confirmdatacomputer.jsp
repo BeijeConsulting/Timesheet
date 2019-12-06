@@ -14,7 +14,7 @@
 		<h3 class="center">Dati inseriti </h3>      
 		
 		<div class="row">
-			<form class="col s12" action="regmodifycomputer" method="post">
+			<form class="col s12" action="registercomputer" method="post">
 				
 				<div class="row">
 					

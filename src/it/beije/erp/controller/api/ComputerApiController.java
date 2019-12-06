@@ -23,7 +23,12 @@ import it.beije.erp.timesheet.service.ComputerService;
 @RequestMapping("api")
 public class ComputerApiController {
 	
-
+		/**
+		 * DA AGGIORNARE TUTTE LE API CONFRONTANDOSI CON QUELLE DI USER, COSTRUENDO UN COMPUTERDTO
+		 * @param model
+		 * @return
+		 * @throws IOException
+		 */
 		///////// START USER //////////////////////
 		@RequestMapping(value = "/computers", method = RequestMethod.GET)
 		public @ResponseBody List<Computer> getUsers(Model model) throws IOException {

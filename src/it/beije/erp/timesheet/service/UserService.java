@@ -46,6 +46,11 @@ public class UserService implements UserDetailsService{
 	@Autowired
 	private UserRepositoryCustom userRepositoryCustom;
 
+	/**
+	 * NON FUNGE CORRETTAMENTE VEDI COMMENTI
+	 * @param id
+	 * @return
+	 */
 	@Transactional
 	public User find(Long id) {
 		
@@ -54,6 +59,9 @@ public class UserService implements UserDetailsService{
 		User user;
 		try {
 			user = entitymanager.createQuery("SELECT u FROM User u WHERE u.id = "+id,User.class).getSingleResult();
+			
+			//Modificare,poiche' prende soltanto i primi elementi delle tabelle
+			//DA FARE LE QUERY PER GLI INDIRIZZI ATTIVI, PER LE CORDINATE ATTIVE, PER I CONTRATTI ATTIVI
 			Hibernate.initialize(user.getAddresses());
 			Hibernate.initialize(user.getBankCredentials());
 			Hibernate.initialize(user.getContracts());
@@ -68,6 +76,15 @@ public class UserService implements UserDetailsService{
 		return user;
 	}
 	
+		/** FUNZIONA: Questo metodo prima carica l'utente dal database con la query, passa al dto con il metodo BeanUtils.copyProperties ed ignora
+		 * le proprietà elencate.
+		 * 
+		 * Se non viene trovato alcun utente tramite l'id, restituisce un utente vuoto
+		 * 
+		 * @param id parametro in ingresso per trovare l'utente sul database
+		 * @return
+		 */
+	
 		public UserDto findApi(Long id) {
 		
 		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
@@ -79,6 +96,7 @@ public class UserService implements UserDetailsService{
 			BeanUtils.copyProperties(user, userDto, "password", "secondaryEmail", "fiscalCode", "birthDate", "birthPlace", "nationality",
 			"document", "idSkype", "admin", "archiveDate", "note");
 			
+
 		}catch (NoResultException e)
 		{
 			return new UserDto();
@@ -89,7 +107,19 @@ public class UserService implements UserDetailsService{
 
 		return userDto;
 	}
-		
+		/** FUNZIONA: Questo metodo prima carica l'utente dal database con la query, passa al dto con il metodo BeanUtils.copyProperties ed ignora
+		 * le proprietà password ed admin
+		 * 
+		 * Se non viene trovato alcun utente tramite l'id, restituisce un utente vuoto
+		 * 
+		 * Le tre query restituiscono le 3 relative liste collegate ad User (Address,BankCredentials e Contract) validi
+		 * 
+		 * 
+		 * Infine restituisce uno userDto con 2 indirizzi, un oggetto BankCredentials ed un oggetto Contract, all'interno di User
+		 * 
+		 * @param id parametro in ingresso per trovare l'utente sul database
+		 * @return
+		 */
 		public UserDto findApiLong(Long id) {
 			
 			EntityManagerFactory emfactory = JpaEntityManager.getInstance();
@@ -137,6 +167,11 @@ public class UserService implements UserDetailsService{
 			return userDto;
 		}
 	
+	/**
+	 * FUNZIONA: Crea un nuovo utente sul DB e restituisce l'oggetto
+	 * @param user
+	 * @return
+	 */
 	public User create(User user) {
 		//EntityManagerFactory emfactory = JpaEntityManager.getInstance();
 		EntityManagerFactory emfactory = Persistence.createEntityManagerFactory("timesheet");
@@ -150,6 +185,13 @@ public class UserService implements UserDetailsService{
 		return user;
 	}
 	
+	/**
+	 * NON FUNZIONA: LAZILY INITIALIZE, MODIFICA SUL DB MA NON RITORNA IL JSON CON LE MODIFICHE
+	 * @param id
+	 * @param userData
+	 * @return
+	 */
+	@Transactional
 	public User update(Long id, User userData) {
 		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
 
@@ -174,11 +216,20 @@ public class UserService implements UserDetailsService{
 		return user;
 	}
 	
+	
 	public List<UserDto> trovaUtente(UserRequest req) {
 		// TODO Auto-generated method stub
 		return trovaUtente(req.getFirst_name(),req.getLast_name(),req.getEmail(),req.getFiscal_code());
 	}
 	
+	/**
+	 * QUESTO METODO RICERCA TUTTI GLI UTENTI DATI IN INPUT NOME|COGNOME|EMAIL|CODICE FISCALE
+	 * @param firstName
+	 * @param lastName
+	 * @param email
+	 * @param fiscalCode
+	 * @return
+	 */
 	@Transactional
 	public List<UserDto> trovaUtente(String firstName, String lastName, String email, String fiscalCode) {
 
@@ -230,6 +281,10 @@ public class UserService implements UserDetailsService{
 		return users;
 	}
 	
+	/**
+	 * QUESTO METODO CARICA TUTTI GLI UTENTI DAL DATABASE E LI TRASFERISCE IN UNA LISTA DI USERDTO
+	 * @return
+	 */
 	public List<UserDto> caricaTutti() {
 		
 		List<User> completeUsers = userRepositoryCustom.load();
@@ -248,6 +303,10 @@ public class UserService implements UserDetailsService{
 		return users;
 	}
 	
+	/**
+	 * QUESTO METODO SERVE PER MODIFICARE I DATI DALLE JSP
+	 * @param user
+	 */
 	public void modificaUtente(User user) {
 
 		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
@@ -283,6 +342,10 @@ public class UserService implements UserDetailsService{
 
 	}
 
+	/**
+	 * QUESTO METODO SERVE PER INSERIRE LA DATA DI ARCHIVIAZIONE DI UN UTENTE DALLE JSP
+	 * @param user
+	 */
 	public void archiviaUtente(User user) {
 
 		LocalDate data = LocalDate.now();
@@ -320,6 +383,14 @@ public class UserService implements UserDetailsService{
 		}		
 	}
 	
+	/**
+	 * QUESTO E' IL METODO PER RITORNARE LA LISTA DEGLI UTENTI CON TUTTI I DETTAGLI E LO STORICO(CLASSE USER
+	 * @param firstName
+	 * @param lastName
+	 * @param email
+	 * @param fiscalCode
+	 * @return
+	 */
 	@Transactional
 	public List<User> trovaUtenti(String firstName, String lastName, String email, String fiscalCode) {
 
