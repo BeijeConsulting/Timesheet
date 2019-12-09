@@ -1,178 +1,208 @@
-package it.beije.erp.entity;
+package it.beije.erp.dto;
 
+import java.io.Serializable;
 import java.sql.Date;
-import java.util.ArrayList;
-import java.util.List;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EntityManager;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
-import javax.persistence.Persistence;
-import javax.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
+import it.beije.erp.entity.Address;
+import it.beije.erp.entity.BankCredentials;
+import it.beije.erp.entity.Computer;
+import it.beije.erp.entity.Contract;
+import it.beije.erp.entity.User;
+import it.beije.erp.entity.UserComputer;
 
-@Entity
-@Table(name = "computer")
-public class Computer {
+@JsonInclude(Include.NON_NULL)
+
+public class ComputerDto {
 	
 	private static final long serialVersionUID = 4865903039190150L;
 	
-	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name="id")
 	private Long id;
-	
-	@Column(name="brand")
 	private String brand;
-
-	@Column(name="model")
 	private String model;
-	
-	@Column(name="cpu")
 	private String cpu;
-	
-	@Column(name="ram")
 	private int ram;
 	
-	@Column(name="hard_disk")
 	private String hardDisk;
 	
-	@Column(name="serial_number")
 	private String serialNumber;
-	
-	@Column(name="operating_system")
 	private String operatingSystem;
-	
-	@Column(name="availability")
 	private boolean availability;
-	
-	@Column(name="purchase_date")
 	private Date purchaseDate;
-	
-	@Column(name="disposal_date")
 	private Date disposalDate;
-	
-	@Column(name="note")
 	private String note;
+	private UserComputer assignments;
 	
-	@OneToMany
-	@JoinColumn(name = "id_computer")
-	private List<UserComputer> assignments;
-
+	
+	
 	public Long getId() {
 		return id;
 	}
+
+
 
 	public void setId(Long id) {
 		this.id = id;
 	}
 
+
+
 	public String getBrand() {
 		return brand;
 	}
+
+
 
 	public void setBrand(String brand) {
 		this.brand = brand;
 	}
 
+
+
 	public String getModel() {
 		return model;
 	}
+
+
 
 	public void setModel(String model) {
 		this.model = model;
 	}
 
+
+
 	public String getCpu() {
 		return cpu;
 	}
+
+
 
 	public void setCpu(String cpu) {
 		this.cpu = cpu;
 	}
 
+
+
 	public int getRam() {
 		return ram;
 	}
+
+
 
 	public void setRam(int ram) {
 		this.ram = ram;
 	}
 
+
+
 	public String getHardDisk() {
 		return hardDisk;
 	}
+
+
 
 	public void setHardDisk(String hardDisk) {
 		this.hardDisk = hardDisk;
 	}
 
+
+
 	public String getSerialNumber() {
 		return serialNumber;
 	}
+
+
 
 	public void setSerialNumber(String serialNumber) {
 		this.serialNumber = serialNumber;
 	}
 
+
+
 	public String getOperatingSystem() {
 		return operatingSystem;
 	}
+
+
 
 	public void setOperatingSystem(String operatingSystem) {
 		this.operatingSystem = operatingSystem;
 	}
 
+
+
 	public boolean isAvailability() {
 		return availability;
 	}
+
+
 
 	public void setAvailability(boolean availability) {
 		this.availability = availability;
 	}
 
+
+
 	public Date getPurchaseDate() {
 		return purchaseDate;
 	}
+
+
 
 	public void setPurchaseDate(Date purchaseDate) {
 		this.purchaseDate = purchaseDate;
 	}
 
+
+
 	public Date getDisposalDate() {
 		return disposalDate;
 	}
+
+
 
 	public void setDisposalDate(Date disposalDate) {
 		this.disposalDate = disposalDate;
 	}
 
+
+
 	public String getNote() {
 		return note;
 	}
+
+
 
 	public void setNote(String note) {
 		this.note = note;
 	}
 
-	public List<UserComputer> getAssignment() {
-		EntityManager entityManager = Persistence.createEntityManagerFactory("timesheet").createEntityManager();
-		List<UserComputer> userComputer = new ArrayList<>();
 
-		userComputer=entityManager.createQuery("select uc from UserComputer uc where id_computer="+id,
-			    UserComputer.class).getResultList();
-		entityManager.close();
-		return userComputer;
+
+	public UserComputer getAssignments() {
+		return assignments;
 	}
 
-	public void setUsers(List<UserComputer> assignments) {
+
+
+	public void setAssignments(UserComputer assignments) {
 		this.assignments = assignments;
 	}
-	
-	
+
+
+
+	public static ComputerDto valueOf(Computer computer) {
+        ComputerDto dto = new ComputerDto();
+        dto.setId(computer.getId());
+        dto.setModel(computer.getModel());
+        dto.setBrand(computer.getBrand());
+        dto.setCpu(computer.getCpu());
+        dto.setRam(computer.getRam());
+        
+        return dto;
+    }
+
+
 }

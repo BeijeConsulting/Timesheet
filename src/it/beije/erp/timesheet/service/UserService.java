@@ -156,8 +156,7 @@ public class UserService implements UserDetailsService{
 				
 				if (user.getBankCredentials().size()>0) userDto.setBankCredential(user.getBankCredentials().get(0));
 				else userDto.setBankCredential(null);
-			}catch (NoResultException e)
-			{
+			} catch (NoResultException e) {
 				return new UserDto();
 			}
 			System.out.println("trovato" + user.getFirstName());
@@ -208,6 +207,10 @@ public class UserService implements UserDetailsService{
     	if (userData.getFiscalCode() != null) user.setFiscalCode(userData.getFiscalCode());
     	if (userData.getPassword() != null) user.setPassword(userData.getPassword());
     	if (userData.getArchiveDate() != null) user.setArchiveDate(userData.getArchiveDate());
+    	
+    	System.out.println("user.getAddresses() ? " + (user.getAddresses() != null ? user.getAddresses().size() : "NULL"));
+    	System.out.println("user.getBankCredentials() ? " + (user.getBankCredentials() != null ? user.getBankCredentials().size() : "NULL"));
+    	System.out.println("user.getContracts() ? " + (user.getContracts() != null ? user.getContracts().size() : "NULL"));
 
 		entitymanager.persist(user);
 		entitymanager.getTransaction().commit();
