@@ -79,15 +79,15 @@ public class User implements Serializable {
 	private String picUrl;
 
 	@OneToMany
-	@JoinColumn(name="id")
+	@JoinColumn(name="id_user")
 	private List<Address> addresses;
 
-	@OneToMany
-	@JoinColumn(name="id")
+	@OneToMany(cascade=CascadeType.ALL)
+	@JoinColumn(name="id_user")
 	private List<BankCredentials> bankCredentials;
 
 	@OneToMany
-	@JoinColumn(name="id")
+	@JoinColumn(name="id_user")
 	private List<Contract> contracts;
 
 	public User() {
