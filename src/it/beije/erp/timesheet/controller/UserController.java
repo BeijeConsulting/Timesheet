@@ -74,7 +74,7 @@ public class UserController {
 			user.setBirthDate(null);
 		new UserService().create(user);
 		
-		System.out.println("sono in confernama " + user.getFirstName());
+		System.out.println("sono in conferma " + user.getFirstName());
 		return "conferma";
 	}
 

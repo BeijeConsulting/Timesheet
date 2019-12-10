@@ -22,8 +22,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
-
 import it.beije.erp.dto.UserDto;
 import it.beije.erp.entity.Address;
 import it.beije.erp.entity.BankCredentials;
@@ -31,7 +29,6 @@ import it.beije.erp.entity.Contract;
 import it.beije.erp.entity.User;
 import it.beije.erp.repositories.UserRepository;
 import it.beije.erp.repositories.UserRepositoryCustom;
-import it.beije.erp.service.JPAService;
 import it.beije.erp.timesheet.entity.CustomUserDetail;
 import it.beije.jpa.JpaEntityManager;
 import it.beije.jpa.UserRequest;
@@ -198,16 +195,23 @@ public class UserService implements UserDetailsService{
 		entitymanager.getTransaction().begin();
 
 		User user = entitymanager.find(User.class, id);
-    	
-    	if (userData.getFirstName() != null) user.setFirstName(userData.getFirstName());
+		
+		if (userData.getFirstName() != null) user.setFirstName(userData.getFirstName());
     	if (userData.getLastName() != null) user.setLastName(userData.getLastName());
     	if (userData.getEmail() != null) user.setEmail(userData.getEmail());
     	if (userData.getSecondaryEmail() != null) user.setSecondaryEmail(userData.getSecondaryEmail());
     	if (userData.getPhone() != null) user.setPhone(userData.getPhone());
     	if (userData.getFiscalCode() != null) user.setFiscalCode(userData.getFiscalCode());
-    	if (userData.getPassword() != null) user.setPassword(userData.getPassword());
+    	if (userData.getBirthDate() != null) user.setBirthDate(userData.getBirthDate());
+    	if (userData.getBirthPlace() != null) user.setBirthPlace(userData.getBirthPlace());
+    	if (userData.getNationality() != null) user.setNationality(userData.getNationality());
+    	if (userData.getDocument() != null) user.setDocument(userData.getDocument());
+    	if (userData.getIdSkype() != null) user.setIdSkype(userData.getIdSkype());
+    	if (userData.getNote() != null) user.setNote(userData.getNote());
     	if (userData.getArchiveDate() != null) user.setArchiveDate(userData.getArchiveDate());
+    	if (userData.getPassword() != null) user.setPassword(userData.getPassword());
     	
+
     	System.out.println("user.getAddresses() ? " + (user.getAddresses() != null ? user.getAddresses().size() : "NULL"));
     	System.out.println("user.getBankCredentials() ? " + (user.getBankCredentials() != null ? user.getBankCredentials().size() : "NULL"));
     	System.out.println("user.getContracts() ? " + (user.getContracts() != null ? user.getContracts().size() : "NULL"));
@@ -310,39 +314,39 @@ public class UserService implements UserDetailsService{
 	 * QUESTO METODO SERVE PER MODIFICARE I DATI DALLE JSP
 	 * @param user
 	 */
-	public void modificaUtente(User user) {
-
-		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
-		EntityManager entitymanager = emfactory.createEntityManager();
-		entitymanager.getTransaction().begin();
-		//		System.out.println("sono nel metodo modificaUtente");
-		String modifica="UPDATE User a SET";
-
-		modifica += " 	a.firstName= '" +user.getFirstName();
-		modifica += "' , a.lastName= '" + user.getLastName();
-		modifica += "' , a.email= '" + user.getEmail();
-		modifica += "' , a.secondaryEmail= '" +user.getSecondaryEmail();
-		modifica += "' , a.phone= '" +user.getPhone();
-		modifica += "' , a.fiscalCode= '" + user.getFiscalCode();
-
-		modifica += "' , a.password= '" +user.getPassword();
-		modifica += "' , a.birthDate= '" +user.getBirthDate();
-		modifica += "' , a.birthPlace= '" + user.getBirthPlace();
-		modifica += "' , a.nationality= '" +user.getNationality();
-		modifica += "' , a.document= '" +user.getDocument();
-		modifica += "' , a.idSkype= '" + user.getIdSkype();
-		modifica += "' , a.note= '" +user.getNote() +"'";
-
-		modifica += " WHERE a.id= "+user.getId();
-		//		modifica += " WHERE a.id=  10";
-		Query q = entitymanager.createQuery(modifica);
-		int rowsUpdated = q.executeUpdate();	
-		//System.out.println(rowsUpdated);
-
-		entitymanager.getTransaction().commit();
+	public void modificaUtente(User userData) {
 		
-		entitymanager.close();
+		update(userData.getId(), userData);
 
+//		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
+//		EntityManager entitymanager = emfactory.createEntityManager();
+//		entitymanager.getTransaction().begin();
+//		//		System.out.println("sono nel metodo modificaUtente");
+//		
+//		User user = entitymanager.find(User.class, userData.getId());
+//    	
+//    	if (userData.getFirstName() != null) user.setFirstName(userData.getFirstName());
+//    	if (userData.getLastName() != null) user.setLastName(userData.getLastName());
+//    	if (userData.getEmail() != null) user.setEmail(userData.getEmail());
+//    	if (userData.getSecondaryEmail() != null) user.setSecondaryEmail(userData.getSecondaryEmail());
+//    	if (userData.getPhone() != null) user.setPhone(userData.getPhone());
+//    	if (userData.getFiscalCode() != null) user.setFiscalCode(userData.getFiscalCode());
+//    	if (userData.getBirthDate() != null) user.setBirthDate(userData.getBirthDate());
+//    	if (userData.getBirthPlace() != null) user.setBirthPlace(userData.getBirthPlace());
+//    	if (userData.getNationality() != null) user.setNationality(userData.getNationality());
+//    	if (userData.getDocument() != null) user.setDocument(userData.getDocument());
+//    	if (userData.getIdSkype() != null) user.setIdSkype(userData.getIdSkype());
+//    	if (userData.getNote() != null) user.setNote(userData.getNote());
+//    	if (userData.getPassword() != null) user.setPassword(userData.getPassword());
+//    		
+//    	System.out.println("user.getAddresses() ? " + (user.getAddresses() != null ? user.getAddresses().size() : "NULL"));
+//    	System.out.println("user.getBankCredentials() ? " + (user.getBankCredentials() != null ? user.getBankCredentials().size() : "NULL"));
+//    	System.out.println("user.getContracts() ? " + (user.getContracts() != null ? user.getContracts().size() : "NULL"));
+//
+//		entitymanager.persist(user);
+//		entitymanager.getTransaction().commit();
+//		
+//		entitymanager.close();
 	}
 
 	/**
