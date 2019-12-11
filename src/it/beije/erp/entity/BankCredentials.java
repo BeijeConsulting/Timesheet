@@ -48,12 +48,17 @@ public class BankCredentials {
 		return id;
 	}
 
-
-
 	public void setId(Long id) {
 		this.id = id;
 	}
 
+	public Long getIdUser() {
+		return idUser;
+	}
+
+	public void setIdUser(Long idUser) {
+		this.idUser = idUser;
+	}
 	public String getAccountholder() {
 		return accountholder;
 	}
@@ -143,6 +148,12 @@ public class BankCredentials {
 		if (this == o) return true;
         if (!(o instanceof BankCredentials )) return false;
         return id == ((BankCredentials) o).getId();
+	}
+
+
+	public Object getAssignment() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 }
