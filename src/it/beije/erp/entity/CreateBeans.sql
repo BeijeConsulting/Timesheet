@@ -9,7 +9,7 @@ CREATE TABLE `computer` (
   `hard_disk` VARCHAR(10) NOT NULL,
   `serial_number` VARCHAR(45) NOT NULL,
   `operating_system` VARCHAR(20) NOT NULL,
-  `availability` TINYINT NOT NULL,
+  `maintenance` BIT(1) NOT NULL DEFAULT 0,
   `note` VARCHAR(45) NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `serial_number_UNIQUE` (`serial_number` ASC))ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;

@@ -17,11 +17,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import it.beije.erp.entity.Computer;
-import it.beije.erp.entity.User;
 import it.beije.erp.entity.UserComputer;
 import it.beije.erp.service.JPAService;
 import it.beije.erp.timesheet.service.ComputerService;
-import it.beije.erp.timesheet.service.UserService;
 
 
 @Controller
@@ -53,7 +51,6 @@ public class ComputerController {
 	@PreAuthorize("hasAnyRole('USER')")	
 	@RequestMapping(value = "/registercomputer", method = RequestMethod.POST)
 	public String registerComputer(@Validated Computer computer, Model model) {
-		computer.setAvailability(true);
 		JPAService.save(computer);
 		return "conferma";
 	}
@@ -112,7 +109,6 @@ public class ComputerController {
 	@PreAuthorize("hasAnyRole('USER')")	
 	@RequestMapping(value = "/insertdisposaldate", method = RequestMethod.POST)
 	public String insertDisposalDate(@Validated Computer computer, Model model) {
-		computer.setAvailability(false);
 		computer.setDisposalDate(Date.valueOf(LocalDate.now()));
 		JPAService.modify(computer);
 		return "conferma";
@@ -163,7 +159,6 @@ public class ComputerController {
 		Long id=Long.valueOf(request.getParameter("idComputer"));
 		Computer computer = new Computer();
 		computer=JPAService.getBean(Computer.class , id);
-		computer.setAvailability(false);
 		JPAService.modify(computer);
 		JPAService.save(userComputer);
 		return "conferma";

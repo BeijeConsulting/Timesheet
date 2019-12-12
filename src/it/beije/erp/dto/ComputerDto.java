@@ -1,23 +1,16 @@
 package it.beije.erp.dto;
 
-import java.io.Serializable;
 import java.sql.Date;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
-import it.beije.erp.entity.Address;
-import it.beije.erp.entity.BankCredentials;
 import it.beije.erp.entity.Computer;
-import it.beije.erp.entity.Contract;
-import it.beije.erp.entity.User;
 import it.beije.erp.entity.UserComputer;
 
-@JsonInclude(Include.NON_NULL)
 
+@JsonInclude(Include.NON_NULL)
 public class ComputerDto {
-	
-	private static final long serialVersionUID = 4865903039190150L;
 	
 	private Long id;
 	private String brand;
@@ -29,7 +22,7 @@ public class ComputerDto {
 	
 	private String serialNumber;
 	private String operatingSystem;
-	private boolean availability;
+	private boolean maintenance;
 	private Date purchaseDate;
 	private Date disposalDate;
 	private String note;
@@ -133,14 +126,12 @@ public class ComputerDto {
 
 
 
-	public boolean isAvailability() {
-		return availability;
+	public boolean isMaintenance() {
+		return maintenance;
 	}
 
-
-
-	public void setAvailability(boolean availability) {
-		this.availability = availability;
+	public void setMaintenance(boolean maintenance) {
+		this.maintenance = maintenance;
 	}
 
 

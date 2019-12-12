@@ -14,8 +14,8 @@ import org.hibernate.Hibernate;
 import org.springframework.transaction.annotation.Transactional;
 
 import it.beije.erp.entity.Computer;
-import it.beije.erp.entity.User;
 import it.beije.jpa.JpaEntityManager;
+
 
 public class ComputerService {
 	
@@ -30,7 +30,7 @@ public class ComputerService {
 		}
 		else if (check==1) {
 			
-			computers=entityManager.createQuery("select c from Computer c where c.availability=1",
+			computers=entityManager.createQuery("select c from Computer c where c.maintenance=0",
 				    Computer.class).getResultList();
 			entityManager.close();
 			return computers;
@@ -38,7 +38,7 @@ public class ComputerService {
 		}
 		
 		else {
-			computers=entityManager.createQuery("select c from Computer c where c.availability=0",
+			computers=entityManager.createQuery("select c from Computer c where c.maintenance=1",
 				    Computer.class).getResultList();
 			entityManager.close();
 			return computers;

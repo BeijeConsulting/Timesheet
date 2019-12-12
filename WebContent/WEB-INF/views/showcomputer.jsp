@@ -52,7 +52,7 @@ tr:nth-child(even) {
 				<th>Hard-Disk</th>
 				<th>Numero Seriale</th>
 				<th>Sistema Operativo</th>
-				<th>Disponibilita'</th>
+				<th>In Manutenzione</th>
 				<th>Data d'acquisto</th>
 				<th>note</th>
 				
@@ -67,7 +67,7 @@ tr:nth-child(even) {
     			<td>${temp.hardDisk}</td>
     			<td>${temp.serialNumber}</td>
     			<td>${temp.operatingSystem}</td>
-    			<td>${temp.availability}</td>
+    			<td>${temp.maintenance}</td>
    			 	<td>${temp.purchaseDate}</td>
     			<td>${temp.note}</td>
     			</tr>

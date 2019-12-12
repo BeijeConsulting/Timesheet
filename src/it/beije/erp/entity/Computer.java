@@ -26,8 +26,6 @@ import it.beije.Utils;
 @Table(name = "computer")
 public class Computer {
 	
-	private static final long serialVersionUID = 4865903039190150L;
-	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="id")
@@ -54,8 +52,8 @@ public class Computer {
 	@Column(name="operating_system")
 	private String operatingSystem;
 	
-	@Column(name="availability")
-	private boolean availability;
+	@Column(name="maintenance")
+	private boolean maintenance;
 	
 	@Column(name="purchase_date")
 	private Date purchaseDate;
@@ -134,12 +132,12 @@ public class Computer {
 		this.operatingSystem = operatingSystem;
 	}
 
-	public boolean isAvailability() {
-		return availability;
+	public boolean isMaintenance() {
+		return maintenance;
 	}
 
-	public void setAvailability(boolean availability) {
-		this.availability = availability;
+	public void setMaintenance(boolean maintenance) {
+		this.maintenance = maintenance;
 	}
 
 	public Date getPurchaseDate() {
