@@ -1,6 +1,7 @@
 package it.beije.erp.entity;
 
 import java.sql.Date;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,6 +15,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Persistence;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonSetter;
+
+import it.beije.Utils;
 
 
 @Entity
@@ -140,18 +146,38 @@ public class Computer {
 		return purchaseDate;
 	}
 
+	@JsonGetter("purchaseDate")
+	public String getJsonPurchaseDate() {
+		return Utils.formatDate(this.purchaseDate);
+	}
 	public void setPurchaseDate(Date purchaseDate) {
 		this.purchaseDate = purchaseDate;
 	}
 
+	@JsonSetter
+	public void setJsonPurchaseDate(String purchaseDate) throws ParseException {
+		this.purchaseDate = Utils.parseDate(purchaseDate);
+	}
+	
 	public Date getDisposalDate() {
 		return disposalDate;
 	}
+	
+	@JsonGetter("disposalDate")
+	public String getJsonDisposalDate() {
+		return Utils.formatDate(this.disposalDate);
+	}
+
 
 	public void setDisposalDate(Date disposalDate) {
 		this.disposalDate = disposalDate;
 	}
 
+	@JsonSetter
+	public void setJsonDisposalDate(String disposalDate) throws ParseException {
+		this.disposalDate = Utils.parseDate(disposalDate);
+	}
+	
 	public String getNote() {
 		return note;
 	}

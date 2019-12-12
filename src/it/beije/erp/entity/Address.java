@@ -1,6 +1,7 @@
 package it.beije.erp.entity;
  
 import java.sql.Date;
+import java.text.ParseException;
 import java.time.LocalDate;
 
 import javax.persistence.Column;
@@ -9,6 +10,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonSetter;
+
+import it.beije.Utils;
 
 @Entity
 @Table(name = "address")
@@ -41,7 +47,7 @@ public class Address {
 	private Date startDate;
 	
 	@Column(name="end_date")
-	private LocalDate endDate;
+	private Date endDate;
 	
 	@Column(name="type")
 	private char type;
@@ -109,17 +115,37 @@ public class Address {
 	public Date getStartDate() {
 		return startDate;
 	}
-
+	
+	@JsonGetter("startDate")
+	public String getJsonStartDate() {
+		return Utils.formatDate(this.startDate);
+	}
+	
 	public void setStartDate(Date startDate) {
 		this.startDate = startDate;
 	}
 
-	public LocalDate getEndDate() {
-		return endDate;
+	@JsonSetter
+	public void setJsonStartDate(String startDate) throws ParseException {
+		this.startDate = Utils.parseDate(startDate);
 	}
 
-	public void setEndDate(LocalDate endDate) {
+	public Date getEndDate() {
+		return endDate;
+	}
+	
+	@JsonGetter("endDate")
+	public String getJsonEndDate() {
+		return Utils.formatDate(this.endDate);
+	}
+
+	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
+	}
+	
+	@JsonSetter
+	public void setJsonEndDate(String endDate) throws ParseException {
+		this.endDate = Utils.parseDate(endDate);
 	}
 
 	public char getType() {

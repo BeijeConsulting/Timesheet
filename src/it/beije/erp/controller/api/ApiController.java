@@ -79,22 +79,22 @@ public class ApiController {
 	 */
 
 	//Read
-	@RequestMapping(value = "/addresses/user/{id}", method = RequestMethod.GET)
-	public @ResponseBody List<Address> getAddresses(@PathVariable Long id) {
+//	@RequestMapping(value = "/addresses/user/{id}", method = RequestMethod.GET)
+//	public @ResponseBody List<Address> getAddresses(@PathVariable Long id) {
+//
+//		User user = JPAService.getBean(User.class, id);
+//		List<Address> addresses = user.getAddresses();
+//
+//		return addresses;
+//	}
 
-		User user = JPAService.getBean(User.class, id);
-		List<Address> addresses = user.getAddresses();
-
-		return addresses;
-	}
-
-	@RequestMapping(value = "/address/{id}", method = RequestMethod.GET)
-	public @ResponseBody Address getAddress(@PathVariable Long id) {
-
-		Address address = JPAService.getBean(Address.class, id);
-
-		return address;
-	}
+//	@RequestMapping(value = "/address/{id}", method = RequestMethod.GET)
+//	public @ResponseBody Address getAddress(@PathVariable Long id) {
+//
+//		Address address = JPAService.getBean(Address.class, id);
+//
+//		return address;
+//	}
 
 	//Write
 	@RequestMapping(value = "/address", method = RequestMethod.POST,
@@ -116,32 +116,32 @@ public class ApiController {
 	//	}
 	//	
 
-	@RequestMapping(value = "/address/{id}", method = RequestMethod.PUT,
-			consumes = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody Address addressPut(@RequestBody Address addressData, @PathVariable Long id) {
-
-		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
-
-		EntityManager entitymanager = emfactory.createEntityManager();
-		entitymanager.getTransaction().begin();
-
-		Address address = entitymanager.find(Address.class, id);
-
-		if(addressData.getStreet() != null)address.setStreet(addressData.getStreet());
-		if(addressData.getCity() != null)address.setCity(addressData.getCity());
-		if(addressData.getProvince() != null)address.setProvince(addressData.getProvince());
-		if(addressData.getCap() != null)address.setCap(addressData.getCap());
-		if(addressData.getCountry() != null)address.setCountry(addressData.getCountry());
-		if(addressData.getStartDate() != null)address.setStartDate(addressData.getStartDate());
-		if(addressData.getEndDate() != null)address.setEndDate(addressData.getEndDate());
-
-		entitymanager.persist(address);
-		entitymanager.getTransaction().commit();
-		entitymanager.close();
-		
-		return address;
-
-	}
+//	@RequestMapping(value = "/address/{id}", method = RequestMethod.PUT,
+//			consumes = MediaType.APPLICATION_JSON_VALUE)
+//	public @ResponseBody Address addressPut(@RequestBody Address addressData, @PathVariable Long id) {
+//
+//		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
+//
+//		EntityManager entitymanager = emfactory.createEntityManager();
+//		entitymanager.getTransaction().begin();
+//
+//		Address address = entitymanager.find(Address.class, id);
+//
+//		if(addressData.getStreet() != null)address.setStreet(addressData.getStreet());
+//		if(addressData.getCity() != null)address.setCity(addressData.getCity());
+//		if(addressData.getProvince() != null)address.setProvince(addressData.getProvince());
+//		if(addressData.getCap() != null)address.setCap(addressData.getCap());
+//		if(addressData.getCountry() != null)address.setCountry(addressData.getCountry());
+//		if(addressData.getStartDate() != null)address.setStartDate(addressData.getStartDate());
+//		if(addressData.getEndDate() != null)address.setEndDate(addressData.getEndDate());
+//
+//		entitymanager.persist(address);
+//		entitymanager.getTransaction().commit();
+//		entitymanager.close();
+//		
+//		return address;
+//
+//	}
 
 
 	/****************** BANK CREDENTIALS *****************/

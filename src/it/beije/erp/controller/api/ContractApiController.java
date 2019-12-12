@@ -42,7 +42,7 @@ public class ContractApiController {
 	// storico banck credentials user
 	@Transactional
 	@RequestMapping(value = "/contracts/user/{id}", method = RequestMethod.GET)
-	public @ResponseBody List<Contract> getCredentialsForUser(@PathVariable Long id) {
+	public @ResponseBody List<Contract> getContractForUser(@PathVariable Long id) {
 
 
 

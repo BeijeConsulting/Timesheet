@@ -1,6 +1,7 @@
 package it.beije.erp.entity;
 
 import java.sql.Date;
+import java.text.ParseException;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,6 +15,8 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonSetter;
+
+import it.beije.Utils;
  
 @Table(name = "contratto")
 @Entity
@@ -223,18 +226,38 @@ public class Contract {
 		return startDate;
 	}
 
+	@JsonGetter("startDate")
+	public String getJsonStartDate() {
+		return Utils.formatDate(this.startDate);
+	}
+	
 	public void setStartDate(Date startDate) {
 		this.startDate = startDate;
 	}
 
+	@JsonSetter
+	public void setJsonStartDate(String startDate) throws ParseException {
+		this.startDate = Utils.parseDate(startDate);
+	}
+	
 	public Date getEndDate() {
 		return endDate;
 	}
 
+	@JsonGetter("endDate")
+	public String getJsonEndDate() {
+		return Utils.formatDate(this.endDate);
+	}
+	
 	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
 	}
 
+	@JsonSetter
+	public void setJsonEndDate(String endDate) throws ParseException {
+		this.endDate = Utils.parseDate(endDate);
+	}
+	
 	@Override
 	public String toString() {
 		StringBuilder row = new StringBuilder();
