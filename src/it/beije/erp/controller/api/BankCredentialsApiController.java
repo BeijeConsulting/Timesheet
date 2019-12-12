@@ -86,7 +86,7 @@ public class BankCredentialsApiController {
 
 	// update existing bank credentials
 	@RequestMapping(value = "/bankCredentials/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody BankCredentials updateUser(@PathVariable Long id, @RequestBody BankCredentials bankCredentials,
+	public @ResponseBody BankCredentials updateBankCredential(@PathVariable Long id, @RequestBody BankCredentials bankCredentials,
 			Model model, HttpServletResponse response) throws IOException {
 		System.out.println("update bankCredentials by id: " + id);
 		System.out.println("update bankCredential: " + bankCredentials);

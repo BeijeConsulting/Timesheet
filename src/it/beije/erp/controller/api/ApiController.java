@@ -183,11 +183,11 @@ public class ApiController {
 		return contracts;
 	}
 
-	@RequestMapping(value = "/contract/{id}", method = RequestMethod.GET)
-	public @ResponseBody Contract getContract(@PathVariable Long id) {
-		Contract contract = JPAService.getBean(Contract.class, id);
-		return contract;
-	}
+//	@RequestMapping(value = "/contract/{id}", method = RequestMethod.GET)
+//	public @ResponseBody Contract getContract(@PathVariable Long id) {
+//		Contract contract = JPAService.getBean(Contract.class, id);
+//		return contract;
+//	}
 
 	//Write
 	@RequestMapping(value = "/contract", method = RequestMethod.POST,

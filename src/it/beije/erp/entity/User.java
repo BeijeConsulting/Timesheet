@@ -84,7 +84,7 @@ public class User implements Serializable {
 	@Column(name = "pic_url")
 	private String picUrl;
 
-	@OneToMany
+	@OneToMany(cascade=CascadeType.ALL)
 	@JoinColumn(name="id_user")
 	private List<Address> addresses;
 
@@ -92,7 +92,7 @@ public class User implements Serializable {
 	@JoinColumn(name="id_user")
 	private List<BankCredentials> bankCredentials;
 
-	@OneToMany
+	@OneToMany(cascade=CascadeType.ALL)
 	@JoinColumn(name="id_user")
 	private List<Contract> contracts;
 

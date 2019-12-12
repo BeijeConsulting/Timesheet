@@ -67,17 +67,6 @@ public class BankCredentialsService {
 		return bankCredentials;
 	}
 
-	public static BankCredentials update(BankCredentials bankCredentials, Long id) {
-
-		EntityManager entityManager = Persistence.createEntityManagerFactory("timesheet").createEntityManager();
-		entityManager.getTransaction().begin();
-		entityManager.merge(bankCredentials);
-		entityManager.getTransaction().commit();
-		entityManager.close();
-
-		return bankCredentials;
-	}
-
 //	public static List<BankCredentials> all() {
 //
 //		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
@@ -94,26 +83,26 @@ public class BankCredentialsService {
 //		return bankCredentials;
 //	}
 
-	@Transactional
-	public BankCredentials find(Long id) {
-
-		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
-		EntityManager entitymanager = emfactory.createEntityManager();
-		BankCredentials bankCredentials;
-		try {
-			bankCredentials = entitymanager
-					.createQuery("SELECT b FROM bankCredentials b WHERE b.id = " + id,
-							BankCredentials.class)
-					.getSingleResult();
-			Hibernate.initialize(bankCredentials.getAssignment());
-		} catch (NoResultException e) {
-			return new BankCredentials();
-		}
-
-		entitymanager.close();
-
-		return bankCredentials;
-	}
+//	@Transactional
+//	public BankCredentials find(Long id) {
+//
+//		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
+//		EntityManager entitymanager = emfactory.createEntityManager();
+//		BankCredentials bankCredentials;
+//		try {
+//			bankCredentials = entitymanager
+//					.createQuery("SELECT b FROM bankCredentials b WHERE b.id = " + id,
+//							BankCredentials.class)
+//					.getSingleResult();
+//			Hibernate.initialize(bankCredentials.getAssignment());
+//		} catch (NoResultException e) {
+//			return new BankCredentials();
+//		}
+//
+//		entitymanager.close();
+//
+//		return bankCredentials;
+//	}
 	
 	
 	public List<BankCredentials> getBankCredentialsByUser(Long id) {
