@@ -1,6 +1,7 @@
 package it.beije.erp.timesheet.controller;
 
 import java.sql.Date;
+import java.text.ParseException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+import it.beije.Utils;
 import it.beije.erp.entity.Computer;
 import it.beije.erp.entity.UserComputer;
 import it.beije.erp.service.JPAService;
@@ -155,11 +157,29 @@ public class ComputerController {
 	
 	@PreAuthorize("hasAnyRole('USER')")	
 	@RequestMapping(value = "/assigncomputer", method = RequestMethod.POST)
-	public String assignComputers(@Validated UserComputer userComputer, Locale locale, Model model, HttpServletRequest request) {
-		Long id=Long.valueOf(request.getParameter("idComputer"));
-		Computer computer = new Computer();
-		computer=JPAService.getBean(Computer.class , id);
-		JPAService.modify(computer);
+	public String assignComputers(@Validated UserComputer userComputer, Locale locale, Model model, HttpServletRequest request) throws ParseException {
+			System.out.println("assigncomputer");
+			userComputer.setIdComputer(Long.valueOf(request.getParameter("idComputer")));
+	
+			userComputer.setIdUser(Long.valueOf(request.getParameter("idUser")));
+		
+			userComputer.setStartDate(Utils.parseDate(request.getParameter("startDate")));
+		
+			try {
+				userComputer.setEndDate(Utils.parseDate(request.getParameter("endDate")));
+			} catch(Exception e) {}
+			
+			userComputer.setLanAdapter(Boolean.parseBoolean(request.getParameter("lanAdapter")));
+		
+			userComputer.setMouse(request.getParameter("mouse"));
+		
+			userComputer.setNote(request.getParameter("note"));
+	
+		
+//		Computer computer = new Computer();
+//		computer=JPAService.getBean(Computer.class , userComputer.getIdComputer());
+//		
+//		JPAService.modify(computer);
 		JPAService.save(userComputer);
 		return "conferma";
 	}

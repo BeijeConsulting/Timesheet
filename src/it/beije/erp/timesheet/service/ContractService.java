@@ -101,11 +101,11 @@ package it.beije.erp.timesheet.service;
 	    	if (contracts.getStartDate() != null) contract.setStartDate(contracts.getStartDate());
 	    	if (contracts.getEndDate() != null) contract.setEndDate(contracts.getEndDate());
 	    	
-	    	System.out.println("ciao");
+	    	
 			entitymanager.persist(contract);
-			System.out.println("ciao");
+			
 			entitymanager.getTransaction().commit();
-			System.out.println("ciao");
+			
 			entitymanager.close();
 			
 			return contract;

@@ -16,6 +16,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Persistence;
 import javax.persistence.Table;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonSetter;
 
@@ -148,6 +150,8 @@ public class Computer {
 	public String getJsonPurchaseDate() {
 		return Utils.formatDate(this.purchaseDate);
 	}
+	
+	@DateTimeFormat(pattern="dd-MM-yyyy")
 	public void setPurchaseDate(Date purchaseDate) {
 		this.purchaseDate = purchaseDate;
 	}
@@ -166,7 +170,7 @@ public class Computer {
 		return Utils.formatDate(this.disposalDate);
 	}
 
-
+	@DateTimeFormat(pattern="dd-MM-yyyy")
 	public void setDisposalDate(Date disposalDate) {
 		this.disposalDate = disposalDate;
 	}

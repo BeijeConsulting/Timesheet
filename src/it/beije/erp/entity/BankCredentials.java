@@ -10,6 +10,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonSetter;
 
@@ -110,6 +112,7 @@ public class BankCredentials {
 		return Utils.formatDate(this.startDate);
 	}
 
+	@DateTimeFormat(pattern="dd-MM-yyyy")
 	public void setStartDate(Date startDate) {
 		this.startDate = startDate;
 	}
@@ -128,6 +131,7 @@ public class BankCredentials {
 		return Utils.formatDate(this.endDate);
 	}
 
+	@DateTimeFormat(pattern="dd-MM-yyyy")
 	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
 	}

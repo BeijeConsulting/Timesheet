@@ -2,6 +2,7 @@ package it.beije.erp.timesheet.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -14,6 +15,7 @@ import org.hibernate.Hibernate;
 import org.springframework.transaction.annotation.Transactional;
 
 import it.beije.erp.entity.Computer;
+import it.beije.erp.entity.Contract;
 import it.beije.jpa.JpaEntityManager;
 
 
@@ -106,8 +108,28 @@ public static Computer update(Computer computer,Long id) {
 		
 		EntityManager entityManager = Persistence.createEntityManagerFactory("timesheet").createEntityManager();
 		entityManager.getTransaction().begin();
-		entityManager.merge(computer);
+		Computer pc = entityManager.find(Computer.class, id);
+    	
+    	if (!Objects.isNull(computer.getBrand())) pc.setBrand(computer.getBrand());
+    	if (computer.getModel() != null) pc.setModel(computer.getModel());
+    	if (computer.getCpu() != null) pc.setCpu(computer.getCpu());
+    	if (!Objects.isNull(computer.getRam())) pc.setRam(computer.getRam());
+    	
+    	if (!Objects.isNull(computer.getHardDisk())) pc.setHardDisk(computer.getHardDisk());
+    	if (!Objects.isNull(computer.getSerialNumber())) pc.setSerialNumber(computer.getSerialNumber());
+    	if (!Objects.isNull(computer.getOperatingSystem())) pc.setOperatingSystem(computer.getOperatingSystem());
+    	if (!Objects.isNull(computer.getPurchaseDate())) pc.setPurchaseDate(computer.getPurchaseDate());
+    	if (!Objects.isNull(computer.getDisposalDate())) pc.setDisposalDate(computer.getDisposalDate());
+    	if (computer.getNote() != null) pc.setNote(computer.getNote());
+    	if (!Objects.isNull(computer.isMaintenance())) pc.setMaintenance(computer.isMaintenance());
+    	
+    	
+    	
+    
+		entityManager.persist(pc);
+		
 		entityManager.getTransaction().commit();
+		
 		entityManager.close();
 		
 		return computer;

@@ -16,6 +16,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.Persistence;
 import javax.persistence.Table;
 
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.lang.Nullable;
+
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonSetter;
 
@@ -101,7 +104,8 @@ public class UserComputer {
 	public String getJsonStartDate() {
 		return Utils.formatDate(this.startDate);
 	}
-
+	
+	@DateTimeFormat(pattern="dd-MM-yyyy")
 	public void setStartDate(Date startDate) {
 		this.startDate = startDate;
 	}
@@ -119,12 +123,15 @@ public class UserComputer {
 		return Utils.formatDate(this.endDate);
 	}
 
+	@DateTimeFormat(pattern="dd-MM-yyyy")
 	public void setEndDate(Date endDate) {
+		System.out.println("setendDate ? endDate = " + endDate);
 		this.endDate = endDate;
 	}
 	
 	@JsonSetter
 	public void setJsonEndDate(String endDate) throws ParseException {
+		System.out.println("setJsonEndDate ? endDate = " + endDate);
 		this.endDate = Utils.parseDate(endDate);
 	}
 
