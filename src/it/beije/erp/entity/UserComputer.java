@@ -105,7 +105,7 @@ public class UserComputer {
 		return Utils.formatDate(this.startDate);
 	}
 	
-	@DateTimeFormat(pattern="dd-MM-yyyy")
+	//@DateTimeFormat(pattern="yyyy-MM-dd")
 	public void setStartDate(Date startDate) {
 		this.startDate = startDate;
 	}
@@ -123,7 +123,7 @@ public class UserComputer {
 		return Utils.formatDate(this.endDate);
 	}
 
-	@DateTimeFormat(pattern="dd-MM-yyyy")
+	@DateTimeFormat(pattern="yyyy-MM-dd")
 	public void setEndDate(Date endDate) {
 		System.out.println("setendDate ? endDate = " + endDate);
 		this.endDate = endDate;

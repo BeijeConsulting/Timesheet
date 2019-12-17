@@ -35,11 +35,11 @@
       			<span><b>Tutti</span>
     			</label>
 				<label>
-     			 <input class="with-gap" id="chkNo" name="check" type="radio" onclick="ShowHideDiv()" value="1" />
+     			 <input class="with-gap" id="chkNo" name="check" type="radio" onclick="ShowHideDiv()" value="true" />
       			<span><b>Disponibili</span>
     			</label>
     			<label>
-     			 <input class="with-gap" id="chkNo" name="check" type="radio" onclick="ShowHideDiv()" value="2" />
+     			 <input class="with-gap" id="chkNo" name="check" type="radio" onclick="ShowHideDiv()" value="false" />
       			<span><b>Indisponibili</span>
     			</label>
 				</div>
@@ -55,8 +55,6 @@
 			</form>
 			
 			<form class="col s12" id="form" action="searchcomputer" method="post" style="display: none">
-			
-				
 				<div class="row">
 					<div class="input-field col s6">
 						S/N:<input type="text" name="serialNumber" value="">
@@ -76,9 +74,6 @@
 						Hard-Disk: <input type="text" name="hardDisk" value="">
 					</div>
 				</div>
-				
-				
-				
 				
 				<div class="row">
 				<div class="center">

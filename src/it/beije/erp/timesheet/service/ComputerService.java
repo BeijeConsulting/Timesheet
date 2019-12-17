@@ -21,27 +21,44 @@ import it.beije.jpa.JpaEntityManager;
 
 public class ComputerService {
 	
-	public static List<Computer> getComputers(Integer check) {
+	public static List<Computer> getComputers(Boolean check) {
+		System.out.println("check : " + check);
+		return getComputers(check, !check);
+	}
+	
+	public static List<Computer> getComputers(boolean check, boolean maintenance) {
+		System.out.println("available : " + check);
+		System.out.println("maintenance : " + maintenance);
 		EntityManager entityManager = Persistence.createEntityManagerFactory("timesheet").createEntityManager();
 		List<Computer> computers = new ArrayList<>();
-		if(check==0) {
-		computers=entityManager.createQuery("select c from Computer c",
-			    Computer.class).getResultList();
-		entityManager.close();
-		return computers;
-		}
-		else if (check==1) {
+		
+//		if(check==0) {
+//		computers=entityManager.createQuery("select c from Computer c",
+//			    Computer.class).getResultList();
+//		entityManager.close();
+//		return computers;
+//		}
+//		else
+		if (check) {
 			
-			computers=entityManager.createQuery("select c from Computer c where c.maintenance=0",
+			computers=entityManager.createQuery("select c from Computer c where c.id not in " + 
+					"(select uc.idComputer from UserComputer uc where uc.endDate is null) " + 
+					"and c.maintenance is false" +
+					"and c.disposal_date is null",
 				    Computer.class).getResultList();
+			
 			entityManager.close();
 			return computers;
 			
 		}
 		
 		else {
-			computers=entityManager.createQuery("select c from Computer c where c.maintenance=1",
-				    Computer.class).getResultList();
+			computers=entityManager.createQuery("select c from Computer c left outer join UserComputer uc on c.id = uc.idComputer " +  
+					"where c.maintenance is true " +  
+					"and c.disposal_date is null" +
+					"OR (uc.startDate is not null AND uc.endDate is null) " + 
+					"group by c.id"
+				    ,Computer.class).getResultList();
 			entityManager.close();
 			return computers;
 		}

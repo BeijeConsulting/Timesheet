@@ -15,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import it.beije.Utils;
@@ -124,10 +125,9 @@ public class ComputerController {
 	
 	@PreAuthorize("hasAnyRole('USER')")	
 	@RequestMapping(value = "/showcomputer", method = RequestMethod.POST)
-	public String showComputer(@Validated Computer computer, Locale locale, Model model, HttpServletRequest request) {
+	public String showComputer(@Validated Computer computer, @RequestParam("check") Boolean check, Model model) {
+		System.out.println("showComputer : " + check);
 		List<Computer> computers = new ArrayList<>();
-		int check = 0;
-		check = Integer.valueOf(request.getParameter("check"));
 		computers=ComputerService.getComputers(check);
 		model.addAttribute("computers", computers);
 		return "showcomputer";
@@ -136,7 +136,8 @@ public class ComputerController {
 	@PreAuthorize("hasAnyRole('USER')")	
 	@RequestMapping(value = "/searchcomputer", method = RequestMethod.POST)
 	public String searchComputer(@Validated Computer computer, Locale locale, Model model, HttpServletRequest request) {
-	List<Computer> computers = new ArrayList<>();
+		System.out.println("searchComputer");
+		List<Computer> computers = new ArrayList<>();
 		computers=ComputerService.searchComputer(computer.getSerialNumber(),
 											computer.getRam(),
 											computer.getCpu(),
@@ -149,7 +150,7 @@ public class ComputerController {
 	@RequestMapping(value = "/assigncomputer", method = RequestMethod.GET)
 	public String assignComputer(Locale locale, Model model) {
 		List<Computer> computers = new ArrayList<>();
-		int check = 1;
+		boolean check = true;
 		computers=ComputerService.getComputers(check);
 		model.addAttribute("computers", computers);
 		return "assigncomputer";
@@ -167,7 +168,7 @@ public class ComputerController {
 		
 			try {
 				userComputer.setEndDate(Utils.parseDate(request.getParameter("endDate")));
-			} catch(Exception e) {}
+			}catch(Exception e) {}
 			
 			userComputer.setLanAdapter(Boolean.parseBoolean(request.getParameter("lanAdapter")));
 		
