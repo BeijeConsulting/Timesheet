@@ -1,4 +1,4 @@
-package it.beije.erp.controller.api;
+package it.beije.mgmt.restcontroller;
 
 import java.io.IOException;
 import java.util.List;
@@ -6,6 +6,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,11 +18,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import it.beije.erp.entity.Computer;
 import it.beije.erp.service.JPAService;
-import it.beije.erp.timesheet.service.ComputerService;
+import it.beije.mgmt.service.ComputerService;
 
 @RestController
 @RequestMapping("api")
 public class ComputerApiController {
+	
+	@Autowired
+	private ComputerService computerService;
 	
 		/**
 		 * DA AGGIORNARE TUTTE LE API CONFRONTANDOSI CON QUELLE DI USER, COSTRUENDO UN COMPUTERDTO
@@ -31,8 +35,8 @@ public class ComputerApiController {
 		 */
 		///////// START USER //////////////////////
 		@RequestMapping(value = "/computers", method = RequestMethod.GET)
-		public @ResponseBody List<Computer> getUsers(Model model) throws IOException {
-			return ComputerService.all();
+		public @ResponseBody List<Computer> getComputers(Model model) throws IOException {
+			return computerService.all();
 		}
 
 		@RequestMapping(value = "/computer/{id}", method = RequestMethod.GET)
@@ -40,7 +44,7 @@ public class ComputerApiController {
 				HttpServletResponse response) throws IOException {
 			System.out.println("get computer by id: " + id);
 
-			return ComputerService.find(id);
+			return computerService.find(id);
 		}
 
 		@RequestMapping(value = "/computer", method = RequestMethod.POST,
@@ -49,7 +53,7 @@ public class ComputerApiController {
 				HttpServletResponse response) throws IOException {
 			System.out.println("insert computer: " + computer);
 
-			return ComputerService.create(computer);
+			return computerService.create(computer);
 		}
 
 		@RequestMapping(value = "/computer/{id}", method = RequestMethod.PUT,
@@ -59,7 +63,7 @@ public class ComputerApiController {
 			System.out.println("update computer by id: " + id);
 			System.out.println("update computer: " + computer);
 
-			return ComputerService.update(computer, id);
+			return computerService.update(computer, id);
 		}
 
 }

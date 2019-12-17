@@ -27,11 +27,11 @@ import it.beije.erp.entity.Address;
 import it.beije.erp.entity.BankCredentials;
 import it.beije.erp.entity.Contract;
 import it.beije.erp.entity.User;
-import it.beije.erp.repositories.UserRepository;
-import it.beije.erp.repositories.UserRepositoryCustom;
 import it.beije.erp.timesheet.entity.CustomUserDetail;
 import it.beije.jpa.JpaEntityManager;
 import it.beije.jpa.UserRequest;
+import it.beije.mgmt.repositories.UserRepository;
+import it.beije.mgmt.repositories.UserRepositoryCustom;
 
 
 @Service

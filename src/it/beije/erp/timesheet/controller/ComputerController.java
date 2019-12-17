@@ -9,6 +9,7 @@ import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,12 +23,16 @@ import it.beije.Utils;
 import it.beije.erp.entity.Computer;
 import it.beije.erp.entity.UserComputer;
 import it.beije.erp.service.JPAService;
-import it.beije.erp.timesheet.service.ComputerService;
+import it.beije.mgmt.service.ComputerService;
+
 
 
 @Controller
 @SessionAttributes("computer")
 public class ComputerController {
+	
+	@Autowired
+	private ComputerService computerService;
 
 	/**
 	 * Simply selects the home view to render by returning its name.
@@ -128,7 +133,7 @@ public class ComputerController {
 	public String showComputer(@Validated Computer computer, @RequestParam("check") Boolean check, Model model) {
 		System.out.println("showComputer : " + check);
 		List<Computer> computers = new ArrayList<>();
-		computers=ComputerService.getComputers(check);
+		computers=computerService.getComputers(check);
 		model.addAttribute("computers", computers);
 		return "showcomputer";
 	}
@@ -138,7 +143,7 @@ public class ComputerController {
 	public String searchComputer(@Validated Computer computer, Locale locale, Model model, HttpServletRequest request) {
 		System.out.println("searchComputer");
 		List<Computer> computers = new ArrayList<>();
-		computers=ComputerService.searchComputer(computer.getSerialNumber(),
+		computers=computerService.searchComputer(computer.getSerialNumber(),
 											computer.getRam(),
 											computer.getCpu(),
 											computer.getHardDisk());
@@ -151,7 +156,7 @@ public class ComputerController {
 	public String assignComputer(Locale locale, Model model) {
 		List<Computer> computers = new ArrayList<>();
 		boolean check = true;
-		computers=ComputerService.getComputers(check);
+		computers=computerService.getComputers(check);
 		model.addAttribute("computers", computers);
 		return "assigncomputer";
 	}
