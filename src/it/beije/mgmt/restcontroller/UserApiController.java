@@ -1,18 +1,11 @@
-package it.beije.erp.controller.api;
-
-import org.json.simple.JSONArray; 
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
+package it.beije.mgmt.restcontroller;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Locale;
 
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpEntity;
 import org.springframework.http.MediaType;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,12 +16,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fasterxml.jackson.databind.JsonNode;
-
 import it.beije.erp.dto.UserDto;
 import it.beije.erp.entity.User;
-import it.beije.erp.timesheet.service.UserService;
 import it.beije.jpa.UserRequest;
+import it.beije.mgmt.service.UserService;
 
 
 @RestController

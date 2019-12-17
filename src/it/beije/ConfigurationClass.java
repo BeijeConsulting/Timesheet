@@ -11,7 +11,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import it.beije.erp.timesheet.service.UserService;
+import it.beije.mgmt.service.UserService;
 
 @Configuration
 @EnableWebSecurity

@@ -1,28 +1,15 @@
-package it.beije.erp.controller.api;
+package it.beije.mgmt.restcontroller;
 
-import java.util.List;
 import java.util.Locale;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-
-import org.springframework.http.MediaType;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-
-import it.beije.erp.entity.Address;
-import it.beije.erp.entity.BankCredentials;
-import it.beije.erp.entity.Contract;
 import it.beije.erp.entity.User;
-import it.beije.erp.service.JPAService;
 import it.beije.erp.timesheet.entity.Timetable;
-import it.beije.jpa.JpaEntityManager;
 
 
 @RestController
@@ -97,12 +84,12 @@ public class ApiController {
 //	}
 
 	//Write
-	@RequestMapping(value = "/address", method = RequestMethod.POST,
-			consumes = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody Address addressPost(@RequestBody Address address) {
-		JPAService.save(address);
-		return address;
-	}
+//	@RequestMapping(value = "/address", method = RequestMethod.POST,
+//			consumes = MediaType.APPLICATION_JSON_VALUE)
+//	public @ResponseBody Address addressPost(@RequestBody Address address) {
+//		JPAService.save(address);
+//		return address;
+//	}
 
 	//	//Update
 	//	@RequestMapping(value = "/address/{id}", method = RequestMethod.PUT,
@@ -146,42 +133,42 @@ public class ApiController {
 
 	/****************** BANK CREDENTIALS *****************/
 	//Read
-	@RequestMapping(value = "/credentials/user/{id}", method = RequestMethod.GET)
-	public @ResponseBody List<BankCredentials> getCredentialsForUser(@PathVariable Long id) {
-
-		User user = JPAService.getBean(User.class, id);
-		List<BankCredentials> credentials = user.getBankCredentials();
-
-		return credentials;
-	}
-
-	@RequestMapping(value = "/credentials/{id}", method = RequestMethod.GET)
-	public @ResponseBody BankCredentials getCredentials(@PathVariable Long id) {
-
-		BankCredentials credentials = JPAService.getBean(BankCredentials.class, id);
-
-		return credentials;
-	}
-
-	//Write
-	@RequestMapping(value = "/credentials", method = RequestMethod.POST,
-			consumes = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody BankCredentials credentialsPost(@RequestBody BankCredentials credentials) {
-		JPAService.save(credentials);
-		return credentials;
-	}
+//	@RequestMapping(value = "/credentials/user/{id}", method = RequestMethod.GET)
+//	public @ResponseBody List<BankCredentials> getCredentialsForUser(@PathVariable Long id) {
+//
+//		User user = JPAService.getBean(User.class, id);
+//		List<BankCredentials> credentials = user.getBankCredentials();
+//
+//		return credentials;
+//	}
+//
+//	@RequestMapping(value = "/credentials/{id}", method = RequestMethod.GET)
+//	public @ResponseBody BankCredentials getCredentials(@PathVariable Long id) {
+//
+//		BankCredentials credentials = JPAService.getBean(BankCredentials.class, id);
+//
+//		return credentials;
+//	}
+//
+//	//Write
+//	@RequestMapping(value = "/credentials", method = RequestMethod.POST,
+//			consumes = MediaType.APPLICATION_JSON_VALUE)
+//	public @ResponseBody BankCredentials credentialsPost(@RequestBody BankCredentials credentials) {
+//		JPAService.save(credentials);
+//		return credentials;
+//	}
 
 
 
 	/****************** CONTRACT *****************/
 	//Read
-	@RequestMapping(value = "/contract/user/{id}", method = RequestMethod.GET)
-
-	public @ResponseBody List<Contract> getContracts(@PathVariable Long id) {		
-		User user = JPAService.getBean(User.class, id);
-		List<Contract> contracts = user.getContracts();
-		return contracts;
-	}
+//	@RequestMapping(value = "/contract/user/{id}", method = RequestMethod.GET)
+//
+//	public @ResponseBody List<Contract> getContracts(@PathVariable Long id) {		
+//		User user = JPAService.getBean(User.class, id);
+//		List<Contract> contracts = user.getContracts();
+//		return contracts;
+//	}
 
 //	@RequestMapping(value = "/contract/{id}", method = RequestMethod.GET)
 //	public @ResponseBody Contract getContract(@PathVariable Long id) {
@@ -190,12 +177,12 @@ public class ApiController {
 //	}
 
 	//Write
-	@RequestMapping(value = "/contract", method = RequestMethod.POST,
-			consumes = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody Contract addressPost(@RequestBody Contract contract) {
-		JPAService.save(contract);
-		return contract;
-	}
+//	@RequestMapping(value = "/contract", method = RequestMethod.POST,
+//			consumes = MediaType.APPLICATION_JSON_VALUE)
+//	public @ResponseBody Contract addressPost(@RequestBody Contract contract) {
+//		JPAService.save(contract);
+//		return contract;
+//	}
 
 
 	///////// START USER //////////////////////

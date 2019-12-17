@@ -1,4 +1,5 @@
-package it.beije.erp.controller.api;
+package it.beije.mgmt.restcontroller;
+
 import java.io.IOException;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -20,10 +21,11 @@ import it.beije.erp.entity.Address;
 import it.beije.erp.timesheet.service.AddressService;
 import it.beije.jpa.JpaEntityManager;
 
+
 @RestController
 @RequestMapping("api")
-
 public class AddressApiController {
+	
 	@Autowired
 	private AddressService addressService;
 
@@ -32,8 +34,6 @@ public class AddressApiController {
 	@Transactional
 	@RequestMapping(value = "/addresses/user/{id}", method = RequestMethod.GET)
 	public @ResponseBody List<Address> getAddressForUser(@PathVariable Long id) {
-
-
 
 		return addressService.getAddressByUser(id);
 
