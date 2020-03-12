@@ -43,11 +43,7 @@ public class ContractApiController {
 	@Transactional
 	@RequestMapping(value = "/contracts/user/{id}", method = RequestMethod.GET)
 	public @ResponseBody List<Contract> getContractForUser(@PathVariable Long id) {
-
-
-
 		return contractService.getContractByUser(id);
-
 	}
 
 	// write new bank credentials by idUser
@@ -58,26 +54,25 @@ public class ContractApiController {
 		System.out.println("insert Contract: " + contract);
 
 		return contractService.create(id, contract);
-
 	}
 
 	// get bank credentials by idBankCredentials
 	@RequestMapping(value = { "/contract/{id}" }, method = RequestMethod.GET)
 	public @ResponseBody Contract getContract(@PathVariable Long id, Model model,
 			HttpServletResponse response) throws IOException {
+		
 		System.out.println("get contract by idContract: " + id);
 		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
-
 		EntityManager entitymanager = emfactory.createEntityManager();
-		Contract contract = entitymanager.find(Contract.class, id);
-
-		return contract;
+		
+		return entitymanager.find(Contract.class, id);
 	}
 
 	// update existing bank credentials
 	@RequestMapping(value = "/contract/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody Contract updateContract(@PathVariable Long id, @RequestBody Contract contract,
 			Model model, HttpServletResponse response) throws IOException {
+		
 		System.out.println("update contract by id: " + id);
 		System.out.println("update contract: " + contract);
 
