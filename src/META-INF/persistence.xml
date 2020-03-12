@@ -17,7 +17,6 @@
 	</persistence-unit>
 	<persistence-unit name="timesheetLocal" transaction-type="RESOURCE_LOCAL">
 		<class>it.beije.erp.entity.User</class>
-		<class>it.beije.erp.entity.Address</class>
 		<class>it.beije.erp.entity.Contract</class>
 		<class>it.beije.erp.timesheet.entity.Timetable</class>
 		<class>it.beije.erp.entity.UserComputer</class>

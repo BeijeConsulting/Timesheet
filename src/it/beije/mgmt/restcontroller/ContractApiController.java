@@ -38,7 +38,7 @@ public class ContractApiController {
 	@Autowired
 	private ContractService contractService;
 
-	/****************** BANK CREDENTIALS *****************/
+	/****************** BANK CREDENTIALS????????????????????? *****************/
 	// storico banck credentials user
 	@Transactional
 	@RequestMapping(value = "/contracts/user/{id}", method = RequestMethod.GET)

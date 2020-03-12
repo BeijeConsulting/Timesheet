@@ -42,25 +42,25 @@ public class Contract {
 	private String ccnl;
 	
 	@Column(name="liv")
-	private byte lvl;
+	private Byte lvl;
 	
 	@Column(name="minimo_contrattuale")
-	private double minimoContrattuale;
+	private Double minimoContrattuale;
 	
 	@Column(name="superminimo")
-	private double superminimo;
+	private Double superminimo;
 	
 	@Column(name="retribuzione_mensile")
-	private double retribuzioneMensile;
+	private Double retribuzioneMensile;
 	
 	@Column(name="ral")
-	private double ral;
+	private Double ral;
 	
 	@Column(name="netto_mensile")
-	private double nettoMensile;
+	private Double nettoMensile;
 	
 	@Column(name="costo_interno")
-	private double costoInterno;
+	private Double costoInterno;
 	
 	@Column(name="note")
 	private String note;
@@ -111,49 +111,49 @@ public class Contract {
 		this.ccnl = ccnl;
 	}
 
-	public byte getLvl() {
+	public Byte getLvl() {
 		return lvl;
 	}
 	public void setLvl(byte lvl) {
 		this.lvl = lvl;
 	}
 
-	public double getMinimoContrattuale() {
+	public Double getMinimoContrattuale() {
 		return minimoContrattuale;
 	}
 	public void setMinimoContrattuale(double minimoContrattuale) {
 		this.minimoContrattuale = minimoContrattuale;
 	}
 
-	public double getSuperminimo() {
+	public Double getSuperminimo() {
 		return superminimo;
 	}
 	public void setSuperminimo(double superminimo) {
 		this.superminimo = superminimo;
 	}
 
-	public double getRetribuzioneMensile() {
+	public Double getRetribuzioneMensile() {
 		return retribuzioneMensile;
 	}
 	public void setRetribuzioneMensile(double retribuzioneMensile) {
 		this.retribuzioneMensile = retribuzioneMensile;
 	}
 
-	public double getRal() {
+	public Double getRal() {
 		return ral;
 	}
 	public void setRal(double ral) {
 		this.ral = ral;
 	}
 
-	public double getNettoMensile() {
+	public Double getNettoMensile() {
 		return nettoMensile;
 	}
 	public void setNettoMensile(double nettoMensile) {
 		this.nettoMensile = nettoMensile;
 	}
 
-	public double getCostoInterno() {
+	public Double getCostoInterno() {
 		return costoInterno;
 	}
 	public void setCostoInterno(double costoInterno) {
