@@ -34,11 +34,16 @@ public class ComputerApiController {
 		 * @throws IOException
 		 */
 		///////// START USER //////////////////////
+	
+	
+	//FUNZIONA MA NON IMPLEMENTATO IN JSP
 		@RequestMapping(value = "/computers", method = RequestMethod.GET)
 		public @ResponseBody List<Computer> getComputers(Model model) throws IOException {
 			return computerService.all();
 		}
 
+		
+		//FUNZIONA MA NON IMPLEMENTATO IN JSP
 		@RequestMapping(value = "/computer/{id}", method = RequestMethod.GET)
 		public @ResponseBody Computer getComputer(@PathVariable Long id, Model model,
 				HttpServletResponse response) throws IOException {
@@ -47,6 +52,7 @@ public class ComputerApiController {
 			return computerService.find(id);
 		}
 
+		//TESTATO MA NON FUNZIONA IL PERSIST (400- The request sent by the client was syntactically incorrect.)
 		@RequestMapping(value = "/computer", method = RequestMethod.POST,
 				consumes = MediaType.APPLICATION_JSON_VALUE)
 		public @ResponseBody Computer insertComputer(@RequestBody Computer computer, Model model,
@@ -56,6 +62,8 @@ public class ComputerApiController {
 			return computerService.create(computer);
 		}
 
+		
+		
 		@RequestMapping(value = "/computer/{id}", method = RequestMethod.PUT,
 				consumes = MediaType.APPLICATION_JSON_VALUE)
 		public @ResponseBody Computer updateComputer(@PathVariable Long id, @RequestBody Computer computer, Model model,
