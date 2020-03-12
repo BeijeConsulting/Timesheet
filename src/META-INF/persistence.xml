@@ -15,4 +15,19 @@
 			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5Dialect"/>
 		</properties>
 	</persistence-unit>
+	<persistence-unit name="timesheetLocal" transaction-type="RESOURCE_LOCAL">
+		<class>it.beije.erp.entity.User</class>
+		<class>it.beije.erp.entity.Address</class>
+		<class>it.beije.erp.entity.Contract</class>
+		<class>it.beije.erp.timesheet.entity.Timetable</class>
+		<class>it.beije.erp.entity.UserComputer</class>
+		<class>it.beije.erp.entity.Computer</class>
+		<properties>
+			<property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
+			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/cilacap?serverTimezone=CET"/>
+			<property name="javax.persistence.jdbc.password" value="Beije09"/>
+			<property name="javax.persistence.jdbc.user" value="root"/>
+			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>
+		</properties>
+	</persistence-unit>
 </persistence>
