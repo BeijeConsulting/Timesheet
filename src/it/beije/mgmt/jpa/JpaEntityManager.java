@@ -1,4 +1,4 @@
-package it.beije.jpa;
+package it.beije.mgmt.jpa;
 
 
 import javax.persistence.EntityManagerFactory;

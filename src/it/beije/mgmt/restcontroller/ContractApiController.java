@@ -21,14 +21,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import it.beije.erp.dto.UserDto;
 import it.beije.erp.entity.Address;
 import it.beije.erp.entity.BankCredentials;
 import it.beije.erp.entity.Contract;
 import it.beije.erp.entity.User;
 import it.beije.erp.service.JPAService;
 import it.beije.erp.timesheet.entity.Timetable;
-import it.beije.jpa.JpaEntityManager;
+import it.beije.mgmt.dto.UserDto;
+import it.beije.mgmt.jpa.JpaEntityManager;
 import it.beije.mgmt.service.ContractService;
 
 @RestController

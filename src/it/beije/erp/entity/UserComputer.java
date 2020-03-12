@@ -22,7 +22,7 @@ import org.springframework.lang.Nullable;
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonSetter;
 
-import it.beije.Utils;
+import it.beije.mgmt.Utils;
 
 @Entity
 @Table(name = "user_computer")

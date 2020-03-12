@@ -20,7 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import it.beije.erp.entity.Address;
 import it.beije.erp.entity.User;
-import it.beije.jpa.JpaEntityManager;
+import it.beije.mgmt.jpa.JpaEntityManager;
 import it.beije.mgmt.repositories.AddressRepository;
 
 

@@ -18,7 +18,7 @@ import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonSetter;
 
-import it.beije.Utils;
+import it.beije.mgmt.Utils;
  
 @Table(name = "contratto")
 @Entity

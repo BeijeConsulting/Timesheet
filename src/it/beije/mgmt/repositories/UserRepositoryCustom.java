@@ -8,7 +8,7 @@ import javax.persistence.EntityManagerFactory;
 import org.springframework.stereotype.Repository;
 
 import it.beije.erp.entity.User;
-import it.beije.jpa.JpaEntityManager;
+import it.beije.mgmt.jpa.JpaEntityManager;
 
 
 @Repository

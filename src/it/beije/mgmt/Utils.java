@@ -1,4 +1,4 @@
-package it.beije;
+package it.beije.mgmt;
 
 import java.sql.Date;
 import java.text.ParseException;
