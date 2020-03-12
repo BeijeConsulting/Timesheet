@@ -1,4 +1,4 @@
-package it.beije.erp.repositories;
+package it.beije.mgmt.repositories;
 
 import java.util.List;
 

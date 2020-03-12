@@ -1,4 +1,4 @@
-package it.beije.erp.timesheet.service;
+package it.beije.mgmt.service;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +12,7 @@ import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import org.hibernate.Hibernate;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import it.beije.erp.entity.Computer;
@@ -19,14 +20,15 @@ import it.beije.erp.entity.Contract;
 import it.beije.jpa.JpaEntityManager;
 
 
+@Service
 public class ComputerService {
 	
-	public static List<Computer> getComputers(Boolean check) {
+	public List<Computer> getComputers(Boolean check) {
 		System.out.println("check : " + check);
 		return getComputers(check, !check);
 	}
 	
-	public static List<Computer> getComputers(boolean check, boolean maintenance) {
+	public List<Computer> getComputers(boolean check, boolean maintenance) {
 		System.out.println("available : " + check);
 		System.out.println("maintenance : " + maintenance);
 		EntityManager entityManager = Persistence.createEntityManagerFactory("timesheet").createEntityManager();
@@ -64,7 +66,7 @@ public class ComputerService {
 		}
 	}
 	
-	public static List<Computer> searchComputer(String serialNumber, Integer ram, String cpu, String hardDisk) {
+	public List<Computer> searchComputer(String serialNumber, Integer ram, String cpu, String hardDisk) {
 
 		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
 		EntityManager entitymanager = emfactory.createEntityManager();
@@ -109,7 +111,7 @@ public class ComputerService {
 		return computers;
 	}
 	
-	public static Computer create(Computer computer) {
+	public Computer create(Computer computer) {
 		EntityManager entityManager = Persistence.createEntityManagerFactory("timesheet").createEntityManager();
 		entityManager.getTransaction().begin();
 		
@@ -121,7 +123,7 @@ public class ComputerService {
 		return computer;
 	}
 	
-public static Computer update(Computer computer,Long id) {
+public Computer update(Computer computer,Long id) {
 		
 		EntityManager entityManager = Persistence.createEntityManagerFactory("timesheet").createEntityManager();
 		entityManager.getTransaction().begin();
@@ -152,7 +154,7 @@ public static Computer update(Computer computer,Long id) {
 		return computer;
 	}
 	
-public static List<Computer> all() {
+public List<Computer> all() {
 
 	EntityManagerFactory emfactory = JpaEntityManager.getInstance();
 	EntityManager entitymanager = emfactory.createEntityManager();
@@ -169,7 +171,7 @@ public static List<Computer> all() {
 }
 
 @Transactional
-public static Computer find(Long id) {
+public Computer find(Long id) {
 	
 	EntityManagerFactory emfactory = JpaEntityManager.getInstance();
 	EntityManager entitymanager = emfactory.createEntityManager();

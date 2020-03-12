@@ -151,7 +151,7 @@ public class Computer {
 		return Utils.formatDate(this.purchaseDate);
 	}
 	
-	@DateTimeFormat(pattern="dd-MM-yyyy")
+//	@DateTimeFormat(pattern="dd-MM-yyyy")
 	public void setPurchaseDate(Date purchaseDate) {
 		this.purchaseDate = purchaseDate;
 	}
@@ -170,7 +170,7 @@ public class Computer {
 		return Utils.formatDate(this.disposalDate);
 	}
 
-	@DateTimeFormat(pattern="dd-MM-yyyy")
+//	@DateTimeFormat(pattern="dd-MM-yyyy")
 	public void setDisposalDate(Date disposalDate) {
 		this.disposalDate = disposalDate;
 	}
