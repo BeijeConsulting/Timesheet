@@ -1,4 +1,4 @@
-package it.beije.erp.controller.api;
+package it.beije.mgmt.restcontroller;
 
 
 import java.io.IOException;
@@ -28,8 +28,8 @@ import it.beije.erp.entity.Contract;
 import it.beije.erp.entity.User;
 import it.beije.erp.service.JPAService;
 import it.beije.erp.timesheet.entity.Timetable;
-import it.beije.erp.timesheet.service.ContractService;
 import it.beije.jpa.JpaEntityManager;
+import it.beije.mgmt.service.ContractService;
 
 @RestController
 @RequestMapping("api")
