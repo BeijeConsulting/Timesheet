@@ -34,13 +34,14 @@ public class UserController {
 	/**
 	 * Simply selects the home view to render by returning its name.
 	 */
+	
+	//ENTRY POINT SEZIONE USER VIA USER NORMALE ----------------------------------------------------------!!!!!!!!!!!-------------------------
 	@PreAuthorize("hasAnyRole('USER')")	
 	@RequestMapping(value = "/home", method = RequestMethod.GET)
 	public String home(Locale locale, Model model) {
 		System.out.println("Home Page Requested, locale = " + locale);
 		Date date = new Date();
 		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
-
 		String dataFormattato = dateFormat.format(date);
 
 		model.addAttribute("serverTime", dataFormattato);
@@ -166,10 +167,11 @@ public class UserController {
 	
 	
 	///////////////NEW METHOD
+	
+	//ENTRY POINT SEZIONE USER VIA ADMIN -------------------------------------------------------------------------------------!!!!!!!!-------------
 	@PreAuthorize("hasAnyRole('ADMIN')")	
 	@RequestMapping(value = "/homepage", method = RequestMethod.GET)
 	public String homepage(@Validated User user, Model model) {
-
 		return "homepage";
 	}
 	
