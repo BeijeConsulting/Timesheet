@@ -1,4 +1,4 @@
-package it.beije.erp.importuser;
+package it.beije.mgmt.tools.importuser;
 
 import java.io.BufferedReader;
 import java.io.File;

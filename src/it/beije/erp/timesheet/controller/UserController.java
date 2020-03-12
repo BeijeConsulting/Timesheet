@@ -20,8 +20,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
-import it.beije.erp.dto.UserDto;
 import it.beije.erp.entity.User;
+import it.beije.mgmt.dto.UserDto;
 import it.beije.mgmt.service.UserService;
 
 //import it.beije.jpa.GestioneUtenti;

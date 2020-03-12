@@ -21,7 +21,7 @@ import org.springframework.stereotype.Service;
 
 import it.beije.erp.entity.User;
 import it.beije.erp.timesheet.entity.Timetable;
-import it.beije.jpa.JpaEntityManager;
+import it.beije.mgmt.jpa.JpaEntityManager;
 
 @Service
 public class TimetableService {
