@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import it.beije.erp.entity.BankCredentials;
 import it.beije.erp.entity.Computer;
 import it.beije.erp.entity.User;
-import it.beije.jpa.JpaEntityManager;
+import it.beije.mgmt.jpa.JpaEntityManager;
 import it.beije.mgmt.repositories.BankCredentialsRepository;
 
 

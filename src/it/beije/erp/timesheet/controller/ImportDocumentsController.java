@@ -18,8 +18,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import it.beije.erp.importuser.DbTool;
-import it.beije.erp.importuser.DemoRow;
+import it.beije.mgmt.tools.importuser.DbTool;
+import it.beije.mgmt.tools.importuser.DemoRow;
 
 
 @Controller

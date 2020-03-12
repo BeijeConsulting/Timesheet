@@ -1,4 +1,4 @@
-package it.beije.jpa;
+package it.beije.mgmt.jpa;
 
 public class UserRequest {
 	private String first_name;

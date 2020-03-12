@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import it.beije.erp.entity.Address;
-import it.beije.jpa.JpaEntityManager;
+import it.beije.mgmt.jpa.JpaEntityManager;
 import it.beije.mgmt.service.AddressService;
 
 

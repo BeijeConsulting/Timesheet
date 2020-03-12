@@ -22,14 +22,14 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import it.beije.erp.dto.UserDto;
 import it.beije.erp.entity.Address;
 import it.beije.erp.entity.BankCredentials;
 import it.beije.erp.entity.Contract;
 import it.beije.erp.entity.User;
 import it.beije.erp.timesheet.entity.CustomUserDetail;
-import it.beije.jpa.JpaEntityManager;
-import it.beije.jpa.UserRequest;
+import it.beije.mgmt.dto.UserDto;
+import it.beije.mgmt.jpa.JpaEntityManager;
+import it.beije.mgmt.jpa.UserRequest;
 import it.beije.mgmt.repositories.UserRepository;
 import it.beije.mgmt.repositories.UserRepositoryCustom;
 

@@ -1,4 +1,4 @@
-package it.beije.erp.dto;
+package it.beije.mgmt.dto;
 
 import java.sql.Date;
 
