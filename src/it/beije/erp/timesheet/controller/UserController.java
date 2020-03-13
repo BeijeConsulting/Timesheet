@@ -153,7 +153,7 @@ public class UserController {
 	@PreAuthorize("hasAnyRole('ADMIN')")
 	@RequestMapping(value = "/cancellautente", method = RequestMethod.POST)
 	public String cancellaUtente(@Validated User user, Model model) {
-
+		
 		return "cancellautente";
 	}
 
