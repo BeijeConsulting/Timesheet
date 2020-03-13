@@ -34,7 +34,7 @@ public class BankCredentialsService {
 	private BankCredentialsRepository bankCredentialsRepository;
 
 	public BankCredentials create(Long idUser, BankCredentials bankCredentials) throws Exception {
-		EntityManager entityManager = Persistence.createEntityManagerFactory("timesheet").createEntityManager();
+		EntityManager entityManager = JpaEntityManager.getInstance().createEntityManager();
 		entityManager.getTransaction().begin();
 		
 		User user = entityManager.find(User.class, idUser);
