@@ -54,7 +54,6 @@ Molte funzionalità della pagina non sono state implementate, o chiamate.
 
 
 
-
 # TIMESHEET - SEZIONE USER
 
 	Entry-point: homepage.jsp
@@ -167,3 +166,27 @@ Lato server: REST CONTROLLER --> it.beije.mgmt.restcontroller.UserApiController.
 		public @ResponseBody List<UserDto> searchUser(@RequestBody UserRequest req)
 
 
+
+# Gruppo Bravo (Address)
+
+Api Controller
+==============
+AdressController.java è il controller non rest al cui interno troviamo 3 metodi: 
+-   getAddresses che tramite URI riceve l'id dell'address da cercare e restituice il form useraddresses.jsp.
+-   getForm che restituisce la jsp contenente il form per l'inserimento di un indirizzo. 
+-   getAddresses che risponde alla richiesta "/registeraddresses" e restituisce la jsp confermaaddress con i dati inseriti in fase di registrazione passati tramite il model.
+
+REST Controller
+==============
+AddressApiController.java è la classe del ControllerRest in cui al suo interno troviamo le API che si possono eseguire indipendentemente dalla login e che restituiscono in base alla chiamata inserita nell URI:
+-   il primo metodo restituisce lalista degli indirizzi dell'utente specificato nell'id
+-   il secondo inserisce un nuovo indirizzo associato ad uno specifico utente
+-   il terzo metodo ritorna l'indirizzo salvato nel DB con l'id specificato tramite URL ilquarto ed ultimo metodo tramite la PUT va     ad aggiornare uno specifico indirizzo relativo all'id fornito nell URL.
+
+AddressService.java è la classe nella quale si trovano i servizi messi a disposizione del nostro RestController in cui troviamo i metodi:
+-   per creare un indirizzo relativo ad un utente
+-   per modificare un determinato indirizzo
+-   infine getAddressByUSer che ritorna la lista di indirizzi associati ad uno specifico utente, il cui id viene passato tramite url
+
+AddressRepository.java è un interfaccia che dichiara un unico metodo a cui viene passato l'id dell'utente e ritorna tutti gli indirizzi associati all'utente.
+>>>>>>> refs/remotes/origin/master
