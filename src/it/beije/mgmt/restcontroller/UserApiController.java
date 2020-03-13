@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import it.beije.erp.entity.User;
 import it.beije.mgmt.dto.UserDto;
+import it.beije.mgmt.entity.User;
 import it.beije.mgmt.jpa.UserRequest;
 import it.beije.mgmt.service.UserService;
 
@@ -41,6 +41,7 @@ public class UserApiController {
 	//Quando cerco "/user/{id}/{complete}, la variabile è opzionale, il valore di default è false, se è true mi da lo User completo
 	//Quando cerco "/user/{id} automaticamente mi da la versione short di User
 //	@RequestMapping(value = {"/user/{id}/{complete}", "/user/{id}"}, method = RequestMethod.GET)
+	
 	@RequestMapping(value = {"/user/{id}"}, method = RequestMethod.GET)
 	public @ResponseBody UserDto getUserDto(@PathVariable Long id,// @PathVariable(required=false) boolean complete,
 			@RequestParam(required = false) boolean complete,
@@ -72,7 +73,7 @@ public class UserApiController {
 
 	@RequestMapping(value = "/user", method = RequestMethod.POST,
 			consumes = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody User insertUser(@RequestBody User user, Model model,
+	public @ResponseBody User insertUser(@RequestBody User user,
 			HttpServletResponse response) throws IOException {
 		System.out.println("insert user: " + user);
 
@@ -82,7 +83,7 @@ public class UserApiController {
 	//FIXARE QUESTA API (PROBLEMA DI LAZILY INITIALIZE SUGLI INDIRIZZI)
 	@RequestMapping(value = "/user/{id}", method = RequestMethod.PUT,
 			consumes = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody User updateUser(@PathVariable Long id, @RequestBody User user, Model model,
+	public @ResponseBody User updateUser(@PathVariable Long id, @RequestBody User user,
 			HttpServletResponse response) throws IOException {
 		System.out.println("update user by id: " + id);
 		System.out.println("update user: " + user);

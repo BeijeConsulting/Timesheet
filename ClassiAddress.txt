@@ -1,0 +1,14 @@
+Address.java del package it.beije.erp.entity; è la classe Bean.
+
+AdressController.java del package it.beije.erp.timesheet.controller; è il controller non rest al cui interno troviamo 3 metodi: 
+getAddresses che tramite URI riceve l'id dell'address da cercare e restituice il form useraddresses.jsp. 
+getForm che restituisce la jsp contenente il form per l'inserimento di un indirizzo. 
+getAddresses che risponde alla richiesta "/registeraddresses" e restituisce la jsp confermaaddress con i dati inseriti in fase di registrazione passati tramite il model.
+
+AddressRepository.java del package it.beije.mgmt.repositories; è un interfaccia che dichiara un unico metodo a cui gli si passa l'id dell'utente e ti ritorna tutti gli indirizzi associati all'utente.
+
+AddressApiController.java del package it.beije.mgmt.restcontroller; è la classe del ControllerRest in cui al suo interno troviamo le API che si possono eseguire indipendentemente dalla login e che restituiscono in base alla chiamata inserita nell URI:
+il primo metodo restituisce lalista degli indirizzi dell'utente specificato nell'id, il secondo inserisce un nuovo indirizzo associato ad uno specifico utente ed il terzo metodo ritorna l'indirizzo salvato nel DB con l'id specificato tramite URL ilquarto ed ultimo metodo tramite la PUT va ad aggiornare uno specifico indirizzo relativo all'id fornito nell URL.
+
+AddressService.java del package it.beije.mgmt.service; abbiamo i servizi messi a disposizione del nostro RestController in cui troviamo i metodi per creare un indirizzo relativo ad un utente, abbiamo il metodo update per modificarlo ed il getAddressByUSer che ritorna la lista di indirizzi associati ad uno specifico utente.
+
