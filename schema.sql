@@ -1,5 +1,35 @@
 -- LAST UPDATE 20200312
+--
+-- Table structure for table `user`
+--
 
+DROP TABLE IF EXISTS `user`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `user` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `first_name` varchar(50) NOT NULL,
+  `last_name` varchar(50) NOT NULL,
+  `email` varchar(100) NOT NULL,
+  `password` varchar(30) NOT NULL,
+  `secondary_email` varchar(100) DEFAULT NULL,
+  `phone` varchar(20) DEFAULT NULL,
+  `fiscal_code` varchar(16) DEFAULT NULL,
+  `birth_date` date DEFAULT NULL,
+  `birth_place` varchar(50) DEFAULT NULL,
+  `nationality` varchar(30) DEFAULT NULL,
+  `document` varchar(50) DEFAULT NULL,
+  `id_skype` varchar(100) DEFAULT NULL,
+  `admin` bit(1) DEFAULT NULL,
+  `archive_date` date DEFAULT NULL,
+  `note` varchar(255) DEFAULT NULL,
+  `pic_url` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `email` (`email`),
+  UNIQUE KEY `fiscal_code` (`fiscal_code`),
+  UNIQUE KEY `document` (`document`)
+) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
 --
 -- Table structure for table `address`
 --
@@ -133,37 +163,6 @@ CREATE TABLE `contratto` (
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Table structure for table `user`
---
-
-DROP TABLE IF EXISTS `user`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `user` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `first_name` varchar(50) NOT NULL,
-  `last_name` varchar(50) NOT NULL,
-  `email` varchar(100) NOT NULL,
-  `password` varchar(30) NOT NULL,
-  `secondary_email` varchar(100) DEFAULT NULL,
-  `phone` varchar(20) DEFAULT NULL,
-  `fiscal_code` varchar(16) DEFAULT NULL,
-  `birth_date` date DEFAULT NULL,
-  `birth_place` varchar(50) DEFAULT NULL,
-  `nationality` varchar(30) DEFAULT NULL,
-  `document` varchar(50) DEFAULT NULL,
-  `id_skype` varchar(100) DEFAULT NULL,
-  `admin` bit(1) DEFAULT NULL,
-  `archive_date` date DEFAULT NULL,
-  `note` varchar(255) DEFAULT NULL,
-  `pic_url` varchar(50) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `email` (`email`),
-  UNIQUE KEY `fiscal_code` (`fiscal_code`),
-  UNIQUE KEY `document` (`document`)
-) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8mb4;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Table structure for table `user_computer`
