@@ -16,9 +16,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import it.beije.erp.entity.Computer;
-import it.beije.erp.service.JPAService;
+import it.beije.mgmt.entity.Computer;
 import it.beije.mgmt.service.ComputerService;
+import it.beije.mgmt.service.JPAService;
 
 @RestController
 @RequestMapping("api")

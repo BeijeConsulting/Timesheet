@@ -18,10 +18,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import it.beije.erp.entity.Address;
-import it.beije.erp.entity.User;
+import it.beije.mgmt.entity.Address;
+import it.beije.mgmt.entity.User;
 import it.beije.mgmt.jpa.JpaEntityManager;
-import it.beije.mgmt.repositories.AddressRepository;
+import it.beije.mgmt.repository.AddressRepository;
 
 
 @Service

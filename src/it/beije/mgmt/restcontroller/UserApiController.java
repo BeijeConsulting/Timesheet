@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import it.beije.erp.entity.User;
 import it.beije.mgmt.dto.UserDto;
+import it.beije.mgmt.entity.User;
 import it.beije.mgmt.jpa.UserRequest;
 import it.beije.mgmt.service.UserService;
 

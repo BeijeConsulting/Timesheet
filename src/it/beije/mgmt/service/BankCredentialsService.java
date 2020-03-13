@@ -20,11 +20,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
 
-import it.beije.erp.entity.BankCredentials;
-import it.beije.erp.entity.Computer;
-import it.beije.erp.entity.User;
+import it.beije.mgmt.entity.BankCredentials;
+import it.beije.mgmt.entity.Computer;
+import it.beije.mgmt.entity.User;
 import it.beije.mgmt.jpa.JpaEntityManager;
-import it.beije.mgmt.repositories.BankCredentialsRepository;
+import it.beije.mgmt.repository.BankCredentialsRepository;
 
 
 @Service
