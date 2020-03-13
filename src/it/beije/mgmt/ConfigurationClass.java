@@ -16,7 +16,7 @@ import it.beije.mgmt.service.UserService;
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-@EnableJpaRepositories(value = {"it.beije.erp.repositories", "it.beije.mgmt.repositories"})
+@EnableJpaRepositories(value = {"it.beije.mgmt.repository"})
 public class ConfigurationClass extends WebSecurityConfigurerAdapter {
 	
 	@Autowired
