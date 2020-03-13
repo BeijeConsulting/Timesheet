@@ -117,7 +117,6 @@ public class BankCredentialsService {
 	@Transactional
 	public BankCredentials update(Long id, BankCredentials bankCredentials) {
 		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
-
 		EntityManager entitymanager = emfactory.createEntityManager();
 		entitymanager.getTransaction().begin();
 

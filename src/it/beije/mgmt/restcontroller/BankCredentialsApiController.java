@@ -77,11 +77,9 @@ public class BankCredentialsApiController {
 			HttpServletResponse response) throws IOException {
 		System.out.println("get bankCredentials by idBankCredentials: " + id);
 		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
-
 		EntityManager entitymanager = emfactory.createEntityManager();
-		BankCredentials bankcredentials = entitymanager.find(BankCredentials.class, id);
-
-		return bankcredentials;
+		
+		return entitymanager.find(BankCredentials.class, id);
 	}
 
 	// update existing bank credentials
