@@ -18,11 +18,11 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 public class ContractType {
 	
 	@Id
-	//@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="cod")
 	private char cod;
 	
-	@OneToMany(mappedBy = "type", cascade = CascadeType.ALL, fetch=FetchType.EAGER)
+	@OneToMany(targetEntity=Contract.class, mappedBy = "type", cascade = CascadeType.ALL, fetch=FetchType.EAGER)
 	private List<Contract> contracts;
 	
 	@Column(name="description")
