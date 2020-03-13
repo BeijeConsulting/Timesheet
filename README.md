@@ -1,2 +1,0 @@
-# Timesheet
-Timesheet Manager
