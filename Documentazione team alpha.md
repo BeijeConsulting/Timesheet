@@ -1,5 +1,3 @@
-# Beije MGMT Project
-
 Api Controller
 ==============
 

@@ -21,15 +21,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import it.beije.erp.entity.Address;
-import it.beije.erp.entity.BankCredentials;
-import it.beije.erp.entity.Contract;
-import it.beije.erp.entity.User;
-import it.beije.erp.service.JPAService;
-import it.beije.erp.timesheet.entity.Timetable;
 import it.beije.mgmt.dto.UserDto;
+import it.beije.mgmt.entity.Address;
+import it.beije.mgmt.entity.BankCredentials;
+import it.beije.mgmt.entity.Contract;
+import it.beije.mgmt.entity.Timetable;
+import it.beije.mgmt.entity.User;
 import it.beije.mgmt.jpa.JpaEntityManager;
 import it.beije.mgmt.service.ContractService;
+import it.beije.mgmt.service.JPAService;
 
 @RestController
 @RequestMapping("api")
@@ -38,16 +38,12 @@ public class ContractApiController {
 	@Autowired
 	private ContractService contractService;
 
-	/****************** BANK CREDENTIALS *****************/
+	/****************** BANK CREDENTIALS????????????????????? *****************/
 	// storico banck credentials user
 	@Transactional
 	@RequestMapping(value = "/contracts/user/{id}", method = RequestMethod.GET)
 	public @ResponseBody List<Contract> getContractForUser(@PathVariable Long id) {
-
-
-
 		return contractService.getContractByUser(id);
-
 	}
 
 	// write new bank credentials by idUser
@@ -58,26 +54,25 @@ public class ContractApiController {
 		System.out.println("insert Contract: " + contract);
 
 		return contractService.create(id, contract);
-
 	}
 
 	// get bank credentials by idBankCredentials
 	@RequestMapping(value = { "/contract/{id}" }, method = RequestMethod.GET)
 	public @ResponseBody Contract getContract(@PathVariable Long id, Model model,
 			HttpServletResponse response) throws IOException {
+		
 		System.out.println("get contract by idContract: " + id);
 		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
-
 		EntityManager entitymanager = emfactory.createEntityManager();
-		Contract contract = entitymanager.find(Contract.class, id);
-
-		return contract;
+		
+		return entitymanager.find(Contract.class, id);
 	}
 
 	// update existing bank credentials
 	@RequestMapping(value = "/contract/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody Contract updateContract(@PathVariable Long id, @RequestBody Contract contract,
 			Model model, HttpServletResponse response) throws IOException {
+		
 		System.out.println("update contract by id: " + id);
 		System.out.println("update contract: " + contract);
 

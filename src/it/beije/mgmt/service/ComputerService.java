@@ -15,8 +15,8 @@ import org.hibernate.Hibernate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import it.beije.erp.entity.Computer;
-import it.beije.erp.entity.Contract;
+import it.beije.mgmt.entity.Computer;
+import it.beije.mgmt.entity.Contract;
 import it.beije.mgmt.jpa.JpaEntityManager;
 
 
@@ -129,6 +129,7 @@ public Computer update(Computer computer,Long id) {
 		entityManager.getTransaction().begin();
 		Computer pc = entityManager.find(Computer.class, id);
     	
+		//ATTENZIONE SE PC== NULL, NON è GESTITO IL NULL POINTER
     	if (!Objects.isNull(computer.getBrand())) pc.setBrand(computer.getBrand());
     	if (computer.getModel() != null) pc.setModel(computer.getModel());
     	if (computer.getCpu() != null) pc.setCpu(computer.getCpu());

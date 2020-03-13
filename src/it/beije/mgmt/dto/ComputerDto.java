@@ -5,8 +5,8 @@ import java.sql.Date;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
-import it.beije.erp.entity.Computer;
-import it.beije.erp.entity.UserComputer;
+import it.beije.mgmt.entity.Computer;
+import it.beije.mgmt.entity.UserComputer;
 
 
 @JsonInclude(Include.NON_NULL)
