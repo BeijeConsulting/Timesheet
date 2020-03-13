@@ -21,8 +21,8 @@
         <div class="row">
           
            <div class="input-field col s6">
-            <input type="number" name="user.id" value ="${address.id_user}"required>
-            <label for="user.id" class="pink-text"><b>ID UTENTE</b></label>
+            <input type="number" name="id_user" value ="${address.idUser}"required>
+            <label for="id_user" class="pink-text"><b>ID UTENTE</b></label>
           </div>
           <div class="input-field col s6">
             <input type="text" name="street" value ="${address.street}"required>

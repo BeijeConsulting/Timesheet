@@ -18,7 +18,7 @@
  
  	<ul>
  		<li ><label for="id" class="pink-text"><b>ID </b></label>${address.id}</li>
-  		<li><label for="user.id" class="pink-text"><b>ID UTENTE </b></label>${address.id_user}</li>
+  		<li><label for="id_user" class="pink-text"><b>ID UTENTE </b></label>${address.idUser}</li>
   		<li><label for="street" class="pink-text"><b>INDIRIZZO </b></label>${address.street}</li>
   		<li><label for="city" class="pink-text"><b>CITTA' </b></label>${address.city}</li>
   		<li><label for="province" class="pink-text"><b>PROVINCIA </b></label>${address.province}</li>

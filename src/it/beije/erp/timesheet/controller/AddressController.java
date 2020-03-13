@@ -25,7 +25,7 @@ public class AddressController {
 		User user = JPAService.getBean(User.class, id);
 		List<Address> addresses = user.getAddresses();
 		
-		model.addAttribute("addresses", addresses);
+		model.addAttribute("address", addresses);
 		return "useraddresses";
 	}
 	
@@ -38,10 +38,12 @@ public class AddressController {
 	//POST : insert of new User
 	@RequestMapping(value = "/registeraddress", method = RequestMethod.POST)
 	public String getAddresses(@Validated Address address, Model model) {
+		System.out.println(address);
+		//address.setIdUser(34L);
 		
 		address.setStartDate(new Date(Calendar.getInstance().getTime().getTime()));
 		JPAService.save(address);
-		
+		System.out.println(address);
 		model.addAttribute("address", address);
 		return "confermaaddress";	
 	}
