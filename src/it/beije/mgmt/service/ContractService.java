@@ -16,10 +16,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import it.beije.erp.entity.Contract;
-import it.beije.erp.entity.User;
+import it.beije.mgmt.entity.Contract;
+import it.beije.mgmt.entity.User;
 import it.beije.mgmt.jpa.JpaEntityManager;
-import it.beije.mgmt.repositories.ContractRepository;
+import it.beije.mgmt.repository.ContractRepository;
 
 
 @Service
@@ -27,9 +27,11 @@ public class ContractService {
 
 	@Autowired
 	private ContractRepository contractRepository;
-
+	
+	//Aggiunge un nuovo contratto alla lista dell'utente
 	public Contract create(Long idUser, Contract contract) throws Exception {
-		EntityManager entityManager = Persistence.createEntityManagerFactory("timesheet").createEntityManager();
+//		EntityManager entityManager = Persistence.createEntityManagerFactory("timesheet").createEntityManager();
+		EntityManager entityManager = JpaEntityManager.getInstance().createEntityManager();
 		entityManager.getTransaction().begin();
 
 		User user = entityManager.find(User.class, idUser);
@@ -61,11 +63,8 @@ public class ContractService {
 
 		return contract;
 	}
-
-
-
-
-
+	
+	// ritorna la lista dei contratti dell'utente dato il suo id 
 	public List<Contract> getContractByUser(Long id) {
 
 		List<Contract> contracts = contractRepository.findByIdUser(id);
@@ -75,10 +74,10 @@ public class ContractService {
 		return contracts;
 	}
 
+	//aggiorna i risultati di un contratto
 	@Transactional
 	public Contract update(Long id, Contract contracts) {
 		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
-
 		EntityManager entitymanager = emfactory.createEntityManager();
 		entitymanager.getTransaction().begin();
 
@@ -101,9 +100,7 @@ public class ContractService {
 
 
 		entitymanager.persist(contract);
-
 		entitymanager.getTransaction().commit();
-
 		entitymanager.close();
 
 		return contract;

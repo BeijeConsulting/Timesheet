@@ -1,4 +1,4 @@
-package it.beije.erp.timesheet.controller;
+package it.beije.mgmt.controller;
 
 import java.sql.Date;
 
@@ -25,7 +25,7 @@ public class AddressController {
 		User user = JPAService.getBean(User.class, id);
 		List<Address> addresses = user.getAddresses();
 		
-		model.addAttribute("address", addresses);
+		model.addAttribute("addresses", addresses);
 		return "useraddresses";
 	}
 	
@@ -38,12 +38,10 @@ public class AddressController {
 	//POST : insert of new User
 	@RequestMapping(value = "/registeraddress", method = RequestMethod.POST)
 	public String getAddresses(@Validated Address address, Model model) {
-		System.out.println(address);
-		//address.setIdUser(34L);
 		
 		address.setStartDate(new Date(Calendar.getInstance().getTime().getTime()));
 		JPAService.save(address);
-		System.out.println(address);
+		
 		model.addAttribute("address", address);
 		return "confermaaddress";	
 	}

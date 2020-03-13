@@ -7,10 +7,10 @@ import java.sql.Date;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
-import it.beije.erp.entity.Address;
-import it.beije.erp.entity.BankCredentials;
-import it.beije.erp.entity.Contract;
-import it.beije.erp.entity.User;
+import it.beije.mgmt.entity.Address;
+import it.beije.mgmt.entity.BankCredentials;
+import it.beije.mgmt.entity.Contract;
+import it.beije.mgmt.entity.User;
 
 @JsonInclude(Include.NON_NULL)
 public class UserDto implements Serializable {

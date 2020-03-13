@@ -2,7 +2,7 @@
     pageEncoding="ISO-8859-1"%>
     
 <%@ page import="java.util.List"
-	import="it.beije.erp.entity.User" %>
+	import="it.beije.mgmt.entity.User" %>
 <!DOCTYPE html>
 <html>
 <head>

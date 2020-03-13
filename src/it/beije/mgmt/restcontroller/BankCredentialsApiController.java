@@ -20,15 +20,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import it.beije.erp.entity.Address;
-import it.beije.erp.entity.BankCredentials;
-import it.beije.erp.entity.Contract;
-import it.beije.erp.entity.User;
-import it.beije.erp.service.JPAService;
-import it.beije.erp.timesheet.entity.Timetable;
 import it.beije.mgmt.dto.UserDto;
+import it.beije.mgmt.entity.Address;
+import it.beije.mgmt.entity.BankCredentials;
+import it.beije.mgmt.entity.Contract;
+import it.beije.mgmt.entity.Timetable;
+import it.beije.mgmt.entity.User;
 import it.beije.mgmt.jpa.JpaEntityManager;
 import it.beije.mgmt.service.BankCredentialsService;
+import it.beije.mgmt.service.JPAService;
 
 @RestController
 @RequestMapping("api")
@@ -77,11 +77,9 @@ public class BankCredentialsApiController {
 			HttpServletResponse response) throws IOException {
 		System.out.println("get bankCredentials by idBankCredentials: " + id);
 		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
-
 		EntityManager entitymanager = emfactory.createEntityManager();
-		BankCredentials bankcredentials = entitymanager.find(BankCredentials.class, id);
-
-		return bankcredentials;
+		
+		return entitymanager.find(BankCredentials.class, id);
 	}
 
 	// update existing bank credentials

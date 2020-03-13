@@ -20,11 +20,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
 
-import it.beije.erp.entity.BankCredentials;
-import it.beije.erp.entity.Computer;
-import it.beije.erp.entity.User;
+import it.beije.mgmt.entity.BankCredentials;
+import it.beije.mgmt.entity.Computer;
+import it.beije.mgmt.entity.User;
 import it.beije.mgmt.jpa.JpaEntityManager;
-import it.beije.mgmt.repositories.BankCredentialsRepository;
+import it.beije.mgmt.repository.BankCredentialsRepository;
 
 
 @Service
@@ -34,7 +34,7 @@ public class BankCredentialsService {
 	private BankCredentialsRepository bankCredentialsRepository;
 
 	public BankCredentials create(Long idUser, BankCredentials bankCredentials) throws Exception {
-		EntityManager entityManager = Persistence.createEntityManagerFactory("timesheet").createEntityManager();
+		EntityManager entityManager = JpaEntityManager.getInstance().createEntityManager();
 		entityManager.getTransaction().begin();
 		
 		User user = entityManager.find(User.class, idUser);
@@ -117,7 +117,6 @@ public class BankCredentialsService {
 	@Transactional
 	public BankCredentials update(Long id, BankCredentials bankCredentials) {
 		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
-
 		EntityManager entitymanager = emfactory.createEntityManager();
 		entitymanager.getTransaction().begin();
 
