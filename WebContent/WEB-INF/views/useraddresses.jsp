@@ -19,7 +19,7 @@
 
 <%
 
-	List<Address> addresses = (List<Address>)request.getAttribute("addresses");
+	List<Address> addresses = (List<Address>) request.getAttribute("addresses");
 	for(Address a : addresses)
 		out.println(a);
 
