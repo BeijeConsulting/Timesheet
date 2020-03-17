@@ -20,8 +20,8 @@ public class Language {
 	@Column(name="level")
 	private String level;
 	
-	@Column(name="Certification")
-	private String Certification;
+	@Column(name="certification")
+	private String certification;
 	
 	public Language() {
 		
@@ -44,11 +44,11 @@ public class Language {
 	}
 
 	public String getCertification() {
-		return Certification;
+		return certification;
 	}
 
 	public void setCertification(String certification) {
-		Certification = certification;
+		this.certification = certification;
 	}
 
 }
