@@ -13,8 +13,8 @@ public class Technologies {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="id_teconology")
-	private Long idTeconlogy;
+	@Column(name="id_technology")
+	private Long idTechnology ;
 	
 	@Column(name="technology")
 	private String technology;
@@ -25,13 +25,13 @@ public class Technologies {
 	
 	
 
-	public Long getIdTeconlogy() {
-		return idTeconlogy;
+	public Long getIdTechonlogy() {
+		return idTechnology;
 	}
 
 
-	public void setIdTeconlogy(Long idTeconlogy) {
-		this.idTeconlogy = idTeconlogy;
+	public void setIdTechonlogy(Long idTechnology) {
+		this.idTechnology = idTechnology;
 	}
 
 	public String getTechnology() {
