@@ -4,7 +4,7 @@
 		<class>it.beije.mgmt.entity.User</class>
 		<class>it.beije.mgmt.entity.Address</class>
 		<class>it.beije.mgmt.entity.Contract</class>
-		<class>it.beije.mgmt.entity.Timetable</class>
+		<class>it.beije.mgmt.entity.Timesheet</class>
 		<class>it.beije.mgmt.entity.UserComputer</class>
 		<class>it.beije.mgmt.entity.Computer</class>
 		<properties>

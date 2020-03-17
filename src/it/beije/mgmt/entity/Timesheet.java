@@ -1,119 +1,120 @@
 package it.beije.mgmt.entity;
 
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 import javax.persistence.*;
 
+import org.springframework.lang.NonNull;
+
 
 @Entity
-@Table(name = "timetable")
-public class Timetable implements Serializable {
+@Table(name = "timesheet")
+public class Timesheet implements Serializable {
 	private static final long serialVersionUID = 2L;
-	//ONE TO MANY , una riga per ogni entrata
+
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name = "id")
-	private int id;
+	private Long id;
 	
+	@NonNull
 	@Column(name = "id_user")
-	private int idUser;
+	private Long idUser;
 	
+	@NonNull
 	@Column(name = "date")
-	private String date;
+	private LocalDate date;
 	
-	//tipo di attività (giorno lavorativo/giornata ferie/giornata permesso/malattia)
+	@NonNull
 	@Column(name = "type")
-	private char type;
+	private String type;
 	
-	//facoltativi
 	@Column(name = "start1")
-	private String start1;
+	private LocalTime start1;
 	
 	@Column(name = "end1")
-	private String end1;
+	private LocalTime end1;
 	
-	//facoltativi
 	@Column(name = "start2")
-	private String start2;
+	private LocalTime start2;
 	
 	@Column(name = "end2")
-	private String end2;
-	
-	//totale di ore (se lavorativi, campo non obbligatorio, 
-	// quando non sono lavoratorivi non sono obbligatori start e end ma obbligatorio tot)
+	private LocalTime end2;
 	
 	@Column(name = "tot")
-	private double tot;
+	private Double tot;
 	
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 	
 	
-	public int getIdUser() {
+	public Long getIdUser() {
 		return idUser;
 	}
-	public void setIdUser(int idUser) {
+	public void setIdUser(Long idUser) {
 		this.idUser = idUser;
 	}
 	
 	
-	public String getDate() {
+	public LocalDate getDate() {
 		return date;
 	}
-	public void setDate(String date) {
+	public void setDate(LocalDate date) {
 		this.date = date;
 	}
 	
 	
-	public char getType() {
+	public String getType() {
 		return type;
 	}
 	
-	public void setType(Character type) {
+	public void setType(String type) {
 		this.type = type;
 	}
 	
 	
-	public String getStart1() {
+	public LocalTime getStart1() {
 		return start1;
 	}
-	public void setStart1(String start1) {
+	public void setStart1(LocalTime start1) {
 		this.start1 = start1;
 	}
 	
 	
-	public String getEnd1() {
+	public LocalTime getEnd1() {
 		return end1;
 	}
-	public void setEnd1(String end1) {
+	public void setEnd1(LocalTime end1) {
 		this.end1 = end1;
 	}
 	
 	
-	public String getStart2() {
+	public LocalTime getStart2() {
 		return start2;
 	}
-	public void setStart2(String start2) {
+	public void setStart2(LocalTime start2) {
 		this.start2 = start2;
 	}
 	
 	
-	public String getEnd2() {
+	public LocalTime getEnd2() {
 		return end2;
 	}
-	public void setEnd2(String end2) {
+	public void setEnd2(LocalTime end2) {
 		this.end2 = end2;
 	}
 	
 	
-	public double getTot() {
+	public Double getTot() {
 		return tot;
 	}
-	public void setTot(double tot) {
+	public void setTot(Double tot) {
 		this.tot = tot;
 	}
 	

@@ -187,3 +187,28 @@ CREATE TABLE `user_computer` (
   CONSTRAINT `id_user` FOREIGN KEY (`id_user`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+
+
+
+
+--
+-- Table structure for table `timesheet`
+--
+
+DROP TABLE IF EXISTS `timesheet`;
+
+CREATE TABLE `timesheet` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `id_user` int(11) NOT NULL,
+  `date` date NOT NULL,
+  `type` char(1) NOT NULL,
+  `start1` time DEFAULT NULL,
+  `end1` time DEFAULT NULL,
+  `start2` time DEFAULT NULL,
+  `end2` time DEFAULT NULL,
+  `tot` decimal(4,2) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_users_idx` (`id_user`),
+  CONSTRAINT `timesheet_idfk_1` FOREIGN KEY (`id_user`) REFERENCES `user` (`id`) ON DELETE RESTRICT
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
