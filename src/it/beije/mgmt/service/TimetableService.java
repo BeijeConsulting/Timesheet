@@ -226,7 +226,7 @@ public class TimetableService {
 		return records;
 	}
 
-	public static User findRecordsFromId(int id) {
+	public static User findRecordsFromId(long id) {
 //		Timetable table=null;
 		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
 		EntityManager entitymanager = emfactory.createEntityManager();
