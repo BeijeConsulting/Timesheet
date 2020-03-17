@@ -2,6 +2,7 @@ package it.beije.mgmt.entity;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 import javax.persistence.*;
@@ -19,6 +20,10 @@ public class Timesheet implements Serializable {
 	@Column(name = "id")
 	private Long id;
 	
+	
+	@Column(name = "validated")
+		private LocalDateTime validated;
+		
 	@NonNull
 	@Column(name = "id_user")
 	private Long idUser;
@@ -45,6 +50,13 @@ public class Timesheet implements Serializable {
 	
 	@Column(name = "tot")
 	private Double tot;
+	
+	public LocalDateTime getValidated() {
+		return validated;
+	}
+	public void setValidated(LocalDateTime validated) {
+		this.validated = validated;
+	}
 	
 	public Long getId() {
 		return id;
