@@ -9,7 +9,7 @@ import javax.persistence.*;
 @Table(name = "timetable")
 public class Timetable implements Serializable {
 	private static final long serialVersionUID = 2L;
-
+	//ONE TO MANY , una riga per ogni entrata
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name = "id")
@@ -21,20 +21,26 @@ public class Timetable implements Serializable {
 	@Column(name = "date")
 	private String date;
 	
+	//tipo di attività (giorno lavorativo/giornata ferie/giornata permesso/malattia)
 	@Column(name = "type")
 	private char type;
 	
+	//facoltativi
 	@Column(name = "start1")
 	private String start1;
 	
 	@Column(name = "end1")
 	private String end1;
 	
+	//facoltativi
 	@Column(name = "start2")
 	private String start2;
 	
 	@Column(name = "end2")
 	private String end2;
+	
+	//totale di ore (se lavorativi, campo non obbligatorio, 
+	// quando non sono lavoratorivi non sono obbligatori start e end ma obbligatorio tot)
 	
 	@Column(name = "tot")
 	private double tot;
