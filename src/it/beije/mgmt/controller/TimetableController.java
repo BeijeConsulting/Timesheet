@@ -83,7 +83,7 @@ public class TimetableController {
 
 //	@PostMapping("/user")
 	@RequestMapping(value = "/user", method = RequestMethod.POST)
-	public String user(@Validated Timesheet timetable, @RequestParam("idUser") int idUser,  Model model) {
+	public String user(@Validated Timesheet timetable, @RequestParam("idUser") long idUser,  Model model) {
 		
 		if (TimetableService.findRecordsFromId(timetable.getIdUser())==null)  {
 			System.out.println("Utente non trovato");
