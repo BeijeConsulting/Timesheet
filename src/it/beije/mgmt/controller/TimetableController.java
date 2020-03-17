@@ -1,7 +1,7 @@
 package it.beije.mgmt.controller;
 
 import java.text.DateFormat;
-
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -134,10 +134,10 @@ public class TimetableController {
 		
 		model.addAttribute(table);
 		System.out.println("fine modifica sul controller");
-		String s1 = null;
-		String e1 = null;
-		String s2 = null;
-		String e2 = null;
+		LocalTime s1 = null;
+		LocalTime e1 = null;
+		LocalTime s2 = null;
+		LocalTime e2 = null;
 		try {
 			s1 = table.getStart1();
 		}
@@ -285,10 +285,10 @@ public class TimetableController {
 		List<Timesheet> timetable = new ArrayList<Timesheet>();
 		timetable = timetableService.takeRecordsFromDateId(data, idUser);
 		
-		String s1=timetable.get(0).getStart1().substring(0,5);
-		String e1=timetable.get(0).getEnd1().substring(0,5);
-		String s2=timetable.get(0).getStart2().substring(0,5);
-		String e2=timetable.get(0).getEnd2().substring(0,5);
+		LocalTime s1=timetable.get(0).getStart1();
+		LocalTime e1=timetable.get(0).getEnd1();
+		LocalTime s2=timetable.get(0).getStart2();
+		LocalTime e2=timetable.get(0).getEnd2();
 		timetable.get(0).setStart1(s1);
 		timetable.get(0).setEnd1(e1);
 		timetable.get(0).setStart2(s2);
