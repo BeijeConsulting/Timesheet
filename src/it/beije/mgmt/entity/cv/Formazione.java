@@ -10,12 +10,11 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "formazione")
 public class Formazione {
-	
-	
+		
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="id")
-	private Long id;
+	@Column(name="id_formazione")
+	private Long idFormazione;
 	
 	@Column(name="istituto")
 	private String istituto;
@@ -40,12 +39,12 @@ public class Formazione {
 	
 	
 
-	public Long getId() {
-		return id;
+	public Long getIdFormazione() {
+		return idFormazione;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public void setIdFormazione(Long idFormazione) {
+		this.idFormazione = idFormazione;
 	}
 
 	public String getIstituto() {

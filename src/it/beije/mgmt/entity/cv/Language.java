@@ -13,6 +13,8 @@ public class Language {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name="id_language")
+	private Long idLanguage;
 	
 	@Column(name="language")
 	private String language;
@@ -23,6 +25,16 @@ public class Language {
 	@Column(name="certification")
 	private String certification;
 	
+	
+	
+	public Long getIdLanguage() {
+		return idLanguage;
+	}
+
+	public void setIdLanguage(Long idLanguage) {
+		this.idLanguage = idLanguage;
+	}
+
 	public Language() {
 		
 	}

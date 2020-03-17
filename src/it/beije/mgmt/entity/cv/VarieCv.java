@@ -13,8 +13,8 @@ public class VarieCv {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="id_altri")
-	private Long id;
+	@Column(name="id_varie_cv")
+	private Long idVarieCV;
 	
 	@Column(name="titolo")
 	private String titolo;
@@ -23,12 +23,12 @@ public class VarieCv {
 	private String descrizione;
 
 	
-	public Long getId() {
-		return id;
+	public Long getIdVarieCV() {
+		return idVarieCV;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public void setIdVarieCV(Long idVarieCV) {
+		this.idVarieCV = idVarieCV;
 	}
 
 	public String getTitolo() {

@@ -14,6 +14,7 @@ public class Technology {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	
+	
 	@Column(name="tecnologia")
 	private String tecnologia;
 	
