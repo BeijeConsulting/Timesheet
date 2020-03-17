@@ -105,7 +105,7 @@ public class TimetableController {
 //		table.setStart1(timetable.getStart1());
 //		table.setStart2(timetable.getStart2());
 	table=timetable;
-	double tot =	timetableService.oreTrascorse(timetable.getStart1(), timetable.getEnd1(), timetable.getStart2(),timetable.getEnd2());
+	double tot =timetableService.oreTrascorse(timetable.getStart1(), timetable.getEnd1(), timetable.getStart2(),timetable.getEnd2());
 		timetable.setTot(tot);
 	model.addAttribute("timetable", timetable);
 		
