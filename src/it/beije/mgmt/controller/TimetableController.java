@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.context.annotation.SessionScope;
 
-import it.beije.mgmt.entity.Timetable;
+import it.beije.mgmt.entity.Timesheet;
 import it.beije.mgmt.entity.User;
 import it.beije.mgmt.service.TimetableService;
 
@@ -30,7 +30,7 @@ public class TimetableController {
 	private TimetableService timetableService;
 	
 
-	private Timetable table = null;
+	private Timesheet table = null;
 	String password;
 
 	/**
@@ -83,7 +83,7 @@ public class TimetableController {
 
 //	@PostMapping("/user")
 	@RequestMapping(value = "/user", method = RequestMethod.POST)
-	public String user(@Validated Timetable timetable, @RequestParam("idUser") int idUser,  Model model) {
+	public String user(@Validated Timesheet timetable, @RequestParam("idUser") int idUser,  Model model) {
 		
 		if (TimetableService.findRecordsFromId(timetable.getIdUser())==null)  {
 			System.out.println("Utente non trovato");
@@ -265,7 +265,7 @@ public class TimetableController {
 				
 		model.addAttribute("utente", utente);
 
-		List<Timetable> tUtente = new ArrayList<Timetable>();
+		List<Timesheet> tUtente = new ArrayList<Timesheet>();
 		tUtente = timetableService.takeRecordsFromDateId(data, 1);
 		
 		return "data";
@@ -282,7 +282,7 @@ public class TimetableController {
 			return "utentenontrovato";
 		}
 		
-		List<Timetable> timetable = new ArrayList<Timetable>();
+		List<Timesheet> timetable = new ArrayList<Timesheet>();
 		timetable = timetableService.takeRecordsFromDateId(data, idUser);
 		
 		String s1=timetable.get(0).getStart1().substring(0,5);
@@ -294,7 +294,7 @@ public class TimetableController {
 		timetable.get(0).setStart2(s2);
 		timetable.get(0).setEnd2(e2);
 		
-		Timetable tableU = null;
+		Timesheet tableU = null;
 		
 		if(timetable != null)
 			tableU = timetable.get(0);
@@ -306,7 +306,7 @@ public class TimetableController {
 	
 	
 	@RequestMapping(value = "/salvamodifiche", method = RequestMethod.POST)
-	public String salvaModifiche (@Validated Timetable timetable,@RequestParam("date") java.sql.Date data, @RequestParam("idUser") int idUser) {
+	public String salvaModifiche (@Validated Timesheet timetable,@RequestParam("date") java.sql.Date data, @RequestParam("idUser") int idUser) {
 		System.out.println("Sto elaborando i tuoi dati...");
 //		
 //		
