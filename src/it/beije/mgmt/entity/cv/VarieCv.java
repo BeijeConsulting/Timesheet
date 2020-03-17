@@ -5,7 +5,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-public class Varie {
+public class VarieCv {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
