@@ -3,11 +3,18 @@ package it.beije.mgmt.controller;
 import java.text.DateFormat;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.Enumeration;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
+
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
@@ -83,33 +90,43 @@ public class TimetableController {
 
 //	@PostMapping("/user")
 	@RequestMapping(value = "/user", method = RequestMethod.POST)
-	public String user(@Validated Timesheet timetable, @RequestParam("idUser") long idUser,  Model model) {
+	public String user(HttpServletRequest request, Model model) {
+//		public String user(@Validated Timesheet timetable,  Model model) {
+		System.out.println("entro");
 		
-		if (TimetableService.findRecordsFromId(timetable.getIdUser())==null)  {
-			System.out.println("Utente non trovato");
-			return "utentenontrovato";
-		}		
+		Map<String,String []> map=request.getParameterMap();
 		
+		for(String key : map.keySet()) {
+			
+			System.out.println(key+" : "+ Arrays.toString(map.get(key)) );
+			
+		}
 		
-			System.out.println("data passata:"+ timetable.getDate());
-
-//		System.out.println("data insrita"+timetable.getIdUser());
-//		System.out.println("data insrita"+timetable.getStart1());
-//		System.out.println("data insrita"+timetable.getEnd1());
-//		System.out.println("data insrita"+timetable.getStart2());
-//		System.out.println("data insrita"+timetable.getEnd2());
-//		table.setDate(timetable.getDate());
+//		if (TimetableService.findRecordsFromId(timetable.getIdUser())==null)  {
+//			System.out.println("Utente non trovato");
+//			return "utentenontrovato";
+//		}		
 //		
-//		table.setEnd1(timetable.getEnd1());
-//		table.setEnd2(timetable.getEnd2());
-//		table.setStart1(timetable.getStart1());
-//		table.setStart2(timetable.getStart2());
-	table=timetable;
-	double tot =timetableService.oreTrascorse(timetable.getStart1(), timetable.getEnd1(), timetable.getStart2(),timetable.getEnd2());
-		timetable.setTot(tot);
-	model.addAttribute("timetable", timetable);
-		
-		System.out.println("data saddsxta"+ table.getDate());
+//		
+//			System.out.println("data passata:"+ timetable.getDate());
+//
+////		System.out.println("data insrita"+timetable.getIdUser());
+////		System.out.println("data insrita"+timetable.getStart1());
+////		System.out.println("data insrita"+timetable.getEnd1());
+////		System.out.println("data insrita"+timetable.getStart2());
+////		System.out.println("data insrita"+timetable.getEnd2());
+////		table.setDate(timetable.getDate());
+////		
+////		table.setEnd1(timetable.getEnd1());
+////		table.setEnd2(timetable.getEnd2());
+////		table.setStart1(timetable.getStart1());
+////		table.setStart2(timetable.getStart2());
+//	table=timetable;
+//	double tot =timetableService.oreTrascorse(timetable.getStart1(), timetable.getEnd1(), timetable.getStart2(),timetable.getEnd2());
+//		timetable.setTot(tot);
+//	model.addAttribute("timetable", timetable);
+//		
+//		System.out.println("data saddsxta"+ table.getDate());
 	
 		
 		return "user";

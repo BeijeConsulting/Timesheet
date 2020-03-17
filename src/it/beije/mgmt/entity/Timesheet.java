@@ -1,13 +1,20 @@
 package it.beije.mgmt.entity;
 
 import java.io.Serializable;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
+import java.sql.Date;
+import java.sql.Time;
+import java.text.ParseException;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 import org.springframework.lang.NonNull;
+
+import it.beije.mgmt.tool.Utils;
 
 
 @Entity
@@ -22,7 +29,7 @@ public class Timesheet implements Serializable {
 	
 	
 	@Column(name = "validated")
-		private LocalDateTime validated;
+		private Date validated;
 		
 	@NonNull
 	@Column(name = "id_user")
@@ -30,31 +37,31 @@ public class Timesheet implements Serializable {
 	
 	@NonNull
 	@Column(name = "date")
-	private LocalDate date;
+	private Date date;
 	
 	@NonNull
 	@Column(name = "type")
 	private String type;
 	
 	@Column(name = "start1")
-	private LocalTime start1;
+	private Time start1;
 	
 	@Column(name = "end1")
-	private LocalTime end1;
+	private Time end1;
 	
 	@Column(name = "start2")
-	private LocalTime start2;
+	private Time start2;
 	
 	@Column(name = "end2")
-	private LocalTime end2;
+	private Time end2;
 	
 	@Column(name = "tot")
 	private Double tot;
 	
-	public LocalDateTime getValidated() {
+	public Date getValidated() {
 		return validated;
 	}
-	public void setValidated(LocalDateTime validated) {
+	public void setValidated(Date validated) {
 		this.validated = validated;
 	}
 	
@@ -74,12 +81,18 @@ public class Timesheet implements Serializable {
 	}
 	
 	
-	public LocalDate getDate() {
+	public Date getDate() {
 		return date;
 	}
-	public void setDate(LocalDate date) {
+	public void setDate(Date date) {
+		System.out.println("set date from Date");
 		this.date = date;
 	}
+	public void setDate(String date) throws ParseException {
+		System.out.println("set date from String");
+		this.date = Utils.parseDate(date);
+	}
+	
 	
 	
 	public String getType() {
@@ -91,34 +104,34 @@ public class Timesheet implements Serializable {
 	}
 	
 	
-	public LocalTime getStart1() {
+	public Time getStart1() {
 		return start1;
 	}
-	public void setStart1(LocalTime start1) {
+	public void setStart1(Time start1) {
 		this.start1 = start1;
 	}
 	
 	
-	public LocalTime getEnd1() {
+	public Time getEnd1() {
 		return end1;
 	}
-	public void setEnd1(LocalTime end1) {
+	public void setEnd1(Time end1) {
 		this.end1 = end1;
 	}
 	
 	
-	public LocalTime getStart2() {
+	public Time getStart2() {
 		return start2;
 	}
-	public void setStart2(LocalTime start2) {
+	public void setStart2(Time start2) {
 		this.start2 = start2;
 	}
 	
 	
-	public LocalTime getEnd2() {
+	public Time getEnd2() {
 		return end2;
 	}
-	public void setEnd2(LocalTime end2) {
+	public void setEnd2(Time end2) {
 		this.end2 = end2;
 	}
 	
