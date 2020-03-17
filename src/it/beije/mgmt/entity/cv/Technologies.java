@@ -8,23 +8,25 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "technology")
-public class Technology {
+@Table(name = "technologies")
+public class Technologies {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	
-	@Column(name="tecnologia")
-	private String tecnologia;
+	@Column(name="technology")
+	private String technology;
 	
-	public Technology() {
+	public Technologies() {
 		
 	}
-	
-	public String getTecnologia() {
-		return tecnologia;
+
+	public String getTechnology() {
+		return technology;
 	}
-	public void setTecnologia(String tecnologia) {
-		this.tecnologia = tecnologia;
+
+	public void setTechnology(String technology) {
+		this.technology = technology;
 	}
+
 }
