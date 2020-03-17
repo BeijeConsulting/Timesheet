@@ -286,27 +286,27 @@ public class TimetableService {
 		entitymanager.getTransaction().begin();
 		String type=table.getType()+"";
 		if (type.equals("h")) {
-			table.setStart1("00:00");
-			table.setEnd1("00:00");
-			table.setStart2("00:00");
-			table.setEnd2("00:00");
+			table.setStart1(LocalTime.of(00, 00));
+			table.setEnd1(LocalTime.of(00, 00));
+			table.setStart2(LocalTime.of(00, 00));
+			table.setEnd2(LocalTime.of(00, 00));
 		}
 		if (type.equals("s")) {
-			table.setStart1("00:00");
-			table.setEnd1("00:00");
-			table.setStart2("00:00");
-			table.setEnd2("00:00");
+			table.setStart1(LocalTime.of(00, 00));
+			table.setEnd1(LocalTime.of(00, 00));
+			table.setStart2(LocalTime.of(00, 00));
+			table.setEnd2(LocalTime.of(00, 00));
 		}
 		
 		if (type.equals("v")) {
-			table.setStart1("00:00");
-			table.setEnd1("00:00");
-			table.setStart2("00:00");
-			table.setEnd2("00:00");
+			table.setStart1(LocalTime.of(00, 00));
+			table.setEnd1(LocalTime.of(00, 00));
+			table.setStart2(LocalTime.of(00, 00));
+			table.setEnd2(LocalTime.of(00, 00));
 		}
 		if (type.equals("p")) {
-			table.setStart2("00:00");
-			table.setEnd2("00:00");
+			table.setStart2(LocalTime.of(00, 00));
+			table.setEnd2(LocalTime.of(00, 00));
 		}
 		entitymanager.persist(table);
 		entitymanager.getTransaction().commit();
