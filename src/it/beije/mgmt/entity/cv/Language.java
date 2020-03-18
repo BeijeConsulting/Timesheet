@@ -20,12 +20,10 @@ public class Language {
 	private String language;
 	
 	@Column(name="level")
-	private String level;
+	private String level;	
 	
-	@Column(name="certification")
-	private Long certification;
-	
-	
+	@Column(name="id_cv")
+	private Long idCV;
 	
 	public Long getIdLanguage() {
 		return idLanguage;
@@ -35,10 +33,7 @@ public class Language {
 		this.idLanguage = idLanguage;
 	}
 
-	public Language() {
-		
-	}
-
+	
 	public String getLanguage() {
 		return language;
 	}
@@ -55,12 +50,13 @@ public class Language {
 		this.level = level;
 	}
 
-	public Long getCertification() {
-		return certification;
+	public Long getIdCV() {
+		return idCV;
 	}
 
-	public void setCertification(Long certification) {
-		this.certification = certification;
+	public void setIdCV(Long idCV) {
+		this.idCV = idCV;
 	}
+	
 
 }

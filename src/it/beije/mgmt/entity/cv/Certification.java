@@ -16,11 +16,24 @@ public class Certification {
 	@Column(name="id_certification")
 	private Long idCertification;
 	
+	@Column(name="institution")
+	private String institution;
+	
 	@Column(name="title")
 	private String title;
 	
+	@Column(name="description")
+	private String description;
+	
 	@Column(name="rating")
 	private String rating;
+	
+	@Column(name = "technologie")
+	private String technologies;
+	
+	@Column(name="id_cv")
+	private Long idCV;
+
 	
 	
 	public String getTitle() {
@@ -46,4 +59,37 @@ public class Certification {
 	public void setRating(String rating) {
 		this.rating = rating;
 	}
+
+	public String getInstitution() {
+		return institution;
+	}
+
+	public void setInstitution(String institution) {
+		this.institution = institution;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public String getTechnologies() {
+		return technologies;
+	}
+
+	public void setTechnologies(String technologies) {
+		this.technologies = technologies;
+	}
+
+	public Long getIdCV() {
+		return idCV;
+	}
+
+	public void setIdCV(Long idCV) {
+		this.idCV = idCV;
+	}
+	
 }

@@ -10,92 +10,121 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "work")
 public class Work {
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name="id_work")
+	private Long idWork;
+
+	@Column(name="title")
+	private String title;
+
+	@Column(name="employment")
+	private String employment;
+
+	@Column(name="company")
+	private String company;
+
+	@Column(name="location")
+	private String location;
+
+	@Column(name="startDate")
+	private String startDate;
+
+	@Column(name="endDate")
+	private String endDate;
+
+	@Column(name="description")
+	private String description;
+
+	@Column(name = "technologies")
+	private String technologies;
+
+	@Column(name="id_cv")
+	private Long idCV;
 	
-		@Id
-		@GeneratedValue(strategy = GenerationType.IDENTITY)
-		@Column(name="id_work")
-		private Long idWork;
-		
-		@Column(name="title")
-		private String title;
-		
-		@Column(name="employment")
-		private String employment;
-		
-		@Column(name="company")
-		private String company;
-		
-		@Column(name="location")
-		private String location;
-		
-		@Column(name="startDate")
-		private String startDate;
-		
-		@Column(name="endDate")
-		private String endDate;
-		
-		@Column(name="description")
-		private String description;
-		
-		public Work() {
-			
-		}
 
-		public String getTitle() {
-			return title;
-		}
+	public Work() {
 
-		public void setTitle(String title) {
-			this.title = title;
-		}
+	}
 
-		public String getEmployment() {
-			return employment;
-		}
+	public String getTitle() {
+		return title;
+	}
 
-		public void setEmployment(String employment) {
-			this.employment = employment;
-		}
+	public void setTitle(String title) {
+		this.title = title;
+	}
 
-		public String getCompany() {
-			return company;
-		}
+	public String getEmployment() {
+		return employment;
+	}
 
-		public void setCompany(String company) {
-			this.company = company;
-		}
+	public void setEmployment(String employment) {
+		this.employment = employment;
+	}
 
-		public String getLocation() {
-			return location;
-		}
+	public String getCompany() {
+		return company;
+	}
 
-		public void setLocation(String location) {
-			this.location = location;
-		}
+	public void setCompany(String company) {
+		this.company = company;
+	}
 
-		public String getStartDate() {
-			return startDate;
-		}
+	public String getLocation() {
+		return location;
+	}
 
-		public void setStartDate(String startDate) {
-			this.startDate = startDate;
-		}
+	public void setLocation(String location) {
+		this.location = location;
+	}
 
-		public String getEndDate() {
-			return endDate;
-		}
+	public String getStartDate() {
+		return startDate;
+	}
 
-		public void setEndDate(String endDate) {
-			this.endDate = endDate;
-		}
+	public void setStartDate(String startDate) {
+		this.startDate = startDate;
+	}
 
-		public String getDescription() {
-			return description;
-		}
+	public String getEndDate() {
+		return endDate;
+	}
 
-		public void setDescription(String description) {
-			this.description = description;
-		}
-		
-		
+	public void setEndDate(String endDate) {
+		this.endDate = endDate;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public Long getIdWork() {
+		return idWork;
+	}
+
+	public void setIdWork(Long idWork) {
+		this.idWork = idWork;
+	}
+
+	public String getTechnologies() {
+		return technologies;
+	}
+
+	public void setTechnologies(String technologies) {
+		this.technologies = technologies;
+	}
+
+	public Long getIdCV() {
+		return idCV;
+	}
+
+	public void setIdCV(Long idCV) {
+		this.idCV = idCV;
+	}
 }

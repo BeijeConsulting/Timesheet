@@ -24,6 +24,13 @@ public class Technologies {
 	}
 	
 	
+	public Long getIdTechnology() {
+		return idTechnology;
+	}
+
+	public void setIdTechnology(Long idTechnology) {
+		this.idTechnology = idTechnology;
+	}
 
 	public Long getIdTechonlogy() {
 		return idTechnology;

@@ -37,6 +37,12 @@ public class Formazione {
 	@Column(name="valutazione_max")
 	private String valutazioneMax;
 	
+	@Column(name = "tecnologie")
+	private String tecnologie;
+	
+	@Column(name="id_cv")
+	private Long idCV;
+	
 	
 
 	public Long getIdFormazione() {
@@ -101,6 +107,22 @@ public class Formazione {
 
 	public void setValutazioneMax(String valutazioneMax) {
 		this.valutazioneMax = valutazioneMax;
+	}
+
+	public String getTecnologie() {
+		return tecnologie;
+	}
+
+	public void setTecnologie(String tecnologie) {
+		this.tecnologie = tecnologie;
+	}
+
+	public Long getIdCV() {
+		return idCV;
+	}
+
+	public void setIdCV(Long idCV) {
+		this.idCV = idCV;
 	}
 	
 }
