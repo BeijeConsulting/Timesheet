@@ -21,13 +21,12 @@ import it.beije.mgmt.service.*;
 @RequestMapping("api")
 public class FormazioneApiController {
 	
-	@Autowired
-	CvService cvService;
+	//@Autowired
+	CvService cvService = new CvService();
 	
 	// GET fomazione from idUser
 	@RequestMapping(value = "/cv/formazione/{idUser}", method = RequestMethod.GET)
 	public @ResponseBody List<Formazione> getFormazioneByIdUser(@PathVariable Long idUser) {
-		
 		return cvService.getListFormazioneByIdUser(idUser);
 	}
 	
