@@ -69,20 +69,23 @@ input[type=submit]:hover {
 				<option value="F">Ferie</option>
 				<option value="M">Malattia</option>
 				<option value="F">Festività</option>
-			</select> <br> <br> <label class="w3-text-grey">Data</label> <br>
+			</select>
+			
+			
+			 <br> <br> <label class="w3-text-grey">Data</label> <br>
 			<input type="date" name="date" value="2019-1-1"> <br>
 
 			<label class="w3-text-grey">Orario di inizio</label> <br> <input
-				type="time" name="start1" maxlength="5" value="09:00"><br>
+				type="text" name="start1" maxlength="8" value="09:00:00"><br>
 
 			<label class="w3-text-grey">Orario di fine</label> <br> <input
-				type="time" name="end1" maxlength="5" value="13:00"><br>
+				type="text" name="end1" maxlength="8" value="13:00:00"><br>
 
 			<label class="w3-text-grey">Secondo orario di inizio</label> <br>
-			<input type="time" name="start2" maxlength="5" value="14:00"><br>
+			<input type="text" name="start2" maxlength="8" value="14:00:00"><br>
 
-			<label class="w3-text-grey">Secondo orario di fne</label> <br>
-			 <input type="time" name="end2" maxlength="5" value="18:00"><br>
+			<label class="w3-text-grey">Secondo orario di fine</label> <br>
+			 <input type="text" name="end2" maxlength="8" value="18:00:00"><br>
 
 
 			<input type="submit" value="InserisciMODIFICATO">
