@@ -85,11 +85,10 @@ input[type=reset]:hover {
 			
 			<label class="w3-text-grey">Tipo:</label> <br> 
 			<select class="w3-text-grey" name="type">
-				<option value="g">Giornata lavorativa</option>
-				<option value="p">Permesso</option>
-				<option value="f">Ferie</option>
-				<option value="m">Malattia</option>
-				<option value="h">Festività</option>
+				<option value="L">Giornata lavorativa</option>
+				<option value="P">Permesso</option>
+				<option value="F">Ferie</option>
+				<option value="M">Malattia</option>
 			</select>
 
 			<br> <br> 
@@ -98,16 +97,16 @@ input[type=reset]:hover {
 			<input type="date" name="date" value=${timetable.getDate()}> <br> 
 			
 			<label class="w3-text-grey">Orario di inzio</label> <br> 
-			<input type="text" name="start1" maxlength="5" value=${timetable.getStart1()}><br> 
+			<input type="text" name="start1" maxlength="8" value=${timetable.getStart1()}><br> 
 			
 			<label class="w3-text-grey">Orario di fine</label> <br> 
-			<input type="text" name="end1" maxlength="5" value=${timetable.getEnd1()}><br> 
+			<input type="text" name="end1" maxlength="8" value=${timetable.getEnd1()}><br> 
 			
 			<label class="w3-text-grey">Secondo orario di inizio</label> <br> 
-			<input type="text" name="start2" maxlength="5" value=${timetable.getStart2()}><br> 
+			<input type="text" name="start2" maxlength="8" value=${timetable.getStart2()}><br> 
 			
 			<label class="w3-text-grey">Secondo orario di fne</label> <br> 
-			<input type="text" name="end2" maxlength="5" value=${timetable.getEnd2()}><br>
+			<input type="text" name="end2" maxlength="8" value=${timetable.getEnd2()}><br>
 
 			<input type="submit" value="Conferma">
 
