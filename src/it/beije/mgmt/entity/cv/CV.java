@@ -8,27 +8,38 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "various_cv")
-public class VariousCV {
-	
+@Table(name="cv")
+public class CV {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="id_various_cv")
-	private Long idVariousCv;
+	@Column(name="id_cv")
+	private Long idCv;
+	
+	@Column(name="id_user")
+	private Long idUser;
 	
 	@Column(name="title")
 	private String title;
 	
-	@Column(name="description")
-	private String description;
+	@Column(name="notes")
+	private String notes;
 
 	
-	public Long getIdVariousCV() {
-		return idVariousCv;
+	public Long getIdCv() {
+		return idCv;
 	}
 
-	public void setIdVariousCV(Long idVariousCv) {
-		this.idVariousCv = idVariousCv;
+	public void setIdCv(Long idCv) {
+		this.idCv = idCv;
+	}
+
+	public Long getIdUser() {
+		return idUser;
+	}
+
+	public void setIdUser(Long idUser) {
+		this.idUser = idUser;
 	}
 
 	public String getTitle() {
@@ -39,14 +50,13 @@ public class VariousCV {
 		this.title = title;
 	}
 
-	public String getDescription() {
-		return description;
+	public String getNotes() {
+		return notes;
 	}
 
-	public void setDescription(String description) {
-		this.description = description;
+	public void setNotes(String notes) {
+		this.notes = notes;
 	}
 	
 	
-
 }
