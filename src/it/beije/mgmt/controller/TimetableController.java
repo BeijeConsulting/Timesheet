@@ -90,22 +90,11 @@ public class TimetableController {
 
 //	@PostMapping("/user")
 	@RequestMapping(value = "/user", method = RequestMethod.POST)
-	public String user(HttpServletRequest request, Model model) {
-//		public String user(@Validated Timesheet timetable,  Model model) {
-		System.out.println("entro");
-		
-		Map<String,String []> map=request.getParameterMap();
-		
-		for(String key : map.keySet()) {
-			
-			System.out.println(key+" : "+ Arrays.toString(map.get(key)) );
-			
-		}
-		
-//		if (TimetableService.findRecordsFromId(timetable.getIdUser())==null)  {
-//			System.out.println("Utente non trovato");
-//			return "utentenontrovato";
-//		}		
+		public String user(@Validated Timesheet timetable,  Model model) {
+		if (TimetableService.findRecordsFromId(timetable.getIdUser())==null)  {
+			System.out.println("Utente non trovato");
+			return "utentenontrovato";
+		}		
 //		
 //		
 //			System.out.println("data passata:"+ timetable.getDate());
@@ -121,12 +110,12 @@ public class TimetableController {
 ////		table.setEnd2(timetable.getEnd2());
 ////		table.setStart1(timetable.getStart1());
 ////		table.setStart2(timetable.getStart2());
-//	table=timetable;
-//	double tot =timetableService.oreTrascorse(timetable.getStart1(), timetable.getEnd1(), timetable.getStart2(),timetable.getEnd2());
-//		timetable.setTot(tot);
-//	model.addAttribute("timetable", timetable);
-//		
-//		System.out.println("data saddsxta"+ table.getDate());
+	table=timetable;
+	double tot =timetableService.oreTrascorse(timetable.getStart1(), timetable.getEnd1(), timetable.getStart2(),timetable.getEnd2());
+		timetable.setTot(tot);
+	model.addAttribute("timetable", timetable);
+		
+		System.out.println("data saddsxta"+ table.getDate());
 	
 		
 		return "user";

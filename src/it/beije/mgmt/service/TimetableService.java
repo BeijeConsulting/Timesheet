@@ -15,6 +15,7 @@ import javax.persistence.TypedQuery;
 import static java.time.temporal.ChronoUnit.MINUTES;
 
 import java.sql.Date;
+import java.sql.Time;
 import java.text.DecimalFormat;
 
 import org.springframework.stereotype.Service;
@@ -293,10 +294,10 @@ public class TimetableService {
 //			table.setEnd2(LocalTime.of(00, 00));
 //
 		if (table.getType().equals("L")) {
-			table.setStart1(LocalTime.of(9,0));
-			table.setEnd1(LocalTime.of(13,0));
-			table.setStart2(LocalTime.of(14,0));
-			table.setEnd2(LocalTime.of(18,0));
+			table.setStart1(Time.valueOf(LocalTime.of(9,0)));
+			table.setEnd1(Time.valueOf(LocalTime.of(13,0)));
+			table.setStart2(Time.valueOf(LocalTime.of(14,0)));
+			table.setEnd2(Time.valueOf(LocalTime.of(18,0)));
 		}
 //		if (type.equals("s")) {
 //			table.setStart1(LocalTime.of(00, 00));
@@ -304,10 +305,10 @@ public class TimetableService {
 //			table.setStart2(LocalTime.of(00, 00));
 //			table.setEnd2(LocalTime.of(00, 00));
 		if (table.getType().equals("F")) {
-			table.setStart1(LocalTime.of(9,0));
-			table.setEnd1(LocalTime.of(13,0));
-			table.setStart2(LocalTime.of(14,0));
-			table.setEnd2(LocalTime.of(18,0));
+			table.setStart1(Time.valueOf(LocalTime.of(9,0)));
+			table.setEnd1(Time.valueOf(LocalTime.of(13,0)));
+			table.setStart2(Time.valueOf(LocalTime.of(14,0)));
+			table.setEnd2(Time.valueOf(LocalTime.of(18,0)));
 		}
 		
 //		if (type.equals("v")) {
@@ -317,20 +318,20 @@ public class TimetableService {
 //			table.setEnd2(LocalTime.of(00, 00));
 //	}
 		if (table.getType().equals("M")) {
-			table.setStart1(LocalTime.of(9,0));
-			table.setEnd1(LocalTime.of(13,0));
-			table.setStart2(LocalTime.of(14,0));
-			table.setEnd2(LocalTime.of(18,0));
+			table.setStart1(Time.valueOf(LocalTime.of(9,0)));
+			table.setEnd1(Time.valueOf(LocalTime.of(13,0)));
+			table.setStart2(Time.valueOf(LocalTime.of(14,0)));
+			table.setEnd2(Time.valueOf(LocalTime.of(18,0)));
 		}
 //		if (type.equals("p")) {
 //			table.setStart2(LocalTime.of(00, 00));
 //			table.setEnd2(LocalTime.of(00, 00));
 
 		if (table.getType().equals("P")) {
-			table.setStart1(LocalTime.of(9,0));
-			table.setEnd1(LocalTime.of(13,0));
-			table.setStart2(LocalTime.of(14,0));
-			table.setEnd2(LocalTime.of(18,0));
+			table.setStart1(Time.valueOf(LocalTime.of(9,0)));
+			table.setEnd1(Time.valueOf(LocalTime.of(13,0)));
+			table.setStart2(Time.valueOf(LocalTime.of(14,0)));
+			table.setEnd2(Time.valueOf(LocalTime.of(18,0)));
 		}
 		entitymanager.persist(table);
 		entitymanager.getTransaction().commit();
@@ -405,22 +406,21 @@ public class TimetableService {
 //		return tempoTrascorso;
 //
 //	}
-	public double oreTrascorse(LocalTime localTime, LocalTime localTime2, LocalTime localTime3, LocalTime localTime4) { //Calcolo ore in orario lavorativo normale
-		System.out.println(localTime);
-		System.out.println(localTime2);
-		System.out.println(localTime3);
-		System.out.println(localTime4);
+	public double oreTrascorse(Time time, Time time2, Time time3, Time time4) { //Calcolo ore in orario lavorativo normale
+		System.out.println(time);
+		System.out.println(time2);
+		System.out.println(time3);
+		System.out.println(time4);
 		double tempoTrascorso = 0;
-		
-		tempoTrascorso =(localTime2.getHour()-localTime.getHour())+(localTime4.getHour()-localTime3.getHour());
+		LocalTime.parse(time.toString()).getHour();
+	//	tempoTrascorso =((time2.getHours()-time.getHours())+(time4.getHours()-time3.getHours()));
+		tempoTrascorso =(LocalTime.parse(time2.toString()).getHour()-LocalTime.parse(time.toString()).getHour())+(LocalTime.parse(time4.toString()).getHour()-LocalTime.parse(time3.toString()).getHour());
 		return tempoTrascorso;
 
 	}
-	public double oreTrascorse(LocalTime start1, LocalTime end1) {
-		System.out.println(start1);
-		System.out.println(end1);
+	public double oreTrascorse(Time time,Time time2) {
 		double tempoTrascorso = 0;
-		tempoTrascorso =end1.getHour()-start1.getHour();
+		tempoTrascorso =LocalTime.parse(time2.toString()).getHour()-LocalTime.parse(time.toString()).getHour();
 		return tempoTrascorso;
 
 	}
