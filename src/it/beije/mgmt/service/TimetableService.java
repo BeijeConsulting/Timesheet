@@ -291,6 +291,22 @@ public class TimetableService {
 //		entitymanager.close();
 //		emfactory.close();
 	}
+	public void cancellaTimetable(Timesheet table) {
+		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
+		EntityManager entitymanager = emfactory.createEntityManager();  
+		System.out.println("entroooo");
+		System.out.println(table);//mi da null...
+			EntityTransaction entr = entitymanager.getTransaction();
+			entr.begin();
+			Query query = entitymanager.createQuery("delete from Timesheet where id_user= :ID AND date= :DATE");
+			query.setParameter("ID", table.getIdUser());
+			query.setParameter("DATE", table.getDate());
+			int result = query.executeUpdate();
+			entr.commit();
+
+//		entitymanager.close();
+//		emfactory.close();
+	}
 
 
 	public double oreTrascorse(Time time, Time time2, Time time3, Time time4) { //Calcolo ore in orario lavorativo normale
@@ -328,7 +344,6 @@ public class TimetableService {
 	public List<Timesheet> retrieveTimatablesInDateRangeByUserId(int userId, Date dateFrom, Date dateTo) {
 		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
 		EntityManager entitymanager = emfactory.createEntityManager();
-
 		Query q = entitymanager.createQuery("FROM Timesheet t WHERE t.idUser = "+userId+" and t.date >= '"+dateFrom+"' and t.date <= '"+dateTo+"'");
 
 		List<Timesheet> timetables = q.getResultList();

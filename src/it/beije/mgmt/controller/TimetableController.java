@@ -87,6 +87,20 @@ public class TimetableController {
 		
 		return "ricerca";
 	}
+	@RequestMapping(value = "/cancella", method = RequestMethod.POST)
+	public String ricercacanc (Locale locale, Model model) {
+		System.out.println("Home Page Requested, locale = " + locale);
+		Date date = new Date();
+		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
+
+		String formattedDate = dateFormat.format(date);
+
+		model.addAttribute("serverTime", formattedDate);
+		
+		
+		
+		return "cancellatimesheet";
+	}
 
 
 //	@PostMapping("/user")
@@ -131,6 +145,14 @@ public class TimetableController {
 		 timetableService.creaRecordTimetable(table);
 		 return "conferma";
 	}
+	
+	@RequestMapping(value = "/confermacanc", method = RequestMethod.POST)
+	public String cancellasheet() {
+		System.out.println("Sto elaborando i tuoi dati");
+		 timetableService.cancellaTimetable(tableU);
+		 return "conferma";
+	}
+	
 
 	@RequestMapping(value = "/modifica", method = RequestMethod.POST)
 	public String modificaDati(Model model, Locale locale) {
@@ -312,6 +334,38 @@ public class TimetableController {
 		model.addAttribute("timetable",tableU);
 		
 		return "modificarecordtimetable";
+	}
+	static Timesheet  tableU = null;
+	@RequestMapping(value = "/cancellatimesheet", method = RequestMethod.GET)
+	public String cancellaTimeheet(Model model,  @RequestParam("date") java.sql.Date data, @RequestParam("id") int idUser) throws Exception {
+		
+				
+		//ricavo l'id degli utenti e ricerco per id_user per recuperare nome e cognome di ogni utente e fare la successiva stampa
+		if (TimetableService.findRecordsFromId(idUser)==null)  {
+			System.out.println("Utente non trovato");
+			return "utentenontrovato";
+		}
+		
+		List<Timesheet> timetable = new ArrayList<Timesheet>();
+		timetable = timetableService.takeRecordsFromDateId(data, idUser);
+		
+		Time s1=timetable.get(0).getStart1();
+		Time e1=timetable.get(0).getEnd1();
+		Time s2=timetable.get(0).getStart2();
+		Time e2=timetable.get(0).getEnd2();
+		timetable.get(0).setStart1(s1);
+		timetable.get(0).setEnd1(e1);
+		timetable.get(0).setStart2(s2);
+		timetable.get(0).setEnd2(e2);
+		
+		
+		
+		if(timetable != null)
+			tableU = timetable.get(0);
+		
+		model.addAttribute("timetable",tableU);
+		
+		return "confermacancellazione";
 	}
 	
 	
