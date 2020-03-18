@@ -32,8 +32,16 @@ public class CV {
 	
 	private List<Certification> certificationList;
 	
-	private String technologyList;
+	private List<String> technology;
 	
+	public List<String> getTechnology() {
+		return technology;
+	}
+
+	public void setTechnology(List<String> technology) {
+		this.technology = technology;
+	}
+
 	public CV(){
 		
 	}
@@ -93,13 +101,5 @@ public class CV {
 	public void setCertificationList(List<Certification> certificationList) {
 		this.certificationList = certificationList;
 	}
-
-	public String getTechnologyList() {
-		return technologyList;
-	}
-
-	public void setTechnologyList(String technologyList) {
-		this.technologyList = technologyList;
-	}	
 	
 }

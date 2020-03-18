@@ -13,14 +13,14 @@ import org.springframework.web.bind.annotation.RestController;
 import it.beije.mgmt.entity.Address;
 import it.beije.mgmt.entity.cv.Work;
 import it.beije.mgmt.service.AddressService;
-import it.beije.mgmt.service.CVService;
+import it.beije.mgmt.service.CvService;
 
 @RestController
 @RequestMapping("api")
 public class WorkApiController {
 	
 	@Autowired
-	private CVService CvService;
+	private CvService CvService;
 
 	@Transactional
 	@RequestMapping(value = "/user/work", method = RequestMethod.GET)

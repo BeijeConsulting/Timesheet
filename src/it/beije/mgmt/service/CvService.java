@@ -1,9 +1,10 @@
 package it.beije.mgmt.service;
 
-import java.util.ArrayList;
 import java.util.List;
+import org.springframework.transaction.annotation.Transactional;
+import it.beije.mgmt.entity.cv.CV;
+import java.util.ArrayList;
 import java.util.Objects;
-
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -15,6 +16,37 @@ import it.beije.mgmt.jpa.JpaEntityManager;
 
 @Service
 public class CvService {
+
+//	public List<CV> findCvByTechnology(String technology) throws Exception {
+//		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
+//		EntityManager entitymanager = emfactory.createEntityManager();
+//		List<CV> curricula = cvRepository.findByTechnology(technology);
+//		System.out.println("Nunmber of CV : " + curricula.size());
+//		return curricula;
+//	}
+	public List<CV> findCvById(Long idUser) throws Exception {
+		
+		EntityManager entityManager = Persistence.createEntityManagerFactory("timesheet").createEntityManager();
+		entityManager.getTransaction().begin();
+		return entityManager.createQuery("select c from cv c where c.id_user = " + idUser, CV.class).getResultList();
+	}
+	
+	@Transactional
+	public CV updateTitle(Long id, String title) {
+		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
+
+		EntityManager entitymanager = emfactory.createEntityManager();
+		entitymanager.getTransaction().begin();
+		CV updateCv = entitymanager.find(CV.class, id);
+		if (!Objects.isNull(title)) updateCv.setTitle(title);
+		entitymanager.persist(updateCv);
+		entitymanager.getTransaction().commit();
+		entitymanager.close();
+		return updateCv;
+		
+	}
+	
+	
 	
 	/**** FORMAZIONE ****/
 	// get list of Formazione by idUser
@@ -66,5 +98,4 @@ public class CvService {
 		entitymanager.getTransaction().commit();
 		entitymanager.close();
 	}
-	
 }
