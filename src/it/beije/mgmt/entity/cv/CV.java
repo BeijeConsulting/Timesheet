@@ -24,15 +24,15 @@ public class CV {
 	@Column(name="title")
 	private String title;
 	
-	private List<Formazione> formazioneList;
-
-	private List<Work> workList;
-	
-	private List<Language> languageList;
-	
-	private List<Certification> certificationList;
-	
-	private String technologyList;
+//	private List<Formazione> formazioneList;
+//
+//	private List<Work> workList;
+//	
+//	private List<Language> languageList;
+//	
+//	private List<Certification> certificationList;
+//	
+//	private String technologyList;
 	
 	public CV(){
 		
