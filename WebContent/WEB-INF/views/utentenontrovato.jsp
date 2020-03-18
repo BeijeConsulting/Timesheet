@@ -32,7 +32,7 @@ input[type=submit] {
 	</div>
 	<div align="center">
 		<h3>Vuoi riprovare ?</h3>
-		<form action="Timetable" method="get">
+		<form action="prehome" method="get">
 			<input type="submit" value="Riprova">
 		</form>
 	</div>
