@@ -1,5 +1,7 @@
 package it.beije.mgmt.entity.cv;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -22,11 +24,25 @@ public class CV {
 	@Column(name="title")
 	private String title;
 	
-	@Column(name="notes")
-	private String notes;
+	@Column(name="formazioneList")
+	private List<Formazione> formazioneList;
 
+	@Column(name="workList")
+	private List<Work> workList;
 	
+	@Column(name="languageList")
+	private List<Language> languageList;
 	
+	@Column(name="certificationList")
+	private List<Certification> certificationList;
+	
+	@Column(name="technologyList")
+	private String technologyList;
+	
+	public CV(){
+		
+	}
+
 	public Long getIdCv() {
 		return idCv;
 	}
@@ -51,13 +67,44 @@ public class CV {
 		this.title = title;
 	}
 
-	public String getNotes() {
-		return notes;
+	public List<Formazione> getFormazioneList() {
+		return formazioneList;
 	}
 
-	public void setNotes(String notes) {
-		this.notes = notes;
+	public void setFormazioneList(List<Formazione> formazioneList) {
+		this.formazioneList = formazioneList;
 	}
-	
+
+	public List<Work> getWorkList() {
+		return workList;
+	}
+
+	public void setWorkList(List<Work> workList) {
+		this.workList = workList;
+	}
+
+	public List<Language> getLanguageList() {
+		return languageList;
+	}
+
+	public void setLanguageList(List<Language> languageList) {
+		this.languageList = languageList;
+	}
+
+	public List<Certification> getCertificationList() {
+		return certificationList;
+	}
+
+	public void setCertificationList(List<Certification> certificationList) {
+		this.certificationList = certificationList;
+	}
+
+	public String getTechnologyList() {
+		return technologyList;
+	}
+
+	public void setTechnologyList(String technologyList) {
+		this.technologyList = technologyList;
+	}	
 	
 }
