@@ -13,8 +13,8 @@ public class VariousCV {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="id_varous_cv")
-	private Long idVarousCv;
+	@Column(name="id_various_cv")
+	private Long idVariousCv;
 	
 	@Column(name="title")
 	private String title;
@@ -24,11 +24,11 @@ public class VariousCV {
 
 	
 	public Long getIdVariousCV() {
-		return idVarousCv;
+		return idVariousCv;
 	}
 
-	public void setIdVarieCV(Long idVarousCv) {
-		this.idVarousCv = idVarousCv;
+	public void setIdVarieCV(Long idVariousCv) {
+		this.idVariousCv = idVariousCv;
 	}
 
 	public String getTitle() {
