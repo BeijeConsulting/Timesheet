@@ -143,14 +143,11 @@ public class Timesheet implements Serializable {
 		this.tot = tot;
 	}
 	
+	@Override
 	public String toString() {
-		StringBuilder builder = new StringBuilder("{\"id\" : ").append(id)
-				.append(",").append("\"id_user\" : ").append(idUser)
-				.append(",").append("\"start1\" : \"").append(start1)
-				.append("\",").append("\"start2\" : \"").append(start2)
-				.append("\"}");
-		
-		return builder.toString();
+		return "Timesheet [id=" + id + ", validated=" + validated + ", idUser=" + idUser + ", date=" + date + ", type="
+				+ type + ", start1=" + start1 + ", end1=" + end1 + ", start2=" + start2 + ", end2=" + end2 + ", tot="
+				+ tot + "]";
 	}
 
 }

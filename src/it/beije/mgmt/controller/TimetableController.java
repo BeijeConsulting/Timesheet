@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 
@@ -332,6 +333,23 @@ public class TimetableController {
 		 
 		 return "conferma";
 
+	}
+	
+	@RequestMapping(value = "/leggirigheperiod", method = RequestMethod.GET)
+	public String leggirigheperiod () {
+		
+		
+		
+		return "leggirigheperiod";
+	}
+	
+	@RequestMapping(value = "/leggirighe", method = RequestMethod.GET)
+	public String leggirigheperiod (@Validated Timesheet timetable,@RequestParam("start") java.sql.Date start,@RequestParam("end") java.sql.Date end, @RequestParam("idUser") int idUser) {
+		
+		List result = TimetableService.takeRecordsFromIdTimetableVersionWithPeriod(idUser,start,end);
+		System.out.println(result.toString());
+		
+		return "leggirigheperiod";
 	}
 	
 
