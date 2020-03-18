@@ -85,11 +85,10 @@ input[type=reset]:hover {
 			
 			<label class="w3-text-grey">Tipo:</label> <br> 
 			<select class="w3-text-grey" name="type">
-				<option value="g">Giornata lavorativa</option>
-				<option value="p">Permesso</option>
-				<option value="f">Ferie</option>
-				<option value="m">Malattia</option>
-				<option value="h">Festività</option>
+				<option value="L">Giornata lavorativa</option>
+				<option value="P">Permesso</option>
+				<option value="F">Ferie</option>
+				<option value="M">Malattia</option>
 			</select>
 
 			<br> <br> 
