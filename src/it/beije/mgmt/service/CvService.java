@@ -8,9 +8,12 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
+import org.springframework.stereotype.Service;
+
 import it.beije.mgmt.entity.cv.Formazione;
 import it.beije.mgmt.jpa.JpaEntityManager;
 
+@Service
 public class CvService {
 	
 	/**** FORMAZIONE ****/
