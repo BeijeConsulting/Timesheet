@@ -101,6 +101,7 @@ pageEncoding="ISO-8859-1"%>
     <form action="cancella" method="post">
       <input class="btn green" type="submit" value="cancella">
     </form>
+    <br><br><br>
     
     <form action="ricerca" method="post">
       <input class="btn green" type="submit"value="Ricerca/Modifica Utente">

@@ -208,6 +208,20 @@ public class TimetableService {
 
 		return records;
 	}
+	
+	//metodo per trovare utenti in un periodo 
+	public static List takeRecordsFromIdTimetableVersionWithPeriod(int id_user, Date start , Date end ) {
+		// int p = id_user;
+		List<Timesheet> records = new ArrayList<Timesheet>();
+		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
+		EntityManager entitymanager = emfactory.createEntityManager();
+//		entitymanager.createQuery(criteriaQuery);
+		TypedQuery<Timesheet> q = entitymanager
+				.createQuery("SELECT t FROM Timesheet as t WHERE id_user = '" + id_user + "' AND date BETWEEN '"+ start + "' AND '"
+				+end +"'" , Timesheet.class);
+		records = q.getResultList();
+		return records;
+	}
 
 	public List takeRecordsFromIdTimetableVersion(int id_user) {
 		// int p = id_user;

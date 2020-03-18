@@ -15,7 +15,7 @@
 
 <div class="center">
 <!-- <a class="btn-floating btn-large pulse"><i class="material-icons">cloud</i></a> -->
-		<form action="home" method="get">
+		<form action="prehome" method="get">
 				<input class="btn green" type="submit" value="Home">
 			</form>
 </div>
