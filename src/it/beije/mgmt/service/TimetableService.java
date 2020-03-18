@@ -32,7 +32,7 @@ public class TimetableService {
 		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
 		EntityManager entitymanager = emfactory.createEntityManager();
 
-		Query q = entitymanager.createQuery("SELECT t FROM Timetable t");
+		Query q = entitymanager.createQuery("SELECT t FROM Timesheet t");
 
 		List<Timesheet> timetables = q.getResultList();
 
@@ -95,7 +95,7 @@ public class TimetableService {
 
 //		entitymanager.createQuery(criteriaQuery);
 		TypedQuery<Timesheet> q = entitymanager.createQuery(
-				"SELECT t FROM Timetable t WHERE t.date >= '" + startDate + "'" + "ORDER BY t.id_user",
+				"SELECT t FROM Timesheet t WHERE t.date >= '" + startDate + "'" + "ORDER BY t.id_user",
 				Timesheet.class);
 
 		records = q.getResultList();
@@ -113,7 +113,7 @@ public class TimetableService {
 		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
 		EntityManager entitymanager = emfactory.createEntityManager();
 
-		TypedQuery<Timesheet> q = entitymanager.createQuery("SELECT t FROM Timetable t WHERE t.date = '" + startDate
+		TypedQuery<Timesheet> q = entitymanager.createQuery("SELECT t FROM Timesheet t WHERE t.date = '" + startDate
 				+ "'" + " AND t.idUser = '" + idUtente + "'" + " ORDER BY t.date", Timesheet.class);
 
 		records = q.getResultList();
@@ -135,7 +135,7 @@ public class TimetableService {
 		try{
 			EntityTransaction entr = entitymanager.getTransaction();
 			entr.begin();
-			Query query = entitymanager.createQuery("UPDATE Timetable t SET t.date=?1, t.type=?2, t.start1=?3, t.end1=?4, t.start2=?5, t.end2=?6, t.tot=?7 WHERE t.idUser = '"+id+"'"+" AND t.date = '" + date +"'");
+			Query query = entitymanager.createQuery("UPDATE Timesheet t SET t.date=?1, t.type=?2, t.start1=?3, t.end1=?4, t.start2=?5, t.end2=?6, t.tot=?7 WHERE t.idUser = '"+id+"'"+" AND t.date = '" + date +"'");
 			query.setParameter(1, newTable.getDate());
 			query.setParameter(2, newTable.getType());
 			query.setParameter(3, newTable.getStart1());
@@ -170,7 +170,7 @@ public class TimetableService {
 		EntityManager entitymanager = emfactory.createEntityManager();
 //			entitymanager.createQuery(criteriaQuery);
 		TypedQuery<Timesheet> q = entitymanager.createQuery(
-				"SELECT t FROM Timetable t WHERE t.date = '" + date + "'" + " AND t.id_user = '" + idUtente + "'",
+				"SELECT t FROM Timesheet t WHERE t.date = '" + date + "'" + " AND t.id_user = '" + idUtente + "'",
 				Timesheet.class);
 
 
@@ -213,7 +213,7 @@ public class TimetableService {
 		EntityManager entitymanager = emfactory.createEntityManager();
 //		entitymanager.createQuery(criteriaQuery);
 		TypedQuery<Timesheet> q = entitymanager
-				.createQuery("SELECT t FROM Timetable t WHERE t.id_user = '" + id_user + "'", Timesheet.class);
+				.createQuery("SELECT t FROM Timesheet t WHERE t.id_user = '" + id_user + "'", Timesheet.class);
 		records = q.getResultList();
 		return records;
 	}
@@ -222,7 +222,7 @@ public class TimetableService {
 		List<Timesheet> records = new ArrayList<Timesheet>();
 		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
 		EntityManager entitymanager = emfactory.createEntityManager();
-		TypedQuery<Timesheet> q = entitymanager.createQuery("SELECT t FROM Timetable t", Timesheet.class);
+		TypedQuery<Timesheet> q = entitymanager.createQuery("SELECT t FROM Timesheet t", Timesheet.class);
 		records = q.getResultList();
 		return records;
 	}
@@ -240,7 +240,7 @@ public class TimetableService {
 		List<Timesheet> records = new ArrayList<Timesheet>();
 		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
 		EntityManager entitymanager = emfactory.createEntityManager();
-		TypedQuery<Timesheet> q = entitymanager.createQuery("SELECT t FROM Timetable t WHERE t.type='" + type + "'",
+		TypedQuery<Timesheet> q = entitymanager.createQuery("SELECT t FROM Timesheet t WHERE t.type='" + type + "'",
 				Timesheet.class);
 		records = q.getResultList();
 
@@ -260,7 +260,7 @@ public class TimetableService {
 		else if (date1 != null && date2 != null && type == 0) {
 			records = takeRecordsFromDateToDate(date1, date2);
 		} else {
-			TypedQuery<Timesheet> q = entitymanager.createQuery("SELECT t FROM Timetable t WHERE t.type='" + type
+			TypedQuery<Timesheet> q = entitymanager.createQuery("SELECT t FROM Timesheet t WHERE t.type='" + type
 					+ "' AND t.date >= '" + date1 + "' AND t.date<= '" + date2 + "'", Timesheet.class);
 			records = q.getResultList();
 		}
@@ -491,7 +491,7 @@ public class TimetableService {
 		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
 		EntityManager entitymanager = emfactory.createEntityManager();
 
-		Query q = entitymanager.createQuery("FROM Timetable t WHERE t.idUser = "+id);
+		Query q = entitymanager.createQuery("FROM Timesheet t WHERE t.idUser = "+id);
 
 		List<Timesheet> timetables = q.getResultList();
 
@@ -504,7 +504,7 @@ public class TimetableService {
 		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
 		EntityManager entitymanager = emfactory.createEntityManager();
 
-		Query q = entitymanager.createQuery("FROM Timetable t WHERE t.idUser = "+userId+" and t.date >= '"+dateFrom+"' and t.date <= '"+dateTo+"'");
+		Query q = entitymanager.createQuery("FROM Timesheet t WHERE t.idUser = "+userId+" and t.date >= '"+dateFrom+"' and t.date <= '"+dateTo+"'");
 
 		List<Timesheet> timetables = q.getResultList();
 
