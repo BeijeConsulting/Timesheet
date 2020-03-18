@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import it.beije.mgmt.entity.Timetable;
+import it.beije.mgmt.entity.Timesheet;
 import it.beije.mgmt.entity.User;
 
 
@@ -31,10 +31,10 @@ public class ApiController {
 	}
 
 	@RequestMapping(value = "/testTT", method = RequestMethod.GET)
-	public @ResponseBody Timetable testTT(Locale locale, Model model) {
+	public @ResponseBody Timesheet testTT(Locale locale, Model model) {
 		System.out.println("Home Page Requested, locale = " + locale);
 
-		return new Timetable();
+		return new Timesheet();
 	}
 	//////////////////////////////////////
 
