@@ -8,7 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "varous_cv")
+@Table(name = "various_cv")
 public class VariousCV {
 	
 	@Id
@@ -27,7 +27,7 @@ public class VariousCV {
 		return idVariousCv;
 	}
 
-	public void setIdVarieCV(Long idVariousCv) {
+	public void setIdVariousCV(Long idVariousCv) {
 		this.idVariousCv = idVariousCv;
 	}
 
@@ -35,7 +35,7 @@ public class VariousCV {
 		return title;
 	}
 
-	public void setTitolo(String title) {
+	public void setTitle(String title) {
 		this.title = title;
 	}
 
@@ -43,7 +43,7 @@ public class VariousCV {
 		return description;
 	}
 
-	public void setDescrizione(String description) {
+	public void setDescription(String description) {
 		this.description = description;
 	}
 	
