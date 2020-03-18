@@ -42,6 +42,7 @@ public class Work {
 
 	@Column(name="id_cv")
 	private Long idCV;
+	
 
 	public Work() {
 

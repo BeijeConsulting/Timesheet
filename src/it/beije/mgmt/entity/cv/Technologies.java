@@ -24,7 +24,6 @@ public class Technologies {
 	}
 	
 	
-	
 	public Long getIdTechnology() {
 		return idTechnology;
 	}

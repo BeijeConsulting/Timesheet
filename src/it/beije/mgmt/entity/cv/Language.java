@@ -22,6 +22,8 @@ public class Language {
 	@Column(name="level")
 	private String level;	
 	
+	@Column(name="id_cv")
+	private Long idCV;
 	
 	public Long getIdLanguage() {
 		return idLanguage;
@@ -47,5 +49,14 @@ public class Language {
 	public void setLevel(String level) {
 		this.level = level;
 	}
+
+	public Long getIdCV() {
+		return idCV;
+	}
+
+	public void setIdCV(Long idCV) {
+		this.idCV = idCV;
+	}
+	
 
 }
