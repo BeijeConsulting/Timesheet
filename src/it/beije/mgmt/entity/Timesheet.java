@@ -108,41 +108,23 @@ public class Timesheet implements Serializable {
 		return start1;
 	}
 	public void setStart1(Time start1) {
-		System.out.println("set start1 time");
 		this.start1 = start1;
 	}
 	
-	public void setStart1(String start1) {
-		System.out.println("set start1");
-		this.start1=Time.valueOf(start1);
-	}
 	
 	public Time getEnd1() {
 		return end1;
 	}
 	public void setEnd1(Time end1) {
-		System.out.println("set end1 time");
-
 		this.end1 = end1;
 	}
 	
-	public void setEnd1(String end1) {
-		System.out.println("set end1");
-
-		this.end1=Time.valueOf(end1);
-	}
 	
 	public Time getStart2() {
 		return start2;
 	}
 	public void setStart2(Time start2) {
-		System.out.println("set start2 time");
 		this.start2 = start2;
-	}
-	public void setStart2(String start2) {
-		System.out.println("set start2");
-
-		this.start2=Time.valueOf(start2);
 	}
 	
 	
@@ -150,16 +132,9 @@ public class Timesheet implements Serializable {
 		return end2;
 	}
 	public void setEnd2(Time end2) {
-		System.out.println("set end2 time");
-
 		this.end2 = end2;
 	}
 	
-	public void setEnd2(String end2) {
-		System.out.println("set end2");
-
-		this.end2=Time.valueOf(end2);
-	}
 	
 	public Double getTot() {
 		return tot;
@@ -171,8 +146,8 @@ public class Timesheet implements Serializable {
 	public String toString() {
 		StringBuilder builder = new StringBuilder("{\"id\" : ").append(id)
 				.append(",").append("\"id_user\" : ").append(idUser)
-//				.append(",").append("\"start1\" : \"").append(start1)
-//				.append("\",").append("\"start2\" : \"").append(start2)
+				.append(",").append("\"start1\" : \"").append(start1)
+				.append("\",").append("\"start2\" : \"").append(start2)
 				.append("\"}");
 		
 		return builder.toString();
