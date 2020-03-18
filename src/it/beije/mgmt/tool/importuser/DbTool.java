@@ -25,7 +25,7 @@ public class DbTool {
 	public boolean Exists(int id) throws SQLException // metodo per verificare esistenza dell'ID
 	{
 		boolean res = false;
-		PreparedStatement st = _con.prepareStatement("SELECT COUNT(ID) AS RESULT FROM demo WHERE ID=?"); 
+		PreparedStatement st = _con.prepareStatement("SELECT COUNT(ID) AS RESULT FROM attachment WHERE ID=?"); 
 		st.setInt(1, id); 
 		ResultSet rs = st.executeQuery();
 		while(rs.next()) {
@@ -40,19 +40,21 @@ public class DbTool {
 		int userId = 0;
 		String filename = doc_type + "." + file_ext;
 		
-		PreparedStatement st = _con.prepareStatement("INSERT INTO demo(description,doc_type,file_ext,user_id,filename) VALUES(?,?,?,?,?)"); 
+		PreparedStatement st = _con.prepareStatement("INSERT INTO attachment(description,doc_type,path,attachment_user) VALUES(?,?,?,?)"); 
+//		modificata - PreparedStatement st = _con.prepareStatement("INSERT INTO attachment(description,doc_type,file_ext, userId, filename) VALUES(?,?,?,?,?)"); 
+		
 		st.setString(1, desc); 
 		st.setString(2, doc_type); 
-		st.setString(3, file_ext);
+		st.setString(3, file_ext + filename);
 		st.setInt(4, userId);
-		st.setString(5, filename);
+//		st.setString(5, filename);
 		st.executeUpdate(); 
 		st.close(); 
 	}
 	
 	public void Update(int id, String newValue) throws SQLException // metodo Update
 	{
-		PreparedStatement st = _con.prepareStatement("UPDATE demo SET description=? WHERE id=?"); 
+		PreparedStatement st = _con.prepareStatement("UPDATE attachment SET description=? WHERE id=?"); 
 		st.setString(1, newValue); 
 		st.setInt(2, id); 
 		st.executeUpdate(); 
@@ -61,7 +63,7 @@ public class DbTool {
 	
 	public void Delete(int id) throws SQLException // metodo Delete
 	{
-		PreparedStatement st = _con.prepareStatement("DELETE FROM demo WHERE id=?"); 
+		PreparedStatement st = _con.prepareStatement("DELETE FROM attachment WHERE id=?"); 
 		st.setInt(1, id); 
 		st.executeUpdate(); 
 		st.close();
@@ -70,7 +72,7 @@ public class DbTool {
 	public DemoRow Select(int id) throws SQLException // metodo Select
 	{
 		DemoRow res = null;
-		PreparedStatement st = _con.prepareStatement("SELECT * FROM demo WHERE id=?"); 
+		PreparedStatement st = _con.prepareStatement("SELECT * FROM attachment WHERE id=?"); 
 		st.setInt(1, id); 
 		ResultSet rs = st.executeQuery(); 
 		while (rs.next()) {
@@ -80,10 +82,10 @@ public class DbTool {
 		return res;
 	}
 
-	public DemoRow[] Select() throws SQLException // metodo Select
+	public DemoRow[] Select () throws SQLException // metodo Select
 	{
 		List<DemoRow> res = new ArrayList<>();
-		PreparedStatement st = _con.prepareStatement("SELECT * FROM demo"); 
+		PreparedStatement st = _con.prepareStatement("SELECT * FROM attachment"); 
 		ResultSet rs = st.executeQuery(); 
 		while (rs.next()) {
 			res.add(new DemoRow(rs.getInt("id"), rs.getString("description")));

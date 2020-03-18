@@ -95,10 +95,7 @@ public class UserApiController {
 	public @ResponseBody List<UserDto> searchUser(@RequestBody UserRequest req){
 		
 		return new UserService().trovaUtente(req);
-		
-		
-		
-		
+				
 		/*{"first_name" : "nome",
 		 * "last_name" : "cognome",
 		 * "email" : "email",
@@ -107,6 +104,20 @@ public class UserApiController {
 		}
 		*/
 	}
+	
+	// Gruppo delta - Rest per l'archiviazione utente
+	// Torna un boolean per il controllo sull'effettiva archiviazione
+	@RequestMapping(value = "/user/{id}", method = RequestMethod.DELETE,
+			consumes = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody boolean archiveUser(@PathVariable Long id, @RequestBody User user,
+			HttpServletResponse response) throws IOException {
+		System.out.println("archive user by id: " + id);
+		System.out.println("archve user: " + user);
+
+		return userService.archiviaUtente(user);
+	}
+	
+	
 	
 	
 	///////// END USER //////////////////////
