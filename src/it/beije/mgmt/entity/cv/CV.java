@@ -62,44 +62,44 @@ public class CV {
 		this.title = title;
 	}
 
-	public List<Formazione> getFormazioneList() {
-		return formazioneList;
-	}
-
-	public void setFormazioneList(List<Formazione> formazioneList) {
-		this.formazioneList = formazioneList;
-	}
-
-	public List<Work> getWorkList() {
-		return workList;
-	}
-
-	public void setWorkList(List<Work> workList) {
-		this.workList = workList;
-	}
-
-	public List<Language> getLanguageList() {
-		return languageList;
-	}
-
-	public void setLanguageList(List<Language> languageList) {
-		this.languageList = languageList;
-	}
-
-	public List<Certification> getCertificationList() {
-		return certificationList;
-	}
-
-	public void setCertificationList(List<Certification> certificationList) {
-		this.certificationList = certificationList;
-	}
-
-	public String getTechnologyList() {
-		return technologyList;
-	}
-
-	public void setTechnologyList(String technologyList) {
-		this.technologyList = technologyList;
-	}	
+//	public List<Formazione> getFormazioneList() {
+//		return formazioneList;
+//	}
+//
+//	public void setFormazioneList(List<Formazione> formazioneList) {
+//		this.formazioneList = formazioneList;
+//	}
+//
+//	public List<Work> getWorkList() {
+//		return workList;
+//	}
+//
+//	public void setWorkList(List<Work> workList) {
+//		this.workList = workList;
+//	}
+//
+//	public List<Language> getLanguageList() {
+//		return languageList;
+//	}
+//
+//	public void setLanguageList(List<Language> languageList) {
+//		this.languageList = languageList;
+//	}
+//
+//	public List<Certification> getCertificationList() {
+//		return certificationList;
+//	}
+//
+//	public void setCertificationList(List<Certification> certificationList) {
+//		this.certificationList = certificationList;
+//	}
+//
+//	public String getTechnologyList() {
+//		return technologyList;
+//	}
+//
+//	public void setTechnologyList(String technologyList) {
+//		this.technologyList = technologyList;
+//	}	
 	
 }
