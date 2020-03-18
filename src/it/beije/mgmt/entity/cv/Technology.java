@@ -8,22 +8,24 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "technologies")
-public class Technologies {
+@Table(name = "technology")
+public class Technology {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="id_technology")
 	private Long idTechnology ;
 	
+	@Column(name="parent_id")
+	private String parentId;
+	
 	@Column(name="technology")
 	private String technology;
 	
-	public Technologies() {
+	public Technology() {
 		
 	}
-	
-	
+
 	public Long getIdTechnology() {
 		return idTechnology;
 	}
@@ -32,13 +34,12 @@ public class Technologies {
 		this.idTechnology = idTechnology;
 	}
 
-	public Long getIdTechonlogy() {
-		return idTechnology;
+	public String getParentId() {
+		return parentId;
 	}
 
-
-	public void setIdTechonlogy(Long idTechnology) {
-		this.idTechnology = idTechnology;
+	public void setParentId(String parentId) {
+		this.parentId = parentId;
 	}
 
 	public String getTechnology() {
@@ -48,5 +49,5 @@ public class Technologies {
 	public void setTechnology(String technology) {
 		this.technology = technology;
 	}
-
+	
 }
