@@ -16,7 +16,7 @@ import it.beije.mgmt.entity.Address;
 import it.beije.mgmt.entity.User;
 import it.beije.mgmt.service.JPAService;
 
-@Controller
+//@Controller
 public class AddressController {
 	
 	// GET : read addresses from User within id
