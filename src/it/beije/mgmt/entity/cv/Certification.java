@@ -28,7 +28,7 @@ public class Certification {
 	@Column(name="rating")
 	private String rating;
 	
-	@Column(name = "technologie")
+	@Column(name = "technologies")
 	private String technologies;
 	
 	@Column(name="id_cv")
