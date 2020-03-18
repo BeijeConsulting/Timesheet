@@ -26,6 +26,7 @@ public class CV {
 	private String notes;
 
 	
+	
 	public Long getIdCv() {
 		return idCv;
 	}
