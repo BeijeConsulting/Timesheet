@@ -186,7 +186,7 @@ public class CvService {
 		EntityManager entityManager = Persistence.createEntityManagerFactory("timesheet").createEntityManager();
 		entityManager.getTransaction().begin();
 
-		listCertifications = entityManager.createQuery("select c from Certification c where c.ic_cv = " + idCv, Certification.class).getResultList();
+		listCertifications = entityManager.createQuery("select c from Certification c where c.id_cv = " + idCv, Certification.class).getResultList();
 
 		return listCertifications;
 	}
@@ -241,5 +241,20 @@ public class CvService {
 		entitymanager.persist(updateCertification);
 		entitymanager.getTransaction().commit();
 		entitymanager.close();
+	}
+
+	
+	public CV findCvByUserId(Long idUser) {
+		List<CV> cvs = new ArrayList<CV>();
+
+		EntityManager entityManager = Persistence.createEntityManagerFactory("timesheet").createEntityManager();
+		entityManager.getTransaction().begin();
+
+		cvs = entityManager.createQuery("select c from CV c where c.id_user = " + idUser, CV.class).getResultList();
+
+		if(cvs.get(0) != null) {
+			return cvs.get(0);
+		}
+		return null;
 	}
 }
