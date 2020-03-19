@@ -41,7 +41,7 @@ public class FormazioneApiController {
 	// PUT -> update formazione by Id
 	@PutMapping(value = "cv/formazione/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
 	public void updateFormazioneById(@PathVariable Long id, @RequestBody Formazione formazione) {
-		updateFormazioneById(id, formazione);
+		cvService.updateFormazioneById(formazione, id);
 	}
 	
 }

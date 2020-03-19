@@ -31,12 +31,12 @@ public class CvService {
 	//		return curricula;
 	//	}
 
-	public CV findCvById(Long idUser) throws Exception {
+	public CV findCvById(Long idCV) throws Exception {
 
 		EntityManager entityManager = Persistence.createEntityManagerFactory("timesheet").createEntityManager();
 		entityManager.getTransaction().begin();
 		CV curricula= new CV();
-		curricula=entityManager.createQuery("select c from cv c where c.id_user = " + idUser, CV.class).getSingleResult();
+		curricula=entityManager.createQuery("select c from CV c where c.idCv = " + idCV, CV.class).getSingleResult();
 		entityManager.close();
 		return curricula;
 	}
@@ -55,7 +55,7 @@ public class CvService {
 		if (!Objects.isNull(cv.getLanguageList())) oldCv.setLanguageList(cv.getLanguageList());
 		if (!Objects.isNull(cv.getIdUser())) oldCv.setIdUser(cv.getIdUser());
 		if (!Objects.isNull(cv.getIdCv())) oldCv.setIdCv(cv.getIdCv());
-		if (!Objects.isNull(cv.getTechnology())) oldCv.setTechnology(cv.getTechnology());
+		//if (!Objects.isNull(cv.getTechnology())) oldCv.setTechnology(cv.getTechnology());
 		if (!Objects.isNull(cv.getWorkList())) oldCv.setWorkList(cv.getWorkList());
 		entitymanager.persist(oldCv);
 		entitymanager.getTransaction().commit();
@@ -68,11 +68,12 @@ public class CvService {
 	
 	/***** LANGUAGE****/
 	
-	public List<Language> getLanguagesById(Long idCv) throws Exception {
+	public List<Language> getLanguagesById(Long idCv) {
 		EntityManager entityManager = Persistence.createEntityManagerFactory("timesheet").createEntityManager();
 		entityManager.getTransaction().begin();
-		List<Language> lingue= new ArrayList<Language>();
-		lingue=entityManager.createQuery("select l from language l where l.id_cv = " + idCv, Language.class).getResultList();
+		List<Language> lingue = new ArrayList<Language>();
+		lingue = entityManager.createQuery("select l from Language l where l.idCV = " + idCv, Language.class).getResultList();
+		entityManager.close();
 		return lingue;
 	}
 	
@@ -105,7 +106,7 @@ public class CvService {
 		EntityManager entityManager = Persistence.createEntityManagerFactory("timesheet").createEntityManager();
 		entityManager.getTransaction().begin();
 
-		listFormazione = entityManager.createQuery("select f from Formazione f where f.id_cv = " + idCv, Formazione.class).getResultList();
+		listFormazione = entityManager.createQuery("select f from Formazione f where f.idCV = " + idCv, Formazione.class).getResultList();
 
 		return listFormazione;
 	}
@@ -243,7 +244,7 @@ public class CvService {
 		EntityManager entityManager = Persistence.createEntityManagerFactory("timesheet").createEntityManager();
 		entityManager.getTransaction().begin();
 
-		listCertifications = entityManager.createQuery("select c from Certification c where c.id_cv = " + idCv, Certification.class).getResultList();
+		listCertifications = entityManager.createQuery("select c from Certification c where c.idCV = " + idCv, Certification.class).getResultList();
 
 		return listCertifications;
 	}
