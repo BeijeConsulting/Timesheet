@@ -3,6 +3,8 @@ package it.beije.mgmt.service;
 import java.util.List;
 import org.springframework.transaction.annotation.Transactional;
 import it.beije.mgmt.entity.cv.CV;
+import it.beije.mgmt.entity.cv.Certification;
+
 import java.util.ArrayList;
 import java.util.Objects;
 import javax.persistence.EntityManager;
@@ -53,24 +55,26 @@ public class CvService {
 
 	/**** FORMAZIONE ****/
 	// get list of Formazione by idUser
-	public List<Formazione> getListFormazioneByIdUser(Long idUser) {
+	@Transactional
+	public List<Formazione> getListFormazioneByIdCv(Long idCv) {
 
 		List<Formazione> listFormazione = new ArrayList<Formazione>();
 
 		EntityManager entityManager = Persistence.createEntityManagerFactory("timesheet").createEntityManager();
 		entityManager.getTransaction().begin();
 
-		listFormazione = entityManager.createQuery("select f from Formazione f where f.id_user = " + idUser, Formazione.class).getResultList();
+		listFormazione = entityManager.createQuery("select f from Formazione f where f.id_cv = " + idCv, Formazione.class).getResultList();
 
 		return listFormazione;
 	}
 
 	// create new Formazione for user specify by idUser
-	public void createNewFormazione(Formazione formazione, Long idUser) {
+	@Transactional
+	public void createNewFormazione(Formazione formazione, Long idCv) {
 		EntityManager entityManager = Persistence.createEntityManagerFactory("timesheet").createEntityManager();
 		entityManager.getTransaction().begin();
 
-		Formazione newFormazione = entityManager.find(Formazione.class, idUser);
+		Formazione newFormazione = entityManager.find(Formazione.class, idCv);
 
 		entityManager.persist(newFormazione);
 		entityManager.getTransaction().commit();
@@ -78,6 +82,7 @@ public class CvService {
 	}
 
 	// update Formazione by id_formazione
+	@Transactional
 	public void updateFormazioneById(Formazione formazione, Long idFormazione) {
 		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
 
@@ -104,7 +109,6 @@ public class CvService {
 
 
 	/**** WORK ****/
-	
 	@Autowired
 	private CVRepository CvRepository;
 
@@ -152,5 +156,56 @@ public class CvService {
 		entitymanager.getTransaction().commit();
 		entitymanager.close();
 		return work;
+	}
+
+	/**** CERTIFICATION ****/
+	// GET Certification by User Id
+	@Transactional
+	public List<Certification> getListCertificationByUserId(Long idCv) {
+		List<Certification> listCertifications = new ArrayList<Certification>();
+
+		EntityManager entityManager = Persistence.createEntityManagerFactory("timesheet").createEntityManager();
+		entityManager.getTransaction().begin();
+
+		listCertifications = entityManager.createQuery("select c from Certification c where c.ic_cv = " + idCv, Certification.class).getResultList();
+
+		return listCertifications;
+	}
+
+	// POST Certification for user
+	@Transactional
+	public void insertNewCertificationForUser(Long idCv, Certification certification) {
+		EntityManager entityManager = Persistence.createEntityManagerFactory("timesheet").createEntityManager();
+		entityManager.getTransaction().begin();
+
+		Certification newCertification = entityManager.find(Certification.class, idCv);
+
+		entityManager.persist(newCertification);
+		entityManager.getTransaction().commit();
+		entityManager.close();
+		
+	}
+
+	// PUT Certification by IdCertification
+	@Transactional
+	public void updateCertificationById(Long id, Certification certification) {
+		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
+
+		EntityManager entitymanager = emfactory.createEntityManager();
+		entitymanager.getTransaction().begin();
+
+		Certification updateCertification = entitymanager.find(Certification.class, id);
+
+		if (!Objects.isNull(certification.getDescription())) updateCertification.setDescription(certification.getDescription());
+		if (certification.getIdCertification() != null) updateCertification.setIdCertification(certification.getIdCertification());
+		if (certification.getIdCV() != null) updateCertification.setIdCV(certification.getIdCV());
+		if (!Objects.isNull(certification.getInstitution())) updateCertification.setInstitution(certification.getInstitution());
+		if (!Objects.isNull(certification.getRating())) updateCertification.setRating(certification.getRating());
+		if (!Objects.isNull(certification.getTechnologies())) updateCertification.setTechnologies(certification.getTechnologies());
+		if (!Objects.isNull(certification.getTitle())) updateCertification.setTitle(certification.getTitle());
+
+		entitymanager.persist(updateCertification);
+		entitymanager.getTransaction().commit();
+		entitymanager.close();
 	}
 }

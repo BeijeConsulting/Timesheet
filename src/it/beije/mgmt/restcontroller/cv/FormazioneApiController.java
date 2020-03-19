@@ -21,19 +21,19 @@ import it.beije.mgmt.service.*;
 @RequestMapping("api")
 public class FormazioneApiController {
 	
-	//@Autowired
-	CvService cvService = new CvService();
+	@Autowired
+	CvService cvService;
 	
 	// GET fomazione from idUser
-	@RequestMapping(value = "/cv/formazione/{idUser}", method = RequestMethod.GET)
-	public @ResponseBody List<Formazione> getFormazioneByIdUser(@PathVariable Long idUser) {
-		return cvService.getListFormazioneByIdUser(idUser);
+	@RequestMapping(value = "/cv/formazione/{idCv}", method = RequestMethod.GET)
+	public @ResponseBody List<Formazione> getFormazioneByIdUser(@PathVariable Long idCv) {
+		return cvService.getListFormazioneByIdCv(idCv);
 	}
 	
 	// POST new fomazione for specify idUser
-	@PostMapping(value = "/cv/formazione/{idUser}",  consumes = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody Formazione addNewFormazioneForIdUser(@PathVariable Long idUser, @RequestBody Formazione formazione) {
-		cvService.createNewFormazione(formazione, idUser);		
+	@PostMapping(value = "/cv/formazione/{idCv}",  consumes = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody Formazione addNewFormazioneForIdUser(@PathVariable Long idCv, @RequestBody Formazione formazione) {
+		cvService.createNewFormazione(formazione, idCv);		
 		return formazione;
 	}
 	

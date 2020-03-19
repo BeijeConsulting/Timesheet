@@ -2,11 +2,14 @@ package it.beije.mgmt.entity.cv;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -24,12 +27,23 @@ public class CV {
 	@Column(name="title")
 	private String title;
 	
+	@Column(name = "notes")
+	private String notes;
+	
+	@OneToMany(cascade=CascadeType.ALL)
+	@JoinColumn(name="id_cv")
 	private List<Formazione> formazioneList;
 
+	@OneToMany(cascade=CascadeType.ALL)
+	@JoinColumn(name="id_cv")
 	private List<Work> workList;
 	
+	@OneToMany(cascade=CascadeType.ALL)
+	@JoinColumn(name="id_cv")
 	private List<Language> languageList;
 	
+	@OneToMany(cascade=CascadeType.ALL)
+	@JoinColumn(name="id_cv")
 	private List<Certification> certificationList;
 	
 	private List<String> technology;
@@ -100,6 +114,14 @@ public class CV {
 
 	public void setCertificationList(List<Certification> certificationList) {
 		this.certificationList = certificationList;
+	}
+
+	public String getNotes() {
+		return notes;
+	}
+
+	public void setNotes(String notes) {
+		this.notes = notes;
 	}
 	
 }
