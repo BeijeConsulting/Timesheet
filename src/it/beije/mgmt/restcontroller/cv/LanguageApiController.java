@@ -27,13 +27,18 @@ public class LanguageApiController {
 	public @ResponseBody List<Language> getLanguageById(@PathVariable Long idCv) {
 		return cvService.getLanguagesById(idCv);
 	}
-	
-	@RequestMapping(value = "/language/{idCv}", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+
+	@RequestMapping(value = "language/{idCv}", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody Language setLanguage(@PathVariable Long idCv, @RequestBody Language language) throws Exception {
 		return cvService.setLanguage(idCv,language);
+
 	}
-	
-	
+
+	@RequestMapping(value = "language/{idCv}", method = RequestMethod.PUT,consumes = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody Language updateLanguage(@PathVariable Long idCv,@RequestBody Language language) throws Exception {
+		return cvService.updateLanguage(idCv,language);
+	}
+
 }
 	
 
