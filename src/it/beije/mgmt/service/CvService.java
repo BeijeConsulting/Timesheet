@@ -21,27 +21,34 @@ import it.beije.mgmt.jpa.JpaEntityManager;
 
 @Service
 public class CvService {
-
-
-	//	public List<CV> findCvByTechnology(String technology) throws Exception {
-	//		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
-	//		EntityManager entitymanager = emfactory.createEntityManager();
-	//		List<CV> curricula = cvRepository.findByTechnology(technology);
-	//		System.out.println("Nunmber of CV : " + curricula.size());
-	//		return curricula;
-	//	}
-
-	public CV findCvById(Long idUser) throws Exception {
+	
+	
+	/***** CV *****/
+	
+	@Transactional
+	public CV findCvByUserId(Long idUser) {
+		List<CV> cvs = new ArrayList<CV>();
 
 		EntityManager entityManager = Persistence.createEntityManagerFactory("timesheet").createEntityManager();
 		entityManager.getTransaction().begin();
+
+		cvs = entityManager.createQuery("select c from CV c where c.id_user = " + idUser, CV.class).getResultList();
+
+		if(cvs.get(0) != null) {
+			return cvs.get(0);
+		}
+		return null;
+	}
+
+	@Transactional
+	public CV findCvById(Long idCv) throws Exception {
+		EntityManager entityManager = Persistence.createEntityManagerFactory("timesheet").createEntityManager();
+		entityManager.getTransaction().begin();
 		CV curricula= new CV();
-		curricula=entityManager.createQuery("select c from cv c where c.id_user = " + idUser, CV.class).getSingleResult();
+		curricula=entityManager.createQuery("select c from cv c where c.id_Cv = " + idCv, CV.class).getSingleResult();
 		entityManager.close();
 		return curricula;
 	}
-
-
 
 	@Transactional
 	public CV updateCv(Long idCv, CV cv) {
@@ -65,9 +72,9 @@ public class CvService {
 
 	}
 
-	
 	/***** LANGUAGE****/
 	
+	@Transactional
 	public List<Language> getLanguagesById(Long idCv) throws Exception {
 		EntityManager entityManager = Persistence.createEntityManagerFactory("timesheet").createEntityManager();
 		entityManager.getTransaction().begin();
@@ -75,7 +82,7 @@ public class CvService {
 		lingue=entityManager.createQuery("select l from language l where l.id_cv = " + idCv, Language.class).getResultList();
 		return lingue;
 	}
-	
+	@Transactional
 	public Language setLanguage(Long idCv, Language language) throws Exception {
 		EntityManager entityManager = Persistence.createEntityManagerFactory("timesheet").createEntityManager();
 		entityManager.getTransaction().begin();
@@ -92,6 +99,21 @@ public class CvService {
 		entityManager.getTransaction().commit();
 		entityManager.close();
 		return language;
+	}
+	@Transactional
+	public Language updateLanguage(Long idCv, Language language) throws Exception{		
+		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
+		EntityManager entitymanager = emfactory.createEntityManager();
+		entitymanager.getTransaction().begin();
+		Language updateLanguage = entitymanager.find(Language.class, idCv);
+		if (!Objects.isNull(language.getIdCV())) updateLanguage.setIdCV(language.getIdCV());
+		if (!Objects.isNull(language.getIdLanguage())) updateLanguage.setIdLanguage(language.getIdLanguage());
+		if (!Objects.isNull(language.getLevel())) updateLanguage.setLevel(language.getLevel());
+		if (!Objects.isNull(language.getLanguage())) updateLanguage.setLanguage(language.getLanguage());
+		entitymanager.persist(updateLanguage);
+		entitymanager.getTransaction().commit();
+		entitymanager.close();
+		return updateLanguage;	
 	}
 
 	
@@ -300,18 +322,4 @@ public class CvService {
 		entitymanager.close();
 	}
 
-	
-	public CV findCvByUserId(Long idUser) {
-		List<CV> cvs = new ArrayList<CV>();
-
-		EntityManager entityManager = Persistence.createEntityManagerFactory("timesheet").createEntityManager();
-		entityManager.getTransaction().begin();
-
-		cvs = entityManager.createQuery("select c from CV c where c.id_user = " + idUser, CV.class).getResultList();
-
-		if(cvs.get(0) != null) {
-			return cvs.get(0);
-		}
-		return null;
-	}
 }
