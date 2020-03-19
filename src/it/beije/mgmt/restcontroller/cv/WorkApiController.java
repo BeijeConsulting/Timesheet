@@ -26,14 +26,14 @@ public class WorkApiController {
 	@Autowired
 	CvService cvService;
 	
-	@GetMapping(value = "cv/work/{idUser}")
-	public @ResponseBody List<Work> getWork(@PathVariable Long idUser) {
-		return cvService.getListWorkByUserId(idUser);
+	@GetMapping(value = "cv/work/{idCV}")
+	public @ResponseBody List<Work> getWork(@PathVariable Long idCV) {
+		return cvService.getListWorkByUserId(idCV);
 	}
 	
-	@PostMapping(value = "cv/work/{idUser}",  consumes = MediaType.APPLICATION_JSON_VALUE)
-	public void insertNewWorkForUserId(@PathVariable Long idUser, @RequestBody Work work) throws Exception {
-		cvService.insertNewWorkForUser(idUser, work);
+	@PostMapping(value = "cv/work/{idCV}",  consumes = MediaType.APPLICATION_JSON_VALUE)
+	public void insertNewWorkForUserId(@PathVariable Long idCV, @RequestBody Work work) throws Exception {
+		cvService.insertNewWorkForUser(idCV, work);
 	}
 	
 	@PutMapping(value = "cv/work/{id}",  consumes = MediaType.APPLICATION_JSON_VALUE)

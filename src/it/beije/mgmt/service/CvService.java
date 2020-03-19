@@ -175,7 +175,7 @@ public class CvService {
 		EntityManager entityManager = Persistence.createEntityManagerFactory("timesheet").createEntityManager();
 		entityManager.getTransaction().begin();
 
-		listWorks = entityManager.createQuery("select c from Certification c where c.id_cv = " + idCv, Work.class).getResultList();
+		listWorks = entityManager.createQuery("select w from Work w where w.idCv = " + idCv, Work.class).getResultList();
 
 		return listWorks;
 	}
@@ -220,14 +220,16 @@ public class CvService {
 
 		Work updateWork = entitymanager.find(Work.class, id);
 
-		if (work.getTitle() != null) updateWork.setTitle(work.getTitle());
-		if (work.getEmployment() != null) updateWork.setEmployment(work.getEmployment());
-		if (work.getCompany() != null) updateWork.setCompany(work.getCompany());
-		if (work.getLocation() != null) updateWork.setLocation(work.getLocation());
-		if (work.getStartDate() != null) updateWork.setStartDate(work.getStartDate());
-		if (work.getEndDate() != null) updateWork.setEndDate(work.getEndDate());
-		if (work.getDescription() != null) updateWork.setDescription(work.getDescription());
-		if (work.getTechnologies() != null) updateWork.setTechnologies(work.getTechnologies());
+		if (work.getIdWork() != null) updateWork.setIdWork(work.getIdWork());
+		if (work.getIdCV() != null) updateWork.setIdCV(work.getIdCV());
+		if (!Objects.isNull(work.getTitle())) updateWork.setTitle(work.getTitle());
+		if (!Objects.isNull(work.getEmployment())) updateWork.setEmployment(work.getEmployment());
+		if (!Objects.isNull(work.getCompany())) updateWork.setCompany(work.getCompany());
+		if (!Objects.isNull(work.getLocation())) updateWork.setLocation(work.getLocation());
+		if (!Objects.isNull(work.getStartDate())) updateWork.setStartDate(work.getStartDate());
+		if (!Objects.isNull(work.getEndDate())) updateWork.setEndDate(work.getEndDate());
+		if (!Objects.isNull(work.getDescription())) updateWork.setDescription(work.getDescription());
+		if (!Objects.isNull(work.getTechnologies())) updateWork.setTechnologies(work.getTechnologies());
 		entitymanager.persist(work);
 		entitymanager.getTransaction().commit();
 		entitymanager.close();
@@ -244,7 +246,7 @@ public class CvService {
 		entityManager.getTransaction().begin();
 
 		listCertifications = entityManager.createQuery("select c from Certification c where c.id_cv = " + idCv, Certification.class).getResultList();
-
+		System.out.println(listCertifications);
 		return listCertifications;
 	}
 

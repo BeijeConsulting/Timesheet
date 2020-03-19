@@ -41,7 +41,7 @@ public class Work {
 	private String technologies;
 
 	@Column(name="id_cv")
-	private Long idCV;
+	private Long idCv;
 	
 
 	public Work() {
@@ -121,10 +121,10 @@ public class Work {
 	}
 
 	public Long getIdCV() {
-		return idCV;
+		return idCv;
 	}
 
 	public void setIdCV(Long idCV) {
-		this.idCV = idCV;
+		this.idCv = idCV;
 	}
 }
