@@ -16,10 +16,12 @@ import org.springframework.stereotype.Service;
 
 import it.beije.mgmt.entity.cv.Formazione;
 import it.beije.mgmt.entity.cv.Work;
+import it.beije.mgmt.entity.cv.Language;
 import it.beije.mgmt.jpa.JpaEntityManager;
 
 @Service
 public class CvService {
+
 
 	//	public List<CV> findCvByTechnology(String technology) throws Exception {
 	//		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
@@ -28,30 +30,71 @@ public class CvService {
 	//		System.out.println("Nunmber of CV : " + curricula.size());
 	//		return curricula;
 	//	}
-	public List<CV> findCvById(Long idUser) throws Exception {
+
+	public CV findCvById(Long idUser) throws Exception {
 
 		EntityManager entityManager = Persistence.createEntityManagerFactory("timesheet").createEntityManager();
 		entityManager.getTransaction().begin();
-		return entityManager.createQuery("select c from cv c where c.id_user = " + idUser, CV.class).getResultList();
+		CV curricula= new CV();
+		curricula=entityManager.createQuery("select c from cv c where c.id_user = " + idUser, CV.class).getSingleResult();
+		entityManager.close();
+		return curricula;
 	}
+
+
 
 	@Transactional
-	public CV updateTitle(Long id, String title) {
+	public CV updateCv(Long idCv, CV cv) {
 		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
-
 		EntityManager entitymanager = emfactory.createEntityManager();
 		entitymanager.getTransaction().begin();
-		CV updateCv = entitymanager.find(CV.class, id);
-		if (!Objects.isNull(title)) updateCv.setTitle(title);
-		entitymanager.persist(updateCv);
+		CV oldCv = entitymanager.find(CV.class, idCv);
+		if (!Objects.isNull(cv.getTitle())) oldCv.setTitle(cv.getTitle());
+		if (!Objects.isNull(cv.getFormazioneList())) oldCv.setFormazioneList(cv.getFormazioneList());
+		if (!Objects.isNull(cv.getCertificationList())) oldCv.setCertificationList(cv.getCertificationList());
+		if (!Objects.isNull(cv.getLanguageList())) oldCv.setLanguageList(cv.getLanguageList());
+		if (!Objects.isNull(cv.getIdUser())) oldCv.setIdUser(cv.getIdUser());
+		if (!Objects.isNull(cv.getIdCv())) oldCv.setIdCv(cv.getIdCv());
+		if (!Objects.isNull(cv.getTechnology())) oldCv.setTechnology(cv.getTechnology());
+		if (!Objects.isNull(cv.getWorkList())) oldCv.setWorkList(cv.getWorkList());
+		entitymanager.persist(oldCv);
 		entitymanager.getTransaction().commit();
 		entitymanager.close();
-		return updateCv;
+		
+		return oldCv;
 
 	}
 
+	
+	/***** LANGUAGE****/
+	
+	public List<Language> getLanguagesById(Long idCv) throws Exception {
+		EntityManager entityManager = Persistence.createEntityManagerFactory("timesheet").createEntityManager();
+		entityManager.getTransaction().begin();
+		List<Language> lingue= new ArrayList<Language>();
+		lingue=entityManager.createQuery("select l from language l where l.id_cv = " + idCv, Language.class).getResultList();
+		return lingue;
+	}
+	
+	public Language setLanguage(Long idCv, Language language) throws Exception {
+		EntityManager entityManager = Persistence.createEntityManagerFactory("timesheet").createEntityManager();
+		entityManager.getTransaction().begin();
+		CV cv = entityManager.find(CV.class, idCv);
+		if (Objects.isNull(language.getIdCV())) {
+			language.setIdCV(idCv);
+		} else if (language.getIdCV().longValue() != idCv.longValue()) {
+			throw new Exception();
+		}	
+		List<Language> Languages = cv.getLanguageList();
+		Languages.add(language);
+		cv.setLanguageList(Languages);
+		entityManager.persist(language);
+		entityManager.getTransaction().commit();
+		entityManager.close();
+		return language;
+	}
 
-
+	
 	/**** FORMAZIONE ****/
 	// get list of Formazione by idUser
 	@Transactional
