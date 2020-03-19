@@ -32,7 +32,7 @@ public class FormazioneApiController {
 	
 	// POST new fomazione for specify idUser
 	@PostMapping(value = "/cv/formazione/{idCv}",  consumes = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody Formazione addNewFormazioneForIdUser(@PathVariable Long idCv, @RequestBody Formazione formazione) {
+	public @ResponseBody Formazione addNewFormazioneForIdUser(@PathVariable Long idCv, @RequestBody Formazione formazione) throws Exception {
 		cvService.createNewFormazione(formazione, idCv);		
 		return formazione;
 	}

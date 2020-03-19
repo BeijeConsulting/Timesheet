@@ -29,7 +29,7 @@ public class CertificationApiController {
 	}
 	
 	@PostMapping(value = "cv/certification/{idUser}",  consumes = MediaType.APPLICATION_JSON_VALUE)
-	public void insertNewCertificationForUserId(@PathVariable Long idUser, @RequestBody Certification certification) {
+	public void insertNewCertificationForUserId(@PathVariable Long idUser, @RequestBody Certification certification) throws Exception {
 		cvService.insertNewCertificationForUser(idUser, certification);
 	}
 	
