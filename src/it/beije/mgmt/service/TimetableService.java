@@ -51,7 +51,6 @@ public class TimetableService {
 
 		EntityManager entitymanager = emfactory.createEntityManager();
 		entitymanager.getTransaction().begin();
-		
 		for(Timesheet timetable : timetables) {
 			entitymanager.persist(timetable);			
 		}
@@ -368,6 +367,22 @@ public class TimetableService {
 		entitymanager.close();
 		
 		return timetables;
+	}
+	
+	public boolean deleteRestController(int id,Date date) {
+		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
+		EntityManager entitymanager = emfactory.createEntityManager();
+		EntityTransaction entr = entitymanager.getTransaction();
+		entr.begin();
+		Query query = entitymanager.createQuery("delete from Timesheet where id_user= :ID AND date= :DATE");
+		query.setParameter("ID", id);
+		query.setParameter("DATE", date);
+		int result = query.executeUpdate();
+		entr.commit();
+		if(result!=0)
+			return true;
+		else
+			return false;
 	}
 
 }

@@ -194,7 +194,8 @@ public class TimetableController {
 	double tot =timetableService.oreTrascorse(timetable.getStart1(), timetable.getEnd1(), timetable.getStart2(),timetable.getEnd2());
 		timetable.setTot(tot);
 	model.addAttribute("timetable", timetable);
-		
+	
+		table=timetable;
 		System.out.println("data saddsxta"+ table.getDate());
 	
 		
