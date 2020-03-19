@@ -2,6 +2,9 @@ package it.beije.mgmt.service;
 
 import java.util.List;
 import org.springframework.transaction.annotation.Transactional;
+
+import it.beije.mgmt.entity.Address;
+import it.beije.mgmt.entity.User;
 import it.beije.mgmt.entity.cv.CV;
 import it.beije.mgmt.entity.cv.Certification;
 
@@ -70,15 +73,31 @@ public class CvService {
 
 	// create new Formazione for user specify by idUser
 	@Transactional
-	public void createNewFormazione(Formazione formazione, Long idCv) {
+	public void createNewFormazione(Formazione formazione, Long idCv) throws Exception {
+
 		EntityManager entityManager = Persistence.createEntityManagerFactory("timesheet").createEntityManager();
 		entityManager.getTransaction().begin();
 
-		Formazione newFormazione = entityManager.find(Formazione.class, idCv);
+		CV cv = entityManager.find(CV.class, idCv);
 
-		entityManager.persist(newFormazione);
+		if (Objects.isNull(formazione.getIdCV())) {
+			formazione.setIdCV(idCv);
+		} else {
+			if (formazione.getIdCV().longValue() != idCv.longValue()) {
+				throw new Exception();
+			}
+		}
+
+		List<Formazione> formazioni = cv.getFormazioneList();
+
+
+		formazioni.add(formazione);
+		cv.setFormazioneList(formazioni);
+
+		entityManager.persist(formazione);
 		entityManager.getTransaction().commit();
 		entityManager.close();
+
 	}
 
 	// update Formazione by id_formazione
@@ -174,16 +193,31 @@ public class CvService {
 
 	// POST Certification for user
 	@Transactional
-	public void insertNewCertificationForUser(Long idCv, Certification certification) {
+	public void insertNewCertificationForUser(Long idCv, Certification certification) throws Exception {
+
 		EntityManager entityManager = Persistence.createEntityManagerFactory("timesheet").createEntityManager();
 		entityManager.getTransaction().begin();
 
-		Certification newCertification = entityManager.find(Certification.class, idCv);
+		CV cv = entityManager.find(CV.class, idCv);
 
-		entityManager.persist(newCertification);
+		if (Objects.isNull(certification.getIdCV())) {
+			certification.setIdCertification(idCv);
+		} else {
+			if (certification.getIdCV().longValue() != idCv.longValue()) {
+				throw new Exception();
+			}
+		}
+
+		List<Certification> certifications = cv.getCertificationList();
+
+
+		certifications.add(certification);
+		cv.setCertificationList(certifications);
+
+		entityManager.persist(certification);
 		entityManager.getTransaction().commit();
 		entityManager.close();
-		
+
 	}
 
 	// PUT Certification by IdCertification
