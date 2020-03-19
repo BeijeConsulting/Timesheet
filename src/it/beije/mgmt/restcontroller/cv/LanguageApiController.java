@@ -23,22 +23,17 @@ public class LanguageApiController {
 	@Autowired
 	private CvService cvService;
 	
-	@RequestMapping(value = "language/{idCv}", method = RequestMethod.GET)
+	@RequestMapping(value = "/language/{idCv}", method = RequestMethod.GET)
 	public @ResponseBody List<Language> getLanguageById(@PathVariable Long idCv) {
-		try {
-			return cvService.getLanguagesById(idCv);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return null;
-		}
+		return cvService.getLanguagesById(idCv);
 	}
 	
-	@RequestMapping(value = "language/{idCv}", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody Language setLanguage(@PathVariable Long idCv, @RequestBody Language language) {
-		return setLanguage(idCv,language);
-		
+	@RequestMapping(value = "/language/{idCv}", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody Language setLanguage(@PathVariable Long idCv, @RequestBody Language language) throws Exception {
+		return cvService.setLanguage(idCv,language);
 	}
+	
+	
 }
 	
 

@@ -38,10 +38,10 @@ public class CvApiController {
 //			
 //	}
 
-	@RequestMapping(value = "cv/{id}", method = RequestMethod.GET)
-	public @ResponseBody CV getCvById(@PathVariable Long idUser) {
+	@RequestMapping(value = "/cv/{idCV}", method = RequestMethod.GET)
+	public @ResponseBody CV getCvById(@PathVariable Long idCV) {
 		try {
-			return cvService.findCvById(idUser);
+			return cvService.findCvById(idCV);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
