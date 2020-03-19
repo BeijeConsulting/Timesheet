@@ -34,7 +34,7 @@ public class LanguageApiController {
 		}
 	}
 	
-	@RequestMapping(value = "setLanguage/{idCv}", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "language/{idCv}", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody Language setLanguage(@PathVariable Long idCv, @RequestBody Language language) {
 		return setLanguage(idCv,language);
 		

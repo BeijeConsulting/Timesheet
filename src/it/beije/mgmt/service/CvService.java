@@ -32,17 +32,23 @@ public class CvService {
 		return curricula;
 	}
 	@Transactional
-	public CV updateTitle(Long id, String title) {
+	public CV updateCv(Long idCv, CV cv) {
 		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
-
 		EntityManager entitymanager = emfactory.createEntityManager();
 		entitymanager.getTransaction().begin();
-		CV updateCv = entitymanager.find(CV.class, id);
-		if (!Objects.isNull(title)) updateCv.setTitle(title);
-		entitymanager.persist(updateCv);
+		CV oldCv = entitymanager.find(CV.class, idCv);
+		if (!Objects.isNull(cv.getTitle())) oldCv.setTitle(cv.getTitle());
+		if (!Objects.isNull(cv.getFormazioneList())) oldCv.setFormazioneList(cv.getFormazioneList());
+		if (!Objects.isNull(cv.getCertificationList())) oldCv.setCertificationList(cv.getCertificationList());
+		if (!Objects.isNull(cv.getLanguageList())) oldCv.setLanguageList(cv.getLanguageList());
+		if (!Objects.isNull(cv.getIdUser())) oldCv.setIdUser(cv.getIdUser());
+		if (!Objects.isNull(cv.getIdCv())) oldCv.setIdCv(cv.getIdCv());
+		if (!Objects.isNull(cv.getTechnology())) oldCv.setTechnology(cv.getTechnology());
+		if (!Objects.isNull(cv.getWorkList())) oldCv.setWorkList(cv.getWorkList());
+		entitymanager.persist(oldCv);
 		entitymanager.getTransaction().commit();
 		entitymanager.close();
-		return updateCv;
+		return oldCv;
 		
 	}
 	
@@ -59,8 +65,6 @@ public class CvService {
 		EntityManager entityManager = Persistence.createEntityManagerFactory("timesheet").createEntityManager();
 		entityManager.getTransaction().begin();
 		CV cv = entityManager.find(CV.class, idCv);
-		System.out.println("cv.getLanguageList()?" 
-				+ (cv.getLanguageList() != null ? cv.getLanguageList().size() : "NULL"));
 		if (Objects.isNull(language.getIdCV())) {
 			language.setIdCV(idCv);
 		} else if (language.getIdCV().longValue() != idCv.longValue()) {

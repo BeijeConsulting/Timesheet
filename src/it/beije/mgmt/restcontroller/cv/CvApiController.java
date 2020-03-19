@@ -46,11 +46,9 @@ public class CvApiController {
 		}
 	}
 	
-	@RequestMapping(value = "updateCv/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody CV updateCV(@PathVariable Long id, @RequestBody String title) throws IOException {
-		System.out.println("update address by id: " + id);
-		System.out.println("update title: " + title);
-		return cvService.updateTitle(id, title);
+	@RequestMapping(value = "update/cv/{idCv}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody CV updateCV(@PathVariable Long idCv, @RequestBody CV cv) throws IOException {
+		return cvService.updateCv(idCv, cv);
 	}
 }
 
