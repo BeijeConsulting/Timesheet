@@ -25,24 +25,20 @@ public class FormazioneApiController {
 	CvService cvService;
 	
 	// GET fomazione from idUser
-	@Transactional
-	@RequestMapping(value = "/cv/formazione/{idUser}", method = RequestMethod.GET)
-	public @ResponseBody List<Formazione> getFormazioneByIdUser(@PathVariable Long idUser) {
-		
-		return cvService.getListFormazioneByIdUser(idUser);
+	@RequestMapping(value = "/cv/formazione/{idCv}", method = RequestMethod.GET)
+	public @ResponseBody List<Formazione> getFormazioneByIdUser(@PathVariable Long idCv) {
+		return cvService.getListFormazioneByIdCv(idCv);
 	}
 	
 	// POST new fomazione for specify idUser
-	@Transactional
-	@PostMapping(value = "/cv/formazione/{idUser}",  consumes = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody Formazione addNewFormazioneForIdUser(@PathVariable Long idUser, @RequestBody Formazione formazione) {
-		cvService.createNewFormazione(formazione, idUser);		
+	@PostMapping(value = "/cv/formazione/{idCv}",  consumes = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody Formazione addNewFormazioneForIdUser(@PathVariable Long idCv, @RequestBody Formazione formazione) {
+		cvService.createNewFormazione(formazione, idCv);		
 		return formazione;
 	}
 	
 	
 	// PUT -> update formazione by Id
-	@Transactional
 	@PutMapping(value = "cv/formazione/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
 	public void updateFormazioneById(@PathVariable Long id, @RequestBody Formazione formazione) {
 		updateFormazioneById(id, formazione);
