@@ -180,6 +180,7 @@ public class TimetableController {
 	}
 
 
+
 //	@PostMapping("/user")
 	@RequestMapping(value = "/user", method = RequestMethod.POST)
 		public String user(@Validated Timesheet timetable,  Model model) {
@@ -189,13 +190,16 @@ public class TimetableController {
 		if (TimetableService.findRecordsFromId(timetable.getIdUser())==null)  {
 			System.out.println("Utente non trovato");
 			return "utentenontrovato";
-		}		
+		}	
+	
+		
 
 	double tot =timetableService.oreTrascorse(timetable.getStart1(), timetable.getEnd1(), timetable.getStart2(),timetable.getEnd2());
 		timetable.setTot(tot);
+		table=timetable;
 	model.addAttribute("timetable", timetable);
 		
-		System.out.println("data saddsxta"+ table.getDate());
+		System.out.println("data saddsxta"+ timetable.getDate());
 	
 		
 		return "user";

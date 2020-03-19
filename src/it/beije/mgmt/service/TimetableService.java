@@ -131,7 +131,7 @@ public class TimetableService {
 	 * 
 	 *****************************************************************************************************************/
 	
-	public void updateRecord(int id, Date date,Timesheet newTable) {
+	public void updateRecord(long id, Date date,Timesheet newTable) {
 		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
 		EntityManager entitymanager = emfactory.createEntityManager();
 		TimetableService service = new TimetableService ();
