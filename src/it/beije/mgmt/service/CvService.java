@@ -308,11 +308,28 @@ public class CvService {
 		EntityManager entityManager = Persistence.createEntityManagerFactory("timesheet").createEntityManager();
 		entityManager.getTransaction().begin();
 
-		cvs = entityManager.createQuery("select c from CV c where c.id_user = " + idUser, CV.class).getResultList();
+		cvs = entityManager.createQuery("select c from CV c where c.idUser = " + idUser, CV.class).getResultList();
 
 		if(cvs.get(0) != null) {
 			return cvs.get(0);
 		}
 		return null;
+	}
+
+
+
+	// NON funzionante!!!!
+	public void addNewCv(Long idUser, CV cv) {
+		EntityManager entityManager = Persistence.createEntityManagerFactory("timesheet").createEntityManager();
+		entityManager.getTransaction().begin();
+
+		CV curriculum = entityManager.find(CV.class, idUser);
+
+		cv.setIdUser(idUser);
+
+		entityManager.persist(cv);
+		entityManager.getTransaction().commit();
+		entityManager.close();
+
 	}
 }
