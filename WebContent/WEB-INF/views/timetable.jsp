@@ -62,27 +62,30 @@ input[type=submit]:hover {
 			<label class="w3-text-grey">ID utente</label><br> <input
 				type="number" name="idUser" value="12345" required><br>
 
-			<label class="w3-text-grey">Tipo:</label> <br> <select
-				class="w3-text-grey" name="type">
-				<option value="w">Giornata lavorativa</option>
-				<option value="p">Permesso</option>
-				<option value="v">Ferie</option>
-				<option value="s">Malattia</option>
-				<option value="h">Festività</option>
-			</select> <br> <br> <label class="w3-text-grey">Data</label> <br>
+			<label class="w3-text-grey">Tipo:</label> <br>
+		 <select class="w3-text-grey" name="type">
+				<option value="L">Giornata lavorativa</option>
+				<option value="P">Permesso</option>
+				<option value="F">Ferie</option>
+				<option value="M">Malattia</option>
+				<option value="F">Festività</option>
+			</select>
+			
+			
+			 <br> <br> <label class="w3-text-grey">Data</label> <br>
 			<input type="date" name="date" value="2019-1-1"> <br>
 
 			<label class="w3-text-grey">Orario di inizio</label> <br> <input
-				type="time" name="start1" maxlength="5" value="09:00"><br>
+				type="text" name="start1" maxlength="8" value="09:00:00"><br>
 
 			<label class="w3-text-grey">Orario di fine</label> <br> <input
-				type="time" name="end1" maxlength="5" value="13:00"><br>
+				type="text" name="end1" maxlength="8" value="13:00:00"><br>
 
 			<label class="w3-text-grey">Secondo orario di inizio</label> <br>
-			<input type="time" name="start2" maxlength="5" value="14:00"><br>
+			<input type="text" name="start2" maxlength="8" value="14:00:00"><br>
 
-			<label class="w3-text-grey">Secondo orario di fne</label> <br>
-			 <input type="time" name="end2" maxlength="5" value="18:00"><br>
+			<label class="w3-text-grey">Secondo orario di fine</label> <br>
+			 <input type="text" name="end2" maxlength="8" value="18:00:00"><br>
 
 
 			<input type="submit" value="InserisciMODIFICATO">
@@ -91,5 +94,6 @@ input[type=submit]:hover {
 		</form>
 	</div>
 </body>
+
 
 </html>
