@@ -89,7 +89,6 @@ AddressService.java è la classe nella quale si trovano i servizi messi a dispos
 AddressRepository.java è un interfaccia che dichiara un unico metodo a cui viene passato l'id dell'utente e ritorna tutti gli indirizzi associati all'utente.
 
 
-
 # TIMESHEET - SEZIONE USER
 
 	Entry-point: homepage.jsp
@@ -200,4 +199,3 @@ Lato server: REST CONTROLLER --> it.beije.mgmt.restcontroller.UserApiController.
 	
 	--> @RequestMapping(value="/search", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 		public @ResponseBody List<UserDto> searchUser(@RequestBody UserRequest req)
-

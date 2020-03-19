@@ -1,5 +1,6 @@
 package it.beije.mgmt.service;
 
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -261,7 +262,7 @@ public class UserService implements UserDetailsService{
 				whereClause+="WHERE ";
 		}
 		if (fiscalCode != null && fiscalCode.length()>0) {
-			searchQuery.add("a.fiscalCode='"+fiscalCode+"'");
+			searchQuery.add("a.fiscalCode LIKE '%"+fiscalCode+"%'");
 			if (whereClause.length()==0)
 				whereClause+="WHERE ";
 		}
@@ -304,7 +305,10 @@ public class UserService implements UserDetailsService{
 //			users.add(BeanUtils.copyProperties(u, targetObj, "propertyToIgnoreA", "propertyToIgnoreB", "propertyToIgnoreC");)
 //		}
 		
-		users=completeUsers.stream().map(e -> UserDto.valueOf(e)).collect(Collectors.toList());
+		users=completeUsers.stream()
+				.filter(e -> e.getArchiveDate()==null)
+				.map(e -> UserDto.valueOf(e))
+				.collect(Collectors.toList());
 		 
 		
 		return users;
@@ -353,28 +357,38 @@ public class UserService implements UserDetailsService{
 	 * QUESTO METODO SERVE PER INSERIRE LA DATA DI ARCHIVIAZIONE DI UN UTENTE DALLE JSP
 	 * @param user
 	 */
-	public void archiviaUtente(User user) {
-
+	public boolean archiviaUtente(User user) {
+		
 		LocalDate data = LocalDate.now();
 		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
 		EntityManager entitymanager = emfactory.createEntityManager();
-		entitymanager.getTransaction().begin();
-		System.out.println("sono nel metodo archiviaUtente");
-		String modifica="UPDATE User a SET";
-
-		modifica += " a.archiveDate= '" + data + "' ";
-
-		modifica += " WHERE a.id= "+user.getId();
-
-		System.out.println(modifica);
-
-		Query q = entitymanager.createQuery(modifica);
-		int rowsUpdated = q.executeUpdate();
-
-		//System.out.println(rowsUpdated);
-		entitymanager.getTransaction().commit();
 		
-		entitymanager.close();
+		try{
+			entitymanager.getTransaction().begin();
+			System.out.println("sono nel metodo archiviaUtente");
+			String modifica="UPDATE User a SET";
+		
+			modifica += " a.archiveDate= '" + data + "' ";
+		
+			modifica += " WHERE a.id= "+user.getId();
+		
+			System.out.println(modifica);
+		
+			Query q = entitymanager.createQuery(modifica);
+			int rowsUpdated = q.executeUpdate();
+		
+			//System.out.println(rowsUpdated);
+			entitymanager.getTransaction().commit();
+		
+		}catch(Exception e) {
+			return false;
+		}finally{
+			entitymanager.close();
+		}
+		
+		return true;
+		
+			
 	}
 
 	@Override
@@ -422,7 +436,7 @@ public class UserService implements UserDetailsService{
 				whereClause+="WHERE ";
 		}
 		if (fiscalCode != null && fiscalCode.length()>0) {
-			searchQuery.add("a.fiscalCode='"+fiscalCode+"'");
+ 			searchQuery.add("a.fiscalCode LIKE '%"+fiscalCode+"%'");
 			if (whereClause.length()==0)
 				whereClause+="WHERE ";
 		}

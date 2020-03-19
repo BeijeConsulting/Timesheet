@@ -49,13 +49,8 @@ public class UserController {
 		return "home";
 	}
 	
-
-	@RequestMapping(value = "/confirmdata", method = RequestMethod.POST)
-	public String confermaDati(@Validated User user, String lastName, Model model) {
-		model.addAttribute("user", user);
-		return "confermadati";
-	}
-
+//	INSERT UTENTE____________________________________________________________________________
+	
 	@RequestMapping(value = "/insertuser", method = RequestMethod.GET)
 	public String index(@Validated User user, Model model) {
 		System.out.println("Pagine inseriti: " + user.getLastName());
@@ -66,6 +61,12 @@ public class UserController {
 		return "inserisciutente";
 	}
 
+	@RequestMapping(value = "/confirmdata", method = RequestMethod.POST)
+	public String confermaDati(@Validated User user, String lastName, Model model) {
+		model.addAttribute("user", user);
+		return "confermadati";
+	}
+	
 	@PreAuthorize("hasAnyRole('ADMIN')")		
 	@RequestMapping(value = "/conferma", method = RequestMethod.POST)
 	public String conferma(@Validated User user, Model model) {
@@ -78,15 +79,53 @@ public class UserController {
 		System.out.println("sono in conferma " + user.getFirstName());
 		return "conferma";
 	}
-
+	
+	
+	
+//	MODIFICA UTENTE___________________________________________________________________________
+	
 	@PreAuthorize("hasAnyRole('ADMIN')")		
 	@RequestMapping(value = "/modificautente", method = RequestMethod.GET)
 	public String modificaUtente(@Validated User user, Model model) {
 
 		return "modificautente";
 	}
+	
+	@PreAuthorize("hasAnyRole('ADMIN')")		
+	@RequestMapping(value = "/modificadati", method = RequestMethod.POST)
+	public String modificaDati(@Validated User user, Model model) {
+		
+		try {
+		
+		user = new UserService().find(user.getId());
+		user.getFirstName();
+		model.addAttribute("user", user);
+			return "modificadati";
+		}
+		catch (NullPointerException e) {
+			return "idnontrovato";
+		}
+	
+	}
+	
+	@PreAuthorize("hasAnyRole('ADMIN')")		
+	@RequestMapping(value = "/idnontrovato", method = RequestMethod.POST)
+	public String idNonTrovato(@Validated User user, Model model) {
+
+		
+		return "idnontrovato";
+	}
+	
+	@PreAuthorize("hasAnyRole('ADMIN')")		
+	@RequestMapping(value = "/confermamodificadati", method = RequestMethod.POST)
+	public String confermaModificaDati(@Validated User user, Model model) {
+
+		new UserService().modificaUtente(user);
+		return "conferma";
+	}
 
 
+//	CERCA E VISUALIZZA UTENTE___________________________________________________________________________	
 	
 	@PreAuthorize("hasAnyRole('ADMIN')")		
 	@RequestMapping(value = "/cercautente", method = RequestMethod.GET)
@@ -115,40 +154,9 @@ public class UserController {
 		
 		return "data";
 	}
-	
-	@PreAuthorize("hasAnyRole('ADMIN')")		
-	@RequestMapping(value = "/modificadati", method = RequestMethod.POST)
-	public String modificaDati(@Validated User user, Model model) {
-		
-		try {
-		
-		user = new UserService().find(user.getId());
-		user.getFirstName();
-		model.addAttribute("user", user);
-			return "modificadati";
-		}
-		catch (NullPointerException e) {
-			return "idnontrovato";
-		}
-	
-	}
-	
-	@PreAuthorize("hasAnyRole('ADMIN')")		
-	@RequestMapping(value = "/idnontrovato", method = RequestMethod.POST)
-	public String idNonTrovato(@Validated User user, Model model) {
 
-		
-		return "idnontrovato";
-	}
 	
-	
-	@PreAuthorize("hasAnyRole('ADMIN')")		
-	@RequestMapping(value = "/confermamodificadati", method = RequestMethod.POST)
-	public String confermaModificaDati(@Validated User user, Model model) {
-
-		new UserService().modificaUtente(user);
-		return "conferma";
-	}
+//	CANCELLA UTENTE___________________________________________________________________________		
 	
 	@PreAuthorize("hasAnyRole('ADMIN')")
 	@RequestMapping(value = "/cancellautente", method = RequestMethod.POST)
@@ -163,6 +171,14 @@ public class UserController {
 
 		new UserService().archiviaUtente(user);
 		return "confermacancellazione";
+	}
+	
+//	ENTRY POINT SEZIONE IMPORT DOCUMENTS___________________________________________________________________________		
+	
+	@RequestMapping(value = {"/importdocuments"}, method = RequestMethod.GET)
+	public String importDocuments(@Validated User user, Model model) {
+
+		return "importdocuments";
 	}
 	
 	
@@ -189,9 +205,5 @@ public class UserController {
 		return "temporanea";
 	}
 	
-	@RequestMapping(value = {"/importdocuments"}, method = RequestMethod.GET)
-	public String importDocuments(@Validated User user, Model model) {
 
-		return "importdocuments";
-	}
 }
