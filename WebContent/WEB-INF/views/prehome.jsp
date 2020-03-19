@@ -98,10 +98,22 @@ pageEncoding="ISO-8859-1"%>
       <input class="btn green" type="submit" value="Inserisci">
     </form>
     <br><br><br>
+    <form action="cancella" method="post">
+      <input class="btn green" type="submit" value="cancella">
+    </form>
+    <br><br><br>
     
     <form action="ricerca" method="post">
       <input class="btn green" type="submit"value="Ricerca/Modifica Utente">
     </form>
+     <br><br><br>
+    
+    <form action="listtimetable" method="get">
+      <input class="btn green" type="submit" value="Inserisci più righe">
+    </form>
+    <br><br><br>
+    
+    
   </div>	
   <footer>
    <p align="left">Data: ${serverTime}</p>
