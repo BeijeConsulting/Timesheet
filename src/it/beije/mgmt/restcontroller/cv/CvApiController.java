@@ -3,7 +3,6 @@ package it.beije.mgmt.restcontroller.cv;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,10 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-
 import it.beije.mgmt.entity.Address;
 import it.beije.mgmt.entity.cv.CV;
-import it.beije.mgmt.repository.CvRepository;
 import it.beije.mgmt.service.AddressService;
 import it.beije.mgmt.service.CvService;
 
@@ -38,9 +35,8 @@ public class CvApiController {
 //		
 //			
 //	}
-	
 	@RequestMapping(value = "cv/{id}", method = RequestMethod.GET)
-	public @ResponseBody List<CV> getCvById(@PathVariable Long idUser) {
+	public @ResponseBody CV getCvById(@PathVariable Long idUser) {
 		try {
 			return cvService.findCvById(idUser);
 		} catch (Exception e) {
@@ -48,12 +44,10 @@ public class CvApiController {
 			e.printStackTrace();
 			return null;
 		}
-	
-
 	}
 	
 	@RequestMapping(value = "updateCv/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
-		public @ResponseBody CV updateCV(@PathVariable Long id, @RequestBody String title) throws IOException {
+	public @ResponseBody CV updateCV(@PathVariable Long id, @RequestBody String title) throws IOException {
 		System.out.println("update address by id: " + id);
 		System.out.println("update title: " + title);
 		return cvService.updateTitle(id, title);

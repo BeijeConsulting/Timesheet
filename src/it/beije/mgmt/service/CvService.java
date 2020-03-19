@@ -10,6 +10,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import it.beije.mgmt.entity.cv.Formazione;
+import it.beije.mgmt.entity.cv.Language;
 import it.beije.mgmt.jpa.JpaEntityManager;
 
 public class CvService {
@@ -21,13 +22,15 @@ public class CvService {
 //		System.out.println("Nunmber of CV : " + curricula.size());
 //		return curricula;
 //	}
-	public List<CV> findCvById(Long idUser) throws Exception {
+	public CV findCvById(Long idUser) throws Exception {
 		
 		EntityManager entityManager = Persistence.createEntityManagerFactory("timesheet").createEntityManager();
 		entityManager.getTransaction().begin();
-		return entityManager.createQuery("select c from cv c where c.id_user = " + idUser, CV.class).getResultList();
+		CV curricula= new CV();
+		curricula=entityManager.createQuery("select c from cv c where c.id_user = " + idUser, CV.class).getSingleResult();
+		entityManager.close();
+		return curricula;
 	}
-	
 	@Transactional
 	public CV updateTitle(Long id, String title) {
 		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
@@ -43,7 +46,34 @@ public class CvService {
 		
 	}
 	
+	/***** LANGUAGE****/
 	
+	public List<Language> getLanguagesById(Long idCv) throws Exception {
+		EntityManager entityManager = Persistence.createEntityManagerFactory("timesheet").createEntityManager();
+		entityManager.getTransaction().begin();
+		List<Language> lingue= new ArrayList<Language>();
+		lingue=entityManager.createQuery("select l from language l where l.id_cv = " + idCv, Language.class).getResultList();
+		return lingue;
+	}
+	public Language setLanguage(Long idCv, Language language) throws Exception {
+		EntityManager entityManager = Persistence.createEntityManagerFactory("timesheet").createEntityManager();
+		entityManager.getTransaction().begin();
+		CV cv = entityManager.find(CV.class, idCv);
+		System.out.println("cv.getLanguageList()?" 
+				+ (cv.getLanguageList() != null ? cv.getLanguageList().size() : "NULL"));
+		if (Objects.isNull(language.getIdCV())) {
+			language.setIdCV(idCv);
+		} else if (language.getIdCV().longValue() != idCv.longValue()) {
+			throw new Exception();
+		}	
+		List<Language> Languages = cv.getLanguageList();
+		Languages.add(language);
+		cv.setLanguageList(Languages);
+		entityManager.persist(language);
+		entityManager.getTransaction().commit();
+		entityManager.close();
+		return language;
+	}
 	
 	/**** FORMAZIONE ****/
 	// get list of Formazione by idUser
