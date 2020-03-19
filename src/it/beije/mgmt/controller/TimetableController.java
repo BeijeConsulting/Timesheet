@@ -200,6 +200,7 @@ public class TimetableController {
 	model.addAttribute("timetable", timetable);
 		
 		System.out.println("data saddsxta"+ timetable.getDate());
+
 	
 		
 		return "user";

@@ -108,7 +108,13 @@ public class Timesheet implements Serializable {
 		System.out.println("set date from String");
 		this.date = Utils.parseDate(date);
 	}
-	
+	@JsonGetter("date")
+	public String getJsonStartDate() {
+		return Utils.formatDate(this.date);
+	}
+	public void setJsonEndDate(String endDate) throws ParseException {
+		this.date = Utils.parseDate(endDate);
+	}
 	
 	public String getType() {
 		return type;

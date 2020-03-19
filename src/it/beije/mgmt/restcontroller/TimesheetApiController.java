@@ -42,12 +42,19 @@ public class TimesheetApiController {
 	
 			return timetableService.insert(timesheets);
 		}
+		@RequestMapping(value = "/timesheets/delete/{id}", method = RequestMethod.DELETE)
+		public @ResponseBody boolean delete(@PathVariable int id,@RequestParam(value = "date", required = true)Date date) throws IOException {
+			boolean b= timetableService.deleteRestController(id, date);
+			return b;
+		}
 	
 		@RequestMapping(value = "/timesheets/user/{id}", method = RequestMethod.GET)
-		public @ResponseBody  List <Timesheet >retrieveTimeSheetTables(@PathVariable int id,@RequestParam(value = "datefrom", required = true)Date datefrom,@RequestParam(value = "dateto", required = false)Date dateto) {
-			Map<String, Object> result = new HashMap<String, Object>();
+
+		public @ResponseBody List<Timesheet> retrieveTimeSheetTables(@PathVariable int id,@RequestParam(value = "datefrom", required = true)Date datefrom,@RequestParam(value = "dateto", required = false)Date dateto) {
+//			Map<String, Object> result = new HashMap<String, Object>();
 			dateto = dateto == null? new Date(System.currentTimeMillis()):dateto;
 			List<Timesheet> timetablelist = timetableService.retrieveTimatablesInDateRangeByUserId(id,datefrom,dateto);
+
 			return timetablelist;
 		}
 		
