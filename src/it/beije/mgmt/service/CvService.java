@@ -231,7 +231,7 @@ public class CvService {
 		if (!Objects.isNull(work.getEndDate())) updateWork.setEndDate(work.getEndDate());
 		if (!Objects.isNull(work.getDescription())) updateWork.setDescription(work.getDescription());
 		if (!Objects.isNull(work.getTechnologies())) updateWork.setTechnologies(work.getTechnologies());
-		entitymanager.persist(work);
+		entitymanager.persist(updateWork);
 		entitymanager.getTransaction().commit();
 		entitymanager.close();
 	}
