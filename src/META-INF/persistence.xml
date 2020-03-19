@@ -7,10 +7,18 @@
 		<class>it.beije.mgmt.entity.Timesheet</class>
 		<class>it.beije.mgmt.entity.UserComputer</class>
 		<class>it.beije.mgmt.entity.Computer</class>
+		
+		<class>it.beije.mgmt.entity.cv.Formazione</class>
+		<class>it.beije.mgmt.entity.cv.Work</class>
+		<class>it.beije.mgmt.entity.cv.Certification</class>
+		<class>it.beije.mgmt.entity.cv.CV</class>
+		<class>it.beije.mgmt.entity.cv.Language</class>
+		<class>it.beije.mgmt.entity.cv.Technology</class>
+		
 		<properties>
 			<property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
 			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/cilacap?serverTimezone=CET"/>
-			<property name="javax.persistence.jdbc.password" value="StefanoLeone1993"/>
+			<property name="javax.persistence.jdbc.password" value="Beije04"/>
 			<property name="javax.persistence.jdbc.user" value="root"/>
 			<!--<property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
 			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://beijedev.ccc2op6yesad.eu-west-1.rds.amazonaws.com:3306/beijedb?serverTimezone=CET"/>
