@@ -208,6 +208,7 @@ CREATE TABLE `timesheet` (
   `start2` time DEFAULT NULL,
   `end2` time DEFAULT NULL,
   `tot` decimal(4,2) DEFAULT NULL,
+  `validated` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `id_users_idx` (`id_user`),
   CONSTRAINT `timesheet_idfk_1` FOREIGN KEY (`id_user`) REFERENCES `user` (`id`) ON DELETE RESTRICT

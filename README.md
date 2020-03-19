@@ -1,5 +1,17 @@
 # Beije MGMT Project
 
+Timetable Controller
+==============
+In timetable controller sono implementate le seguenti operazioni:
+
+- inserimento di una nuova timesheet o una lista di timesheet: l'utente deve inserire l'id dello user (esistente nel database), la data e l'orario di inizio e di fine (mattina e pomeriggio).
+
+- modifica e cancellazione di una timesheet già esistente: l'utente deve inserire la data e l'id dello user.
+
+- lettura di timesheet già esistenti: l'utente deve inserire l'id user e il periodo (data inizio - data fine)
+
+
+
 Api Controller
 ==============
 
