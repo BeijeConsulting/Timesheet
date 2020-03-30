@@ -18,7 +18,7 @@
 		<properties>
 			<property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
 			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/cilacap?serverTimezone=CET"/>
-			<property name="javax.persistence.jdbc.password" value="Beije11"/>
+			<property name="javax.persistence.jdbc.password" value="Beije04"/>
 			<property name="javax.persistence.jdbc.user" value="root"/>
 			<!--<property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
 			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://beijedev.ccc2op6yesad.eu-west-1.rds.amazonaws.com:3306/beijedb?serverTimezone=CET"/>
@@ -27,7 +27,7 @@
 
 		</properties>
 	</persistence-unit>
-	<persistence-unit transaction-type="RESOURCE_LOCAL" name="timesheetLocal">
+	<!-- <persistence-unit transaction-type="RESOURCE_LOCAL" name="timesheetLocal">
 		<class>it.beije.mgmt.entity.User</class>
 		<class>it.beije.mgmt.entity.Address</class>
 		<class>it.beije.mgmt.entity.Contract</class>
@@ -41,5 +41,5 @@
 			<property name="javax.persistence.jdbc.user" value="root"/>
 			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>
 		</properties>
-	</persistence-unit>
+	</persistence-unit>-->
 </persistence>
