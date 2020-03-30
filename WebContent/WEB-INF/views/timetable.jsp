@@ -88,7 +88,7 @@ input[type=submit]:hover {
 			 <input type="text" name="end2" maxlength="8" value="18:00:00"><br>
 
 
-			<input type="submit" value="InserisciMODIFICATO">
+			<input type="submit" value="Inserisci">
 
 
 		</form>

@@ -59,7 +59,7 @@ input[type=submit]:hover {
 
 			<input type="number" name="nrighe">
 		
-			<input type="submit" value="InserisciMODIFICATO">
+			<input type="submit" value="Inserisci">
 
 
 		</form>

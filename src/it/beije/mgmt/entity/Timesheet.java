@@ -14,6 +14,9 @@ import javax.persistence.Table;
 
 import org.springframework.lang.NonNull;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonSetter;
+
 import it.beije.mgmt.tool.Utils;
 
 
@@ -84,16 +87,34 @@ public class Timesheet implements Serializable {
 	public Date getDate() {
 		return date;
 	}
+	
+	
+	
+	@JsonGetter("date")
+	public String getJsonData() {
+		return Utils.formatDate(this.date);
+	}
+	
+	
+	
+
 	public void setDate(Date date) {
 		System.out.println("set date from Date");
 		this.date = date;
 	}
+	
+//	@JsonSetter("date")
 	public void setDate(String date) throws ParseException {
 		System.out.println("set date from String");
 		this.date = Utils.parseDate(date);
 	}
-	
-	
+	@JsonGetter("date")
+	public String getJsonStartDate() {
+		return Utils.formatDate(this.date);
+	}
+	public void setJsonEndDate(String endDate) throws ParseException {
+		this.date = Utils.parseDate(endDate);
+	}
 	
 	public String getType() {
 		return type;
@@ -148,6 +169,10 @@ public class Timesheet implements Serializable {
 		return "Timesheet [id=" + id + ", validated=" + validated + ", idUser=" + idUser + ", date=" + date + ", type="
 				+ type + ", start1=" + start1 + ", end1=" + end1 + ", start2=" + start2 + ", end2=" + end2 + ", tot="
 				+ tot + "]";
+	}
+	
+	public Timesheet() {
+		
 	}
 
 }
