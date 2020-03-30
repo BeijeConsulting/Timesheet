@@ -337,8 +337,6 @@ public class CvService {
 		EntityManager entityManager = Persistence.createEntityManagerFactory("timesheet").createEntityManager();
 		entityManager.getTransaction().begin();
 
-		CV curriculum = entityManager.find(CV.class, idUser);
-
 		cv.setIdUser(idUser);
 
 		entityManager.persist(cv);
