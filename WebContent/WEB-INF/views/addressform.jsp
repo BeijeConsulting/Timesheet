@@ -21,8 +21,8 @@
         <div class="row">
           
           <div class="input-field col s6">
-            <input type="number" name="user.id" required>
-            <label for="user.id" class="pink-text"><b>ID UTENTE</b></label>
+            <input type="number" name="idUser" required>
+            <label for="id_user" class="pink-text"><b>ID UTENTE</b></label>
           </div>
           <div class="input-field col s6">
             <input type="text" name="street" required>
@@ -65,6 +65,27 @@
   
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 
+<script>
+/*function invia() {
+	console.log("OK");
+var obj = {"id": "34",
+    	"id_user": "34",
+    	"street": "Via Prova",
+    	"city": "Milano",
+    	"province": "MI",
+    	"cap": "200092",
+    	"country": "it",
+    	"start_date": "",
+    	"end_date": "",
+    	"type": ""
+    	};
+fetch('http://localhost:8080/Timesheet/registeraddress', {
+    method: 'POST',
+    body: JSON.stringify(obj)
+	
+})
+}*/
+</script>
 </body>
 
 </body>

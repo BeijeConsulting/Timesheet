@@ -28,8 +28,7 @@ public class AddressApiController {
 	@Autowired
 	private AddressService addressService;
 
-	/****************** BANK CREDENTIALS *****************/
-	// storico banck credentials user
+	/****************** ADDRESS  *****************/
 	@Transactional
 	@RequestMapping(value = "/addresses/user/{id}", method = RequestMethod.GET)
 	public @ResponseBody List<Address> getAddressForUser(@PathVariable Long id) {
