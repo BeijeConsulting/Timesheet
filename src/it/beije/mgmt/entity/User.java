@@ -95,6 +95,13 @@ public class User implements Serializable {
 	@OneToMany(cascade=CascadeType.ALL)
 	@JoinColumn(name="id_user")
 	private List<Contract> contracts;
+	
+	 @OneToMany(
+		        mappedBy = "user",
+		        cascade = CascadeType.ALL,
+		        orphanRemoval = true
+		    )
+	private List<UserHasClient> relativeClient;
 
 	public User() {
 		super();
