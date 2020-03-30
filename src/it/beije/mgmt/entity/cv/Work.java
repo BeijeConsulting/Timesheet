@@ -1,5 +1,7 @@
 package it.beije.mgmt.entity.cv;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -29,10 +31,10 @@ public class Work {
 	private String location;
 
 	@Column(name="startDate")
-	private String startDate;
+	private Date startDate;
 
 	@Column(name="endDate")
-	private String endDate;
+	private Date endDate;
 
 	@Column(name="description")
 	private String description;
@@ -80,19 +82,19 @@ public class Work {
 		this.location = location;
 	}
 
-	public String getStartDate() {
+	public Date getStartDate() {
 		return startDate;
 	}
 
-	public void setStartDate(String startDate) {
+	public void setStartDate(Date startDate) {
 		this.startDate = startDate;
 	}
 
-	public String getEndDate() {
+	public Date getEndDate() {
 		return endDate;
 	}
 
-	public void setEndDate(String endDate) {
+	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
 	}
 
