@@ -48,18 +48,19 @@ public class CV {
 	private List<Certification> certificationList;
 	
 	//@Transient
-	@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumn(name = "id_technologies")
-	private List<Technology> technology;
-	
-	
-	public List<Technology> getTechnology() {
-		return technology;
-	}
 
-	public void setTechnology(List<Technology> technology) {
-		this.technology = technology;
-	}
+//	@OneToMany(cascade = CascadeType.ALL)
+//	@JoinColumn(name = "id_technologies")
+//	private List<Technology> technology;
+//	
+//	
+//	public List<Technology> getTechnology() {
+//		return technology;
+//	}
+//
+//	public void setTechnology(List<Technology> technology) {
+//		this.technology = technology;
+//	}
 
 	public CV(){
 		

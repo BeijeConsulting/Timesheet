@@ -16,8 +16,8 @@ public class JpaEntityManager {
 	@Bean(name = "entityManagerFactory")	
 	public static synchronized EntityManagerFactory getInstance() {
 		if (emfactory == null) {
-			//emfactory = Persistence.createEntityManagerFactory("timesheet");
-			emfactory = Persistence.createEntityManagerFactory("timesheetLocal");
+			emfactory = Persistence.createEntityManagerFactory("timesheetAWS");
+			//emfactory = Persistence.createEntityManagerFactory("timesheetLocal");
 		}
 		
 		return emfactory;
