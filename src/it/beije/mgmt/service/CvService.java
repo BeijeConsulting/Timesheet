@@ -29,7 +29,7 @@ public class CvService {
 	public CV findCvByUserId(Long idUser) {
 		List<CV> cvs = new ArrayList<CV>();
 
-		EntityManager entityManager = Persistence.createEntityManagerFactory("timesheet").createEntityManager();
+		EntityManager entityManager = Persistence.createEntityManagerFactory("timesheetLocal").createEntityManager();
 		entityManager.getTransaction().begin();
 
 		cvs = entityManager.createQuery("select c from CV c where c.id_user = " + idUser, CV.class).getResultList();
@@ -42,7 +42,7 @@ public class CvService {
 
 	@Transactional
 	public CV findCvById(Long idCv) throws Exception {
-		EntityManager entityManager = Persistence.createEntityManagerFactory("timesheet").createEntityManager();
+		EntityManager entityManager = Persistence.createEntityManagerFactory("timesheetLocal").createEntityManager();
 		entityManager.getTransaction().begin();
 		CV curricula= new CV();
 		curricula=entityManager.createQuery("select c from CV c where c.idCv = " + idCv, CV.class).getSingleResult();
@@ -77,7 +77,7 @@ public class CvService {
 	@Transactional
 	public List<Language> getLanguagesById(Long idCv) {
 
-		EntityManager entityManager = Persistence.createEntityManagerFactory("timesheet").createEntityManager();
+		EntityManager entityManager = Persistence.createEntityManagerFactory("timesheetLocal").createEntityManager();
 		entityManager.getTransaction().begin();
 		List<Language> lingue = new ArrayList<Language>();
 		lingue = entityManager.createQuery("select l from Language l where l.idCV = " + idCv, Language.class).getResultList();
@@ -87,7 +87,7 @@ public class CvService {
 	
 	@Transactional
 	public Language setLanguage(Long idCv, Language language) throws Exception {
-		EntityManager entityManager = Persistence.createEntityManagerFactory("timesheet").createEntityManager();
+		EntityManager entityManager = Persistence.createEntityManagerFactory("timesheetLocal").createEntityManager();
 		entityManager.getTransaction().begin();
 		CV cv = entityManager.find(CV.class, idCv);
 		if (Objects.isNull(language.getIdCV())) {

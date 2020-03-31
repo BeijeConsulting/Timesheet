@@ -18,12 +18,13 @@ import java.sql.Date;
 import java.sql.Time;
 import java.text.DecimalFormat;
 
+import org.hibernate.query.criteria.internal.expression.function.CurrentDateFunction;
 import org.springframework.stereotype.Service;
 
 import it.beije.mgmt.entity.Timesheet;
 import it.beije.mgmt.entity.User;
 import it.beije.mgmt.jpa.JpaEntityManager;
-
+import java.sql.Date;
 @Service
 public class TimetableService {
 	
@@ -42,9 +43,6 @@ public class TimetableService {
 		
 		return timetables;
 	}
-
-	
-	
 	//inserimento lista Timesheet
 	public List<Timesheet> insert(List<Timesheet> timetables) {
 		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
@@ -173,25 +171,12 @@ public class TimetableService {
 //			entitymanager.createQuery(criteriaQuery);
 		TypedQuery<Timesheet> q = entitymanager.createQuery(
 				"SELECT t FROM Timesheet t WHERE t.date = '" + date + "'" + " AND t.id_user = '" + idUtente + "'",
-				Timesheet.class);
-
-
-			
-			
+				Timesheet.class);	
 			records = q.getResultList();
-			
 			
 			return records;
 		}
 		
-
-
-
-
-		
-
-	
-
 	// RECUPERA UTENTE PER ID - da DATA a DATA
 
 	public List takeRecordsFromDateToDate(Date startDate, Date endDate) {
@@ -290,8 +275,6 @@ public class TimetableService {
 	}
 
 
-
-
 	/*****************************************************************************************************************
 	 * 
 	 * INSERISCI TUPLA NEL DATABASE
@@ -371,6 +354,29 @@ public class TimetableService {
 		return timetables;
 	}
 	
+	public boolean Validator(int userId, Date dateFrom, Date dateTo) {
+		List<Timesheet> lista = ControlloValidazione(retrieveTimatablesInDateRangeByUserId(userId,  dateFrom,dateTo));
+		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
+		EntityManager entitymanager = emfactory.createEntityManager();
+		EntityTransaction entr = entitymanager.getTransaction();
+		entr.begin();
+		for(Timesheet t : lista) {
+		String q= "UPDATE timeSheet SET [validated] = GETDATE() WHERE id ='"+ t.getId()+"'";
+		Query query = entitymanager.createQuery(q);
+		int result=query.executeUpdate();
+		}	
+		entitymanager.close();
+		return true;
+		
+	}
+	public List<Timesheet> ControlloValidazione(List<Timesheet> lista){
+		for(Timesheet t : lista) {
+			if(t.getValidated()==null) {
+				lista.remove(t);
+			}			
+		}
+		return lista;
+	}
 	public boolean deleteRestController(int id,Date date) {
 		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
 		EntityManager entitymanager = emfactory.createEntityManager();
