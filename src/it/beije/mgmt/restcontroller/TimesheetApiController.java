@@ -53,27 +53,44 @@ public class TimesheetApiController {
 		public @ResponseBody List<Timesheet> retrieveTimeSheetTables(@PathVariable int id,@RequestParam(value = "datefrom", required = true)Date datefrom,@RequestParam(value = "dateto", required = false)Date dateto) {
 //			Map<String, Object> result = new HashMap<String, Object>();
 			dateto = dateto == null? new Date(System.currentTimeMillis()):dateto;
-			List<Timesheet> timetablelist = timetableService.retrieveTimatablesInDateRangeByUserId(id,datefrom,dateto);
+			List<Timesheet> timetablelist = TimetableService.retrieveTimatablesInDateRangeByUserId(id,datefrom,dateto);
 
 			return timetablelist;
 		}
 		
-		@RequestMapping(value = "/timesheets/modifica", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
-		public @ResponseBody  boolean modifyTimesheet (@RequestBody Timesheet newTable) {
-			
+		@RequestMapping(value = "/timesheets/modifica/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
+		public @ResponseBody  boolean modifyTimesheet (@PathVariable int id,@RequestParam(value = "datefrom", required = true)Date datefrom,@RequestBody Timesheet newTable) {
+			Timesheet time = TimetableService.singolatimesheet(id, datefrom);
+			if(time.getSubmit()==null) {
 			if (TimetableService.findRecordsFromId(newTable.getIdUser())==null)  {
 				System.out.println("Utente non trovato");
 				return false;
 			}
-			
 				timetableService.updateRecord(newTable.getIdUser(),newTable.getDate(), newTable);	
 			return true;
+			}
+			else return false;
 		}
 		
 		@RequestMapping(value = "/timesheets/validate/{id}", method = RequestMethod.POST)
 		public @ResponseBody boolean validazione(@PathVariable int id,@RequestParam(value = "datefrom", required = true)Date datefrom,@RequestParam(value = "dateto", required = true)Date dateto) {
-			return timetableService.Validator(id, datefrom, dateto);
+			return timetableService.validator(id, datefrom, dateto);
 		}
+		
+		@RequestMapping(value = "/timesheets/submit/{id}", method = RequestMethod.POST)
+		public @ResponseBody boolean submit(@PathVariable int id,@RequestParam(value = "datefrom", required = true)Date datefrom,@RequestParam(value = "dateto", required = false)Date dateto) {
+			if(dateto !=null) {
+				int i=dateto.compareTo(datefrom);
+				System.out.println(i);
+				if(i>0) {
+					return TimetableService.submitUtente(id, datefrom, dateto);
+				}
+				else
+					return false;
+			}
+			return TimetableService.submitUtente(id, datefrom, dateto);
+		}
+
 
 
 

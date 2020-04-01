@@ -129,7 +129,39 @@ public class TimetableService {
 	 * AGGIORNA TUPLA NEL DATABASE
 	 * 
 	 *****************************************************************************************************************/
-	public boolean Validator(int userId, Date dateFrom, Date dateTo) {
+	
+	public static boolean submitUtente(int userId, Date datefrom, Date dateto) {
+		LocalDateTime today = LocalDateTime.now();
+		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
+		EntityManager entitymanager = emfactory.createEntityManager();
+		EntityTransaction entr = entitymanager.getTransaction();
+		entr.begin();
+		if(dateto==null) {
+			String q= "UPDATE Timesheet t SET t.submit = '"+today+"' WHERE id_user ='"+userId+"'AND t.date='"+datefrom+"'";
+			System.out.println(q);
+			Query query = entitymanager.createQuery(q);
+			int result=query.executeUpdate();
+			entr.commit();
+			entitymanager.close();
+			return true;
+		}else {
+			List<Timesheet> lista = TimetableService.retrieveTimatablesInDateRangeByUserId(userId, datefrom, dateto);
+			System.out.println(lista);
+			for(Timesheet t : lista) {
+				if(t.getSubmit()==null) {
+				String q= "UPDATE Timesheet t SET t.submit = '"+today+"' WHERE id ='"+ t.getId()+"'";
+				Query query = entitymanager.createQuery(q);
+				int result=query.executeUpdate();
+				}
+				}	
+				entr.commit();
+				entitymanager.close();
+			return true;
+		}
+	}
+	
+	
+	public boolean validator(int userId, Date dateFrom, Date dateTo) {
 		LocalDateTime today = LocalDateTime.now();
 		List<Timesheet> lista = ControlloValidazione(retrieveTimatablesInDateRangeByUserId(userId,  dateFrom,dateTo));
 		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
@@ -139,9 +171,11 @@ public class TimetableService {
 		System.out.println(lista);
 		System.out.println("secondo ciclo");
 		for(Timesheet t : lista) {
-		String q= "UPDATE Timesheet t SET t.validated = '"+today+"' WHERE id ='"+ t.getId()+"'";
-		Query query = entitymanager.createQuery(q);
-		int result=query.executeUpdate();
+			if(t.getSubmit()!=null) {
+				String q= "UPDATE Timesheet t SET t.validated = '"+today+"' WHERE id ='"+ t.getId()+"'";
+				Query query = entitymanager.createQuery(q);
+				int result=query.executeUpdate();
+			}
 		}	
 		entr.commit();
 		entitymanager.close();
@@ -388,8 +422,16 @@ public class TimetableService {
 		
 		return timetables;
 	}
-
-	public List<Timesheet> retrieveTimatablesInDateRangeByUserId(int userId, Date dateFrom, Date dateTo) {
+	
+	public static Timesheet singolatimesheet(int userId,Date dateFrom){
+		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
+		EntityManager entitymanager = emfactory.createEntityManager();
+		Query q = entitymanager.createQuery("FROM Timesheet t WHERE t.idUser = "+userId+" and t.date = '"+dateFrom+"'");
+		Timesheet timetables = (Timesheet) q.getSingleResult();
+		entitymanager.close();
+		return timetables;
+	}
+	public static List<Timesheet> retrieveTimatablesInDateRangeByUserId(int userId, Date dateFrom, Date dateTo) {
 		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
 		EntityManager entitymanager = emfactory.createEntityManager();
 		Query q = entitymanager.createQuery("FROM Timesheet t WHERE t.idUser = "+userId+" and t.date >= '"+dateFrom+"' and t.date <= '"+dateTo+"'");
