@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <persistence xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/persistence" version="2.1">
-	<persistence-unit transaction-type="RESOURCE_LOCAL" name="timesheet">
+	<persistence-unit transaction-type="RESOURCE_LOCAL" name="timesheetLocal">
 		<class>it.beije.mgmt.entity.User</class>
 		<class>it.beije.mgmt.entity.Address</class>
 		<class>it.beije.mgmt.entity.Contract</class>
 		<class>it.beije.mgmt.entity.Timesheet</class>
 		<class>it.beije.mgmt.entity.UserComputer</class>
 		<class>it.beije.mgmt.entity.Computer</class>
+
 		
 		<class>it.beije.mgmt.entity.cv.Education</class>
 		<class>it.beije.mgmt.entity.cv.Work</class>
@@ -38,6 +39,8 @@
 			<property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
 			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/cilacap?serverTimezone=CET"/>
 			<property name="javax.persistence.jdbc.password" value="StefanoLeone1993"/>
+			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/timesheet?serverTimezone=CET"/>
+			<property name="javax.persistence.jdbc.password" value="Beije03"/>
 			<property name="javax.persistence.jdbc.user" value="root"/>
 			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>
 		</properties>

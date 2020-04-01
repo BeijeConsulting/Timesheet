@@ -1,30 +1,20 @@
 package it.beije.mgmt.service;
 
 import java.time.*;
-
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
-
-import static java.time.temporal.ChronoUnit.MINUTES;
-
 import java.sql.Date;
 import java.sql.Time;
-import java.text.DecimalFormat;
-
-import org.hibernate.query.criteria.internal.expression.function.CurrentDateFunction;
 import org.springframework.stereotype.Service;
-
 import it.beije.mgmt.entity.Timesheet;
 import it.beije.mgmt.entity.User;
 import it.beije.mgmt.jpa.JpaEntityManager;
-import java.sql.Date;
+
 @Service
 public class TimetableService {
 	
@@ -127,6 +117,36 @@ public class TimetableService {
 	 * AGGIORNA TUPLA NEL DATABASE
 	 * 
 	 *****************************************************************************************************************/
+	public boolean Validator(int userId, Date dateFrom, Date dateTo) {
+		LocalDateTime today = LocalDateTime.now();
+		List<Timesheet> lista = ControlloValidazione(retrieveTimatablesInDateRangeByUserId(userId,  dateFrom,dateTo));
+		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
+		EntityManager entitymanager = emfactory.createEntityManager();
+		EntityTransaction entr = entitymanager.getTransaction();
+		entr.begin();
+		System.out.println(lista);
+		System.out.println("secondo ciclo");
+		for(Timesheet t : lista) {
+		String q= "UPDATE Timesheet t SET t.validated = '"+today+"' WHERE id ='"+ t.getId()+"'";
+		Query query = entitymanager.createQuery(q);
+		int result=query.executeUpdate();
+		}	
+		entr.commit();
+		entitymanager.close();
+		return true;	
+	}
+	public List<Timesheet> ControlloValidazione(List<Timesheet> lista){
+		List<Timesheet> nuova = new ArrayList<Timesheet>();
+		System.out.println(lista);
+		System.out.println("Primo ciclo");
+		for(Timesheet t : lista) {
+			if(t.getValidated()==null) {
+				nuova.add(t);
+				System.out.println(lista);
+			}			
+		}
+		return nuova;
+	}
 	
 	public void updateRecord(long id, Date date,Timesheet newTable) {
 		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
@@ -369,7 +389,7 @@ public class TimetableService {
 		return true;	
 	}
 	
-	public List<Timesheet> ControlloValidazione(List<Timesheet> lista){
+	public List<Timesheet> controlloValidazione(List<Timesheet> lista){
 		for(Timesheet t : lista) {
 			if(t.getValidated()==null) {
 				lista.remove(t);

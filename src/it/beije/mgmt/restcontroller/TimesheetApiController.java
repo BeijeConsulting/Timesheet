@@ -2,13 +2,8 @@ package it.beije.mgmt.restcontroller;
 
 import java.io.IOException;
 import java.sql.Date;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
 import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.ui.Model;
@@ -19,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-
 import it.beije.mgmt.entity.Timesheet;
 import it.beije.mgmt.service.TimetableService;
 
@@ -73,8 +67,9 @@ public class TimesheetApiController {
 		@RequestMapping(value = "/timesheets/validate/{id}", method = RequestMethod.POST)
 
 		public @ResponseBody boolean validazione(@PathVariable int id,@RequestParam(value = "datefrom", required = true)Date datefrom,@RequestParam(value = "dateto", required = true)Date dateto) {
-			return timetableService.validator(id, datefrom, dateto);
+			return timetableService.Validator(id, datefrom, dateto);
 		}
 
+		
 
 }
