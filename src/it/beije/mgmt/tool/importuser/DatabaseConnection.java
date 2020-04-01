@@ -12,7 +12,7 @@ public class DatabaseConnection {
 		
 		String dbURL = "jdbc:mysql://localhost:3306/timesheet?serverTimezone=CET"; 		
 		String dbUsername = "root"; 
-		String dbPassword = "Beije06"; 
+		String dbPassword = "Beije03"; 
 
 
 		Class.forName("com.mysql.cj.jdbc.Driver");  
