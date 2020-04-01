@@ -129,6 +129,36 @@ public class TimetableService {
 	 * AGGIORNA TUPLA NEL DATABASE
 	 * 
 	 *****************************************************************************************************************/
+	public boolean Validator(int userId, Date dateFrom, Date dateTo) {
+		LocalDateTime today = LocalDateTime.now();
+		List<Timesheet> lista = ControlloValidazione(retrieveTimatablesInDateRangeByUserId(userId,  dateFrom,dateTo));
+		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
+		EntityManager entitymanager = emfactory.createEntityManager();
+		EntityTransaction entr = entitymanager.getTransaction();
+		entr.begin();
+		System.out.println(lista);
+		System.out.println("secondo ciclo");
+		for(Timesheet t : lista) {
+		String q= "UPDATE Timesheet t SET t.validated = '"+today+"' WHERE id ='"+ t.getId()+"'";
+		Query query = entitymanager.createQuery(q);
+		int result=query.executeUpdate();
+		}	
+		entr.commit();
+		entitymanager.close();
+		return true;	
+	}
+	public List<Timesheet> ControlloValidazione(List<Timesheet> lista){
+		List<Timesheet> nuova = new ArrayList<Timesheet>();
+		System.out.println(lista);
+		System.out.println("Primo ciclo");
+		for(Timesheet t : lista) {
+			if(t.getValidated()==null) {
+				nuova.add(t);
+				System.out.println(lista);
+			}			
+		}
+		return nuova;
+	}
 	
 	public void updateRecord(long id, Date date,Timesheet newTable) {
 		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
