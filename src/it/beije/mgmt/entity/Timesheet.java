@@ -46,6 +46,9 @@ public class Timesheet implements Serializable {
 	@Column(name = "type")
 	private String type;
 	
+	@Column(name="submit")
+	private Date submit;
+	
 	@Column(name = "start1")
 	private Time start1;
 	

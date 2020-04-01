@@ -73,7 +73,7 @@ public class TimesheetApiController {
 		@RequestMapping(value = "/timesheets/validate/{id}", method = RequestMethod.POST)
 
 		public @ResponseBody boolean validazione(@PathVariable int id,@RequestParam(value = "datefrom", required = true)Date datefrom,@RequestParam(value = "dateto", required = true)Date dateto) {
-			return timetableService.Validator(id, datefrom, dateto);
+			return timetableService.validator(id, datefrom, dateto);
 		}
 
 

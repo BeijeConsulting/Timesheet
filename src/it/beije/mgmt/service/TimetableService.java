@@ -354,7 +354,7 @@ public class TimetableService {
 		return timetables;
 	}
 	
-	public boolean Validator(int userId, Date dateFrom, Date dateTo) {
+	public boolean validator(int userId, Date dateFrom, Date dateTo) {
 		List<Timesheet> lista = ControlloValidazione(retrieveTimatablesInDateRangeByUserId(userId,  dateFrom,dateTo));
 		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
 		EntityManager entitymanager = emfactory.createEntityManager();
