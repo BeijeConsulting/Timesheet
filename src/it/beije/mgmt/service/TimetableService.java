@@ -366,9 +366,9 @@ public class TimetableService {
 		int result=query.executeUpdate();
 		}	
 		entitymanager.close();
-		return true;
-		
+		return true;	
 	}
+	
 	public List<Timesheet> ControlloValidazione(List<Timesheet> lista){
 		for(Timesheet t : lista) {
 			if(t.getValidated()==null) {
@@ -377,6 +377,7 @@ public class TimetableService {
 		}
 		return lista;
 	}
+	
 	public boolean deleteRestController(int id,Date date) {
 		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
 		EntityManager entitymanager = emfactory.createEntityManager();
