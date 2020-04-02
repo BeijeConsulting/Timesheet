@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <persistence xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/persistence" version="2.1">
-<<<<<<< HEAD
+
 	<persistence-unit transaction-type="RESOURCE_LOCAL" name="timesheetAWS">
-=======
-	<persistence-unit transaction-type="RESOURCE_LOCAL" name="timesheetLocal">
->>>>>>> refs/remotes/origin/master_A
 		<class>it.beije.mgmt.entity.User</class>
 		<class>it.beije.mgmt.entity.Address</class>
 		<class>it.beije.mgmt.entity.Contract</class>
@@ -13,7 +10,6 @@
 		<class>it.beije.mgmt.entity.Computer</class>
 		<properties>
 			<property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
-<<<<<<< HEAD
 			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://beijedev.ccc2op6yesad.eu-west-1.rds.amazonaws.com:3306/beijedb?serverTimezone=CET"/>
 			<property name="javax.persistence.jdbc.user" value="beije"/>
 			<property name="javax.persistence.jdbc.password" value="beije001"/>
