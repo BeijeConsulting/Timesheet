@@ -117,36 +117,6 @@ public class TimetableService {
 	 * AGGIORNA TUPLA NEL DATABASE
 	 * 
 	 *****************************************************************************************************************/
-	public boolean Validator(int userId, Date dateFrom, Date dateTo) {
-		LocalDateTime today = LocalDateTime.now();
-		List<Timesheet> lista = ControlloValidazione(retrieveTimatablesInDateRangeByUserId(userId,  dateFrom,dateTo));
-		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
-		EntityManager entitymanager = emfactory.createEntityManager();
-		EntityTransaction entr = entitymanager.getTransaction();
-		entr.begin();
-		System.out.println(lista);
-		System.out.println("secondo ciclo");
-		for(Timesheet t : lista) {
-		String q= "UPDATE Timesheet t SET t.validated = '"+today+"' WHERE id ='"+ t.getId()+"'";
-		Query query = entitymanager.createQuery(q);
-		int result=query.executeUpdate();
-		}	
-		entr.commit();
-		entitymanager.close();
-		return true;	
-	}
-	public List<Timesheet> ControlloValidazione(List<Timesheet> lista){
-		List<Timesheet> nuova = new ArrayList<Timesheet>();
-		System.out.println(lista);
-		System.out.println("Primo ciclo");
-		for(Timesheet t : lista) {
-			if(t.getValidated()==null) {
-				nuova.add(t);
-				System.out.println(lista);
-			}			
-		}
-		return nuova;
-	}
 	
 	public void updateRecord(long id, Date date,Timesheet newTable) {
 		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
@@ -199,7 +169,7 @@ public class TimetableService {
 		
 	// RECUPERA UTENTE PER ID - da DATA a DATA
 
-	public List takeRecordsFromDateToDate(Date startDate, Date endDate) {
+	public List<Timesheet> takeRecordsFromDateToDate(Date startDate, Date endDate) {
 		List<Timesheet> records = new ArrayList<Timesheet>();
 		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
 		EntityManager entitymanager = emfactory.createEntityManager();
@@ -214,7 +184,7 @@ public class TimetableService {
 	}
 	
 	//metodo per trovare utenti in un periodo 
-	public static List takeRecordsFromIdTimetableVersionWithPeriod(int id_user, Date start , Date end ) {
+	public static List<Timesheet> takeRecordsFromIdTimetableVersionWithPeriod(int id_user, Date start , Date end ) {
 		// int p = id_user;
 		List<Timesheet> records = new ArrayList<Timesheet>();
 		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
@@ -259,7 +229,7 @@ public class TimetableService {
 		return user;
 	}
 
-	public List searchFromType(char type) {
+	public List<Timesheet> searchFromType(char type) {
 		List<Timesheet> records = new ArrayList<Timesheet>();
 		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
 		EntityManager entitymanager = emfactory.createEntityManager();
@@ -375,7 +345,7 @@ public class TimetableService {
 	}
 	
 	public boolean validator(int userId, Date dateFrom, Date dateTo) {
-		List<Timesheet> lista = ControlloValidazione(retrieveTimatablesInDateRangeByUserId(userId,  dateFrom,dateTo));
+		List<Timesheet> lista = controlloValidazione(retrieveTimatablesInDateRangeByUserId(userId,  dateFrom,dateTo));
 		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
 		EntityManager entitymanager = emfactory.createEntityManager();
 		EntityTransaction entr = entitymanager.getTransaction();
