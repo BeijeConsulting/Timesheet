@@ -115,23 +115,83 @@ public class TimetableService {
 	/*****************************************************************************************************************
 	 * 
 	 * AGGIORNA TUPLA NEL DATABASE
+	 * @throws Exception 
 	 * 
 	 *****************************************************************************************************************/
 	
-	public static boolean submitUtente(int userId, Date datefrom, Date dateto) {
+	 public static boolean isHourInInterval(String target, String start, String end) {
+	        return ((target.compareTo(start) >= 0)
+	                && (target.compareTo(end) <= 0));
+	    }
+	 
+	public static boolean submitUtente(int userId, Date datefrom, Date dateto) throws Exception {
 		LocalDateTime today = LocalDateTime.now();
 		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
 		EntityManager entitymanager = emfactory.createEntityManager();
 		EntityTransaction entr = entitymanager.getTransaction();
 		entr.begin();
 		if(dateto==null) {
-			String q= "UPDATE Timesheet t SET t.submit = '"+today+"' WHERE id_user ='"+userId+"'AND t.date='"+datefrom+"'";
-			System.out.println(q);
-			Query query = entitymanager.createQuery(q);
-			int result=query.executeUpdate();
-			entr.commit();
-			entitymanager.close();
-			return true;
+			List<Timesheet> listaT = multiTimesheetPerDay(userId, datefrom);
+			String s = null;
+			double tot=0;
+			for(Timesheet t: listaT)
+			{
+				
+				 tot += t.getTot();
+				 
+				 if(!s.contains(t.getType()))
+					 s += t.getType();
+				 else
+					 throw new Exception();
+			}
+			if((s.contains("f") || s.contains("F")) && s.length()>1)
+			{
+				throw new Exception();
+			}
+			
+			if(listaT.size() == 1 && tot == 8) {
+				String q= "UPDATE Timesheet t SET t.submit = '"+today+"' WHERE id_user ='"+userId+"'AND t.date='"+datefrom+"'";
+				System.out.println(q);
+				Query query = entitymanager.createQuery(q);
+				int result=query.executeUpdate();
+				entr.commit();
+				entitymanager.close();
+				return true;
+			}
+			else
+			{
+				if(tot != 8)
+					throw new Exception();
+				else
+				{
+					s="";
+//					for(int i=0; i<listaT.size();i++)
+//					{
+//
+//						int start1=listaT.get(i).getStart1().getHours();
+//						int end1=listaT.get(i).getEnd1().getHours();
+//						
+//						if((start1<listaT.get(i+1).getEnd1().getHours()) || (start1<listaT.get(i+1).getEnd2().getHours()))
+//						{
+//							throw new Exception();
+//						}
+//						else
+//						{
+//							if((end1>listaT.get(i+1).getEnd1().getHours()) || (end1>listaT.get(i+1).getEnd2().getHours()))
+//							{
+//								
+//							}
+//						}
+//					}
+				
+					
+					
+					String q= "UPDATE Timesheet t SET t.submit = '"+today+"' WHERE id_user ='"+userId+"'AND t.date='"+datefrom+"'";				}
+					
+				}
+			
+			
+			
 		}else {
 			List<Timesheet> lista = TimetableService.retrieveTimatablesInDateRangeByUserId(userId, datefrom, dateto);
 			System.out.println(lista);
@@ -146,6 +206,7 @@ public class TimetableService {
 				entitymanager.close();
 			return true;
 		}
+		return false;
 	}
 	
 	
@@ -396,6 +457,7 @@ public class TimetableService {
 		return timetables;
 	}
 	
+	
 	public static Timesheet singolatimesheet(int userId,Date dateFrom){
 		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
 		EntityManager entitymanager = emfactory.createEntityManager();
@@ -404,6 +466,8 @@ public class TimetableService {
 		entitymanager.close();
 		return timetables;
 	}
+	
+	
 	public static List<Timesheet> retrieveTimatablesInDateRangeByUserId(int userId, Date dateFrom, Date dateTo) {
 		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
 		EntityManager entitymanager = emfactory.createEntityManager();
@@ -430,6 +494,15 @@ public class TimetableService {
 			return true;
 		else
 			return false;
+	}
+	
+	public static List<Timesheet> multiTimesheetPerDay(int userId,Date date){
+		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
+		EntityManager entitymanager = emfactory.createEntityManager();
+		Query q = entitymanager.createQuery("FROM Timesheet t WHERE t.idUser = "+userId+" and t.date = '"+date+"'");
+		List<Timesheet> timetables = q.getResultList();
+		entitymanager.close();
+		return timetables;
 	}
 
 }

@@ -37,7 +37,7 @@
 			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/cilacap?serverTimezone=CET"/>
 			<property name="javax.persistence.jdbc.password" value="StefanoLeone1993"/>
 			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/timesheet?serverTimezone=CET"/>
-			<property name="javax.persistence.jdbc.password" value="Beije03"/>
+			<property name="javax.persistence.jdbc.password" value="Beije06"/>
 			<property name="javax.persistence.jdbc.user" value="root"/>
 			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>
 		</properties>
