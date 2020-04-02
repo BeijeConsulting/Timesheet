@@ -31,8 +31,18 @@ public class Timesheet implements Serializable {
 	private Long id;
 	
 	
+	public Date getSubmit() {
+		return submit;
+	}
+	public void setSubmit(Date submit) {
+		this.submit = submit;
+	}
+
 	@Column(name = "validated")
-		private Date validated;
+	private Date validated;
+	
+	@Column(name = "submit")
+	private Date submit;
 		
 	@NonNull
 	@Column(name = "id_user")
@@ -108,7 +118,7 @@ public class Timesheet implements Serializable {
 		System.out.println("set date from String");
 		this.date = Utils.parseDate(date);
 	}
-	@JsonGetter("date")
+//	@JsonGetter("date")
 	public String getJsonStartDate() {
 		return Utils.formatDate(this.date);
 	}
@@ -163,14 +173,13 @@ public class Timesheet implements Serializable {
 	public void setTot(Double tot) {
 		this.tot = tot;
 	}
-	
+
 	@Override
 	public String toString() {
-		return "Timesheet [id=" + id + ", validated=" + validated + ", idUser=" + idUser + ", date=" + date + ", type="
-				+ type + ", start1=" + start1 + ", end1=" + end1 + ", start2=" + start2 + ", end2=" + end2 + ", tot="
-				+ tot + "]";
+		return "Timesheet [id=" + id + ", validated=" + validated + ", submit=" + submit + ", idUser=" + idUser
+				+ ", date=" + date + ", type=" + type + ", start1=" + start1 + ", end1=" + end1 + ", start2=" + start2
+				+ ", end2=" + end2 + ", tot=" + tot + "]";
 	}
-	
 	public Timesheet() {
 		
 	}
