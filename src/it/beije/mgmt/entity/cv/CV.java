@@ -33,7 +33,7 @@ public class CV {
 	
 	@OneToMany(cascade=CascadeType.ALL)
 	@JoinColumn(name="id_cv")
-	private List<Formazione> formazioneList;
+	private List<Education> educationList;
 
 	@OneToMany(cascade=CascadeType.ALL)
 	@JoinColumn(name="id_cv")
@@ -89,12 +89,12 @@ public class CV {
 		this.title = title;
 	}
 
-	public List<Formazione> getFormazioneList() {
-		return formazioneList;
+	public List<Education> getEducationList() {
+		return educationList;
 	}
 
-	public void setFormazioneList(List<Formazione> formazioneList) {
-		this.formazioneList = formazioneList;
+	public void setEducationList(List<Education> educationList) {
+		this.educationList = educationList;
 	}
 
 	public List<Work> getWorkList() {

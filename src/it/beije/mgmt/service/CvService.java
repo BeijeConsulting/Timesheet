@@ -14,7 +14,7 @@ import javax.persistence.Persistence;
 
 import org.springframework.stereotype.Service;
 
-import it.beije.mgmt.entity.cv.Formazione;
+import it.beije.mgmt.entity.cv.Education;
 import it.beije.mgmt.entity.cv.Work;
 import it.beije.mgmt.entity.cv.Language;
 import it.beije.mgmt.jpa.JpaEntityManager;
@@ -57,7 +57,7 @@ public class CvService {
 		entitymanager.getTransaction().begin();
 		CV oldCv = entitymanager.find(CV.class, idCv);
 		if (!Objects.isNull(cv.getTitle())) oldCv.setTitle(cv.getTitle());
-		if (!Objects.isNull(cv.getFormazioneList())) oldCv.setFormazioneList(cv.getFormazioneList());
+		if (!Objects.isNull(cv.getEducationList())) oldCv.setEducationList(cv.getEducationList());
 		if (!Objects.isNull(cv.getCertificationList())) oldCv.setCertificationList(cv.getCertificationList());
 		if (!Objects.isNull(cv.getLanguageList())) oldCv.setLanguageList(cv.getLanguageList());
 		if (!Objects.isNull(cv.getIdUser())) oldCv.setIdUser(cv.getIdUser());
@@ -120,72 +120,72 @@ public class CvService {
 	}
 
 	
-	/**** FORMAZIONE ****/
-	// get list of Formazione by idUser
+	/**** EDUCATION ****/
+	// get list of Education by idUser
 	@Transactional
-	public List<Formazione> getListFormazioneByIdCv(Long idCv) {
+	public List<Education> getListEducationByIdCv(Long idCv) {
 
-		List<Formazione> listFormazione = new ArrayList<Formazione>();
+		List<Education> listEducation = new ArrayList<Education>();
 
 		EntityManager entityManager = Persistence.createEntityManagerFactory("timesheetLocal").createEntityManager();
 		entityManager.getTransaction().begin();
 
-		listFormazione = entityManager.createQuery("select f from Formazione f where f.idCV = " + idCv, Formazione.class).getResultList();
+		listEducation = entityManager.createQuery("select e from Education e where e.idCV = " + idCv, Education.class).getResultList();
 
-		return listFormazione;
+		return listEducation;
 	}
 
-	// create new Formazione for user specify by idUser
+	// create new Education for user specify by idUser
 	@Transactional
-	public void createNewFormazione(Formazione formazione, Long idCv) throws Exception {
+	public void createNewEducation(Education education, Long idCv) throws Exception {
 
 		EntityManager entityManager = Persistence.createEntityManagerFactory("timesheetLocal").createEntityManager();
 		entityManager.getTransaction().begin();
 
 		CV cv = entityManager.find(CV.class, idCv);
 
-		if (Objects.isNull(formazione.getIdCV())) {
-			formazione.setIdCV(idCv);
+		if (Objects.isNull(education.getIdCV())) {
+			education.setIdCV(idCv);
 		} else {
-			if (formazione.getIdCV().longValue() != idCv.longValue()) {
+			if (education.getIdCV().longValue() != idCv.longValue()) {
 				throw new Exception();
 			}
 		}
 
-		List<Formazione> formazioni = cv.getFormazioneList();
+		List<Education> educations = cv.getEducationList();
 
 
-		formazioni.add(formazione);
-		cv.setFormazioneList(formazioni);
+		educations.add(education);
+		cv.setEducationList(educations);
 
-		entityManager.persist(formazione);
+		entityManager.persist(education);
 		entityManager.getTransaction().commit();
 		entityManager.close();
 
 	}
 
-	// update Formazione by id_formazione
+	// update Education by id_education
 	@Transactional
-	public void updateFormazioneById(Formazione formazione, Long idFormazione) {
+	public void updateEducationById(Education education, Long idEducation) {
 		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
 
 		EntityManager entitymanager = emfactory.createEntityManager();
 		entitymanager.getTransaction().begin();
 
-		Formazione updateFormazione = entitymanager.find(Formazione.class, idFormazione);
+		Education updateEducation = entitymanager.find(Education.class, idEducation);
 
-		if (!Objects.isNull(formazione.getAnnoDiFine())) updateFormazione.setAnnoDiFine(formazione.getAnnoDiFine());
-		if (formazione.getAnnoDiInizio() != null) updateFormazione.setAnnoDiInizio(formazione.getAnnoDiInizio());
-		if (formazione.getCorsoDiStudi() != null) updateFormazione.setCorsoDiStudi(formazione.getCorsoDiStudi());
-		if (!Objects.isNull(formazione.getIdCV())) updateFormazione.setIdCV(formazione.getIdCV());
-		if (!Objects.isNull(formazione.getIdFormazione())) updateFormazione.setIdFormazione(formazione.getIdFormazione());
-		if (!Objects.isNull(formazione.getIstituto())) updateFormazione.setIstituto(formazione.getIstituto());
-		if (!Objects.isNull(formazione.getTecnologie())) updateFormazione.setTecnologie(formazione.getTecnologie());
-		if (!Objects.isNull(formazione.getTitoloDiStudio())) updateFormazione.setTitoloDiStudio(formazione.getTitoloDiStudio());
-		if (!Objects.isNull(formazione.getValutazione())) updateFormazione.setValutazione(formazione.getValutazione());
-		if (!Objects.isNull(formazione.getValutazioneMax())) updateFormazione.setValutazioneMax(formazione.getValutazioneMax());
+		if (!Objects.isNull(education.getEndYear())) updateEducation.setEndYear(education.getEndYear());
+		if (education.getStartYear() != null) updateEducation.setStartYear(education.getStartYear());
+		if (education.getCourseOfStudy() != null) updateEducation.setCourseOfStudy(education.getCourseOfStudy());
+		if (!Objects.isNull(education.getIdCV())) updateEducation.setIdCV(education.getIdCV());
+		if (!Objects.isNull(education.getIdEducation())) updateEducation.setIdEducation(education.getIdEducation());
+		if (!Objects.isNull(education.getInstitute())) updateEducation.setInstitute(education.getInstitute());
+		if (!Objects.isNull(education.getTechnologies())) updateEducation.setTechnologies(education.getTechnologies());
+		if (!Objects.isNull(education.getQualification())) updateEducation.setQualification(education.getQualification());
+		if (!Objects.isNull(education.getScore())) updateEducation.setScore(education.getScore());
+		if (!Objects.isNull(education.getScoreMax())) updateEducation.setScoreMax(education.getScoreMax());
 
-		entitymanager.persist(updateFormazione);
+		entitymanager.persist(updateEducation);
 		entitymanager.getTransaction().commit();
 		entitymanager.close();
 	}
@@ -328,10 +328,6 @@ public class CvService {
 	}
 
 	
-
-
-
-
 	// NON funzionante!!!!
 	public void addNewCv(Long idUser, CV cv) {
 		EntityManager entityManager = Persistence.createEntityManagerFactory("timesheetLocal").createEntityManager();

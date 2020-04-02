@@ -4,19 +4,14 @@ import java.io.Serializable;
 import java.sql.Date;
 import java.sql.Time;
 import java.text.ParseException;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-
 import org.springframework.lang.NonNull;
-
 import com.fasterxml.jackson.annotation.JsonGetter;
-import com.fasterxml.jackson.annotation.JsonSetter;
-
 import it.beije.mgmt.tool.Utils;
 
 
@@ -55,6 +50,7 @@ public class Timesheet implements Serializable {
 	@NonNull
 	@Column(name = "type")
 	private String type;
+
 	
 	@Column(name = "start1")
 	private Time start1;
@@ -97,22 +93,14 @@ public class Timesheet implements Serializable {
 	public Date getDate() {
 		return date;
 	}
-	
-	
-	
 	@JsonGetter("date")
 	public String getJsonData() {
 		return Utils.formatDate(this.date);
 	}
-	
-	
-	
-
 	public void setDate(Date date) {
 		System.out.println("set date from Date");
 		this.date = date;
 	}
-	
 //	@JsonSetter("date")
 	public void setDate(String date) throws ParseException {
 		System.out.println("set date from String");

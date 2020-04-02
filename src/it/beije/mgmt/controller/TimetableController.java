@@ -59,8 +59,6 @@ public class TimetableController {
 
 		return "prehome";
 	}
-
-	
 	@RequestMapping(value= "/listtimetable", method= RequestMethod.GET)
 	public String selezioneN(Locale locale, Model model) {
 		
@@ -73,8 +71,7 @@ public class TimetableController {
 		model.addAttribute("serverTime", formattedDate);
 		return "ntimesheet";
 	}
-	
-	
+		
 	static int totTimesheet;
 	static int n;
 	
@@ -85,7 +82,6 @@ public class TimetableController {
 		model.addAttribute("n",n);
 		return "addtimesheet";
 	}
-	
 	@RequestMapping(value="/addtimesheet", method=RequestMethod.POST)
 	public String addtimesheet(Model model, @Validated Timesheet timesheet) {
 		
@@ -134,9 +130,6 @@ public class TimetableController {
 		}
 	}
 	
-	
-	
-	
 	@RequestMapping(value = "/timetable", method = RequestMethod.POST)
 	public String home(Locale locale, Model model) {
 		System.out.println("Home Page Requested, locale = " + locale);
@@ -160,8 +153,6 @@ public class TimetableController {
 
 		model.addAttribute("serverTime", formattedDate);
 		
-		
-		
 		return "ricerca";
 	}
 	@RequestMapping(value = "/cancella", method = RequestMethod.POST)
@@ -174,12 +165,8 @@ public class TimetableController {
 
 		model.addAttribute("serverTime", formattedDate);
 		
-		
-		
 		return "cancellatimesheet";
 	}
-
-
 
 //	@PostMapping("/user")
 	@RequestMapping(value = "/user", method = RequestMethod.POST)

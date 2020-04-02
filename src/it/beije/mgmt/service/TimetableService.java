@@ -1,25 +1,16 @@
 package it.beije.mgmt.service;
 
 import java.time.*;
-
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
-
-import static java.time.temporal.ChronoUnit.MINUTES;
-
 import java.sql.Date;
 import java.sql.Time;
-import java.text.DecimalFormat;
-
 import org.springframework.stereotype.Service;
-
 import it.beije.mgmt.entity.Timesheet;
 import it.beije.mgmt.entity.User;
 import it.beije.mgmt.jpa.JpaEntityManager;
@@ -42,9 +33,6 @@ public class TimetableService {
 		
 		return timetables;
 	}
-
-	
-	
 	//inserimento lista Timesheet
 	public List<Timesheet> insert(List<Timesheet> timetables) {
 		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
@@ -163,7 +151,7 @@ public class TimetableService {
 	
 	public boolean validator(int userId, Date dateFrom, Date dateTo) {
 		LocalDateTime today = LocalDateTime.now();
-		List<Timesheet> lista = ControlloValidazione(retrieveTimatablesInDateRangeByUserId(userId,  dateFrom,dateTo));
+		List<Timesheet> lista = controlloValidazione(retrieveTimatablesInDateRangeByUserId(userId,  dateFrom,dateTo));
 		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
 		EntityManager entitymanager = emfactory.createEntityManager();
 		EntityTransaction entr = entitymanager.getTransaction();
@@ -181,7 +169,7 @@ public class TimetableService {
 		entitymanager.close();
 		return true;	
 	}
-	public List<Timesheet> ControlloValidazione(List<Timesheet> lista){
+	public List<Timesheet> controlloValidazione(List<Timesheet> lista){
 		List<Timesheet> nuova = new ArrayList<Timesheet>();
 		System.out.println(lista);
 		System.out.println("Primo ciclo");
@@ -237,25 +225,12 @@ public class TimetableService {
 //			entitymanager.createQuery(criteriaQuery);
 		TypedQuery<Timesheet> q = entitymanager.createQuery(
 				"SELECT t FROM Timesheet t WHERE t.date = '" + date + "'" + " AND t.id_user = '" + idUtente + "'",
-				Timesheet.class);
-
-
-			
-			
+				Timesheet.class);	
 			records = q.getResultList();
-			
 			
 			return records;
 		}
 		
-
-
-
-
-		
-
-	
-
 	// RECUPERA UTENTE PER ID - da DATA a DATA
 
 	public List takeRecordsFromDateToDate(Date startDate, Date endDate) {
@@ -352,8 +327,6 @@ public class TimetableService {
 
 		return records;
 	}
-
-
 
 
 	/*****************************************************************************************************************
