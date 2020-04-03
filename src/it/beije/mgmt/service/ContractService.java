@@ -30,7 +30,6 @@ public class ContractService {
 	
 	//Aggiunge un nuovo contratto alla lista dell'utente
 	public Contract create(Long idUser, Contract contract) throws Exception {
-//		EntityManager entityManager = Persistence.createEntityManagerFactory("timesheet").createEntityManager();
 		EntityManager entityManager = JpaEntityManager.getInstance().createEntityManager();
 		entityManager.getTransaction().begin();
 

@@ -31,7 +31,7 @@ public class AddressService {
 	private AddressRepository addressRepository;
 
 	public Address create(Long idUser, Address address) throws Exception {
-		EntityManager entityManager = Persistence.createEntityManagerFactory("timesheet").createEntityManager();
+		EntityManager entityManager = Persistence.createEntityManagerFactory("timesheetDB").createEntityManager();
 		entityManager.getTransaction().begin();
 		
 		User user = entityManager.find(User.class, idUser);

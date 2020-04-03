@@ -189,7 +189,7 @@ public class Computer {
 	}
 
 	public List<UserComputer> getAssignment() {
-		EntityManager entityManager = Persistence.createEntityManagerFactory("timesheet").createEntityManager();
+		EntityManager entityManager = Persistence.createEntityManagerFactory("timesheetDB").createEntityManager();
 		List<UserComputer> userComputer = new ArrayList<>();
 
 		userComputer=entityManager.createQuery("select uc from UserComputer uc where id_computer="+id,
