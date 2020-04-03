@@ -97,6 +97,15 @@ public class Timesheet implements Serializable {
 	public String getJsonData() {
 		return Utils.formatDate(this.date);
 	}
+	
+	@JsonGetter("validated")
+	public String getJsonvalidated() {
+		return Utils.formatDate(this.validated);
+	}
+	@JsonGetter("submit")
+	public String getJsonsubmit() {
+		return Utils.formatDate(this.submit);
+	}
 	public void setDate(Date date) {
 		System.out.println("set date from Date");
 		this.date = date;

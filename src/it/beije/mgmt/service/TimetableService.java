@@ -24,7 +24,7 @@ public class TimetableService {
 			return false;
 		 
 		 if(!e1.before(s2) && !s1.after(e2)) {
-			 if(e1.equals(s2)) {
+			 if(e1.equals(s2) || s1.equals(e2)) {
 				 return false;
 			 }
 			 else
@@ -33,11 +33,8 @@ public class TimetableService {
 		 else 
 			 return false;
 		 
-		
-//	    return (!e1.before(s2) && !s1.after(e2)); //9-13 # 11-15  TRUE TRUE-->TRUE 
-//	    //10-12 # 9-13   TRUE TRUE --> TRUE
-//	    //9-11 # 11-13   TRUE TRUE --> TRUE
-//		9-13 # 14-8     false true --> false 
+		// true true 
+		 
 	    
 	}
 	
@@ -154,7 +151,7 @@ public class TimetableService {
 	EntityManager entitymanager = emfactory.createEntityManager();
 	EntityTransaction entr = entitymanager.getTransaction();
 	entr.begin();
-	String s = null;
+	String s = "";
 	double tot=0;
 	for(Timesheet t: listaT) {
 	
@@ -188,9 +185,11 @@ public class TimetableService {
 	}
 	else
 	{
-		if(tot > 8)
+		if(tot > 8) {
 			//SE IL TOTALE DELLE ORE DI UNA SINGOLA TIMESHEET SUPERA 8 C'è UN PROBLEMA.
+			System.out.println(tot);
 			throw new Exception();
+		}
 		else
 			//SE ARRIVIAMO QUA SIGNIFICA CHE ABBIAMO MINIMO 2 TIMESHEET E MASSIMO 3 TIMESHEET DI UNO STESSO GIORNO E DOBBIAMO VEDERE SE ABBIAMO ORARI CHE SI SOVRAPPONGONO.
 		{
@@ -208,6 +207,8 @@ public class TimetableService {
 				if(i==1) {
 					
 					if(hasOverlap(primaStart1,primaEnd1,secondaStart1,secondaEnd1)|| hasOverlap(primaStart2, primaEnd2, secondaStart2, secondaEnd2)){
+						System.out.println(listaT.get(0));
+						System.out.println(listaT.get(1));
 						throw new Exception();
 					}
 					else if(i==2) {
@@ -223,9 +224,7 @@ public class TimetableService {
 						if(hasOverlap(secondaStart1, secondaEnd1, ultimoStart1, ultimoEnd1)|| hasOverlap(secondaStart2, secondaEnd2, ultimoStart2, ultimoEnd2))
 							throw new Exception();
 					}
-					
-				}
-				
+				}	
 			}
 			String q= "UPDATE Timesheet t SET t.submit = '"+today+"' WHERE id_user ='"+userId+"'AND t.date='"+datefrom+"'";	
 			Query query = entitymanager.createQuery(q);
@@ -259,11 +258,29 @@ public class TimetableService {
 			
 		}	
 }
-		
-				
-	
+					
 	public boolean validator(int userId, Date dateFrom, Date dateTo) {
 		LocalDateTime today = LocalDateTime.now();
+		if(dateTo==null) {
+			List<Timesheet> lista = controlloValidazione(retrieveTimatablesInDateRangeByUserId(userId, dateFrom, dateFrom));
+			EntityManagerFactory emfactory = JpaEntityManager.getInstance();
+			EntityManager entitymanager = emfactory.createEntityManager();
+			EntityTransaction entr = entitymanager.getTransaction();
+			entr.begin();
+			System.out.println(lista);
+			System.out.println("secondo ciclo");
+			for(Timesheet t : lista) {
+				if(t.getSubmit()!=null) {
+					String q= "UPDATE Timesheet t SET t.validated = '"+today+"' WHERE id ='"+ t.getId()+"'";
+					Query query = entitymanager.createQuery(q);
+					int result=query.executeUpdate();
+				}
+			}	
+			entr.commit();
+			entitymanager.close();
+			return true;
+		}
+		else {
 		List<Timesheet> lista = controlloValidazione(retrieveTimatablesInDateRangeByUserId(userId,  dateFrom,dateTo));
 		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
 		EntityManager entitymanager = emfactory.createEntityManager();
@@ -281,6 +298,7 @@ public class TimetableService {
 		entr.commit();
 		entitymanager.close();
 		return true;	
+		}
 	}
 	public List<Timesheet> controlloValidazione(List<Timesheet> lista){
 		List<Timesheet> nuova = new ArrayList<Timesheet>();
