@@ -101,7 +101,7 @@ public class TimetableService {
 	 * RECUPERA UTENTE PER DATA
 	 * 
 	 *****************************************************************************************************************/
-	public List takeRecordsFromDate(Date startDate) {
+	public List<Timesheet> takeRecordsFromDate(Date startDate) {
 		List<Timesheet> records = new ArrayList<Timesheet>();
 		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
 		EntityManager entitymanager = emfactory.createEntityManager();
@@ -238,28 +238,26 @@ public class TimetableService {
 	}
 	
 	public static boolean submitUtente(int userId, Date datefrom, Date dateto) throws Exception {
-		LocalDateTime today = LocalDateTime.now();
 		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
 		EntityManager entitymanager = emfactory.createEntityManager();
 		EntityTransaction entr = entitymanager.getTransaction();
 		entr.begin();
 		if(dateto==null) {
 			//CASO IN CUI SI SELEZIONA UN UNICO GIORNO SENZA QUINDI IL DATETO
-			submitUtente(userId,datefrom);
+			 return submitUtente(userId,datefrom);
 		}
 
 		else {
 			List<Timesheet> listaT = TimetableService.retrieveTimatablesInDateRangeByUserId(userId, datefrom, dateto);
+			for(Timesheet t: listaT) {
+				Date occorrenza = t.getDate();
+				if(t.getSubmit()==null)
+				 submitUtente(userId, occorrenza);
+				
+			}
+			return true;
 			
-			
-		}
-
-		
-		
-		
-		
-		
-		
+		}	
 }
 		
 				
@@ -348,7 +346,7 @@ public class TimetableService {
 		
 	// RECUPERA UTENTE PER ID - da DATA a DATA
 
-	public List takeRecordsFromDateToDate(Date startDate, Date endDate) {
+	public List<Timesheet> takeRecordsFromDateToDate(Date startDate, Date endDate) {
 		List<Timesheet> records = new ArrayList<Timesheet>();
 		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
 		EntityManager entitymanager = emfactory.createEntityManager();
@@ -388,7 +386,7 @@ public class TimetableService {
 		return records;
 	}
 
-	public static List takeRecordsTimetablVersion() {
+	public static List<Timesheet> takeRecordsTimetablVersion() {
 		List<Timesheet> records = new ArrayList<Timesheet>();
 		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
 		EntityManager entitymanager = emfactory.createEntityManager();
@@ -408,7 +406,7 @@ public class TimetableService {
 		return user;
 	}
 
-	public List searchFromType(char type) {
+	public List<Timesheet> searchFromType(char type) {
 		List<Timesheet> records = new ArrayList<Timesheet>();
 		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
 		EntityManager entitymanager = emfactory.createEntityManager();
@@ -420,7 +418,7 @@ public class TimetableService {
 	}
 
 	//metodo
-	public List smartSearch(Date date1, Date date2, char type) {
+	public List<Timesheet> smartSearch(Date date1, Date date2, char type) {
 		List<Timesheet> records = new ArrayList<Timesheet>();
 		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
 		EntityManager entitymanager = emfactory.createEntityManager();
