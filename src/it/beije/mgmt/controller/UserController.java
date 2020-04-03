@@ -145,7 +145,7 @@ public class UserController {
 	@PreAuthorize("hasAnyRole('ADMIN')")		
 	@RequestMapping(value = "/visualizzautente", method = RequestMethod.POST)
 	public String visualizzaUtente(@RequestParam("userid") Long userid, Model model){
-		EntityManagerFactory factory=Persistence.createEntityManagerFactory("timesheet");
+		EntityManagerFactory factory=Persistence.createEntityManagerFactory("timesheetDB");
 		EntityManager em=factory.createEntityManager();
 		
 		User u=em.find(User.class, userid);

@@ -29,7 +29,7 @@ public class CvService {
 	public CV findCvByUserId(Long idUser) {
 		List<CV> cvs = new ArrayList<CV>();
 
-		EntityManager entityManager = Persistence.createEntityManagerFactory("timesheetLocal").createEntityManager();
+		EntityManager entityManager = Persistence.createEntityManagerFactory("timesheetDB").createEntityManager();
 		entityManager.getTransaction().begin();
 
 		cvs = entityManager.createQuery("select c from CV c where c.idUser = " + idUser, CV.class).getResultList();
@@ -42,7 +42,7 @@ public class CvService {
 
 	@Transactional
 	public CV findCvById(Long idCv) throws Exception {
-		EntityManager entityManager = Persistence.createEntityManagerFactory("timesheetLocal").createEntityManager();
+		EntityManager entityManager = Persistence.createEntityManagerFactory("timesheetDB").createEntityManager();
 		entityManager.getTransaction().begin();
 		CV curricula= new CV();
 		curricula=entityManager.createQuery("select c from CV c where c.idCv = " + idCv, CV.class).getSingleResult();
@@ -77,7 +77,7 @@ public class CvService {
 	@Transactional
 	public List<Language> getLanguagesById(Long idCv) {
 
-		EntityManager entityManager = Persistence.createEntityManagerFactory("timesheetLocal").createEntityManager();
+		EntityManager entityManager = Persistence.createEntityManagerFactory("timesheetDB").createEntityManager();
 		entityManager.getTransaction().begin();
 		List<Language> lingue = new ArrayList<Language>();
 		lingue = entityManager.createQuery("select l from Language l where l.idCV = " + idCv, Language.class).getResultList();
@@ -87,7 +87,7 @@ public class CvService {
 	
 	@Transactional
 	public Language setLanguage(Long idCv, Language language) throws Exception {
-		EntityManager entityManager = Persistence.createEntityManagerFactory("timesheetLocal").createEntityManager();
+		EntityManager entityManager = Persistence.createEntityManagerFactory("timesheetDB").createEntityManager();
 		entityManager.getTransaction().begin();
 		CV cv = entityManager.find(CV.class, idCv);
 		if (Objects.isNull(language.getIdCV())) {
@@ -127,7 +127,7 @@ public class CvService {
 
 		List<Education> listEducation = new ArrayList<Education>();
 
-		EntityManager entityManager = Persistence.createEntityManagerFactory("timesheetLocal").createEntityManager();
+		EntityManager entityManager = Persistence.createEntityManagerFactory("timesheetDB").createEntityManager();
 		entityManager.getTransaction().begin();
 
 		listEducation = entityManager.createQuery("select e from Education e where e.idCV = " + idCv, Education.class).getResultList();
@@ -139,7 +139,7 @@ public class CvService {
 	@Transactional
 	public void createNewEducation(Education education, Long idCv) throws Exception {
 
-		EntityManager entityManager = Persistence.createEntityManagerFactory("timesheetLocal").createEntityManager();
+		EntityManager entityManager = Persistence.createEntityManagerFactory("timesheetDB").createEntityManager();
 		entityManager.getTransaction().begin();
 
 		CV cv = entityManager.find(CV.class, idCv);
@@ -197,7 +197,7 @@ public class CvService {
 	public List<Work> getListWorkByUserId(Long idCv) {
 		List<Work> listWorks = new ArrayList<Work>();
 
-		EntityManager entityManager = Persistence.createEntityManagerFactory("timesheetLocal").createEntityManager();
+		EntityManager entityManager = Persistence.createEntityManagerFactory("timesheetDB").createEntityManager();
 		entityManager.getTransaction().begin();
 
 		listWorks = entityManager.createQuery("select w from Work w where w.idCv = " + idCv, Work.class).getResultList();
@@ -210,7 +210,7 @@ public class CvService {
 	@Transactional
 	public void insertNewWorkForUser(Long idCv, Work work) throws Exception {
 
-		EntityManager entityManager = Persistence.createEntityManagerFactory("timesheetLocal").createEntityManager();
+		EntityManager entityManager = Persistence.createEntityManagerFactory("timesheetDB").createEntityManager();
 		entityManager.getTransaction().begin();
 
 		CV cv = entityManager.find(CV.class, idCv);
@@ -267,7 +267,7 @@ public class CvService {
 	public List<Certification> getListCertificationByUserId(Long idCv) {
 		List<Certification> listCertifications = new ArrayList<Certification>();
 
-		EntityManager entityManager = Persistence.createEntityManagerFactory("timesheet").createEntityManager();
+		EntityManager entityManager = Persistence.createEntityManagerFactory("timesheetDB").createEntityManager();
 		entityManager.getTransaction().begin();
 
 		listCertifications = entityManager.createQuery("select c from Certification c where c.idCV = " + idCv, Certification.class).getResultList();
@@ -279,7 +279,7 @@ public class CvService {
 	@Transactional
 	public void insertNewCertificationForUser(Long idCv, Certification certification) throws Exception {
 
-		EntityManager entityManager = Persistence.createEntityManagerFactory("timesheet").createEntityManager();
+		EntityManager entityManager = Persistence.createEntityManagerFactory("timesheetDB").createEntityManager();
 		entityManager.getTransaction().begin();
 
 		CV cv = entityManager.find(CV.class, idCv);
@@ -330,7 +330,7 @@ public class CvService {
 	
 	// NON funzionante!!!!
 	public void addNewCv(Long idUser, CV cv) {
-		EntityManager entityManager = Persistence.createEntityManagerFactory("timesheetLocal").createEntityManager();
+		EntityManager entityManager = Persistence.createEntityManagerFactory("timesheetDB").createEntityManager();
 		entityManager.getTransaction().begin();
 
 		cv.setIdUser(idUser);

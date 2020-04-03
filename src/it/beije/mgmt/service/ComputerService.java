@@ -31,7 +31,7 @@ public class ComputerService {
 	public List<Computer> getComputers(boolean check, boolean maintenance) {
 		System.out.println("available : " + check);
 		System.out.println("maintenance : " + maintenance);
-		EntityManager entityManager = Persistence.createEntityManagerFactory("timesheet").createEntityManager();
+		EntityManager entityManager = Persistence.createEntityManagerFactory("timesheetDB").createEntityManager();
 		List<Computer> computers = new ArrayList<>();
 		
 //		if(check==0) {
@@ -112,7 +112,7 @@ public class ComputerService {
 	}
 	
 	public Computer create(Computer computer) {
-		EntityManager entityManager = Persistence.createEntityManagerFactory("timesheet").createEntityManager();
+		EntityManager entityManager = Persistence.createEntityManagerFactory("timesheetDB").createEntityManager();
 		entityManager.getTransaction().begin();
 		
 		entityManager.persist(computer);
@@ -125,7 +125,7 @@ public class ComputerService {
 	
 public Computer update(Computer computer,Long id) {
 		
-		EntityManager entityManager = Persistence.createEntityManagerFactory("timesheet").createEntityManager();
+		EntityManager entityManager = Persistence.createEntityManagerFactory("timesheetDB").createEntityManager();
 		entityManager.getTransaction().begin();
 		Computer pc = entityManager.find(Computer.class, id);
     	

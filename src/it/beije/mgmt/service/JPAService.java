@@ -18,7 +18,7 @@ import it.beije.mgmt.jpa.JpaEntityManager;
 public class JPAService {
 
 	private static EntityManager entityManager;
-	private static final String project = "timesheet";
+	private static final String project = "timesheetDB";
 	
 	public static <T> T getBean(Class<T> cls, Object pk) {
 		EntityManager entityManager = Persistence.createEntityManagerFactory(project).createEntityManager();

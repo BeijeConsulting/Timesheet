@@ -23,7 +23,7 @@ public class ImportUser {
 			FileReader fr = new FileReader(f);
 			BufferedReader br = new BufferedReader(fr);
 			
-			EntityManagerFactory factory = Persistence.createEntityManagerFactory("timesheet");
+			EntityManagerFactory factory = Persistence.createEntityManagerFactory("timesheetDB");
 			EntityManager entityManager = factory.createEntityManager();
 			
 			StringTokenizer tokenizer=null;
