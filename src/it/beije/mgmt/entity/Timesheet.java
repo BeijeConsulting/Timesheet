@@ -97,6 +97,15 @@ public class Timesheet implements Serializable {
 	public String getJsonData() {
 		return Utils.formatDate(this.date);
 	}
+	
+	@JsonGetter("validated")
+	public String getJsonvalidated() {
+		return Utils.formatDate(this.validated);
+	}
+	@JsonGetter("submit")
+	public String getJsonsubmit() {
+		return Utils.formatDate(this.submit);
+	}
 	public void setDate(Date date) {
 		System.out.println("set date from Date");
 		this.date = date;
@@ -106,13 +115,13 @@ public class Timesheet implements Serializable {
 		System.out.println("set date from String");
 		this.date = Utils.parseDate(date);
 	}
-//	@JsonGetter("date")
-	public String getJsonStartDate() {
-		return Utils.formatDate(this.date);
-	}
-	public void setJsonEndDate(String endDate) throws ParseException {
-		this.date = Utils.parseDate(endDate);
-	}
+////	@JsonGetter("date")
+//	public String getJsonStartDate() {
+//		return Utils.formatDate(this.date);
+//	}
+//	public void setJsonEndDate(String endDate) throws ParseException {
+//		this.date = Utils.parseDate(endDate);
+//	}
 	
 	public String getType() {
 		return type;

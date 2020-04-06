@@ -83,7 +83,7 @@ public class TimetableController {
 		return "addtimesheet";
 	}
 	@RequestMapping(value="/addtimesheet", method=RequestMethod.POST)
-	public String addtimesheet(Model model, @Validated Timesheet timesheet) {
+	public String addtimesheet(Model model, @Validated Timesheet timesheet) throws Exception {
 		
 		if (TimetableService.findRecordsFromId(timesheet.getIdUser())==null)  {
 			System.out.println("Utente non trovato");
@@ -111,7 +111,7 @@ public class TimetableController {
 	}
 		
 	static List <Timesheet> listaTimesheet = new ArrayList<Timesheet>();
-	public String timesheet(Model model,  @PathVariable("n") int n, @Validated Timesheet timesheet) {
+	public String timesheet(Model model,  @PathVariable("n") int n, @Validated Timesheet timesheet) throws Exception {
 		
 	
 		

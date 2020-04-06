@@ -18,6 +18,26 @@ import it.beije.mgmt.jpa.JpaEntityManager;
 @Service
 public class TimetableService {
 	
+	private static boolean hasOverlap(Time s1, Time e1, Time s2, Time e2) throws Exception {
+		
+		 if(((s1==null && e1==null) && (s2!=null && e2!=null)) || ((s1!=null && e1!=null) && (s2==null && e2==null)))
+			return false;
+		 
+		 if(!e1.before(s2) && !s1.after(e2)) {
+			 if(e1.equals(s2) || s1.equals(e2)) {
+				 return false;
+			 }
+			 else
+				 return true;
+		 }
+		 else 
+			 return false;
+		 
+		// true true 
+		 
+	    
+	}
+	
 	public List<Timesheet> caricaTutto() {
 
 		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
@@ -34,13 +54,27 @@ public class TimetableService {
 		return timetables;
 	}
 	//inserimento lista Timesheet
-	public List<Timesheet> insert(List<Timesheet> timetables) {
+	public List<Timesheet> insert(List<Timesheet> timetables) throws Exception {
 		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
 
 		EntityManager entitymanager = emfactory.createEntityManager();
 		entitymanager.getTransaction().begin();
-		for(Timesheet timetable : timetables) {
-			entitymanager.persist(timetable);			
+		
+		for(Timesheet t : timetables) {
+			
+			if((t.getStart1()==null && t.getEnd1()!=null) || (t.getStart2()==null && t.getEnd2()!=null) || (t.getStart1()!=null && t.getEnd1()==null) || (t.getStart2()!=null && t.getEnd2()==null)
+					 || (t.getStart1()==null && t.getEnd1()==null && t.getStart2()==null && t.getEnd2()==null))
+				
+				 //SE GLI ORARI DI OGNI TIMESHEET HANNO UN INIZIO MA NON UNA FINE O VICEVERSA  OPPURE HA TUTTI ORARI NULL C'è  UN PROBLEMA
+				 throw new Exception();
+			if(t.getTot()>8)
+				
+				//SE LE ORE DI UNA TIMESHEET SONO MAGGIORI DI 8 C'è UN PROBLEMA
+				throw new Exception();
+			
+			
+			
+			entitymanager.persist(t);			
 		}
 
 		entitymanager.getTransaction().commit();
@@ -78,7 +112,7 @@ public class TimetableService {
 	 * RECUPERA UTENTE PER DATA
 	 * 
 	 *****************************************************************************************************************/
-	public List takeRecordsFromDate(Date startDate) {
+	public List<Timesheet> takeRecordsFromDate(Date startDate) {
 		List<Timesheet> records = new ArrayList<Timesheet>();
 		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
 		EntityManager entitymanager = emfactory.createEntityManager();
@@ -115,42 +149,168 @@ public class TimetableService {
 	/*****************************************************************************************************************
 	 * 
 	 * AGGIORNA TUPLA NEL DATABASE
+	 * @throws Exception 
 	 * 
 	 *****************************************************************************************************************/
 	
-	public static boolean submitUtente(int userId, Date datefrom, Date dateto) {
-		LocalDateTime today = LocalDateTime.now();
-		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
-		EntityManager entitymanager = emfactory.createEntityManager();
-		EntityTransaction entr = entitymanager.getTransaction();
-		entr.begin();
-		if(dateto==null) {
-			String q= "UPDATE Timesheet t SET t.submit = '"+today+"' WHERE id_user ='"+userId+"'AND t.date='"+datefrom+"'";
-			System.out.println(q);
+	 public static boolean isHourInInterval(String target, String start, String end) {
+	        return ((target.compareTo(start) >= 0)
+	                && (target.compareTo(end) <= 0));
+	    }
+	 
+	public static boolean submitUtente(int userId, Date datefrom) throws Exception {
+	List<Timesheet> listaT = multiTimesheetPerDay(userId, datefrom);
+	LocalDateTime today = LocalDateTime.now();
+	EntityManagerFactory emfactory = JpaEntityManager.getInstance();
+	EntityManager entitymanager = emfactory.createEntityManager();
+	EntityTransaction entr = entitymanager.getTransaction();
+	entr.begin();
+	String s = "";
+	double tot=0;
+	for(Timesheet t: listaT) {
+	
+		 tot += t.getTot();
+		
+		 if(!s.contains(t.getType()))
+			 s += t.getType();
+		 else
+			 //SE CI SONO PIù TIMESHEET CON STESSA TIPOLOGIA NELLA STESSA DATA C'è UN PROBLEMA
+			 throw new Exception();
+		 
+		 if((t.getStart1()==null && t.getEnd1()!=null) || (t.getStart2()==null && t.getEnd2()!=null) || (t.getStart1()!=null && t.getEnd1()==null) || (t.getStart2()!=null && t.getEnd2()==null)
+				 || (t.getStart1()==null && t.getEnd1()==null && t.getStart2()==null && t.getEnd2()==null))
+			
+			 //SE GLI ORARI DI OGNI TIMESHEET HANNO UN INIZIO MA NON UNA FINE O VICEVERSA  OPPURE HA TUTTI ORARI NULL C'è  UN PROBLEMA
+			 throw new Exception();
+		 
+	}
+	if((s.contains("f") || s.contains("F")) && s.length()>1)
+		//SE C'è UNA TIMESHEET FERIE ASSIEME AD ALTRE TIMESHEET CON STESSA DATA C'è UN PROBLEMA IN QUANTO SE SEI IN FERIE NON PUOI AVERE TIMESHEET PERMESSO O LAVORO
+	throw new Exception();
+	
+	if(listaT.size() == 1 && tot <= 8) {
+		// SE IN QUEL GIORNO ABBIAMO UNA SOLA TIMESHEET E LE ORE SONO MENO O UGIALI A 8 (MINORE PER POSSIBILI PARTTIME) PUOI FARE SUBMIT.
+		String q= "UPDATE Timesheet t SET t.submit = '"+today+"' WHERE id_user ='"+userId+"'AND t.date='"+datefrom+"'";
+		Query query = entitymanager.createQuery(q);
+		int result=query.executeUpdate();
+		entr.commit();
+		entitymanager.close();
+		return true;
+	}
+	else
+	{
+		if(tot > 8) {
+			//SE IL TOTALE DELLE ORE DI UNA SINGOLA TIMESHEET SUPERA 8 C'è UN PROBLEMA.
+			System.out.println(tot);
+			throw new Exception();
+		}
+		else
+			//SE ARRIVIAMO QUA SIGNIFICA CHE ABBIAMO MINIMO 2 TIMESHEET E MASSIMO 3 TIMESHEET DI UNO STESSO GIORNO E DOBBIAMO VEDERE SE ABBIAMO ORARI CHE SI SOVRAPPONGONO.
+		{
+			Time primaStart1=listaT.get(0).getStart1();
+			Time primaEnd1=listaT.get(0).getEnd1();
+			Time primaStart2=listaT.get(0).getStart2();
+			Time primaEnd2=listaT.get(0).getEnd2();
+			Time secondaStart1=listaT.get(1).getStart1();
+			Time secondaEnd1= listaT.get(1).getEnd1();
+			Time secondaStart2=listaT.get(1).getStart2();
+			Time secondaEnd2=listaT.get(1).getEnd2();
+			
+			for(int i=1;i<listaT.size();i++) {
+				
+				if(i==1) {
+					
+					if(hasOverlap(primaStart1,primaEnd1,secondaStart1,secondaEnd1)|| hasOverlap(primaStart2, primaEnd2, secondaStart2, secondaEnd2)){
+						System.out.println(listaT.get(0));
+						System.out.println(listaT.get(1));
+						throw new Exception();
+					}
+					else if(i==2) {
+						
+						Time ultimoStart1=listaT.get(i).getStart1();
+						Time ultimoEnd1= listaT.get(i).getEnd1();
+						Time ultimoStart2=listaT.get(i).getStart2();
+						Time ultimoEnd2=listaT.get(i).getEnd2();
+						
+						if(hasOverlap(primaStart1, primaEnd1, ultimoStart1, ultimoEnd1)|| hasOverlap(primaStart2, primaEnd2, ultimoStart2, ultimoEnd2)) 
+							throw new Exception();
+					
+						if(hasOverlap(secondaStart1, secondaEnd1, ultimoStart1, ultimoEnd1)|| hasOverlap(secondaStart2, secondaEnd2, ultimoStart2, ultimoEnd2))
+							throw new Exception();
+					}
+				}	
+			}
+			String q= "UPDATE Timesheet t SET t.submit = '"+today+"' WHERE id_user ='"+userId+"'AND t.date='"+datefrom+"'";	
 			Query query = entitymanager.createQuery(q);
 			int result=query.executeUpdate();
 			entr.commit();
 			entitymanager.close();
 			return true;
-		}else {
-			List<Timesheet> lista = TimetableService.retrieveTimatablesInDateRangeByUserId(userId, datefrom, dateto);
-			System.out.println(lista);
-			for(Timesheet t : lista) {
-				if(t.getSubmit()==null) {
-				String q= "UPDATE Timesheet t SET t.submit = '"+today+"' WHERE id ='"+ t.getId()+"'";
-				Query query = entitymanager.createQuery(q);
-				int result=query.executeUpdate();
-				}
-				}	
-				entr.commit();
-				entitymanager.close();
-			return true;
+			}
 		}
 	}
 	
-	
+	public static boolean submitUtente(int userId, Date datefrom, Date dateto) throws Exception {
+		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
+		EntityManager entitymanager = emfactory.createEntityManager();
+		EntityTransaction entr = entitymanager.getTransaction();
+		entr.begin();
+		if(dateto==null) {
+			//CASO IN CUI SI SELEZIONA UN UNICO GIORNO SENZA QUINDI IL DATETO
+			 return submitUtente(userId,datefrom);
+		}
+
+		else {
+			List<Timesheet> listaT = TimetableService.retrieveTimatablesInDateRangeByUserId(userId, datefrom, dateto);
+			for(Timesheet t: listaT) {
+				Date occorrenza = t.getDate();
+				if(t.getSubmit()==null)
+				 submitUtente(userId, occorrenza);
+				
+			}
+			return true;
+			
+		}	
+}
+	public static boolean svuotaserver() {
+		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
+		EntityManager entitymanager = emfactory.createEntityManager();
+		EntityTransaction entr = entitymanager.getTransaction();
+		entr.begin();
+		String q= "DELETE from Timesheet where id IS NOT NULL";
+		Query query = entitymanager.createQuery(q);
+		int result=query.executeUpdate();
+		entr.commit();
+		if(result!=0)
+			return true;
+		else
+			return false;
+			
+	}
+					
 	public boolean validator(int userId, Date dateFrom, Date dateTo) {
 		LocalDateTime today = LocalDateTime.now();
+		if(dateTo==null) {
+			List<Timesheet> lista = controlloValidazione(retrieveTimatablesInDateRangeByUserId(userId, dateFrom, dateFrom));
+			EntityManagerFactory emfactory = JpaEntityManager.getInstance();
+			EntityManager entitymanager = emfactory.createEntityManager();
+			EntityTransaction entr = entitymanager.getTransaction();
+			entr.begin();
+			System.out.println(lista);
+			System.out.println("secondo ciclo");
+			for(Timesheet t : lista) {
+				if(t.getSubmit()!=null) {
+					String q= "UPDATE Timesheet t SET t.validated = '"+today+"' WHERE id ='"+ t.getId()+"'";
+					Query query = entitymanager.createQuery(q);
+					int result=query.executeUpdate();
+				}
+			}	
+			entr.commit();
+			entitymanager.close();
+			
+			return true;
+		}
+		else {
 		List<Timesheet> lista = controlloValidazione(retrieveTimatablesInDateRangeByUserId(userId,  dateFrom,dateTo));
 		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
 		EntityManager entitymanager = emfactory.createEntityManager();
@@ -168,6 +328,7 @@ public class TimetableService {
 		entr.commit();
 		entitymanager.close();
 		return true;	
+		}
 	}
 	public List<Timesheet> controlloValidazione(List<Timesheet> lista){
 		List<Timesheet> nuova = new ArrayList<Timesheet>();
@@ -217,6 +378,8 @@ public class TimetableService {
 	 * RECUPERA TUPLE BY ID E DATA
 	 * 
 	 *****************************************************************************************************************/
+
+
 	public List<Timesheet> takeRecordFromDateId(Date date, int idUtente) {
 
 		List<Timesheet> records = new ArrayList<Timesheet>();
@@ -233,7 +396,7 @@ public class TimetableService {
 		
 	// RECUPERA UTENTE PER ID - da DATA a DATA
 
-	public List takeRecordsFromDateToDate(Date startDate, Date endDate) {
+	public List<Timesheet> takeRecordsFromDateToDate(Date startDate, Date endDate) {
 		List<Timesheet> records = new ArrayList<Timesheet>();
 		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
 		EntityManager entitymanager = emfactory.createEntityManager();
@@ -248,7 +411,7 @@ public class TimetableService {
 	}
 	
 	//metodo per trovare utenti in un periodo 
-	public static List takeRecordsFromIdTimetableVersionWithPeriod(int id_user, Date start , Date end ) {
+	public static List<Timesheet> takeRecordsFromIdTimetableVersionWithPeriod(int id_user, Date start , Date end ) {
 		// int p = id_user;
 		List<Timesheet> records = new ArrayList<Timesheet>();
 		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
@@ -261,7 +424,7 @@ public class TimetableService {
 		return records;
 	}
 
-	public List takeRecordsFromIdTimetableVersion(int id_user) {
+	public List<Timesheet> takeRecordsFromIdTimetableVersion(int id_user) {
 		// int p = id_user;
 		List<Timesheet> records = new ArrayList<Timesheet>();
 		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
@@ -273,7 +436,7 @@ public class TimetableService {
 		return records;
 	}
 
-	public static List takeRecordsTimetablVersion() {
+	public static List<Timesheet> takeRecordsTimetablVersion() {
 		List<Timesheet> records = new ArrayList<Timesheet>();
 		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
 		EntityManager entitymanager = emfactory.createEntityManager();
@@ -293,7 +456,7 @@ public class TimetableService {
 		return user;
 	}
 
-	public List searchFromType(char type) {
+	public List<Timesheet> searchFromType(char type) {
 		List<Timesheet> records = new ArrayList<Timesheet>();
 		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
 		EntityManager entitymanager = emfactory.createEntityManager();
@@ -305,7 +468,7 @@ public class TimetableService {
 	}
 
 	//metodo
-	public List smartSearch(Date date1, Date date2, char type) {
+	public List<Timesheet> smartSearch(Date date1, Date date2, char type) {
 		List<Timesheet> records = new ArrayList<Timesheet>();
 		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
 		EntityManager entitymanager = emfactory.createEntityManager();
@@ -396,6 +559,7 @@ public class TimetableService {
 		return timetables;
 	}
 	
+	
 	public static Timesheet singolatimesheet(int userId,Date dateFrom){
 		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
 		EntityManager entitymanager = emfactory.createEntityManager();
@@ -404,6 +568,8 @@ public class TimetableService {
 		entitymanager.close();
 		return timetables;
 	}
+	
+	
 	public static List<Timesheet> retrieveTimatablesInDateRangeByUserId(int userId, Date dateFrom, Date dateTo) {
 		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
 		EntityManager entitymanager = emfactory.createEntityManager();
@@ -430,6 +596,15 @@ public class TimetableService {
 			return true;
 		else
 			return false;
+	}
+	
+	public static List<Timesheet> multiTimesheetPerDay(int userId,Date date){
+		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
+		EntityManager entitymanager = emfactory.createEntityManager();
+		Query q = entitymanager.createQuery("FROM Timesheet t WHERE t.idUser = "+userId+" and t.date = '"+date+"'");
+		List<Timesheet> timetables = q.getResultList();
+		entitymanager.close();
+		return timetables;
 	}
 
 }

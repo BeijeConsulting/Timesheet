@@ -29,9 +29,14 @@ public class TimesheetApiController {
 		public @ResponseBody List<Timesheet> getTimesheets(Model model, HttpServletResponse response) throws IOException {
 			return timetableService.caricaTutto();
 		}
+		@RequestMapping(value = "/timesheets/svuotaserver", method = RequestMethod.GET) // METODO USATO SOLO PER TESTARE
+		public @ResponseBody boolean svuotaserver(Model model, HttpServletResponse response) throws IOException {
+			TimetableService.svuotaserver();
+			return true;
+		}
 	
 		@RequestMapping(value = "/timesheets", method = RequestMethod.POST,	consumes = MediaType.APPLICATION_JSON_VALUE)
-		public @ResponseBody List<Timesheet> insertTimesheets(@RequestBody List<Timesheet> timesheets, Model model,	HttpServletResponse response) throws IOException {
+		public @ResponseBody List<Timesheet> insertTimesheets(@RequestBody List<Timesheet> timesheets, Model model,	HttpServletResponse response) throws Exception {
 			System.out.println("insert timesheets: " + timesheets);
 	
 			return timetableService.insert(timesheets);
@@ -68,12 +73,12 @@ public class TimesheetApiController {
 		
 		@RequestMapping(value = "/timesheets/validate/{id}", method = RequestMethod.POST)
 
-		public @ResponseBody boolean validazione(@PathVariable int id,@RequestParam(value = "datefrom", required = true)Date datefrom,@RequestParam(value = "dateto", required = true)Date dateto) {
+		public @ResponseBody boolean validazione(@PathVariable int id,@RequestParam(value = "datefrom", required = true)Date datefrom,@RequestParam(value = "dateto", required = false)Date dateto) {
 			return timetableService.validator(id, datefrom, dateto);
 		}
 		
 		@RequestMapping(value = "/timesheets/submit/{id}", method = RequestMethod.POST)
-		public @ResponseBody boolean submit(@PathVariable int id,@RequestParam(value = "datefrom", required = true)Date datefrom,@RequestParam(value = "dateto", required = false)Date dateto) {
+		public @ResponseBody boolean submit(@PathVariable int id,@RequestParam(value = "datefrom", required = true)Date datefrom,@RequestParam(value = "dateto", required = false)Date dateto) throws Exception {
 			if(dateto !=null) {
 				int i=dateto.compareTo(datefrom);
 				System.out.println(i);
