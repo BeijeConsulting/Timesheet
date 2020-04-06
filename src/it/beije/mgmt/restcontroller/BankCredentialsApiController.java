@@ -27,8 +27,11 @@ import it.beije.mgmt.entity.Contract;
 import it.beije.mgmt.entity.Timesheet;
 import it.beije.mgmt.entity.User;
 import it.beije.mgmt.jpa.JpaEntityManager;
+import it.beije.mgmt.restcontroller.exception.InvalidJSONException;
+import it.beije.mgmt.restcontroller.exception.NoContentException;
 import it.beije.mgmt.service.BankCredentialsService;
 import it.beije.mgmt.service.JPAService;
+import it.beije.mgmt.service.UserService;
 
 @RestController
 @RequestMapping("api")
@@ -36,9 +39,11 @@ public class BankCredentialsApiController {
 
 	@Autowired
 	private BankCredentialsService bankCredentialsService;
+	@Autowired
+	private UserService userService;
 
 	/****************** BANK CREDENTIALS *****************/
-	// storico banck credentials user
+	// storico bank credentials user
 	@Transactional
 	@RequestMapping(value = "/bankCredentials/user/{id}", method = RequestMethod.GET)
 	public @ResponseBody List<BankCredentials> getCredentialsForUser(@PathVariable Long id) {
@@ -55,7 +60,9 @@ public class BankCredentialsApiController {
 //		entitymanager.close();
 //
 //		return bankcredentials;
-
+		User us = userService.find(id);
+		if(us.isEmpty()) 
+			throw new NoContentException("Non è stato trovato un utente con l'id selezionato");
 		return bankCredentialsService.getBankCredentialsByUser(id);
 
 	}
@@ -67,8 +74,16 @@ public class BankCredentialsApiController {
 
 		System.out.println("insert BankCredentials: " + bankCredentials);
 
-		return bankCredentialsService.create(id, bankCredentials);
-
+		User us = userService.find(id);
+		if(us.isEmpty()) 
+			throw new NoContentException("Non è stato trovato un utente con l'id selezionato");
+		BankCredentials bc = new BankCredentials();
+		try {
+			bc = bankCredentialsService.create(id, bankCredentials);
+		}catch(RuntimeException e) {
+			throw new InvalidJSONException("Non è stato possibile aggiungere la cordinata bancaria desiderata");
+		}
+		return bc;
 	}
 
 	// get bank credentials by idBankCredentials
@@ -78,8 +93,10 @@ public class BankCredentialsApiController {
 		System.out.println("get bankCredentials by idBankCredentials: " + id);
 		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
 		EntityManager entitymanager = emfactory.createEntityManager();
-		
-		return entitymanager.find(BankCredentials.class, id);
+		BankCredentials bankCredentials = entitymanager.find(BankCredentials.class, id);
+		if(bankCredentials.getId()==null) 
+			throw new NoContentException("Non è stata trovata una cordinata bancaria con l'id selezionato");
+		return bankCredentials;
 	}
 
 	// update existing bank credentials
@@ -88,8 +105,17 @@ public class BankCredentialsApiController {
 			Model model, HttpServletResponse response) throws IOException {
 		System.out.println("update bankCredentials by id: " + id);
 		System.out.println("update bankCredential: " + bankCredentials);
-
-		return bankCredentialsService.update(id, bankCredentials);
+		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
+		EntityManager entitymanager = emfactory.createEntityManager();
+		BankCredentials bc = entitymanager.find(BankCredentials.class, id);
+		if(bc.getId()==null) 
+			throw new NoContentException("Non è stato trovato una cordinata bancaria con l'id selezionato");
+		try {
+			bc = bankCredentialsService.update(id, bankCredentials);
+		}catch(RuntimeException e) {
+			throw new InvalidJSONException("Non è stato possibile modificare i dati della cordinata bancaria desiderata");
+		}
+		return bc;
 	}
 
 }

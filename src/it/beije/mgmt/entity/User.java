@@ -323,5 +323,10 @@ public class User implements Serializable {
 	public void removeContractType(Contract contract) {
 		contracts.remove(contract);
 	}
+	
+	public boolean isEmpty() {
+        if(this.id==null) return true;
+        else return false;
+    }
 
 }

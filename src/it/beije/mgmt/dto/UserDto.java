@@ -205,4 +205,8 @@ public class UserDto implements Serializable {
         return dto;
     }
 
+	public boolean isEmpty() {
+        if(this.id==null) return true;
+        else return false;
+    }
 }
