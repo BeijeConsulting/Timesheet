@@ -54,13 +54,27 @@ public class TimetableService {
 		return timetables;
 	}
 	//inserimento lista Timesheet
-	public List<Timesheet> insert(List<Timesheet> timetables) {
+	public List<Timesheet> insert(List<Timesheet> timetables) throws Exception {
 		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
 
 		EntityManager entitymanager = emfactory.createEntityManager();
 		entitymanager.getTransaction().begin();
-		for(Timesheet timetable : timetables) {
-			entitymanager.persist(timetable);			
+		
+		for(Timesheet t : timetables) {
+			
+			if((t.getStart1()==null && t.getEnd1()!=null) || (t.getStart2()==null && t.getEnd2()!=null) || (t.getStart1()!=null && t.getEnd1()==null) || (t.getStart2()!=null && t.getEnd2()==null)
+					 || (t.getStart1()==null && t.getEnd1()==null && t.getStart2()==null && t.getEnd2()==null))
+				
+				 //SE GLI ORARI DI OGNI TIMESHEET HANNO UN INIZIO MA NON UNA FINE O VICEVERSA  OPPURE HA TUTTI ORARI NULL C'è  UN PROBLEMA
+				 throw new Exception();
+			if(t.getTot()>8)
+				
+				//SE LE ORE DI UNA TIMESHEET SONO MAGGIORI DI 8 C'è UN PROBLEMA
+				throw new Exception();
+			
+			
+			
+			entitymanager.persist(t);			
 		}
 
 		entitymanager.getTransaction().commit();
@@ -263,11 +277,15 @@ public class TimetableService {
 		EntityManager entitymanager = emfactory.createEntityManager();
 		EntityTransaction entr = entitymanager.getTransaction();
 		entr.begin();
-		String q= "DELETE from timesheet where id IS NOT NULL";
+		String q= "DELETE from Timesheet where id IS NOT NULL";
 		Query query = entitymanager.createQuery(q);
 		int result=query.executeUpdate();
 		entr.commit();
-		return true;
+		if(result!=0)
+			return true;
+		else
+			return false;
+			
 	}
 					
 	public boolean validator(int userId, Date dateFrom, Date dateTo) {
@@ -289,6 +307,7 @@ public class TimetableService {
 			}	
 			entr.commit();
 			entitymanager.close();
+			
 			return true;
 		}
 		else {

@@ -36,7 +36,7 @@ public class TimesheetApiController {
 		}
 	
 		@RequestMapping(value = "/timesheets", method = RequestMethod.POST,	consumes = MediaType.APPLICATION_JSON_VALUE)
-		public @ResponseBody List<Timesheet> insertTimesheets(@RequestBody List<Timesheet> timesheets, Model model,	HttpServletResponse response) throws IOException {
+		public @ResponseBody List<Timesheet> insertTimesheets(@RequestBody List<Timesheet> timesheets, Model model,	HttpServletResponse response) throws Exception {
 			System.out.println("insert timesheets: " + timesheets);
 	
 			return timetableService.insert(timesheets);
