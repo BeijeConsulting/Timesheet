@@ -258,6 +258,17 @@ public class TimetableService {
 			
 		}	
 }
+	public static boolean svuotaserver() {
+		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
+		EntityManager entitymanager = emfactory.createEntityManager();
+		EntityTransaction entr = entitymanager.getTransaction();
+		entr.begin();
+		String q= "DELETE from timesheet where id IS NOT NULL";
+		Query query = entitymanager.createQuery(q);
+		int result=query.executeUpdate();
+		entr.commit();
+		return true;
+	}
 					
 	public boolean validator(int userId, Date dateFrom, Date dateTo) {
 		LocalDateTime today = LocalDateTime.now();
@@ -348,6 +359,8 @@ public class TimetableService {
 	 * RECUPERA TUPLE BY ID E DATA
 	 * 
 	 *****************************************************************************************************************/
+
+
 	public List<Timesheet> takeRecordFromDateId(Date date, int idUtente) {
 
 		List<Timesheet> records = new ArrayList<Timesheet>();

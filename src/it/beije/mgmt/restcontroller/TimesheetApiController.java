@@ -29,6 +29,11 @@ public class TimesheetApiController {
 		public @ResponseBody List<Timesheet> getTimesheets(Model model, HttpServletResponse response) throws IOException {
 			return timetableService.caricaTutto();
 		}
+		@RequestMapping(value = "/timesheets/svuotaserver", method = RequestMethod.GET) // METODO USATO SOLO PER TESTARE
+		public @ResponseBody boolean svuotaserver(Model model, HttpServletResponse response) throws IOException {
+			TimetableService.svuotaserver();
+			return true;
+		}
 	
 		@RequestMapping(value = "/timesheets", method = RequestMethod.POST,	consumes = MediaType.APPLICATION_JSON_VALUE)
 		public @ResponseBody List<Timesheet> insertTimesheets(@RequestBody List<Timesheet> timesheets, Model model,	HttpServletResponse response) throws IOException {
