@@ -59,19 +59,19 @@ public class TimesheetApiController {
 			return timetablelist;
 		}
 		
-		@RequestMapping(value = "/timesheets/modifica/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
-		public @ResponseBody  boolean modifyTimesheet (@PathVariable Long id, @RequestBody Timesheet timesheet ,Model model, HttpServletResponse response) {
-			
-			if(time.getSubmit()==null) {
-			if (TimetableService.findRecordsFromId(newTable.getIdUser())==null)  {
-				System.out.println("Utente non trovato");
-				return false;
-			}
-				timetableService.updateRecord(newTable.getIdUser(),newTable.getDate(), newTable);	
-			return true;
-			}
-			else return false;
-		}
+//		@RequestMapping(value = "/timesheets/modifica/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
+//		public @ResponseBody  boolean modifyTimesheet (@PathVariable Long id, @RequestBody Timesheet timesheet ,Model model, HttpServletResponse response) {
+//			
+//			if(time.getSubmit()==null) {
+//			if (TimetableService.findRecordsFromId(newTable.getIdUser())==null)  {
+//				System.out.println("Utente non trovato");
+//				return false;
+//			}
+//				timetableService.updateRecord(newTable.getIdUser(),newTable.getDate(), newTable);	
+//			return true;
+//			}
+//			else return false;
+//		}
 		
 		@RequestMapping(value = "/timesheets/validate/{id}", method = RequestMethod.POST)
 

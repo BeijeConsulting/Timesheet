@@ -16,13 +16,13 @@ public interface TimesheetRepository extends JpaRepository<Timesheet, Long> {
 	
 	List<Timesheet> findByIdUtente(int idUtente);
 	
-	List<Timesheet> findByIdUtenteAndDateFromBetweenDateTo(int userId, Date dateFrom, Date dateTo);
+	List<Timesheet> findByIdUtenteAndDateFromBetweenDateTo(int idUtente, Date dateFrom, Date dateTo);
 	
 	List<Timesheet> findByDateFromBetweenDateTo(Date dateFrom, Date dateTo);
 	
 	Timesheet deleteByIdUtenteAndDateFromAndType(int idUtente, Date dateFrom, String Type);
 	
-	List<Timesheet> deleteByIdUtenteAndDateFrom(int idUntente, Date dateFrom);
+	List<Timesheet> deleteByIdUtenteAndDateFrom(int idUtente, Date dateFrom);
 	
 	
 

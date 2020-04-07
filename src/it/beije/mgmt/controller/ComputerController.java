@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 
 import it.beije.mgmt.entity.Computer;
 import it.beije.mgmt.entity.UserComputer;
-import it.beije.mgmt.service.ComputerService;
+import it.beije.mgmt.service.ComputerService_Vecchio;
 import it.beije.mgmt.service.JPAService;
 import it.beije.mgmt.tool.Utils;
 
@@ -32,7 +32,7 @@ import it.beije.mgmt.tool.Utils;
 public class ComputerController {
 	
 	@Autowired
-	private ComputerService computerService;
+	private ComputerService_Vecchio computerService;
 
 	/**
 	 * Simply selects the home view to render by returning its name.
