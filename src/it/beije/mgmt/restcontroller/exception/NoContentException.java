@@ -1,6 +1,8 @@
 package it.beije.mgmt.restcontroller.exception;
 
-public class NoContentException extends RuntimeException{
+import it.beije.mgmt.exception.MasterException;
+
+public class NoContentException extends MasterException{
 
 	private static final long serialVersionUID = 1L;
 

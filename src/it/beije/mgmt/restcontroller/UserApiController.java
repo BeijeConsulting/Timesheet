@@ -41,7 +41,11 @@ public class UserApiController {
 	///////// START USER //////////////////////
 	@RequestMapping(value = "/users", method = RequestMethod.GET)
 	public @ResponseBody List<UserDto> getUsers(Model model, HttpServletResponse response) throws IOException {
-		return userService.caricaTutti();
+		try{
+			return userService.caricaTutti();
+		}catch(RuntimeException e) {
+			throw e;
+		}
 	}
 
 	// Quando cerco "/user/{id}/{complete}, la variabile è opzionale, il valore di
@@ -53,10 +57,12 @@ public class UserApiController {
 	public @ResponseBody UserDto getUserDto(@PathVariable Long id, // @PathVariable(required=false) boolean complete,
 			@RequestParam(required = false) boolean complete, Model model, HttpServletResponse response)
 			throws IOException {
-		UserDto us = complete ? userService.findApiLong(id) : userService.findApi(id);
-		if(us.isEmpty()) 
-			throw new NoContentException("Non è stato trovato un utente con l'id selezionato");
-		return us;
+		try {
+			UserDto us = userService.findApi(id, complete);
+			return us;
+		}catch(RuntimeException e) {
+			throw e;
+		}
 	}
 
 //	@RequestMapping(value = "/userdtolong/{id}", method = RequestMethod.GET)
@@ -72,10 +78,12 @@ public class UserApiController {
 	@RequestMapping(value =  "/user_entity/{id}" , method = RequestMethod.GET)
 	public @ResponseBody User getUser(@PathVariable Long id, Model model, HttpServletResponse response)
 			throws IOException {
-		User us = userService.find(id);
-		if(us.isEmpty()) 
-			throw new NoContentException("Non è stato trovato un utente con l'id selezionato");
-		return us; 
+		try {
+			User us = userService.find(id);
+			return us;
+		}catch(RuntimeException e) {
+			throw e;
+		}
 	}
 
 	@RequestMapping(value = "/user", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)

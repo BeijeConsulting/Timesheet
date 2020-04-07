@@ -7,15 +7,20 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityNotFoundException;
 import javax.persistence.NoResultException;
 import javax.persistence.Persistence;
+import javax.persistence.PersistenceException;
 import javax.persistence.Query;
+import javax.persistence.RollbackException;
 import javax.persistence.TypedQuery;
 
 import org.hibernate.Hibernate;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -29,10 +34,14 @@ import it.beije.mgmt.entity.Address;
 import it.beije.mgmt.entity.BankCredentials;
 import it.beije.mgmt.entity.Contract;
 import it.beije.mgmt.entity.User;
+import it.beije.mgmt.exception.DBException;
+import it.beije.mgmt.exception.MasterException;
+import it.beije.mgmt.exception.ServiceException;
 import it.beije.mgmt.jpa.JpaEntityManager;
 import it.beije.mgmt.jpa.UserRequest;
 import it.beije.mgmt.repository.UserRepository;
 import it.beije.mgmt.repository.UserRepositoryCustom;
+import it.beije.mgmt.restcontroller.exception.NoContentException;
 
 
 @Service
@@ -48,30 +57,23 @@ public class UserService implements UserDetailsService{
 	 * NON FUNGE CORRETTAMENTE VEDI COMMENTI
 	 * @param id
 	 * @return
+	 * @throws MasterException 
+	 * @throws DBException 
 	 */
 	@Transactional
-	public User find(Long id) {
+	public User find(Long id) throws MasterException {
 		
-		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
-		EntityManager entitymanager = emfactory.createEntityManager();
-		User user;
+		EntityManager entitymanager = null;
 		try {
-			user = entitymanager.createQuery("SELECT u FROM User u WHERE u.id = "+id,User.class).getSingleResult();
-			
-			//Modificare,poiche' prende soltanto i primi elementi delle tabelle
-			//DA FARE LE QUERY PER GLI INDIRIZZI ATTIVI, PER LE CORDINATE ATTIVE, PER I CONTRATTI ATTIVI
-			Hibernate.initialize(user.getAddresses());
-			Hibernate.initialize(user.getBankCredentials());
-			Hibernate.initialize(user.getContracts());
-		}catch (NoResultException e)
-		{
-			return new User();
+			entitymanager = JpaEntityManager.getInstance().createEntityManager();
+			return userRepository.getOne(id);
+		}catch (EntityNotFoundException e) {
+			throw new NoContentException("Non è stato trovato un utente con l'id selezionato o i dati potrebbero essere corrotti");
+		} catch (DBException e) {
+			throw e;
+		}finally {
+			entitymanager.close();
 		}
-		System.out.println("trovato" + user.getFirstName());
-		
-		entitymanager.close();
-
-		return user;
 	}
 	
 		/** FUNZIONA: Questo metodo prima carica l'utente dal database con la query, passa al dto con il metodo BeanUtils.copyProperties ed ignora
@@ -81,29 +83,26 @@ public class UserService implements UserDetailsService{
 		 * 
 		 * @param id parametro in ingresso per trovare l'utente sul database
 		 * @return
+		 * @throws MasterException 
 		 */
 	
-		public UserDto findApi(Long id) {
+	public UserDto findApi(Long id, boolean complete) throws MasterException {
 		
-		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
-		EntityManager entitymanager = emfactory.createEntityManager();
-		User user;
 		UserDto userDto = new UserDto();
 		try {
-			user = entitymanager.createQuery("SELECT u FROM User u WHERE u.id = "+id,User.class).getSingleResult();
-			BeanUtils.copyProperties(user, userDto, "password", "secondaryEmail", "fiscalCode", "birthDate", "birthPlace", "nationality",
-			"document", "idSkype", "admin", "archiveDate", "note");
-			
-
-		}catch (NoResultException e)
-		{
-			return new UserDto();
+			User user = find(id);
+			if(complete)
+				BeanUtils.copyProperties(user, userDto, "password", "secondaryEmail", "fiscalCode", "birthDate", "birthPlace", "nationality",
+						"document", "idSkype", "admin", "archiveDate", "note", "addresses", "bankCredentials", "contracts");
+			else
+				BeanUtils.copyProperties(user, userDto, "password", "secondaryEmail", "fiscalCode", "birthDate", "birthPlace", "nationality",
+						"document", "idSkype", "admin", "archiveDate", "note");
+			return userDto;
+		} catch (DBException e) {
+			throw e;
+		} catch (BeansException e) {
+			throw new ServiceException("Non è stato possibile convertire i dati selezionati");
 		}
-		System.out.println("trovato" + user.getFirstName());
-		
-		entitymanager.close();
-
-		return userDto;
 	}
 		/** FUNZIONA: Questo metodo prima carica l'utente dal database con la query, passa al dto con il metodo BeanUtils.copyProperties ed ignora
 		 * le proprietà password ed admin
@@ -118,68 +117,75 @@ public class UserService implements UserDetailsService{
 		 * @param id parametro in ingresso per trovare l'utente sul database
 		 * @return
 		 */
-		public UserDto findApiLong(Long id) {
-			
-			EntityManagerFactory emfactory = JpaEntityManager.getInstance();
-			EntityManager entitymanager = emfactory.createEntityManager();
-			User user;
-			UserDto userDto = new UserDto();
-			try {
-				user = entitymanager.createQuery("SELECT u FROM User u WHERE u.id = "+id,User.class).getSingleResult();
-				user.setAddresses(entitymanager.createQuery("Select a FROM Address a "
-																	+ "WHERE idUser="+id+" and a.startDate < current_date() and"
-																	+ " (a.endDate > current_date() or a.endDate is null)",
-																	Address.class).getResultList());
-				
-				user.setBankCredentials(entitymanager.createQuery("Select b FROM BankCredentials b "
-																	+ "WHERE idUser="+id+" and b.startDate < current_date() and"
-																	+ " (b.endDate > current_date() or b.endDate is null)",
-																	BankCredentials.class).getResultList());
-				
-				user.setContracts(entitymanager.createQuery("Select c FROM Contract c "
-															+ "WHERE idUser="+id+" and c.startDate < current_date() and"
-															+ " (c.endDate > current_date() or c.endDate is null)",
-															Contract.class).getResultList());
-				
-				BeanUtils.copyProperties(user, userDto, "password", "admin");
-				
-				Address[] support = new Address[user.getAddresses().size()];
-				support = user.getAddresses().toArray(support);
-				
-				if(user.getAddresses().size()>0) userDto.setAddresses(support);
-				else userDto.setAddresses(new Address[0]);
-					
-				if (user.getContracts().size()>0) userDto.setContract(user.getContracts().get(0));
-				else userDto.setContract(null);
-				
-				if (user.getBankCredentials().size()>0) userDto.setBankCredential(user.getBankCredentials().get(0));
-				else userDto.setBankCredential(null);
-			} catch (NoResultException e) {
-				return new UserDto();
-			}
-			System.out.println("trovato" + user.getFirstName());
-			
-			entitymanager.close();
-
-			return userDto;
-		}
+//		public UserDto findApiLong(Long id) {
+//			
+//			EntityManagerFactory emfactory = JpaEntityManager.getInstance();
+//			EntityManager entitymanager = emfactory.createEntityManager();
+//			User user;
+//			UserDto userDto = new UserDto();
+//			try {
+//				user = entitymanager.createQuery("SELECT u FROM User u WHERE u.id = "+id,User.class).getSingleResult();
+//				user.setAddresses(entitymanager.createQuery("Select a FROM Address a "
+//																	+ "WHERE idUser="+id+" and a.startDate < current_date() and"
+//																	+ " (a.endDate > current_date() or a.endDate is null)",
+//																	Address.class).getResultList());
+//				
+//				user.setBankCredentials(entitymanager.createQuery("Select b FROM BankCredentials b "
+//																	+ "WHERE idUser="+id+" and b.startDate < current_date() and"
+//																	+ " (b.endDate > current_date() or b.endDate is null)",
+//																	BankCredentials.class).getResultList());
+//				
+//				user.setContracts(entitymanager.createQuery("Select c FROM Contract c "
+//															+ "WHERE idUser="+id+" and c.startDate < current_date() and"
+//															+ " (c.endDate > current_date() or c.endDate is null)",
+//															Contract.class).getResultList());
+//				
+//				BeanUtils.copyProperties(user, userDto, "password", "admin");
+//				
+//				Address[] support = new Address[user.getAddresses().size()];
+//				support = user.getAddresses().toArray(support);
+//				
+//				if(user.getAddresses().size()>0) userDto.setAddresses(support);
+//				else userDto.setAddresses(new Address[0]);
+//					
+//				if (user.getContracts().size()>0) userDto.setContract(user.getContracts().get(0));
+//				else userDto.setContract(null);
+//				
+//				if (user.getBankCredentials().size()>0) userDto.setBankCredential(user.getBankCredentials().get(0));
+//				else userDto.setBankCredential(null);
+//				
+//				return userDto;
+//				
+//			} catch (NoResultException e) {
+//				throw new NoContentException("Non è stato trovato un utente con l'id selezionato o i dati potrebbero essere corrotti");
+//			}finally {
+//				entitymanager.close();
+//			}
+//		}
 	
 	/**
 	 * FUNZIONA: Crea un nuovo utente sul DB e restituisce l'oggetto
 	 * @param user
 	 * @return
+	 * @throws MasterException 
 	 */
-	public User create(User user) {
-		//EntityManagerFactory emfactory = JpaEntityManager.getInstance();
-		EntityManagerFactory emfactory = Persistence.createEntityManagerFactory("timesheetDB");
-		EntityManager entitymanager = emfactory.createEntityManager();
-		entitymanager.getTransaction().begin();
+	public User create(User user) throws MasterException {
 
-		entitymanager.persist(user);
-		entitymanager.getTransaction().commit();
-		entitymanager.close();
-		
-		return user;
+		EntityManager entitymanager = null;
+		try {
+			entitymanager = JpaEntityManager.getInstance().createEntityManager();
+			entitymanager.getTransaction().begin();
+			entitymanager.persist(user);
+			entitymanager.getTransaction().commit();
+			entitymanager.close();
+			return user;
+		}catch(EntityExistsException eee) {
+			throw new ServiceException("User già presente nel database");
+		}catch(IllegalStateException  | PersistenceException e) {
+			throw new ServiceException("Al momento non è possibile soddisfare la richiesta");
+		} catch (DBException e) {
+			throw e;
+		}
 	}
 	
 	/**
@@ -187,41 +193,41 @@ public class UserService implements UserDetailsService{
 	 * @param id
 	 * @param userData
 	 * @return
+	 * @throws DBException 
 	 */
 	@Transactional
-	public User update(Long id, User userData) {
-		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
-
-		EntityManager entitymanager = emfactory.createEntityManager();
-		entitymanager.getTransaction().begin();
-
-		User user = entitymanager.find(User.class, id);
+	public User update(Long id, User userData) throws MasterException {
 		
-		if (userData.getFirstName() != null) user.setFirstName(userData.getFirstName());
-    	if (userData.getLastName() != null) user.setLastName(userData.getLastName());
-    	if (userData.getEmail() != null) user.setEmail(userData.getEmail());
-    	if (userData.getSecondaryEmail() != null) user.setSecondaryEmail(userData.getSecondaryEmail());
-    	if (userData.getPhone() != null) user.setPhone(userData.getPhone());
-    	if (userData.getFiscalCode() != null) user.setFiscalCode(userData.getFiscalCode());
-    	if (userData.getBirthDate() != null) user.setBirthDate(userData.getBirthDate());
-    	if (userData.getBirthPlace() != null) user.setBirthPlace(userData.getBirthPlace());
-    	if (userData.getNationality() != null) user.setNationality(userData.getNationality());
-    	if (userData.getDocument() != null) user.setDocument(userData.getDocument());
-    	if (userData.getIdSkype() != null) user.setIdSkype(userData.getIdSkype());
-    	if (userData.getNote() != null) user.setNote(userData.getNote());
-    	if (userData.getArchiveDate() != null) user.setArchiveDate(userData.getArchiveDate());
-    	if (userData.getPassword() != null) user.setPassword(userData.getPassword());
-    	
+		EntityManager entitymanager = null;
+		try {
+			entitymanager = JpaEntityManager.getInstance().createEntityManager();
+			entitymanager.getTransaction().begin();
 
-    	System.out.println("user.getAddresses() ? " + (user.getAddresses() != null ? user.getAddresses().size() : "NULL"));
-    	System.out.println("user.getBankCredentials() ? " + (user.getBankCredentials() != null ? user.getBankCredentials().size() : "NULL"));
-    	System.out.println("user.getContracts() ? " + (user.getContracts() != null ? user.getContracts().size() : "NULL"));
-
-		entitymanager.persist(user);
-		entitymanager.getTransaction().commit();
-		entitymanager.close();
+			User user = find(id);
 		
-		return user;
+			if (userData.getFirstName() != null) user.setFirstName(userData.getFirstName());
+	    	if (userData.getLastName() != null) user.setLastName(userData.getLastName());
+	    	if (userData.getEmail() != null) user.setEmail(userData.getEmail());
+	    	if (userData.getSecondaryEmail() != null) user.setSecondaryEmail(userData.getSecondaryEmail());
+	    	if (userData.getPhone() != null) user.setPhone(userData.getPhone());
+	    	if (userData.getFiscalCode() != null) user.setFiscalCode(userData.getFiscalCode());
+	    	if (userData.getBirthDate() != null) user.setBirthDate(userData.getBirthDate());
+	    	if (userData.getBirthPlace() != null) user.setBirthPlace(userData.getBirthPlace());
+	    	if (userData.getNationality() != null) user.setNationality(userData.getNationality());
+	    	if (userData.getDocument() != null) user.setDocument(userData.getDocument());
+	    	if (userData.getIdSkype() != null) user.setIdSkype(userData.getIdSkype());
+	    	if (userData.getNote() != null) user.setNote(userData.getNote());
+	    	if (userData.getArchiveDate() != null) user.setArchiveDate(userData.getArchiveDate());
+	    	if (userData.getPassword() != null) user.setPassword(userData.getPassword());
+	    	
+			entitymanager.persist(user);
+			entitymanager.getTransaction().commit();
+			return user;
+		} catch (MasterException e) {
+			throw e;
+		}finally {
+			entitymanager.close();
+		}
 	}
 	
 	
@@ -238,6 +244,7 @@ public class UserService implements UserDetailsService{
 	 * @param fiscalCode
 	 * @return
 	 */
+	/***********************************************************EDIT***************************************************/
 	@Transactional
 	public List<UserDto> trovaUtente(String firstName, String lastName, String email, String fiscalCode) {
 
@@ -285,42 +292,43 @@ public class UserService implements UserDetailsService{
 		
 		entitymanager.close();
 		
-
 		return users;
 	}
 	
 	/**
 	 * QUESTO METODO CARICA TUTTI GLI UTENTI DAL DATABASE E LI TRASFERISCE IN UNA LISTA DI USERDTO
 	 * @return
+	 * @throws ServiceException 
 	 */
-	public List<UserDto> caricaTutti() {
+	public List<UserDto> caricaTutti() throws ServiceException {
 		
-		List<User> completeUsers = userRepositoryCustom.load();
+		List<User> completeUsers = userRepository.findAll();
+//		List<User> completeUsers = userRepositoryCustom.load();
 		
 		List<UserDto> users = new ArrayList<>();
-		System.out.println("caricaTutti : " + completeUsers.size());
-		
-//		List<User> users = new ArrayList<User>(completeUsers.size());
-//		for(User u : completeUsers) {
-//			users.add(BeanUtils.copyProperties(u, targetObj, "propertyToIgnoreA", "propertyToIgnoreB", "propertyToIgnoreC");)
-//		}
-		
-		users=completeUsers.stream()
-				.filter(e -> e.getArchiveDate()==null)
-				.map(e -> UserDto.valueOf(e))
-				.collect(Collectors.toList());
-		 
-		
-		return users;
+		try {
+			users=completeUsers.stream()
+					.filter(e -> e.getArchiveDate()==null)
+					.map(e -> UserDto.valueOf(e))
+					.collect(Collectors.toList());
+			return users;
+		}catch(Exception e) {
+			throw new ServiceException("Errore di conversione in \"UserService\"");
+		}
 	}
 	
 	/**
 	 * QUESTO METODO SERVE PER MODIFICARE I DATI DALLE JSP
 	 * @param user
+	 * @throws MasterException 
 	 */
-	public void modificaUtente(User userData) {
+	public void modificaUtente(User userData) throws MasterException {
 		
-		update(userData.getId(), userData);
+		try {
+			update(userData.getId(), userData);
+		} catch (MasterException e) {
+			throw e;
+		}
 
 //		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
 //		EntityManager entitymanager = emfactory.createEntityManager();
@@ -353,6 +361,7 @@ public class UserService implements UserDetailsService{
 //		entitymanager.close();
 	}
 
+	/**************************************************************************EDIT****************************************/
 	/**
 	 * QUESTO METODO SERVE PER INSERIRE LA DATA DI ARCHIVIAZIONE DI UN UTENTE DALLE JSP
 	 * @param user
@@ -360,10 +369,11 @@ public class UserService implements UserDetailsService{
 	public boolean archiviaUtente(User user) {
 		
 		LocalDate data = LocalDate.now();
-		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
+		EntityManagerFactory emfactory = null;
 		EntityManager entitymanager = emfactory.createEntityManager();
 		
 		try{
+			emfactory = JpaEntityManager.getInstance();
 			entitymanager.getTransaction().begin();
 			System.out.println("sono nel metodo archiviaUtente");
 			String modifica="UPDATE User a SET";
@@ -391,6 +401,7 @@ public class UserService implements UserDetailsService{
 			
 	}
 
+	/**********************************************************EDIT****************************************************/
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		try {
