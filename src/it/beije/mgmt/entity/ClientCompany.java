@@ -23,22 +23,6 @@ public class ClientCompany {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	private Long id;
-	
-	public ClientCompany() {
-		super();
-	}
-
-	public ClientCompany(ClientCompany client) {
-		super();
-		this.id = client.id;
-		this.firstName = client.firstName;
-		this.lastName = client.lastName;
-		this.email = client.email;
-		this.phone = client.phone;
-		this.secondaryEmail = client.secondaryEmail;
-		this.offices = client.offices;
-		this.relativeUser = client.relativeUser;
-	}
 
 	@Column(name = "first_name", nullable=false)
 	private String firstName;
@@ -120,4 +104,19 @@ public class ClientCompany {
 		this.relativeUser = relativeUser;
 	}
 	
+	public ClientCompany() {
+		super();
+	}
+
+	public ClientCompany(ClientCompany client) {
+		super();
+		this.id = client.id;
+		this.firstName = client.firstName;
+		this.lastName = client.lastName;
+		this.email = client.email;
+		this.phone = client.phone;
+		this.secondaryEmail = client.secondaryEmail;
+		this.offices = client.offices;
+		this.relativeUser = client.relativeUser;
+	}
 }

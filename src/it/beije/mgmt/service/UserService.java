@@ -64,16 +64,12 @@ public class UserService implements UserDetailsService{
 	@Transactional
 	public User find(Long id) throws MasterException {
 		
-		EntityManager entitymanager = null;
 		try {
-			entitymanager = JpaEntityManager.getInstance().createEntityManager();
 			return userRepository.getOne(id);
 		}catch (EntityNotFoundException e) {
 			throw new NoContentException("Non è stato trovato un utente con l'id selezionato o i dati potrebbero essere corrotti");
 		} catch (DBException e) {
 			throw e;
-		}finally {
-			entitymanager.close();
 		}
 	}
 	
@@ -171,15 +167,9 @@ public class UserService implements UserDetailsService{
 	 * @throws MasterException 
 	 */
 	public User create(User user) throws MasterException {
-
 		EntityManager entitymanager = null;
 		try {
-			entitymanager = JpaEntityManager.getInstance().createEntityManager();
-			entitymanager.getTransaction().begin();
-			entitymanager.persist(user);
-			entitymanager.getTransaction().commit();
-			entitymanager.close();
-			return user;
+			return userRepository.saveAndFlush(user);
 		}catch(EntityExistsException eee) {
 			throw new ServiceException("User già presente nel database");
 		}catch(IllegalStateException  | PersistenceException e) {
@@ -199,11 +189,7 @@ public class UserService implements UserDetailsService{
 	@Transactional
 	public User update(Long id, User userData) throws MasterException {
 		
-		EntityManager entitymanager = null;
 		try {
-			entitymanager = JpaEntityManager.getInstance().createEntityManager();
-			entitymanager.getTransaction().begin();
-
 			User user = find(id);
 			
 			if (userData.getFirstName() != null) user.setFirstName(userData.getFirstName());
@@ -221,13 +207,11 @@ public class UserService implements UserDetailsService{
 	    	if (userData.getArchiveDate() != null) user.setArchiveDate(userData.getArchiveDate());
 	    	if (userData.getPassword() != null) user.setPassword(userData.getPassword());
 	    	
-			entitymanager.persist(user);
-			entitymanager.getTransaction().commit();
-			return user;
+			return userRepository.saveAndFlush(user);
+		}catch(IllegalStateException  | PersistenceException e) {
+			throw new ServiceException("Al momento non è possibile soddisfare la richiesta");
 		} catch (MasterException e) {
 			throw e;
-		}finally {
-			entitymanager.close();
 		}
 	}
 	
@@ -304,8 +288,9 @@ public class UserService implements UserDetailsService{
 	public List<UserDto> caricaTutti() throws ServiceException {
 		
 		List<User> completeUsers = userRepository.findAll();
-		
 		List<UserDto> users = new ArrayList<>();
+		if(completeUsers.size()==0)
+			throw new NoContentException("La lista è vuota");
 		try {
 			users=completeUsers.stream()
 					.filter(e -> e.getArchiveDate()==null)
@@ -361,7 +346,6 @@ public class UserService implements UserDetailsService{
 //		entitymanager.close();
 	}
 
-	/**************************************************************************EDIT****************************************/
 	/**
 	 * QUESTO METODO SERVE PER INSERIRE LA DATA DI ARCHIVIAZIONE DI UN UTENTE DALLE JSP
 	 * @param user
@@ -373,6 +357,7 @@ public class UserService implements UserDetailsService{
 		try {
 			User archived = new User();
 			archived.setArchiveDate(Date.valueOf(LocalDate.now()));
+			update(archived.getId(), archived);
 			
 //			entitymanager = JpaEntityManager.getInstance().createEntityManager();
 //			entitymanager.getTransaction().begin();
