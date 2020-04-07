@@ -26,9 +26,9 @@ import it.beije.mgmt.entity.Computer;
 import it.beije.mgmt.entity.User;
 import it.beije.mgmt.exception.DBException;
 import it.beije.mgmt.exception.MasterException;
+import it.beije.mgmt.exception.NoContentException;
 import it.beije.mgmt.jpa.JpaEntityManager;
 import it.beije.mgmt.repository.BankCredentialsRepository;
-import it.beije.mgmt.restcontroller.exception.NoContentException;
 
 
 @Service
