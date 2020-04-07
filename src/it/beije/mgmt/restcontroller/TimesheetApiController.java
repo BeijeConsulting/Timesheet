@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import it.beije.mgmt.entity.Address;
 import it.beije.mgmt.entity.Timesheet;
 import it.beije.mgmt.service.TimetableService;
 
@@ -58,8 +60,8 @@ public class TimesheetApiController {
 		}
 		
 		@RequestMapping(value = "/timesheets/modifica/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
-		public @ResponseBody  boolean modifyTimesheet (@PathVariable int id,@RequestParam(value = "datefrom", required = true)Date datefrom,@RequestBody Timesheet newTable) {
-			Timesheet time = TimetableService.singolatimesheet(id, datefrom);
+		public @ResponseBody  boolean modifyTimesheet (@PathVariable Long id, @RequestBody Timesheet timesheet ,Model model, HttpServletResponse response) {
+			
 			if(time.getSubmit()==null) {
 			if (TimetableService.findRecordsFromId(newTable.getIdUser())==null)  {
 				System.out.println("Utente non trovato");

@@ -1,10 +1,10 @@
 package it.beije.mgmt.restcontroller.exception;
 
-public class SubmitException extends RuntimeException {
-	
+public class IllegalDateException extends RuntimeException{
+
 	private static final long serialVersionUID = 1L;
-	
-	public SubmitException(String message) {
+
+	public IllegalDateException(String message) {
 		super(message);
 	}
 }

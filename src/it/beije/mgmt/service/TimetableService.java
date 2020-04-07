@@ -15,8 +15,8 @@ import it.beije.mgmt.entity.Timesheet;
 import it.beije.mgmt.entity.User;
 import it.beije.mgmt.jpa.JpaEntityManager;
 import it.beije.mgmt.restcontroller.exception.NoContentException;
-import it.beije.mgmt.restcontroller.exception.SubmitException;
-import it.beije.mgmt.restcontroller.exception.WrongDateException;
+import it.beije.mgmt.restcontroller.exception.IllegalHourException;
+import it.beije.mgmt.restcontroller.exception.IllegalDateException;
 
 @Service
 public class TimetableService {
@@ -65,11 +65,11 @@ public class TimetableService {
 					 || (t.getStart1()==null && t.getEnd1()==null && t.getStart2()==null && t.getEnd2()==null))
 				
 				 //SE GLI ORARI DI OGNI TIMESHEET HANNO UN INIZIO MA NON UNA FINE O VICEVERSA  OPPURE HA TUTTI ORARI NULL C'è  UN PROBLEMA
-				 throw new SubmitException("ATTENZIONE: é presente una timesheet con orari non completi");
+				 throw new IllegalHourException("ATTENZIONE: é presente una timesheet con orari non completi");
 			if(t.getTot()>8)
 				
 				//SE LE ORE DI UNA TIMESHEET SONO MAGGIORI DI 8 C'è UN PROBLEMA
-				throw new SubmitException("ATTENZIONE: le ore complessive della giornata sono maggiori di 8!");
+				throw new IllegalHourException("ATTENZIONE: le ore complessive della giornata sono maggiori di 8!");
 			
 			
 			
@@ -101,8 +101,6 @@ public class TimetableService {
 		System.out.println(user.getPassword());
 		if (user.getPassword().equals(password))
 			check = true;
-
-//		System.out.println(check);
 		return check;
 	}
 
@@ -154,18 +152,18 @@ public class TimetableService {
 			 s += t.getType();
 		 else
 			 //SE CI SONO PIù TIMESHEET CON STESSA TIPOLOGIA NELLA STESSA DATA C'è UN PROBLEMA
-			 throw new SubmitException("ATTENZIONE: ci sono più timesheet con la stessa tipologia");
+			 throw new IllegalHourException("ATTENZIONE: ci sono più timesheet con la stessa tipologia");
 		 
 		 if((t.getStart1()==null && t.getEnd1()!=null) || (t.getStart2()==null && t.getEnd2()!=null) || (t.getStart1()!=null && t.getEnd1()==null) || (t.getStart2()!=null && t.getEnd2()==null)
 				 || (t.getStart1()==null && t.getEnd1()==null && t.getStart2()==null && t.getEnd2()==null))
 			
 			 //SE GLI ORARI DI OGNI TIMESHEET HANNO UN INIZIO MA NON UNA FINE O VICEVERSA  OPPURE HA TUTTI ORARI NULL C'è  UN PROBLEMA
-			 throw new SubmitException("ATTENZIONE: é presente una timesheet con orari non completi");
+			 throw new IllegalHourException("ATTENZIONE: é presente una timesheet con orari non completi");
 		 
 	}
 	if((s.contains("f") || s.contains("F")) && s.length()>1)
 		//SE C'è UNA TIMESHEET FERIE ASSIEME AD ALTRE TIMESHEET CON STESSA DATA C'è UN PROBLEMA IN QUANTO SE SEI IN FERIE NON PUOI AVERE TIMESHEET PERMESSO O LAVORO
-	throw new SubmitException("ATTENZIONE: è presente una timesheet di tipo ferie assieme ad altre tipologie: o sei in ferie o sei al lavoro!");
+	throw new IllegalHourException("ATTENZIONE: è presente una timesheet di tipo ferie assieme ad altre tipologie: o sei in ferie o sei al lavoro!");
 	
 	if(listaT.size() == 1 && tot <= 8) {
 		// SE IN QUEL GIORNO ABBIAMO UNA SOLA TIMESHEET E LE ORE SONO MENO O UGIALI A 8 (MINORE PER POSSIBILI PARTTIME) PUOI FARE SUBMIT.
@@ -181,7 +179,7 @@ public class TimetableService {
 		if(tot > 8) {
 			//SE IL TOTALE DELLE ORE DI UNA SINGOLA TIMESHEET SUPERA 8 C'è UN PROBLEMA.
 			System.out.println(tot);
-			throw new SubmitException("ATTENZIONE: le ore complessive della giornata sono maggiori di 8!");
+			throw new IllegalHourException("ATTENZIONE: le ore complessive della giornata sono maggiori di 8!");
 		}
 		else
 			//SE ARRIVIAMO QUA SIGNIFICA CHE ABBIAMO MINIMO 2 TIMESHEET E MASSIMO 3 TIMESHEET DI UNO STESSO GIORNO E DOBBIAMO VEDERE SE ABBIAMO ORARI CHE SI SOVRAPPONGONO.
@@ -201,7 +199,7 @@ public class TimetableService {
 					
 					if(hasOverlap(primaStart1,primaEnd1,secondaStart1,secondaEnd1)|| hasOverlap(primaStart2, primaEnd2, secondaStart2, secondaEnd2)){
 						
-						throw new SubmitException(" ATTENZIONE: sono presenti degli accavallamenti con gli orari");
+						throw new IllegalHourException(" ATTENZIONE: sono presenti degli accavallamenti con gli orari");
 					}
 					else if(i==2) {
 						
@@ -211,10 +209,10 @@ public class TimetableService {
 						Time ultimoEnd2=listaT.get(i).getEnd2();
 						
 						if(hasOverlap(primaStart1, primaEnd1, ultimoStart1, ultimoEnd1)|| hasOverlap(primaStart2, primaEnd2, ultimoStart2, ultimoEnd2)) 
-							throw new SubmitException(" ATTENZIONE: sono presenti degli accavallamenti con gli orari");
+							throw new IllegalHourException(" ATTENZIONE: sono presenti degli accavallamenti con gli orari");
 					
 						if(hasOverlap(secondaStart1, secondaEnd1, ultimoStart1, ultimoEnd1)|| hasOverlap(secondaStart2, secondaEnd2, ultimoStart2, ultimoEnd2))
-							throw new SubmitException(" ATTENZIONE: sono presenti degli accavallamenti con gli orari");
+							throw new IllegalHourException(" ATTENZIONE: sono presenti degli accavallamenti con gli orari");
 					}
 				}	
 			}
@@ -240,7 +238,7 @@ public class TimetableService {
 
 		else {
 			if(dateto.before(datefrom))
-				throw new WrongDateException("ATTENZIONE: la data di fine non può essere precedente a quella di inizio");
+				throw new IllegalDateException("ATTENZIONE: la data di fine non può essere precedente a quella di inizio");
 			List<Timesheet> listaT = TimetableService.retrieveTimatablesInDateRangeByUserId(userId, datefrom, dateto);
 			for(Timesheet t: listaT) {
 				Date occorrenza = t.getDate();
@@ -293,7 +291,7 @@ public class TimetableService {
 		}
 		else {
 			if(dateTo.before(dateFrom))
-				throw new WrongDateException("ATTENZIONE: la data di fine non può essere precedente a quella di inizio");
+				throw new IllegalDateException("ATTENZIONE: la data di fine non può essere precedente a quella di inizio");
 			List<Timesheet> lista = controlloValidazione(retrieveTimatablesInDateRangeByUserId(userId,  dateFrom,dateTo));
 			EntityManagerFactory emfactory = JpaEntityManager.getInstance();
 			EntityManager entitymanager = emfactory.createEntityManager();
@@ -471,6 +469,7 @@ public class TimetableService {
 		User user = entitymanager.find(User.class, id);
 		return user;
 	}
+	
 	public void cancellaTimetable(Timesheet table) {
 		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
 		EntityManager entitymanager = emfactory.createEntityManager();  

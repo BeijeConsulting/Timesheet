@@ -1,10 +1,10 @@
 package it.beije.mgmt.restcontroller.exception;
 
-public class WrongDateException extends RuntimeException{
-
+public class IllegalHourException extends RuntimeException {
+	
 	private static final long serialVersionUID = 1L;
-
-	public WrongDateException(String message) {
+	
+	public IllegalHourException(String message) {
 		super(message);
 	}
 }
