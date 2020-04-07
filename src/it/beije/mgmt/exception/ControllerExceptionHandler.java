@@ -1,4 +1,4 @@
-package it.beije.mgmt.restcontroller.exception;
+package it.beije.mgmt.exception;
 
 import java.time.LocalDateTime;
 
@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
+
+import it.beije.mgmt.restcontroller.exception.InvalidJSONException;
 
 @ControllerAdvice
 public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {

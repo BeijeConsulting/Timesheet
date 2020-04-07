@@ -1,5 +1,6 @@
 package it.beije.mgmt.service;
 
+import java.sql.Date;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -36,12 +37,12 @@ import it.beije.mgmt.entity.Contract;
 import it.beije.mgmt.entity.User;
 import it.beije.mgmt.exception.DBException;
 import it.beije.mgmt.exception.MasterException;
+import it.beije.mgmt.exception.NoContentException;
 import it.beije.mgmt.exception.ServiceException;
 import it.beije.mgmt.jpa.JpaEntityManager;
 import it.beije.mgmt.jpa.UserRequest;
 import it.beije.mgmt.repository.UserRepository;
 import it.beije.mgmt.repository.UserRepositoryCustom;
-import it.beije.mgmt.restcontroller.exception.NoContentException;
 
 
 @Service
@@ -204,7 +205,7 @@ public class UserService implements UserDetailsService{
 			entitymanager.getTransaction().begin();
 
 			User user = find(id);
-		
+			
 			if (userData.getFirstName() != null) user.setFirstName(userData.getFirstName());
 	    	if (userData.getLastName() != null) user.setLastName(userData.getLastName());
 	    	if (userData.getEmail() != null) user.setEmail(userData.getEmail());
@@ -303,7 +304,6 @@ public class UserService implements UserDetailsService{
 	public List<UserDto> caricaTutti() throws ServiceException {
 		
 		List<User> completeUsers = userRepository.findAll();
-//		List<User> completeUsers = userRepositoryCustom.load();
 		
 		List<UserDto> users = new ArrayList<>();
 		try {
@@ -368,37 +368,37 @@ public class UserService implements UserDetailsService{
 	 */
 	public boolean archiviaUtente(User user) {
 		
-		LocalDate data = LocalDate.now();
-		EntityManagerFactory emfactory = null;
-		EntityManager entitymanager = emfactory.createEntityManager();
-		
-		try{
-			emfactory = JpaEntityManager.getInstance();
-			entitymanager.getTransaction().begin();
-			System.out.println("sono nel metodo archiviaUtente");
-			String modifica="UPDATE User a SET";
-		
-			modifica += " a.archiveDate= '" + data + "' ";
-		
-			modifica += " WHERE a.id= "+user.getId();
-		
-			System.out.println(modifica);
-		
-			Query q = entitymanager.createQuery(modifica);
-			int rowsUpdated = q.executeUpdate();
-		
-			//System.out.println(rowsUpdated);
-			entitymanager.getTransaction().commit();
-		
-		}catch(Exception e) {
-			return false;
-		}finally{
-			entitymanager.close();
-		}
-		
-		return true;
-		
+//		LocalDate data = LocalDate.now();
+//		EntityManager entitymanager = null;
+		try {
+			User archived = new User();
+			archived.setArchiveDate(Date.valueOf(LocalDate.now()));
 			
+//			entitymanager = JpaEntityManager.getInstance().createEntityManager();
+//			entitymanager.getTransaction().begin();
+//			
+//			System.out.println("sono nel metodo archiviaUtente");
+//			String modifica="UPDATE User a SET";
+//		
+//			modifica += " a.archiveDate= '" + data + "' ";
+//		
+//			modifica += " WHERE a.id= "+user.getId();
+//		
+//			System.out.println(modifica);
+//		
+//			Query q = entitymanager.createQuery(modifica);
+//			int rowsUpdated = q.executeUpdate();
+//		
+//			//System.out.println(rowsUpdated);
+//			entitymanager.getTransaction().commit();
+		
+		}catch(MasterException e) {
+			return false;
+		}
+//		}finally{
+//			entitymanager.close();
+//		}
+		return true;	
 	}
 
 	/**********************************************************EDIT****************************************************/

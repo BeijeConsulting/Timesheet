@@ -21,10 +21,11 @@ import org.springframework.web.server.ResponseStatusException;
 
 import it.beije.mgmt.dto.UserDto;
 import it.beije.mgmt.entity.User;
+import it.beije.mgmt.exception.ErrorMessage;
+import it.beije.mgmt.exception.MasterException;
+import it.beije.mgmt.exception.NoContentException;
 import it.beije.mgmt.jpa.UserRequest;
-import it.beije.mgmt.restcontroller.exception.ErrorMessage;
 import it.beije.mgmt.restcontroller.exception.InvalidJSONException;
-import it.beije.mgmt.restcontroller.exception.NoContentException;
 import it.beije.mgmt.service.UserService;
 
 @RestController
@@ -43,7 +44,7 @@ public class UserApiController {
 	public @ResponseBody List<UserDto> getUsers(Model model, HttpServletResponse response) throws IOException {
 		try{
 			return userService.caricaTutti();
-		}catch(RuntimeException e) {
+		}catch(MasterException e) {
 			throw e;
 		}
 	}
@@ -60,7 +61,7 @@ public class UserApiController {
 		try {
 			UserDto us = userService.findApi(id, complete);
 			return us;
-		}catch(RuntimeException e) {
+		}catch(MasterException e) {
 			throw e;
 		}
 	}
@@ -81,7 +82,7 @@ public class UserApiController {
 		try {
 			User us = userService.find(id);
 			return us;
-		}catch(RuntimeException e) {
+		}catch(MasterException e) {
 			throw e;
 		}
 	}
@@ -92,8 +93,8 @@ public class UserApiController {
 		User us = new User();
 		try {
 			us = userService.create(user);
-		}catch(RuntimeException e) {
-			throw new InvalidJSONException("Non è stato possibile aggiungere l'utente desiderato");
+		}catch(MasterException e) {
+			throw e;
 		}
 		return us;
 	}
@@ -104,12 +105,10 @@ public class UserApiController {
 			throws IOException {
 		System.out.println("update user by id: " + id);
 		System.out.println("update user: " + user);
-		User us = userService.find(id);
-		if(us.isEmpty()) 
-			throw new NoContentException("Non è stato trovato un utente con l'id selezionato");
+		User us;
 		try {
 			us = userService.update(id, user);
-		}catch(RuntimeException e) {
+		}catch(MasterException e) {
 			throw new InvalidJSONException("Non è stato possibile modificare i dati dell'utente desiderato");
 		}
 		return us;
