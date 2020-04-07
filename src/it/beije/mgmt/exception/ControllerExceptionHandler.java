@@ -38,6 +38,25 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
 		return ResponseEntity.status(errorCode).body(re);
 	}
 	
+	@ExceptionHandler(value = {DBException.class})
+	public ResponseEntity<ErrorMessage> ControllerExceptionHandler(DBException ex, WebRequest request) {
+		int errorCode = 221;
+		ErrorMessage re = new ErrorMessage();
+		re.setMessage(ex.getLocalizedMessage());
+		re.setStatus(errorCode+" Error in DB");
+		re.setTime(LocalDateTime.now());
+		return ResponseEntity.status(errorCode).body(re);
+	}
+	
+	@ExceptionHandler(value = {ServiceException.class})
+	public ResponseEntity<ErrorMessage> ControllerExceptionHandler(ServiceException ex, WebRequest request) {
+		int errorCode = 223;
+		ErrorMessage re = new ErrorMessage();
+		re.setMessage(ex.getLocalizedMessage());
+		re.setStatus(errorCode+" Error in Service");
+		re.setTime(LocalDateTime.now());
+		return ResponseEntity.status(errorCode).body(re);
+	}
 }
 
 
