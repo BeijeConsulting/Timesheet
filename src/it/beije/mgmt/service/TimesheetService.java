@@ -2,23 +2,17 @@ package it.beije.mgmt.service;
 
 import java.sql.Date;
 import java.sql.Time;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
+import java.util.Objects;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
-import javax.persistence.Query;
-import javax.persistence.TypedQuery;
-import javax.transaction.Transactional;
-
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import it.beije.mgmt.entity.Timesheet;
 import it.beije.mgmt.entity.User;
 import it.beije.mgmt.jpa.JpaEntityManager;
@@ -26,6 +20,7 @@ import it.beije.mgmt.repository.TimesheetRepository;
 import it.beije.mgmt.restcontroller.exception.IllegalDateException;
 import it.beije.mgmt.restcontroller.exception.IllegalHourException;
 import it.beije.mgmt.restcontroller.exception.NoContentException;
+import it.beije.mgmt.restcontroller.exception.UpdateException;
 
 @Service
 public class TimesheetService {
@@ -94,7 +89,7 @@ public class TimesheetService {
 		String s = "";
 		double tot=0;
 		for(Timesheet t: listaT) {
-		
+		//PER TUTTE LE TIMESHEET DELLA RICERCA (CHE PUò ANCHE ESSERE 1) SOMMO LE ORE TOTALI
 			 tot += t.getTot();
 			
 			 if(!s.contains(t.getType()))
@@ -121,9 +116,10 @@ public class TimesheetService {
 			return true;
 		}
 		else
+			// SE SIAMO QUA O LE ORE SONO MAGGIORI DI 8 OPPURE ABBIAMO PIù TIMESHEET
 		{
 			if(tot > 8) {
-				//SE IL TOTALE DELLE ORE DI UNA SINGOLA TIMESHEET SUPERA 8 C'è UN PROBLEMA.
+				//SE IL TOTALE DELLE ORE SUPERA 8 C'è UN PROBLEMA.
 				System.out.println(tot);
 				throw new IllegalHourException("ATTENZIONE: le ore complessive della giornata sono maggiori di 8!");
 			}
@@ -186,7 +182,7 @@ public class TimesheetService {
 		else {
 			if(dateto.before(datefrom))
 				throw new IllegalDateException("ATTENZIONE: la data di fine non può essere precedente a quella di inizio");
-			List<Timesheet> listaT = TimetableService.retrieveTimatablesInDateRangeByUserId(userId, datefrom, dateto);
+			List<Timesheet> listaT = retrieveTimatablesInDateRangeByUserId(userId, datefrom, dateto);
 			for(Timesheet t: listaT) {
 				Date occorrenza = t.getDate();
 				if(t.getSubmit()==null)
@@ -264,34 +260,32 @@ public class TimesheetService {
 		}
 		return nuova;
 	}
-//-----------------------------------------------------------------------------------------------------------------------------------------------------
-	public void updateRecord(long id, Date date,Timesheet newTable) {
-		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
-		EntityManager entitymanager = emfactory.createEntityManager();
-		TimetableService service = new TimetableService ();
-		try{
-			EntityTransaction entr = entitymanager.getTransaction();
-			entr.begin();
-			Query query = entitymanager.createQuery("UPDATE Timesheet t SET t.date=?1, t.type=?2, t.start1=?3, t.end1=?4, t.start2=?5, t.end2=?6, t.tot=?7 WHERE t.idUser = '"+id+"'"+" AND t.date = '" + date +"'");
-			query.setParameter(1, newTable.getDate());
-			query.setParameter(2, newTable.getType());
-			query.setParameter(3, newTable.getStart1());
-			query.setParameter(4, newTable.getEnd1());
-			query.setParameter(5, newTable.getStart2());
-			query.setParameter(6, newTable.getEnd2());
-			query.setParameter(7, service.oreTrascorse(newTable.getStart1(), newTable.getEnd1(), newTable.getStart2(), newTable.getEnd2()) );
-			int x = query.executeUpdate();
-			System.out.println("NUM RECORD MODIFICATI = "+ x);
-			entr.commit();
-			}
-			finally{
-			entitymanager.close();
-			}
-		}
-	
-	public void updateTimesheet(long id) {
+//-----------------------------------------------------------------------------------------------------------------------------------------------------	
+	public static void updateTimesheet(Long id,Timesheet newt) {
+		Timesheet t= timesheetRepository.getOne(id);
 		
+		if(t.getSubmit()!=null)
+			throw new UpdateException("ATTENZIONE: una timesheet già submittata non può essere modificata");
 		
+		if(newt.getTot()>8) 
+			//SE LE ORE TOTALI DELLA TIMESHEET SONO MAGGIORI DI 8 C'è UN PROBLEMA
+			throw new IllegalHourException("ATTENZIONE: le ore complessive della giornata sono maggiori di 8!");
+		
+		if((newt.getStart1()==null && newt.getEnd1()!=null) || (newt.getStart2()==null && newt.getEnd2()!=null) || (newt.getStart1()!=null && newt.getEnd1()==null) || (newt.getStart2()!=null && newt.getEnd2()==null)|| (newt.getStart1()==null && newt.getEnd1()==null && newt.getStart2()==null && newt.getEnd2()==null))
+			
+			 //SE GLI ORARI DI OGNI TIMESHEET HANNO UN INIZIO MA NON UNA FINE O VICEVERSA  OPPURE HA TUTTI ORARI NULL C'è  UN PROBLEMA
+			 throw new IllegalHourException("ATTENZIONE: é presente una timesheet con orari non completi");
+		
+		if(!Objects.isNull(newt.getDate())) t.setDate(newt.getDate());	
+		if(!Objects.isNull(newt.getStart1())) t.setStart1(newt.getStart1());
+		if(!Objects.isNull(newt.getEnd1())) t.setEnd1(newt.getEnd1());
+		if(!Objects.isNull(newt.getStart2())) t.setStart2(newt.getStart2());
+		if(!Objects.isNull(newt.getEnd2())) t.setEnd2(newt.getEnd2());
+		if(!Objects.isNull(newt.getTot())) t.setTot(newt.getTot());
+		if(!Objects.isNull(newt.getIdUser())) t.setIdUser(newt.getIdUser());
+		if(!Objects.isNull(newt.getType())) t.setType(newt.getType());
+			
+		timesheetRepository.save(t);
 		
 	}
 //-----------------------------------------------------------------------------------------------------------------------------------------------------

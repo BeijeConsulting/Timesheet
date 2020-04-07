@@ -22,7 +22,7 @@ import it.beije.mgmt.service.*;
 public class EducationApiController {
 	
 	@Autowired
-	CvService cvService;
+	CvServiceOld cvService;
 	
 	// GET education from idUser
 	@RequestMapping(value = "/cv/education/{idCv}", method = RequestMethod.GET)

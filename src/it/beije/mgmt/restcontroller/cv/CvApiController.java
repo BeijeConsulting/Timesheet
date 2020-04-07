@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import it.beije.mgmt.entity.Address;
 import it.beije.mgmt.entity.cv.CV;
 import it.beije.mgmt.service.AddressService;
-import it.beije.mgmt.service.CvService;
+import it.beije.mgmt.service.CvServiceOld;
 
 
 @RestController
@@ -24,7 +24,7 @@ import it.beije.mgmt.service.CvService;
 public class CvApiController {
 
 	@Autowired
-	private CvService cvService;
+	private CvServiceOld cvService;
 
 	//	@RequestMapping(value = "cv/{technology}", method = RequestMethod.GET)
 	//	public @ResponseBody List<CV> getCvByTechnology(@PathVariable String technology) {

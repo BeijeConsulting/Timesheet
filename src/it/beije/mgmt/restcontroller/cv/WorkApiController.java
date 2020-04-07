@@ -17,14 +17,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import it.beije.mgmt.entity.cv.Certification;
 import it.beije.mgmt.entity.cv.Work;
-import it.beije.mgmt.service.CvService;
+import it.beije.mgmt.service.CvServiceOld;
 
 @RestController
 @RequestMapping("api")
 public class WorkApiController {
 	
 	@Autowired
-	CvService cvService;
+	CvServiceOld cvService;
 	
 	@GetMapping(value = "cv/work/{idCV}")
 	public @ResponseBody List<Work> getWork(@PathVariable Long idCV) {

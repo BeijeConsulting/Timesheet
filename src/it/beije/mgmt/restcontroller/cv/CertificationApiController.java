@@ -14,14 +14,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import it.beije.mgmt.entity.cv.Certification;
-import it.beije.mgmt.service.CvService;
+import it.beije.mgmt.service.CvServiceOld;
 
 @RestController
 @RequestMapping("api")
 public class CertificationApiController {
 	
 	@Autowired
-	CvService cvService;
+	CvServiceOld cvService;
 
 	@GetMapping(value = "cv/certification/{idUser}")
 	public @ResponseBody List<Certification> getCertification(@PathVariable Long idUser) {
