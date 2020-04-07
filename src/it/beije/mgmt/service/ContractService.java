@@ -21,7 +21,7 @@ import it.beije.mgmt.entity.User;
 import it.beije.mgmt.jpa.JpaEntityManager;
 import it.beije.mgmt.repository.ContractRepository;
 
-
+@Transactional
 @Service
 public class ContractService {
 
@@ -29,6 +29,7 @@ public class ContractService {
 	private ContractRepository contractRepository;
 	
 	//Aggiunge un nuovo contratto alla lista dell'utente
+	// user repository non ancora finito , modificare in seguito 
 	public Contract create(Long idUser, Contract contract) throws Exception {
 		EntityManager entityManager = JpaEntityManager.getInstance().createEntityManager();
 		entityManager.getTransaction().begin();
@@ -52,8 +53,8 @@ public class ContractService {
 				c.setEndDate(dateSql);
 			}
 		}
-
-		contracts.add(contract);
+		
+		contractRepository.save(contract); //unica modifica
 		user.setContracts(contracts);
 
 		entityManager.persist(user);
@@ -76,11 +77,9 @@ public class ContractService {
 	//aggiorna i risultati di un contratto
 	@Transactional
 	public Contract update(Long id, Contract contracts) {
-		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
-		EntityManager entitymanager = emfactory.createEntityManager();
-		entitymanager.getTransaction().begin();
+		
 
-		Contract contract = entitymanager.find(Contract.class, id);
+		Contract contract = contractRepository.findByContract(contracts);
 
 		if (!Objects.isNull(contracts.getContract_type())) contract.setContract_type(contracts.getContract_type());
 		if (contracts.getType() != null) contract.setType(contracts.getType());
@@ -97,10 +96,8 @@ public class ContractService {
 		if (contracts.getStartDate() != null) contract.setStartDate(contracts.getStartDate());
 		if (contracts.getEndDate() != null) contract.setEndDate(contracts.getEndDate());
 
+		contractRepository.save(contract);
 
-		entitymanager.persist(contract);
-		entitymanager.getTransaction().commit();
-		entitymanager.close();
 
 		return contract;
 	}
