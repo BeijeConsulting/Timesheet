@@ -7,11 +7,13 @@ import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
+import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.NoResultException;
 import javax.persistence.Persistence;
+import javax.persistence.PersistenceException;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
@@ -27,6 +29,7 @@ import it.beije.mgmt.entity.User;
 import it.beije.mgmt.exception.DBException;
 import it.beije.mgmt.exception.MasterException;
 import it.beije.mgmt.exception.NoContentException;
+import it.beije.mgmt.exception.ServiceException;
 import it.beije.mgmt.jpa.JpaEntityManager;
 import it.beije.mgmt.repository.BankCredentialsRepository;
 
@@ -36,16 +39,42 @@ public class BankCredentialsService {
 	
 	@Autowired
 	private BankCredentialsRepository bankCredentialsRepository;
+	
+	@Autowired
+	private BankCredentialsService bankCredentialsService;
+	
+	@Autowired
+	private UserService userService;
+	
+	@Transactional
+	public BankCredentials find(Long id) throws MasterException {
+		
+		EntityManager entitymanager = null;
+		try {
+			entitymanager = JpaEntityManager.getInstance().createEntityManager();
+			return bankCredentialsRepository.getOne(id);
+		}catch (EntityNotFoundException e) {
+			throw new NoContentException("Non è stato trovato un bank credentials con l'id selezionato o i dati potrebbero essere corrotti");
+		} catch (DBException e) {
+			throw e;
+		}finally {
+			entitymanager.close();
+		}
+	}
+	
+	
+
 
 	public BankCredentials create(Long idUser, BankCredentials bankCredentials) throws Exception {
 
-	EntityManager entitymanager = null;
+	//EntityManager entitymanager = null;
 	User user=null;
 	try {
-		entitymanager = JpaEntityManager.getInstance().createEntityManager();
-		entitymanager.getTransaction().begin();
+		//entitymanager = JpaEntityManager.getInstance().createEntityManager();
+		//entitymanager.getTransaction().begin();
 	
-		user = entitymanager.find(User.class, idUser);
+		user = userService.find(idUser);
+			
 
 		System.out.println("user.getBankCredentials()?"
 			+ (user.getBankCredentials() != null ? user.getBankCredentials().size() : "NULL"));
@@ -53,38 +82,28 @@ public class BankCredentialsService {
 		if (Objects.isNull(bankCredentials.getIdUser())) {
 		bankCredentials.setIdUser(idUser);
 		} else if (bankCredentials.getIdUser().longValue() != idUser.longValue()) {
-		throw new NoContentException("userID non corrispondenti");
+			throw new NoContentException("userID non corrispondenti, impossibile creare bank credentials");
 		}
 	
-	List<BankCredentials> bankcredentials = user.getBankCredentials();
-	for (BankCredentials bc : bankcredentials) {
-		if (Objects.isNull(bc.getEndDate())) {
-			LocalDate date = LocalDate.now();
-			java.sql.Date dateSql = java.sql.Date.valueOf(date);
-			bc.setEndDate(dateSql);
-			
+		List<BankCredentials> bankcredentials = user.getBankCredentials();
+		for (BankCredentials bc : bankcredentials) {
+			if (Objects.isNull(bc.getEndDate())) {
+				LocalDate date = LocalDate.now();
+				java.sql.Date dateSql = java.sql.Date.valueOf(date);
+				bc.setEndDate(dateSql);		
+			}
+		}
+		bankcredentials.add(bankCredentials);
+		user.setBankCredentials(bankcredentials);
+		return bankCredentials;
+		}catch (MasterException e) {
+			throw e;
 		}
 	}
-	bankcredentials.add(bankCredentials);
-	user.setBankCredentials(bankcredentials);
-	return bankCredentials;
-	}catch (IllegalArgumentException ee) {
-		throw new NoContentException("Non è stato trovata nessuna entità con l'id selezionato o l'id non è corretto");
-	}catch (DBException e) {
-		throw e;
-	}finally {
 
 
+	public List<BankCredentials> getBankCredentialsByUser(Long id) {
 	
-	entitymanager.persist(user);
-	entitymanager.getTransaction().commit();
-	entitymanager.close();}
-
-	
-}
-
-
-public List<BankCredentials> getBankCredentialsByUser(Long id) {
 	List<BankCredentials> bankCredentials = bankCredentialsRepository.findByIdUser(id);
 	System.out.println("bankCredentials : " + bankCredentials.size());
 	if(bankCredentials.size() == 0) {
@@ -96,11 +115,10 @@ public List<BankCredentials> getBankCredentialsByUser(Long id) {
 
 	@Transactional
 	public BankCredentials update(Long id, BankCredentials bankCredentials) {
-		EntityManager entitymanager = null;
+		
 		try {
-			entitymanager = JpaEntityManager.getInstance().createEntityManager();
-			entitymanager.getTransaction().begin();
-			BankCredentials bankcredentials = entitymanager.find(BankCredentials.class, id);
+			BankCredentials bankcredentials = bankCredentialsService.find(id);
+				
     	
 			if (bankCredentials.getAccountholder() != null) bankcredentials.setAccountholder(bankCredentials.getAccountholder());
 			if (bankCredentials.getIban() != null) bankcredentials.setIban(bankCredentials.getIban());
@@ -109,17 +127,15 @@ public List<BankCredentials> getBankCredentialsByUser(Long id) {
 			if (bankCredentials.getEndDate() != null) bankcredentials.setEndDate(bankCredentials.getEndDate());
 			if (bankCredentials.getNotes() != null) bankcredentials.setNotes(bankCredentials.getNotes());
     	
-			entitymanager.persist(bankcredentials);
-			entitymanager.getTransaction().commit();
+			
 			return bankcredentials;
-			}catch (IllegalArgumentException ee) {
-				throw new NoContentException("Non è stato trovata nessuna entità con l'id selezionato o l'id non è corretto");
 			}catch (DBException e) {
 				throw e;
 			}
-			finally {
+			catch (MasterException ee) {
+				throw ee;
+			}
 			
-		entitymanager.close();}
 		
 		
 	}
