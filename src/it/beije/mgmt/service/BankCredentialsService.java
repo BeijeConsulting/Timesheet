@@ -9,6 +9,7 @@ import java.util.Objects;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityNotFoundException;
 import javax.persistence.NoResultException;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
@@ -23,8 +24,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import it.beije.mgmt.entity.BankCredentials;
 import it.beije.mgmt.entity.Computer;
 import it.beije.mgmt.entity.User;
+import it.beije.mgmt.exception.DBException;
+import it.beije.mgmt.exception.MasterException;
 import it.beije.mgmt.jpa.JpaEntityManager;
 import it.beije.mgmt.repository.BankCredentialsRepository;
+import it.beije.mgmt.restcontroller.exception.NoContentException;
 
 
 @Service
@@ -34,106 +38,90 @@ public class BankCredentialsService {
 	private BankCredentialsRepository bankCredentialsRepository;
 
 	public BankCredentials create(Long idUser, BankCredentials bankCredentials) throws Exception {
-		EntityManager entityManager = JpaEntityManager.getInstance().createEntityManager();
-		entityManager.getTransaction().begin();
-		
-		User user = entityManager.find(User.class, idUser);
+
+	EntityManager entitymanager = null;
+	User user=null;
+	try {
+		entitymanager = JpaEntityManager.getInstance().createEntityManager();
+		entitymanager.getTransaction().begin();
+	
+		user = entitymanager.find(User.class, idUser);
 
 		System.out.println("user.getBankCredentials()?"
-				+ (user.getBankCredentials() != null ? user.getBankCredentials().size() : "NULL"));
+			+ (user.getBankCredentials() != null ? user.getBankCredentials().size() : "NULL"));
 
 		if (Objects.isNull(bankCredentials.getIdUser())) {
-			bankCredentials.setIdUser(idUser);
+		bankCredentials.setIdUser(idUser);
 		} else if (bankCredentials.getIdUser().longValue() != idUser.longValue()) {
-			throw new Exception();
+		throw new NoContentException("userID non corrispondenti");
 		}
-		
-		List<BankCredentials> bankcredentials = user.getBankCredentials();
-		for (BankCredentials bc : bankcredentials) {
-			if (Objects.isNull(bc.getEndDate())) {
-				LocalDate date = LocalDate.now();
-				java.sql.Date dateSql = java.sql.Date.valueOf(date);
-				bc.setEndDate(dateSql);
-			}
+	
+	List<BankCredentials> bankcredentials = user.getBankCredentials();
+	for (BankCredentials bc : bankcredentials) {
+		if (Objects.isNull(bc.getEndDate())) {
+			LocalDate date = LocalDate.now();
+			java.sql.Date dateSql = java.sql.Date.valueOf(date);
+			bc.setEndDate(dateSql);
+			
 		}
-
-		bankcredentials.add(bankCredentials);
-		user.setBankCredentials(bankcredentials);
-
-		entityManager.persist(user);
-		entityManager.getTransaction().commit();
-		entityManager.close();
-
-		return bankCredentials;
 	}
+	bankcredentials.add(bankCredentials);
+	user.setBankCredentials(bankcredentials);
+	return bankCredentials;
+	}catch (IllegalArgumentException ee) {
+		throw new NoContentException("Non è stato trovata nessuna entità con l'id selezionato o l'id non è corretto");
+	}catch (DBException e) {
+		throw e;
+	}finally {
 
-//	public static List<BankCredentials> all() {
-//
-//		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
-//		EntityManager entitymanager = emfactory.createEntityManager();
-//
-//		Query q = entitymanager.createNativeQuery("SELECT * FROM bank_credentials WHERE end_date = NULL");
-//
-//		List<BankCredentials> bankCredentials = q.getResultList();
-//
-//		entitymanager.close();
-//
-//		System.out.println("caricaTutti : " + bankCredentials.size());
-//
-//		return bankCredentials;
-//	}
 
-//	@Transactional
-//	public BankCredentials find(Long id) {
-//
-//		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
-//		EntityManager entitymanager = emfactory.createEntityManager();
-//		BankCredentials bankCredentials;
-//		try {
-//			bankCredentials = entitymanager
-//					.createQuery("SELECT b FROM bankCredentials b WHERE b.id = " + id,
-//							BankCredentials.class)
-//					.getSingleResult();
-//			Hibernate.initialize(bankCredentials.getAssignment());
-//		} catch (NoResultException e) {
-//			return new BankCredentials();
-//		}
-//
-//		entitymanager.close();
-//
-//		return bankCredentials;
-//	}
 	
+	entitymanager.persist(user);
+	entitymanager.getTransaction().commit();
+	entitymanager.close();}
+
 	
-	public List<BankCredentials> getBankCredentialsByUser(Long id) {
-		
-		List<BankCredentials> bankCredentials = bankCredentialsRepository.findByIdUser(id);
-		
-		System.out.println("bankCredentials : " + bankCredentials.size());
-		
-		return bankCredentials;
+}
+
+
+public List<BankCredentials> getBankCredentialsByUser(Long id) {
+	List<BankCredentials> bankCredentials = bankCredentialsRepository.findByIdUser(id);
+	System.out.println("bankCredentials : " + bankCredentials.size());
+	if(bankCredentials.size() == 0) {
+		System.out.println("ok");
+		throw new NoContentException(" non è stato trovato nessun bank credential per questo id");
 	}
-	
+	return bankCredentials;
+}
+
 	@Transactional
 	public BankCredentials update(Long id, BankCredentials bankCredentials) {
-		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
-		EntityManager entitymanager = emfactory.createEntityManager();
-		entitymanager.getTransaction().begin();
-
-		BankCredentials bankcredentials = entitymanager.find(BankCredentials.class, id);
+		EntityManager entitymanager = null;
+		try {
+			entitymanager = JpaEntityManager.getInstance().createEntityManager();
+			entitymanager.getTransaction().begin();
+			BankCredentials bankcredentials = entitymanager.find(BankCredentials.class, id);
     	
-    	if (bankCredentials.getAccountholder() != null) bankcredentials.setAccountholder(bankCredentials.getAccountholder());
-    	if (bankCredentials.getIban() != null) bankcredentials.setIban(bankCredentials.getIban());
-    	if (bankCredentials.getSwift() != null) bankcredentials.setSwift(bankCredentials.getSwift());
-    	if (bankCredentials.getStartDate() != null) bankcredentials.setStartDate(bankCredentials.getStartDate());
-    	if (bankCredentials.getEndDate() != null) bankcredentials.setEndDate(bankCredentials.getEndDate());
-    	if (bankCredentials.getNotes() != null) bankcredentials.setNotes(bankCredentials.getNotes());
+			if (bankCredentials.getAccountholder() != null) bankcredentials.setAccountholder(bankCredentials.getAccountholder());
+			if (bankCredentials.getIban() != null) bankcredentials.setIban(bankCredentials.getIban());
+			if (bankCredentials.getSwift() != null) bankcredentials.setSwift(bankCredentials.getSwift());
+			if (bankCredentials.getStartDate() != null) bankcredentials.setStartDate(bankCredentials.getStartDate());
+			if (bankCredentials.getEndDate() != null) bankcredentials.setEndDate(bankCredentials.getEndDate());
+			if (bankCredentials.getNotes() != null) bankcredentials.setNotes(bankCredentials.getNotes());
     	
-		entitymanager.persist(bankcredentials);
-		entitymanager.getTransaction().commit();
-		entitymanager.close();
+			entitymanager.persist(bankcredentials);
+			entitymanager.getTransaction().commit();
+			return bankcredentials;
+			}catch (IllegalArgumentException ee) {
+				throw new NoContentException("Non è stato trovata nessuna entità con l'id selezionato o l'id non è corretto");
+			}catch (DBException e) {
+				throw e;
+			}
+			finally {
+			
+		entitymanager.close();}
 		
-		return bankcredentials;
+		
 	}
 
 }
