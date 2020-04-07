@@ -20,6 +20,8 @@ import it.beije.mgmt.entity.Contract;
 import it.beije.mgmt.entity.User;
 import it.beije.mgmt.jpa.JpaEntityManager;
 import it.beije.mgmt.repository.ContractRepository;
+import it.beije.mgmt.repository.UserRepository;
+import it.beije.mgmt.restcontroller.exception.NoContentException;
 
 @Transactional
 @Service
@@ -28,13 +30,17 @@ public class ContractService {
 	@Autowired
 	private ContractRepository contractRepository;
 	
+	@Autowired
+	private UserRepository userRepository;
+	
 	//Aggiunge un nuovo contratto alla lista dell'utente
 	// user repository non ancora finito , modificare in seguito 
 	public Contract create(Long idUser, Contract contract) throws Exception {
-		EntityManager entityManager = JpaEntityManager.getInstance().createEntityManager();
-		entityManager.getTransaction().begin();
+	
 
-		User user = entityManager.find(User.class, idUser);
+		User user = userRepository.getOne(idUser); 
+		if(user== null)
+			throw new NoContentException("Id user invalido");
 
 		System.out.println("user.getContract()?"
 				+ (user.getContracts() != null ? user.getContracts().size() : "NULL"));
@@ -45,7 +51,7 @@ public class ContractService {
 			throw new Exception();
 		}
 
-		List<Contract> contracts = user.getContracts();
+		List<Contract> contracts =  user.getContracts();
 		for (Contract c : contracts) {
 			if (Objects.isNull(c.getEndDate())) {
 				LocalDate date = LocalDate.now();
@@ -54,12 +60,10 @@ public class ContractService {
 			}
 		}
 		
-		contractRepository.save(contract); //unica modifica
+		contractRepository.save(contract); 
 		user.setContracts(contracts);
 
-		entityManager.persist(user);
-		entityManager.getTransaction().commit();
-		entityManager.close();
+		
 
 		return contract;
 	}
