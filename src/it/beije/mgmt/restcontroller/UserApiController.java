@@ -89,29 +89,25 @@ public class UserApiController {
 
 	@RequestMapping(value = "/user", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody User insertUser(@RequestBody User user, HttpServletResponse response) throws IOException {
+		
 		System.out.println("insert user: " + user);
-		User us = new User();
 		try {
-			us = userService.create(user);
+			return userService.create(user);
 		}catch(MasterException e) {
 			throw e;
 		}
-		return us;
 	}
 
 	// FIXARE QUESTA API (PROBLEMA DI LAZILY INITIALIZE SUGLI INDIRIZZI)
 	@RequestMapping(value = "/user/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody User updateUser(@PathVariable Long id, @RequestBody User user, HttpServletResponse response)
 			throws IOException {
-		System.out.println("update user by id: " + id);
-		System.out.println("update user: " + user);
-		User us;
+		
 		try {
-			us = userService.update(id, user);
+			return userService.update(id, user);
 		}catch(MasterException e) {
-			throw new InvalidJSONException("Non è stato possibile modificare i dati dell'utente desiderato");
+			throw e;
 		}
-		return us;
 	}
 
 	@RequestMapping(value = "/search", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
