@@ -16,10 +16,14 @@ public class JpaEntityManager {
 	
 	private static EntityManagerFactory emfactory = null;
 	
+	static {
+		emfactory = Persistence.createEntityManagerFactory("timesheetDB");
+	}
+	
 	private JpaEntityManager() {}
 	
 	@Bean(name = "entityManagerFactory")	
-	public static synchronized EntityManagerFactory getInstance() /*throws DBException*/ {
+	public static synchronized EntityManagerFactory getInstance() {
 		try {
 			if (emfactory == null) {
 				emfactory = Persistence.createEntityManagerFactory("timesheetDB");

@@ -33,16 +33,13 @@ public class ClientCompanyService {
 	}
 
 	public ClientCompany find(Long id) {
-		EntityManager entitymanager = null;
+
 		try {
-			entitymanager = JpaEntityManager.getInstance().createEntityManager();
 			return clientRepository.getOne(id);
 		}catch (EntityNotFoundException e) {
 			throw new NoContentException("Non è stato trovato un cliente con l'id selezionato o i dati potrebbero essere corrotti");
 		} catch (DBException e) {
 			throw e;
-		}finally {
-			entitymanager.close();
 		}
 	}
 
@@ -50,6 +47,8 @@ public class ClientCompanyService {
 	public ClientCompany create(ClientCompany client) {
 
 		try {
+			if(client.getId()!=null)
+				throw new EntityExistsException();
 			return clientRepository.saveAndFlush(client);
 		}catch(EntityExistsException eee) {
 			throw new ServiceException("Cliente già presente nel database");
@@ -62,6 +61,7 @@ public class ClientCompanyService {
 	
 	@Transactional
 	public ClientCompany update(Long id, ClientCompany clientData) {
+		
 		try {
 			ClientCompany client = clientRepository.findById(id).get();
 			if (clientData.getFirstName() != null) client.setFirstName(clientData.getFirstName());
@@ -80,6 +80,7 @@ public class ClientCompanyService {
 	}
 
 	public List<ClientCompany> getClientsByUser(Long id) {
+		
 		try {
 			List<ClientCompany> clients = clientRepository.findByIdUser(id);
 			if (clients.size()==0)
