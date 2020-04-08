@@ -72,6 +72,10 @@ public class ContractService {
 	public List<Contract> getContractByUser(Long id) {
 
 		List<Contract> contracts = contractRepository.findByIdUser(id);
+		if(contracts == null)
+		{
+			throw new NoContentException("contratto non valido");
+		}
 
 		System.out.println("bankCredentials : " + contracts.size());
 
@@ -84,6 +88,10 @@ public class ContractService {
 		
 
 		Contract contract = contractRepository.findByContract(contracts);
+		if(contract == null)
+		{
+			throw new NoContentException("contratto non valido");
+		}
 
 		if (!Objects.isNull(contracts.getContract_type())) contract.setContract_type(contracts.getContract_type());
 		if (contracts.getType() != null) contract.setType(contracts.getType());
