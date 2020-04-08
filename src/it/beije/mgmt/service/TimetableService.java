@@ -36,7 +36,7 @@ public class TimetableService {
 		 else 
 			 return false;
 	}
-	
+//----------------------------------------------------------------------------------------------------------------------------------------------------	
 	public List<Timesheet> caricaTutto() {
 
 		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
@@ -52,7 +52,7 @@ public class TimetableService {
 		
 		return timetables;
 	}
-	
+//----------------------------------------------------------------------------------------------------------------------------------------------------	
 	public List<Timesheet> insert(List<Timesheet> timetables) {
 		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
 
@@ -135,6 +135,7 @@ public class TimetableService {
 	                && (target.compareTo(end) <= 0));
 	    }
 	 
+//----------------------------------------------------------------------------------------------------------------------------------------------------	 
 	public static boolean submitUtente(int userId, Date datefrom) {
 	List<Timesheet> listaT = multiTimesheetPerDay(userId, datefrom);
 	LocalDateTime today = LocalDateTime.now();
@@ -225,7 +226,7 @@ public class TimetableService {
 			}
 		}
 	}
-	
+//----------------------------------------------------------------------------------------------------------------------------------------------------	
 	public static boolean submitUtente(int userId, Date datefrom, Date dateto) {
 		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
 		EntityManager entitymanager = emfactory.createEntityManager();
@@ -250,6 +251,7 @@ public class TimetableService {
 			
 		}	
 }
+//----------------------------------------------------------------------------------------------------------------------------------------------------
 	public static boolean svuotaserver() {
 		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
 		EntityManager entitymanager = emfactory.createEntityManager();
@@ -265,7 +267,7 @@ public class TimetableService {
 			return false;
 			
 	}
-					
+//----------------------------------------------------------------------------------------------------------------------------------------------------					
 	public boolean validator(int userId, Date dateFrom, Date dateTo) {
 		LocalDateTime today = LocalDateTime.now();
 		
@@ -311,6 +313,8 @@ public class TimetableService {
 		return true;	
 		}
 	}
+	 
+	 
 	public List<Timesheet> controlloValidazione(List<Timesheet> lista){
 		//SE UNA TIMESHEET è GIà VALIDATA LA SALTO
 		List<Timesheet> nuova = new ArrayList<Timesheet>();
@@ -447,7 +451,7 @@ public class TimetableService {
 		else
 			return timetables;
 	}
-	
+//-------------------------------------------------------------------------------------------------------------------------------------------	
 	public boolean deleteRestController(int userid,Date date) {
 		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
 		EntityManager entitymanager = emfactory.createEntityManager();
@@ -462,14 +466,14 @@ public class TimetableService {
 		return true;
 
 	}
-	
+//-------------------------------------------------------------------------------------------------------------------------------------------		
 	public static User findRecordsFromId(long id) {
 		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
 		EntityManager entitymanager = emfactory.createEntityManager();
 		User user = entitymanager.find(User.class, id);
 		return user;
 	}
-	
+//-------------------------------------------------------------------------------------------------------------------------------------------		
 	public void cancellaTimetable(Timesheet table) {
 		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
 		EntityManager entitymanager = emfactory.createEntityManager();  
@@ -483,8 +487,8 @@ public class TimetableService {
 		entitymanager.close();
 		emfactory.close();
 	}
+//-------------------------------------------------------------------------------------------------------------------------------------------		
 	public void creaRecordTimetable(Timesheet table) {
-
 		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
 		EntityManager entitymanager = emfactory.createEntityManager(); //L -->lavorativo F-->Ferie M-->Malattia P-->Permesso 
 		entitymanager.getTransaction().begin();
@@ -493,6 +497,7 @@ public class TimetableService {
 		entitymanager.close();
 		emfactory.close();
 	}
+//-------------------------------------------------------------------------------------------------------------------------------------------		
 	public static List<Timesheet> takeRecordsFromIdTimetableVersionWithPeriod(int id_user, Date start , Date end ) {
 		// int p = id_user;
 		List<Timesheet> records = new ArrayList<Timesheet>();
@@ -505,7 +510,7 @@ public class TimetableService {
 		records = q.getResultList();
 		return records;
 	}
-	
+//-------------------------------------------------------------------------------------------------------------------------------------------		
 	public static List<Timesheet> multiTimesheetPerDay(int userId,Date date){
 		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
 		EntityManager entitymanager = emfactory.createEntityManager();

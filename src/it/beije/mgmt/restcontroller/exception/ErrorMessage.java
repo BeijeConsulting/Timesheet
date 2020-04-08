@@ -2,12 +2,6 @@ package it.beije.mgmt.restcontroller.exception;
 
 import java.time.LocalDateTime;
 
-import org.springframework.http.HttpStatus;
-
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonInclude;
-
-
 public class ErrorMessage {
 	
 	private String time;

@@ -14,10 +14,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-
-import it.beije.mgmt.entity.Address;
 import it.beije.mgmt.entity.Timesheet;
-import it.beije.mgmt.service.TimetableService;
+import it.beije.mgmt.service.TimesheetService;
+
 
 
 @RestController
@@ -25,15 +24,15 @@ import it.beije.mgmt.service.TimetableService;
 public class TimesheetApiController {
 	
 		@Autowired
-		private TimetableService timetableService;
+		private TimesheetService timesheetService;
 
 		@RequestMapping(value = "/timesheets", method = RequestMethod.GET)
 		public @ResponseBody List<Timesheet> getTimesheets(Model model, HttpServletResponse response) throws IOException {
-			return timetableService.caricaTutto();
+			return timesheetService.caricaTutto();
 		}
 		@RequestMapping(value = "/timesheets/svuotaserver", method = RequestMethod.GET) // METODO USATO SOLO PER TESTARE
 		public @ResponseBody boolean svuotaserver(Model model, HttpServletResponse response) throws IOException {
-			TimetableService.svuotaserver();
+			TimesheetService.svuotaserver();
 			return true;
 		}
 	
@@ -41,12 +40,12 @@ public class TimesheetApiController {
 		public @ResponseBody List<Timesheet> insertTimesheets(@RequestBody List<Timesheet> timesheets, Model model,	HttpServletResponse response) throws Exception {
 			System.out.println("insert timesheets: " + timesheets);
 	
-			return timetableService.insert(timesheets);
+			return timesheetService.insert(timesheets);
 		}
 		@RequestMapping(value = "/timesheets/delete/{id}", method = RequestMethod.DELETE)
-		public @ResponseBody boolean delete(@PathVariable int id,@RequestParam(value = "date", required = true)Date date) throws IOException {
-			boolean b= timetableService.deleteRestController(id, date);
-			return b;
+		public @ResponseBody boolean delete(@PathVariable long id) throws IOException {
+			 timesheetService.deleteOne(id);
+			 return true;
 		}
 	
 		@RequestMapping(value = "/timesheets/user/{id}", method = RequestMethod.GET)
@@ -54,29 +53,23 @@ public class TimesheetApiController {
 		public @ResponseBody List<Timesheet> retrieveTimeSheetTables(@PathVariable int id,@RequestParam(value = "datefrom", required = true)Date datefrom,@RequestParam(value = "dateto", required = false)Date dateto) {
 //			Map<String, Object> result = new HashMap<String, Object>();
 			dateto = dateto == null? new Date(System.currentTimeMillis()):dateto;
-			List<Timesheet> timetablelist = TimetableService.retrieveTimatablesInDateRangeByUserId(id,datefrom,dateto);
+			List<Timesheet> timetablelist = TimesheetService.retrieveTimatablesInDateRangeByUserId(id,datefrom,dateto);
 
 			return timetablelist;
 		}
 		
-//		@RequestMapping(value = "/timesheets/modifica/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
-//		public @ResponseBody  boolean modifyTimesheet (@PathVariable Long id, @RequestBody Timesheet timesheet ,Model model, HttpServletResponse response) {
-//			
-//			if(time.getSubmit()==null) {
-//			if (TimetableService.findRecordsFromId(newTable.getIdUser())==null)  {
-//				System.out.println("Utente non trovato");
-//				return false;
-//			}
-//				timetableService.updateRecord(newTable.getIdUser(),newTable.getDate(), newTable);	
-//			return true;
-//			}
-//			else return false;
-//		}
-		
+
+		@RequestMapping(value = "/timesheets/modifica/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
+		public @ResponseBody  boolean modifyTimesheet (@PathVariable Long id, @RequestBody Timesheet timesheet) {
+			
+			TimesheetService.updateTimesheet(id,timesheet);
+			return true;
+		}
+
 		@RequestMapping(value = "/timesheets/validate/{id}", method = RequestMethod.POST)
 
 		public @ResponseBody boolean validazione(@PathVariable int id,@RequestParam(value = "datefrom", required = true)Date datefrom,@RequestParam(value = "dateto", required = false)Date dateto) {
-			return timetableService.validator(id, datefrom, dateto);
+			return timesheetService.validator(id, datefrom, dateto);
 		}
 		
 		@RequestMapping(value = "/timesheets/submit/{id}", method = RequestMethod.POST)
@@ -85,12 +78,12 @@ public class TimesheetApiController {
 				int i=dateto.compareTo(datefrom);
 				System.out.println(i);
 				if(i>0) {
-					return TimetableService.submitUtente(id, datefrom, dateto);
+					return TimesheetService.submitUtente(id, datefrom, dateto);
 				}
 				else
 					return false;
 			}
-			return TimetableService.submitUtente(id, datefrom, dateto);
+			return TimesheetService.submitUtente(id, datefrom, dateto);
 		}
 
 

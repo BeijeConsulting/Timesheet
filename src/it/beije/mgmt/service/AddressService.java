@@ -1,23 +1,13 @@
 package it.beije.mgmt.service;
 
-
-
-import java.time.LocalDate;
-
 import java.util.List;
 import java.util.Objects;
-
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-
 import javax.persistence.Persistence;
-
-
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import it.beije.mgmt.entity.Address;
 import it.beije.mgmt.entity.User;
 import it.beije.mgmt.jpa.JpaEntityManager;

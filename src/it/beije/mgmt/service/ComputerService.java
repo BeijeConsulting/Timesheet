@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import it.beije.mgmt.entity.Computer;
 import it.beije.mgmt.repository.ComputerRepository;
+import it.beije.mgmt.restcontroller.exception.NotExistPcException;
 
 
 @Service
@@ -24,7 +25,7 @@ public class ComputerService {
 		System.out.println("check : " + check);
 		return getComputers(check, !check);
 	}
-	
+	//Non so benissimo cosa fa qusta query e quindi non so come gestire gli errori
 	public List<Computer> getComputers(boolean check, boolean maintenance) {
 		EntityManager entityManager = Persistence.createEntityManagerFactory("timesheetDB").createEntityManager();
 		List<Computer> computers = new ArrayList<>();
@@ -67,6 +68,9 @@ public class ComputerService {
 public Computer update(Computer computer,Long id) {
 
 		Computer pc = ComputerService.find(id);
+		if(pc==null)
+			//computer non è in database
+			throw new NotExistPcException("Il comuter non è presente nel database");
     	
 		//ATTENZIONE SE PC== NULL, NON è GESTITO IL NULL POINTER
     	if (!Objects.isNull(computer.getBrand())) pc.setBrand(computer.getBrand());
