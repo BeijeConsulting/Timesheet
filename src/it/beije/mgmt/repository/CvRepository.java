@@ -6,7 +6,5 @@ import it.beije.mgmt.entity.cv.CV;
 
 public interface CvRepository extends JpaRepository<CV, Long> {
 	
-	CV findByUserId(Long userId);
-	
 
 }
