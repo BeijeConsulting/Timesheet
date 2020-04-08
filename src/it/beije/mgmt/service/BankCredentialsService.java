@@ -48,24 +48,48 @@ public class BankCredentialsService {
 	
 	@Transactional
 	public BankCredentials find(Long id) throws MasterException {
-		
-		EntityManager entitymanager = null;
 		try {
-			entitymanager = JpaEntityManager.getInstance().createEntityManager();
 			return bankCredentialsRepository.getOne(id);
 		}catch (EntityNotFoundException e) {
 			throw new NoContentException("Non è stato trovato un bank credentials con l'id selezionato o i dati potrebbero essere corrotti");
 		} catch (DBException e) {
 			throw e;
-		}finally {
-			entitymanager.close();
 		}
 	}
 	
+	public BankCredentials create(BankCredentials bankCredentials,Long idUser) throws MasterException {
+		User user = null;
+		try {
+			userService.find(idUser);
+				if (Objects.isNull(bankCredentials.getIdUser())) {
+					bankCredentials.setIdUser(idUser);
+				}else if (bankCredentials.getIdUser().longValue() != idUser.longValue()) {
+					throw new NoContentException("userID non corrispondenti, impossibile creare bank credentials");
+					}
+		
+				List<BankCredentials> bankcredentials = user.getBankCredentials();
+				for (BankCredentials bc : bankcredentials) {
+					if (Objects.isNull(bc.getEndDate())) {
+						LocalDate date = LocalDate.now();
+						java.sql.Date dateSql = java.sql.Date.valueOf(date);
+						bc.setEndDate(dateSql);		
+					}		
+				}
+		return bankCredentialsRepository.saveAndFlush(bankCredentials);
+		}catch(EntityExistsException eee) {
+			throw new ServiceException("Bank Credentials già presente nel database");
+		}catch(IllegalStateException  | PersistenceException e) {
+			throw new ServiceException("Al momento non è possibile soddisfare la richiesta");
+		} catch (DBException e) {
+			throw e;
+		}
+		
+
+	}
 	
 
 
-	public BankCredentials create(Long idUser, BankCredentials bankCredentials) throws Exception {
+	/*public BankCredentials create(Long idUser, BankCredentials bankCredentials) throws Exception {
 
 	//EntityManager entitymanager = null;
 	User user=null;
@@ -85,21 +109,21 @@ public class BankCredentialsService {
 			throw new NoContentException("userID non corrispondenti, impossibile creare bank credentials");
 		}
 	
-		List<BankCredentials> bankcredentials = user.getBankCredentials();
-		for (BankCredentials bc : bankcredentials) {
-			if (Objects.isNull(bc.getEndDate())) {
-				LocalDate date = LocalDate.now();
-				java.sql.Date dateSql = java.sql.Date.valueOf(date);
-				bc.setEndDate(dateSql);		
+			List<BankCredentials> bankcredentials = user.getBankCredentials();
+			for (BankCredentials bc : bankcredentials) {
+				if (Objects.isNull(bc.getEndDate())) {
+					LocalDate date = LocalDate.now();
+					java.sql.Date dateSql = java.sql.Date.valueOf(date);
+					bc.setEndDate(dateSql);		
+				}
 			}
-		}
 		bankcredentials.add(bankCredentials);
 		user.setBankCredentials(bankcredentials);
 		return bankCredentials;
 		}catch (MasterException e) {
 			throw e;
 		}
-	}
+	}*/
 
 
 	public List<BankCredentials> getBankCredentialsByUser(Long id) {

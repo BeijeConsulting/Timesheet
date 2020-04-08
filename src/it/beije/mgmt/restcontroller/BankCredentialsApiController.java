@@ -51,14 +51,12 @@ public class BankCredentialsApiController {
 	@RequestMapping(value = "/bankCredentials/user/{id}", method = RequestMethod.GET)
 	public @ResponseBody List<BankCredentials> getCredentialsForUser(@PathVariable Long id) {
 		User us = null;
-		List<BankCredentials> bs = null;
 		try {
 			us = userService.find(id);
-			bs =  bankCredentialsService.getBankCredentialsByUser(id);
+			return  bankCredentialsService.getBankCredentialsByUser(id);
 		}catch(MasterException e) {
 		throw e;
 		}
-		return bs;
 
 	}
 
@@ -69,15 +67,12 @@ public class BankCredentialsApiController {
 
 		System.out.println("insert BankCredentials: " + bankCredentials);
 
-		BankCredentials bc = null;
 		try {
-			userService.find(id);
-			bc = bankCredentialsService.create(id, bankCredentials);
+			return bankCredentialsService.create(bankCredentials,id);
 			
 		}catch(MasterException e) {
 		throw e;
 		}
-		return bc;
 	}
 
 	// get bank credentials by idBankCredentials
@@ -88,7 +83,8 @@ public class BankCredentialsApiController {
 
 	BankCredentials bc = null;
 	try {	
-		bc = bankCredentialsService.find( id);
+		//System.out.println("ok");
+		bc = bankCredentialsService.find(id);
 		return bc;
 	}catch (MasterException e) {
 	throw e;
@@ -102,18 +98,16 @@ public class BankCredentialsApiController {
 		System.out.println("update bankCredentials by id: " + id);
 	//System.out.println("update bankCredential: " + bankCredentials);
 	//EntityManager entitymanager = null;
-	BankCredentials bc=null;
 	try {
 	//	entitymanager = JpaEntityManager.getInstance().createEntityManager();
 	//entitymanager.getTransaction().begin();
 	//bc = entitymanager.find(BankCredentials.class, id);
-	bc = bankCredentialsService.update(id, bankCredentials);
+	return bankCredentialsService.update(id, bankCredentials);
 	//	if(bc.getId()==null) 
 	//throw new NoContentException("Non è stato trovato una cordinata bancaria con l'id selezionato");
 	}catch(MasterException e) {
 		throw new InvalidJSONException("Non è stato possibile modificare i dati dell'utente desiderato");
 	}
-	return bc;
 }
 
 }

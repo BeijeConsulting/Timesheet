@@ -167,7 +167,6 @@ public class UserService implements UserDetailsService{
 	 * @throws MasterException 
 	 */
 	public User create(User user) throws MasterException {
-		EntityManager entitymanager = null;
 		try {
 			return userRepository.saveAndFlush(user);
 		}catch(EntityExistsException eee) {
