@@ -14,4 +14,6 @@ public interface ContractRepository extends JpaRepository<Contract, Long> {
 	
 	List<Contract> findByIdUser(Long idUser);
 	
+	Contract findByContract(Contract contract);
+	
 }

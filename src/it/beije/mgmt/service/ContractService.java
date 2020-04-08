@@ -20,20 +20,27 @@ import it.beije.mgmt.entity.Contract;
 import it.beije.mgmt.entity.User;
 import it.beije.mgmt.jpa.JpaEntityManager;
 import it.beije.mgmt.repository.ContractRepository;
+import it.beije.mgmt.repository.UserRepository;
+import it.beije.mgmt.restcontroller.exception.NoContentException;
 
-
+@Transactional
 @Service
 public class ContractService {
 
 	@Autowired
 	private ContractRepository contractRepository;
 	
+	@Autowired
+	private UserRepository userRepository;
+	
 	//Aggiunge un nuovo contratto alla lista dell'utente
+	// user repository non ancora finito , modificare in seguito 
 	public Contract create(Long idUser, Contract contract) throws Exception {
-		EntityManager entityManager = JpaEntityManager.getInstance().createEntityManager();
-		entityManager.getTransaction().begin();
+	
 
-		User user = entityManager.find(User.class, idUser);
+		User user = userRepository.getOne(idUser); 
+		if(user== null)
+			throw new NoContentException("Id user invalido");
 
 		System.out.println("user.getContract()?"
 				+ (user.getContracts() != null ? user.getContracts().size() : "NULL"));
@@ -44,7 +51,7 @@ public class ContractService {
 			throw new Exception();
 		}
 
-		List<Contract> contracts = user.getContracts();
+		List<Contract> contracts =  user.getContracts();
 		for (Contract c : contracts) {
 			if (Objects.isNull(c.getEndDate())) {
 				LocalDate date = LocalDate.now();
@@ -52,13 +59,11 @@ public class ContractService {
 				c.setEndDate(dateSql);
 			}
 		}
-
-		contracts.add(contract);
+		
+		contractRepository.save(contract); 
 		user.setContracts(contracts);
 
-		entityManager.persist(user);
-		entityManager.getTransaction().commit();
-		entityManager.close();
+		
 
 		return contract;
 	}
@@ -67,6 +72,10 @@ public class ContractService {
 	public List<Contract> getContractByUser(Long id) {
 
 		List<Contract> contracts = contractRepository.findByIdUser(id);
+		if(contracts == null)
+		{
+			throw new NoContentException("contratto non valido");
+		}
 
 		System.out.println("bankCredentials : " + contracts.size());
 
@@ -76,11 +85,13 @@ public class ContractService {
 	//aggiorna i risultati di un contratto
 	@Transactional
 	public Contract update(Long id, Contract contracts) {
-		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
-		EntityManager entitymanager = emfactory.createEntityManager();
-		entitymanager.getTransaction().begin();
+		
 
-		Contract contract = entitymanager.find(Contract.class, id);
+		Contract contract = contractRepository.findByContract(contracts);
+		if(contract == null)
+		{
+			throw new NoContentException("contratto non valido");
+		}
 
 		if (!Objects.isNull(contracts.getContract_type())) contract.setContract_type(contracts.getContract_type());
 		if (contracts.getType() != null) contract.setType(contracts.getType());
@@ -97,10 +108,8 @@ public class ContractService {
 		if (contracts.getStartDate() != null) contract.setStartDate(contracts.getStartDate());
 		if (contracts.getEndDate() != null) contract.setEndDate(contracts.getEndDate());
 
+		contractRepository.save(contract);
 
-		entitymanager.persist(contract);
-		entitymanager.getTransaction().commit();
-		entitymanager.close();
 
 		return contract;
 	}
