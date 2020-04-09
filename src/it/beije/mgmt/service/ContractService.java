@@ -16,9 +16,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import it.beije.mgmt.JpaEntityManager;
 import it.beije.mgmt.entity.Contract;
 import it.beije.mgmt.entity.User;
-import it.beije.mgmt.jpa.JpaEntityManager;
 import it.beije.mgmt.repository.ContractRepository;
 import it.beije.mgmt.repository.UserRepository;
 import it.beije.mgmt.restcontroller.exception.NoContentException;

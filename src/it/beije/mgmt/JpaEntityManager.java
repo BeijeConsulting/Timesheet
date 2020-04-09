@@ -1,4 +1,4 @@
-package it.beije.mgmt.jpa;
+package it.beije.mgmt;
 
 
 import java.sql.SQLException;

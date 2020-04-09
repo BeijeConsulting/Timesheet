@@ -13,9 +13,10 @@ import javax.persistence.EntityTransaction;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import it.beije.mgmt.JpaEntityManager;
 import it.beije.mgmt.entity.Timesheet;
 import it.beije.mgmt.entity.User;
-import it.beije.mgmt.jpa.JpaEntityManager;
 import it.beije.mgmt.repository.TimesheetRepository;
 import it.beije.mgmt.restcontroller.exception.IllegalDateException;
 import it.beije.mgmt.restcontroller.exception.IllegalHourException;

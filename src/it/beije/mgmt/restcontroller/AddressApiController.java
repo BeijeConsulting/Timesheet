@@ -16,9 +16,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import it.beije.mgmt.JpaEntityManager;
 import it.beije.mgmt.entity.Address;
 import it.beije.mgmt.entity.User;
-import it.beije.mgmt.jpa.JpaEntityManager;
 import it.beije.mgmt.restcontroller.exception.InvalidJSONException;
 import it.beije.mgmt.restcontroller.exception.NoContentException;
 import it.beije.mgmt.service.AddressService;

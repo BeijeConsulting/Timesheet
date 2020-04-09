@@ -29,6 +29,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import it.beije.mgmt.CustomUserDetail;
+import it.beije.mgmt.JpaEntityManager;
 import it.beije.mgmt.dto.UserDto;
 import it.beije.mgmt.entity.Address;
 import it.beije.mgmt.entity.BankCredentials;
@@ -37,7 +38,6 @@ import it.beije.mgmt.entity.User;
 import it.beije.mgmt.exception.DBException;
 import it.beije.mgmt.exception.MasterException;
 import it.beije.mgmt.exception.ServiceException;
-import it.beije.mgmt.jpa.JpaEntityManager;
 import it.beije.mgmt.jpa.UserRequest;
 import it.beije.mgmt.repository.UserRepository;
 import it.beije.mgmt.repository.UserRepositoryCustom;

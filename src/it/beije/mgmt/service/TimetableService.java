@@ -11,9 +11,10 @@ import javax.persistence.TypedQuery;
 import java.sql.Date;
 import java.sql.Time;
 import org.springframework.stereotype.Service;
+
+import it.beije.mgmt.JpaEntityManager;
 import it.beije.mgmt.entity.Timesheet;
 import it.beije.mgmt.entity.User;
-import it.beije.mgmt.jpa.JpaEntityManager;
 import it.beije.mgmt.restcontroller.exception.NoContentException;
 import it.beije.mgmt.restcontroller.exception.IllegalHourException;
 import it.beije.mgmt.restcontroller.exception.IllegalDateException;

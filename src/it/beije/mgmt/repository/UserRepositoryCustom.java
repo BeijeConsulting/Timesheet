@@ -7,9 +7,9 @@ import javax.persistence.EntityManagerFactory;
 
 import org.springframework.stereotype.Repository;
 
+import it.beije.mgmt.JpaEntityManager;
 import it.beije.mgmt.entity.User;
 import it.beije.mgmt.exception.DBException;
-import it.beije.mgmt.jpa.JpaEntityManager;
 
 
 @Repository
