@@ -58,9 +58,9 @@ public class BankCredentialsService {
 	}
 	
 	public BankCredentials create(BankCredentials bankCredentials,Long idUser) throws MasterException {
-		User user = null;
+	
 		try {
-			userService.find(idUser);
+			User user = userService.find(idUser);
 				if (Objects.isNull(bankCredentials.getIdUser())) {
 					bankCredentials.setIdUser(idUser);
 				}else if (bankCredentials.getIdUser().longValue() != idUser.longValue()) {

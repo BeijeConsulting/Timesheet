@@ -96,17 +96,10 @@ public class BankCredentialsApiController {
 	public @ResponseBody BankCredentials updateBankCredential(@PathVariable Long id, @RequestBody BankCredentials bankCredentials,
 		Model model, HttpServletResponse response) throws IOException {
 		System.out.println("update bankCredentials by id: " + id);
-	//System.out.println("update bankCredential: " + bankCredentials);
-	//EntityManager entitymanager = null;
 	try {
-	//	entitymanager = JpaEntityManager.getInstance().createEntityManager();
-	//entitymanager.getTransaction().begin();
-	//bc = entitymanager.find(BankCredentials.class, id);
 	return bankCredentialsService.update(id, bankCredentials);
-	//	if(bc.getId()==null) 
-	//throw new NoContentException("Non è stato trovato una cordinata bancaria con l'id selezionato");
 	}catch(MasterException e) {
-		throw new InvalidJSONException("Non è stato possibile modificare i dati dell'utente desiderato");
+		throw new InvalidJSONException("Non è stato possibile modificare bank credentials");
 	}
 }
 
