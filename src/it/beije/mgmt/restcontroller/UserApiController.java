@@ -25,7 +25,6 @@ import it.beije.mgmt.exception.ErrorMessage;
 import it.beije.mgmt.exception.MasterException;
 import it.beije.mgmt.exception.NoContentException;
 import it.beije.mgmt.jpa.UserRequest;
-import it.beije.mgmt.restcontroller.exception.InvalidJSONException;
 import it.beije.mgmt.service.UserService;
 
 @RestController

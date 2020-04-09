@@ -31,7 +31,7 @@ import it.beije.mgmt.exception.DBException;
 import it.beije.mgmt.exception.MasterException;
 import it.beije.mgmt.exception.NoContentException;
 import it.beije.mgmt.jpa.JpaEntityManager;
-import it.beije.mgmt.restcontroller.exception.InvalidJSONException;
+import it.beije.mgmt.exception.InvalidJSONException;
 import it.beije.mgmt.service.BankCredentialsService;
 import it.beije.mgmt.service.JPAService;
 import it.beije.mgmt.service.UserService;

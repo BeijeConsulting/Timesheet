@@ -53,6 +53,10 @@ public class UserService implements UserDetailsService{
 
 	@Autowired
 	private UserRepositoryCustom userRepositoryCustom;
+	
+	static {
+		JpaEntityManager.getInstance();
+	}
 
 	/**
 	 * NON FUNGE CORRETTAMENTE VEDI COMMENTI
@@ -61,7 +65,6 @@ public class UserService implements UserDetailsService{
 	 * @throws MasterException 
 	 * @throws DBException 
 	 */
-	@Transactional
 	public User find(Long id) throws MasterException {
 		
 		try {
@@ -166,8 +169,11 @@ public class UserService implements UserDetailsService{
 	 * @return
 	 * @throws MasterException 
 	 */
+	@Transactional
 	public User create(User user) throws MasterException {
 		try {
+			if(user.getId()!=null)
+				throw new EntityExistsException();
 			return userRepository.saveAndFlush(user);
 		}catch(EntityExistsException eee) {
 			throw new ServiceException("User già presente nel database");
@@ -229,7 +235,6 @@ public class UserService implements UserDetailsService{
 	 * @return
 	 */
 	/***********************************************************EDIT***************************************************/
-	@Transactional
 	public List<UserDto> trovaUtente(String firstName, String lastName, String email, String fiscalCode) {
 
 		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
@@ -306,6 +311,7 @@ public class UserService implements UserDetailsService{
 	 * @param user
 	 * @throws MasterException 
 	 */
+	@Transactional
 	public void modificaUtente(User userData) throws MasterException {
 		
 		try {
@@ -349,6 +355,7 @@ public class UserService implements UserDetailsService{
 	 * QUESTO METODO SERVE PER INSERIRE LA DATA DI ARCHIVIAZIONE DI UN UTENTE DALLE JSP
 	 * @param user
 	 */
+	@Transactional
 	public boolean archiviaUtente(User user) {
 		
 //		LocalDate data = LocalDate.now();
@@ -385,7 +392,6 @@ public class UserService implements UserDetailsService{
 		return true;	
 	}
 
-	/**********************************************************EDIT****************************************************/
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		try {
