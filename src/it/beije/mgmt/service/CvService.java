@@ -27,19 +27,19 @@ import it.beije.mgmt.restcontroller.exception.NoContentException;
 public class CvService {
 	
 	@Autowired
-	private static CvRepository cvrepository;
+	private CvRepository cvrepository;
 	
 	@Autowired
-	private static LanguageRepository languageRepository;
+	private LanguageRepository languageRepository;
 	
 	@Autowired
-	private static EducationRepository educationRepository;
+	private EducationRepository educationRepository;
 	
 	@Autowired
-	private static WorkRepository workRepository;
+	private WorkRepository workRepository;
 	
 	@Autowired
-	private static CertificationRepository certificationRepository;
+	private CertificationRepository certificationRepository;
 
 //---------------------------------------------------------------------------------------------------------------------------------------------------	
 	/***** CV *****/
