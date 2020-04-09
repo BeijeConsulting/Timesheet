@@ -10,6 +10,6 @@ import it.beije.mgmt.entity.ClientCompany;
 @Repository
 public interface ClientCompanyRepository extends JpaRepository<ClientCompany, Long> {
 
-	List<ClientCompany> findByIdUser(Long id);
+	//List<ClientCompany> findByIdUser(Long id);
 
 }
