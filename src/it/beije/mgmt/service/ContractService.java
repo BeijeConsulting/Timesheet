@@ -84,32 +84,29 @@ public class ContractService {
 
 	//aggiorna i risultati di un contratto
 	@Transactional
-	public Contract update(Long id, Contract contracts) {
-		
+	public Contract update(Long id, Contract newContract) {
 
-		Contract contract = contractRepository.findByContract(contracts);
-		if(contract == null)
-		{
+		Contract contract = contractRepository.getOne(id);
+		if(contract == null) {
 			throw new NoContentException("contratto non valido");
 		}
 
-		if (!Objects.isNull(contracts.getContract_type())) contract.setContract_type(contracts.getContract_type());
-		if (contracts.getType() != null) contract.setType(contracts.getType());
-		if (contracts.getCcnl() != null) contract.setCcnl(contracts.getCcnl());
-		if (!Objects.isNull(contracts.getLvl())) contract.setLvl(contracts.getLvl());
+		if (!Objects.isNull(newContract.getContract_type())) contract.setContract_type(newContract.getContract_type());
+		if (newContract.getType() != null) contract.setType(newContract.getType());
+		if (newContract.getCcnl() != null) contract.setCcnl(newContract.getCcnl());
+		if (!Objects.isNull(newContract.getLvl())) contract.setLvl(newContract.getLvl());
 
-		if (!Objects.isNull(contracts.getMinimoContrattuale())) contract.setMinimoContrattuale(contracts.getMinimoContrattuale());
-		if (!Objects.isNull(contracts.getSuperminimo())) contract.setSuperminimo(contracts.getSuperminimo());
-		if (!Objects.isNull(contracts.getRetribuzioneMensile())) contract.setRetribuzioneMensile(contracts.getRetribuzioneMensile());
-		if (!Objects.isNull(contracts.getRal())) contract.setRal(contracts.getRal());
-		if (!Objects.isNull(contracts.getNettoMensile())) contract.setNettoMensile(contracts.getNettoMensile());
-		if (!Objects.isNull(contracts.getCostoInterno())) contract.setCostoInterno(contracts.getCostoInterno());
-		if (contracts.getNote() != null) contract.setNote(contract.getNote());
-		if (contracts.getStartDate() != null) contract.setStartDate(contracts.getStartDate());
-		if (contracts.getEndDate() != null) contract.setEndDate(contracts.getEndDate());
+		if (!Objects.isNull(newContract.getMinimoContrattuale())) contract.setMinimoContrattuale(newContract.getMinimoContrattuale());
+		if (!Objects.isNull(newContract.getSuperminimo())) contract.setSuperminimo(newContract.getSuperminimo());
+		if (!Objects.isNull(newContract.getRetribuzioneMensile())) contract.setRetribuzioneMensile(newContract.getRetribuzioneMensile());
+		if (!Objects.isNull(newContract.getRal())) contract.setRal(newContract.getRal());
+		if (!Objects.isNull(newContract.getNettoMensile())) contract.setNettoMensile(newContract.getNettoMensile());
+		if (!Objects.isNull(newContract.getCostoInterno())) contract.setCostoInterno(newContract.getCostoInterno());
+		if (newContract.getNote() != null) contract.setNote(contract.getNote());
+		if (newContract.getStartDate() != null) contract.setStartDate(newContract.getStartDate());
+		if (newContract.getEndDate() != null) contract.setEndDate(newContract.getEndDate());
 
 		contractRepository.save(contract);
-
 
 		return contract;
 	}
