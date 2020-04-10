@@ -6,13 +6,15 @@ import java.util.Objects;
 import java.util.Optional;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-
+import javax.persistence.TypedQuery;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import it.beije.mgmt.JpaEntityManager;
 import it.beije.mgmt.entity.Computer;
 import it.beije.mgmt.repository.ComputerRepository;
 import it.beije.mgmt.restcontroller.exception.NotExistPcException;
@@ -57,8 +59,50 @@ public class ComputerService {
 // Da fare!
 //----------------------------------------------------------------------------------------------------------------
 	
+//	public List<Computer> searchComputer(String serialNumber, Integer ram, String cpu, String hardDisk) {
+//		List<Computer> computers=computerRepository.findBySerialNumberAndRamAndCpuAndHardDisk(serialNumber, ram, cpu, hardDisk);
+//		return computers;
+//	}
 	public List<Computer> searchComputer(String serialNumber, Integer ram, String cpu, String hardDisk) {
-		List<Computer> computers=computerRepository.findBySerialNumberAndRamAndCpuAndHardDisk(serialNumber, ram, cpu, hardDisk);
+		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
+		EntityManager entitymanager = emfactory.createEntityManager();
+		
+		List<String> searchQuery=new ArrayList<>();
+		String whereClause="";
+		
+		if (serialNumber.length()>0) {
+			searchQuery.add("a.serialNumber='"+serialNumber+"'");
+			if (whereClause.length()==0)
+			whereClause+="WHERE ";
+		}
+		if (ram!=0) {
+			searchQuery.add("a.ram='"+ram.toString()+"'");
+			if (whereClause.length()==0)
+				whereClause+="WHERE ";
+		}
+		if (cpu.length()>0) {
+			searchQuery.add("a.cpu='"+cpu+"'");
+			if (whereClause.length()==0)
+				whereClause+="WHERE ";
+		}
+		if (hardDisk.length()>0) {
+			searchQuery.add("a.hardDisk='"+hardDisk+"'");
+			if (whereClause.length()==0)
+				whereClause+="WHERE ";
+		}
+		
+		System.out.println("Sto cercando");
+		
+		for (int i=0;i<searchQuery.size();i++) {
+			whereClause+=searchQuery.get(i);
+			if (i!=searchQuery.size()-1)
+				whereClause+=" AND ";
+		}
+		
+		TypedQuery<Computer> query=entitymanager.createQuery("SELECT a from Computer a "+whereClause,Computer.class);
+		
+		List<Computer> computers=query.getResultList();
+		
 		return computers;
 	}
 //----------------------------------------------------------------------------------------------------------------
