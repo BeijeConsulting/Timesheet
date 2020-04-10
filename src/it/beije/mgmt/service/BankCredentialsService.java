@@ -44,7 +44,6 @@ public class BankCredentialsService {
 	@Autowired
 	private UserService userService;
 	
-	@Transactional
 	public BankCredentials find(Long id) throws MasterException {
 		try {
 			BankCredentials bankCredentials = bankCredentialsRepository.findById(id).get();
@@ -60,32 +59,18 @@ public class BankCredentialsService {
 	public BankCredentials create(BankCredentials bankCredentials,Long idUser) throws MasterException {
 	
 		try {
-			User user = userService.find(idUser);
-			System.out.println("baaaaa "+user.getId());
-
-			//System.out.println("user.getBankCredentials()?"
-				//	+ (user.getBankCredentials() != null ? user.getBankCredentials().size() : "NULL"));
-
-			
-				//if (Objects.isNull(bankCredentials.getIdUser())) {
-					//bankCredentials.setIdUser(idUser);
-			//	}else if (bankCredentials.getIdUser().longValue() != idUser.longValue()) {
-				//	throw new NoContentException("userID non corrispondenti, impossibile creare bank credentials");
-					//}
-				
-
-			//BankCredentials bankCredentials = null;// = bankCredentialsRepository.find();
-				
-				//for (BankCredentials bc : bankcredentials) {
-					if (Objects.isNull(bankCredentials.getEndDate())) {
-						LocalDate date = LocalDate.now();
-						java.sql.Date dateSql = java.sql.Date.valueOf(date);
-						bankCredentials.setEndDate(dateSql);		
+				if (Objects.isNull(bankCredentials.getIdUser())) {
+					bankCredentials.setIdUser(idUser);
+				}else if (bankCredentials.getIdUser().longValue() != idUser.longValue()) {
+					throw new NoContentException("impossibile creare bank credentials");
 					}
-				
-				//System.out.println("okkkkkkkkkkkkkkkkk" + user.getId());
-				//bankcredentials.add(bankCredentials);
-				//user.setBankCredentials(bankcredentials);
+		
+				if (Objects.isNull(bankCredentials.getEndDate())) {
+					LocalDate date = LocalDate.now();
+					java.sql.Date dateSql = java.sql.Date.valueOf(date);
+					bankCredentials.setEndDate(dateSql);		
+					}
+
 		return bankCredentialsRepository.saveAndFlush(bankCredentials);
 		}catch(EntityExistsException eee) {
 			throw new ServiceException("Bank Credentials già presente nel database");
@@ -98,45 +83,6 @@ public class BankCredentialsService {
 
 	}
 	
-
-
-	/*public BankCredentials create(Long idUser, BankCredentials bankCredentials) throws Exception {
-
-	//EntityManager entitymanager = null;
-	User user=null;
-	try {
-		//entitymanager = JpaEntityManager.getInstance().createEntityManager();
-		//entitymanager.getTransaction().begin();
-	
-		user = userService.find(idUser);
-			
-
-		System.out.println("user.getBankCredentials()?"
-			+ (user.getBankCredentials() != null ? user.getBankCredentials().size() : "NULL"));
-
-		if (Objects.isNull(bankCredentials.getIdUser())) {
-		bankCredentials.setIdUser(idUser);
-		} else if (bankCredentials.getIdUser().longValue() != idUser.longValue()) {
-			throw new NoContentException("userID non corrispondenti, impossibile creare bank credentials");
-		}
-	
-			List<BankCredentials> bankcredentials = user.getBankCredentials();
-			for (BankCredentials bc : bankcredentials) {
-				if (Objects.isNull(bc.getEndDate())) {
-					LocalDate date = LocalDate.now();
-					java.sql.Date dateSql = java.sql.Date.valueOf(date);
-					bc.setEndDate(dateSql);		
-				}
-			}
-		bankcredentials.add(bankCredentials);
-		user.setBankCredentials(bankcredentials);
-		return bankCredentials;
-		}catch (MasterException e) {
-			throw e;
-		}
-	}*/
-
-
 	public List<BankCredentials> getBankCredentialsByUser(Long id) {
 	
 	List<BankCredentials> bankCredentials = bankCredentialsRepository.findByIdUser(id);
@@ -148,7 +94,6 @@ public class BankCredentialsService {
 	return bankCredentials;
 }
 
-	/*@Transactional
 	public BankCredentials update(Long id, BankCredentials bankCredentials) {
 		
 		try {
@@ -160,19 +105,27 @@ public class BankCredentialsService {
 			if (bankCredentials.getSwift() != null) bankcredentials.setSwift(bankCredentials.getSwift());
 			if (bankCredentials.getStartDate() != null) bankcredentials.setStartDate(bankCredentials.getStartDate());
 			if (bankCredentials.getEndDate() != null) bankcredentials.setEndDate(bankCredentials.getEndDate());
+			else if (Objects.isNull(bankCredentials.getEndDate())) {
+				LocalDate date = LocalDate.now();
+				java.sql.Date dateSql = java.sql.Date.valueOf(date);
+				bankcredentials.setEndDate(dateSql);	
+				
+				}
+
 			if (bankCredentials.getNotes() != null) bankcredentials.setNotes(bankCredentials.getNotes());
     	
 			
-			return bankcredentials;
-			}catch (DBException e) {
-				throw e;
-			}
+			return bankCredentialsRepository.saveAndFlush(bankcredentials);
+
+			}catch(IllegalStateException  | PersistenceException e) {
+				throw new ServiceException("Al momento non è possibile soddisfare la richiesta");}
+				
 			catch (MasterException ee) {
 				throw ee;
 			}
 			
 		
 		
-	}*/
+	}
 
 }

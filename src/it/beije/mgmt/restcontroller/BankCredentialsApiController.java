@@ -47,7 +47,6 @@ public class BankCredentialsApiController {
 
 	/****************** BANK CREDENTIALS *****************/
 	// storico bank credentials user
-	@Transactional
 	@RequestMapping(value = "/bankCredentials/user/{id}", method = RequestMethod.GET)
 	public @ResponseBody List<BankCredentials> getCredentialsForUser(@PathVariable Long id) {
 		User us = null;
@@ -92,7 +91,7 @@ public class BankCredentialsApiController {
 	
 	}
 	// update existing bank credentials
-	/*@RequestMapping(value = "/bankCredentials/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/bankCredentials/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody BankCredentials updateBankCredential(@PathVariable Long id, @RequestBody BankCredentials bankCredentials,
 		Model model, HttpServletResponse response) throws IOException {
 		System.out.println("update bankCredentials by id: " + id);
@@ -101,6 +100,6 @@ public class BankCredentialsApiController {
 	}catch(MasterException e) {
 		throw new InvalidJSONException("Non è stato possibile modificare bank credentials");
 	}
-}*/
+}
 
 }
