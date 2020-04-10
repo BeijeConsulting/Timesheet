@@ -34,4 +34,52 @@ public class UserHasClient {
 	
 	@Column(name="notes")
 	private String notes;
+
+	public UserHasClientId getId() {
+		return id;
+	}
+
+	public void setId(UserHasClientId id) {
+		this.id = id;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public ClientCompany getCompany() {
+		return company;
+	}
+
+	public void setCompany(ClientCompany company) {
+		this.company = company;
+	}
+
+	public LocalDate getStartDate() {
+		return startDate;
+	}
+
+	public void setStartDate(LocalDate startDate) {
+		this.startDate = startDate;
+	}
+
+	public LocalDate getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(LocalDate endDate) {
+		this.endDate = endDate;
+	}
+
+	public String getNotes() {
+		return notes;
+	}
+
+	public void setNotes(String notes) {
+		this.notes = notes;
+	}
 }

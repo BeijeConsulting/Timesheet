@@ -1,9 +1,9 @@
 package it.beije.mgmt.service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import javax.persistence.EntityExistsException;
-import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.PersistenceException;
 import javax.transaction.Transactional;
@@ -12,11 +12,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import it.beije.mgmt.entity.ClientCompany;
-import it.beije.mgmt.exception.DBException;
+import it.beije.mgmt.entity.User;
+import it.beije.mgmt.exception.InvalidJSONException;
 import it.beije.mgmt.exception.MasterException;
 import it.beije.mgmt.exception.NoContentException;
 import it.beije.mgmt.exception.ServiceException;
-import it.beije.mgmt.jpa.JpaEntityManager;
 import it.beije.mgmt.repository.ClientCompanyRepository;
 
 @Service
@@ -24,6 +24,8 @@ public class ClientCompanyService {
 	
 	@Autowired
 	private ClientCompanyRepository clientRepository;
+	@Autowired
+	private UserService userService;
 
 	public List<ClientCompany> caricaTutti() {
 		List<ClientCompany> allClients = clientRepository.findAll();
@@ -35,10 +37,10 @@ public class ClientCompanyService {
 	public ClientCompany find(Long id) {
 
 		try {
-			return clientRepository.getOne(id);
-		}catch (EntityNotFoundException e) {
+			return clientRepository.findById(id).get();
+		}catch (EntityNotFoundException | IllegalArgumentException | NoSuchElementException e) {
 			throw new NoContentException("Non è stato trovato un cliente con l'id selezionato o i dati potrebbero essere corrotti");
-		} catch (DBException e) {
+		} catch (MasterException e) {
 			throw e;
 		}
 	}
@@ -48,13 +50,13 @@ public class ClientCompanyService {
 
 		try {
 			if(client.getId()!=null)
-				throw new EntityExistsException();
+				throw new InvalidJSONException("Errore nei dati inviati");
 			return clientRepository.saveAndFlush(client);
 		}catch(EntityExistsException eee) {
 			throw new ServiceException("Cliente già presente nel database");
 		}catch(IllegalStateException  | PersistenceException e) {
 			throw new ServiceException("Al momento non è possibile soddisfare la richiesta");
-		} catch (DBException e) {
+		} catch (MasterException e) {
 			throw e;
 		}
 	}
@@ -82,12 +84,13 @@ public class ClientCompanyService {
 	public List<ClientCompany> getClientsByUser(Long id) {
 		
 		try {
-			List<ClientCompany> clients = clientRepository.findByIdUser(id);
+			User user = userService.find(id);
+			List<ClientCompany> clients = user.getClients();/*clientRepository.findByIdUser(id);*/
 			if (clients.size()==0)
 				throw new NoContentException("La lista è vuota");
 		return clients;
-		}catch (Exception e) {
-			throw new ServiceException("Si è verificato un errore");
+		}catch (MasterException e) {
+			throw e;
 		}
 	}
 }

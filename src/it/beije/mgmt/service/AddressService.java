@@ -1,10 +1,10 @@
 package it.beije.mgmt.service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Objects;
 
 import javax.persistence.EntityExistsException;
-import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.PersistenceException;
 
@@ -13,10 +13,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import it.beije.mgmt.entity.Address;
+import it.beije.mgmt.exception.InvalidJSONException;
 import it.beije.mgmt.exception.MasterException;
 import it.beije.mgmt.exception.NoContentException;
 import it.beije.mgmt.exception.ServiceException;
-import it.beije.mgmt.jpa.JpaEntityManager;
 import it.beije.mgmt.repository.AddressRepository;
 
 
@@ -25,12 +25,16 @@ public class AddressService {
 	
 	@Autowired
 	private AddressRepository addressRepository;
+	@Autowired
+	private UserService userService;
 	
+	@Transactional
 	public Address create(Long idUser, Address address) throws Exception {
 		
 		try {
+			userService.find(idUser);
 			if(address.getId()!=null)
-				throw new EntityExistsException();
+				throw new InvalidJSONException("Errore nei dati inviati");
 			if (Objects.isNull(address.getIdUser()))
 				address.setIdUser(idUser);
 			else if (address.getIdUser().longValue() != idUser.longValue())
@@ -45,17 +49,16 @@ public class AddressService {
 		}
 	}
 
-
-
-	
-	@Transactional
 	public List<Address> getAddressByUser(Long id) {
 		
 		try {
+			userService.find(id);
 			List<Address> address = addressRepository.findByIdUser(id);
 			if (address.size()==0)
 				throw new NoContentException("La lista è vuota");
 		return address;
+		}catch (MasterException e) {
+			throw e;
 		}catch (Exception e) {
 			throw new ServiceException("Si è verificato un errore");
 		}
@@ -84,12 +87,11 @@ public class AddressService {
 		}
 	}
 
-	@Transactional
 	public Address find(Long id) {
 
 		try {
-			return addressRepository.getOne(id);
-		}catch (EntityNotFoundException e) {
+			return addressRepository.findById(id).get();
+		}catch (EntityNotFoundException | IllegalArgumentException | NoSuchElementException e) {
 			throw new NoContentException("Non è stato trovato un indirizzo con l'id selezionato o i dati potrebbero essere corrotti");
 		}
 	}

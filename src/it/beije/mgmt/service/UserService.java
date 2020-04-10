@@ -30,19 +30,21 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import it.beije.mgmt.CustomUserDetail;
+import it.beije.mgmt.JpaEntityManager;
 import it.beije.mgmt.dto.UserDto;
 import it.beije.mgmt.entity.Address;
 import it.beije.mgmt.entity.BankCredentials;
 import it.beije.mgmt.entity.Contract;
 import it.beije.mgmt.entity.User;
 import it.beije.mgmt.exception.DBException;
+import it.beije.mgmt.exception.InvalidJSONException;
 import it.beije.mgmt.exception.MasterException;
 import it.beije.mgmt.exception.NoContentException;
 import it.beije.mgmt.exception.ServiceException;
-import it.beije.mgmt.jpa.JpaEntityManager;
 import it.beije.mgmt.jpa.UserRequest;
 import it.beije.mgmt.repository.UserRepository;
 import it.beije.mgmt.repository.UserRepositoryCustom;
+import java.util.NoSuchElementException;
 
 
 @Service
@@ -65,11 +67,11 @@ public class UserService implements UserDetailsService{
 	 * @throws MasterException 
 	 * @throws DBException 
 	 */
-	public User find(Long id) throws MasterException {
+	public User find(Long id) {
 		
 		try {
-			return userRepository.getOne(id);
-		}catch (EntityNotFoundException e) {
+			return userRepository.findById(id).get();
+		}catch (EntityNotFoundException | IllegalArgumentException | NoSuchElementException e) {
 			throw new NoContentException("Non è stato trovato un utente con l'id selezionato o i dati potrebbero essere corrotti");
 		} catch (DBException e) {
 			throw e;
@@ -174,13 +176,13 @@ public class UserService implements UserDetailsService{
 		EntityManager entitymanager = null;
 		try {
 			if(user.getId()!=null)
-				throw new EntityExistsException();
+				throw new InvalidJSONException("Errore nei dati inviati");
 			return userRepository.saveAndFlush(user);
 		}catch(EntityExistsException eee) {
 			throw new ServiceException("User già presente nel database");
 		}catch(IllegalStateException  | PersistenceException e) {
 			throw new ServiceException("Al momento non è possibile soddisfare la richiesta");
-		} catch (DBException e) {
+		} catch (MasterException e) {
 			throw e;
 		}
 	}

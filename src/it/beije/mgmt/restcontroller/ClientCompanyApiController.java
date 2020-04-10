@@ -3,8 +3,6 @@ package it.beije.mgmt.restcontroller;
 import java.io.IOException;
 import java.util.List;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,13 +16,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import it.beije.mgmt.entity.Address;
 import it.beije.mgmt.entity.ClientCompany;
-import it.beije.mgmt.entity.User;
 import it.beije.mgmt.exception.MasterException;
-import it.beije.mgmt.exception.NoContentException;
-import it.beije.mgmt.jpa.JpaEntityManager;
-import it.beije.mgmt.exception.InvalidJSONException;
 import it.beije.mgmt.service.ClientCompanyService;
 
 

@@ -2,6 +2,8 @@ package it.beije.mgmt.service;
 
 import java.util.List;
 import org.springframework.transaction.annotation.Transactional;
+
+import it.beije.mgmt.JpaEntityManager;
 import it.beije.mgmt.entity.cv.CV;
 import it.beije.mgmt.entity.cv.Certification;
 import java.util.ArrayList;
@@ -15,7 +17,6 @@ import org.springframework.stereotype.Service;
 import it.beije.mgmt.entity.cv.Education;
 import it.beije.mgmt.entity.cv.Work;
 import it.beije.mgmt.entity.cv.Language;
-import it.beije.mgmt.jpa.JpaEntityManager;
 import it.beije.mgmt.repository.CertificationRepository;
 import it.beije.mgmt.repository.CvRepository;
 import it.beije.mgmt.repository.EducationRepository;
@@ -27,19 +28,19 @@ import it.beije.mgmt.exception.NoContentException;
 public class CvService {
 	
 	@Autowired
-	private static CvRepository cvrepository;
+	private CvRepository cvrepository;
 	
 	@Autowired
-	private static LanguageRepository languageRepository;
+	private LanguageRepository languageRepository;
 	
 	@Autowired
-	private static EducationRepository educationRepository;
+	private EducationRepository educationRepository;
 	
 	@Autowired
-	private static WorkRepository workRepository;
+	private WorkRepository workRepository;
 	
 	@Autowired
-	private static CertificationRepository certificationRepository;
+	private CertificationRepository certificationRepository;
 
 //---------------------------------------------------------------------------------------------------------------------------------------------------	
 	/***** CV *****/

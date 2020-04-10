@@ -31,29 +31,30 @@ public class TimesheetApiController {
 			return timesheetService.caricaTutto();
 		}
 		@RequestMapping(value = "/timesheets/svuotaserver", method = RequestMethod.GET) // METODO USATO SOLO PER TESTARE
-		public @ResponseBody boolean svuotaserver(Model model, HttpServletResponse response) throws IOException {
-			TimesheetService.svuotaserver();
+		public @ResponseBody boolean svuotaserver(Model model, HttpServletResponse response) {
+			timesheetService.svuotaserver();
 			return true;
 		}
 	
 		@RequestMapping(value = "/timesheets", method = RequestMethod.POST,	consumes = MediaType.APPLICATION_JSON_VALUE)
-		public @ResponseBody List<Timesheet> insertTimesheets(@RequestBody List<Timesheet> timesheets, Model model,	HttpServletResponse response) throws Exception {
+		public @ResponseBody List<Timesheet> insertTimesheets(@RequestBody List<Timesheet> timesheets, Model model,	HttpServletResponse response) {
 			System.out.println("insert timesheets: " + timesheets);
 	
 			return timesheetService.insert(timesheets);
 		}
+		
 		@RequestMapping(value = "/timesheets/delete/{id}", method = RequestMethod.DELETE)
-		public @ResponseBody boolean delete(@PathVariable long id) throws IOException {
+		public @ResponseBody boolean delete(@PathVariable long id)  {
 			 timesheetService.deleteOne(id);
 			 return true;
 		}
 	
 		@RequestMapping(value = "/timesheets/user/{id}", method = RequestMethod.GET)
 
-		public @ResponseBody List<Timesheet> retrieveTimeSheetTables(@PathVariable int id,@RequestParam(value = "datefrom", required = true)Date datefrom,@RequestParam(value = "dateto", required = false)Date dateto) {
+		public @ResponseBody List<Timesheet> retrieveTimeSheetTables(@PathVariable Long id,@RequestParam(value = "datefrom", required = true)Date datefrom,@RequestParam(value = "dateto", required = false)Date dateto) {
 //			Map<String, Object> result = new HashMap<String, Object>();
 			dateto = dateto == null? new Date(System.currentTimeMillis()):dateto;
-			List<Timesheet> timetablelist = TimesheetService.retrieveTimatablesInDateRangeByUserId(id,datefrom,dateto);
+			List<Timesheet> timetablelist = timesheetService.retrieveTimatablesInDateRangeByUserId(id,datefrom,dateto);
 
 			return timetablelist;
 		}
@@ -62,28 +63,28 @@ public class TimesheetApiController {
 		@RequestMapping(value = "/timesheets/modifica/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
 		public @ResponseBody  boolean modifyTimesheet (@PathVariable Long id, @RequestBody Timesheet timesheet) {
 			
-			TimesheetService.updateTimesheet(id,timesheet);
+			timesheetService.updateTimesheet(id,timesheet);
 			return true;
 		}
 
 		@RequestMapping(value = "/timesheets/validate/{id}", method = RequestMethod.POST)
 
-		public @ResponseBody boolean validazione(@PathVariable int id,@RequestParam(value = "datefrom", required = true)Date datefrom,@RequestParam(value = "dateto", required = false)Date dateto) {
+		public @ResponseBody boolean validazione(@PathVariable Long id,@RequestParam(value = "datefrom", required = true)Date datefrom,@RequestParam(value = "dateto", required = false)Date dateto) {
 			return timesheetService.validator(id, datefrom, dateto);
 		}
 		
 		@RequestMapping(value = "/timesheets/submit/{id}", method = RequestMethod.POST)
-		public @ResponseBody boolean submit(@PathVariable int id,@RequestParam(value = "datefrom", required = true)Date datefrom,@RequestParam(value = "dateto", required = false)Date dateto) throws Exception {
+		public @ResponseBody boolean submit(@PathVariable Long id,@RequestParam(value = "datefrom", required = true)Date datefrom,@RequestParam(value = "dateto", required = false)Date dateto) throws Exception {
 			if(dateto !=null) {
 				int i=dateto.compareTo(datefrom);
 				System.out.println(i);
 				if(i>0) {
-					return TimesheetService.submitUtente(id, datefrom, dateto);
+					return timesheetService.submitUtente(id, datefrom, dateto);
 				}
 				else
 					return false;
 			}
-			return TimesheetService.submitUtente(id, datefrom, dateto);
+			return timesheetService.submitUtente(id, datefrom, dateto);
 		}
 
 

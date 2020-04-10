@@ -13,19 +13,24 @@ import javax.persistence.EntityTransaction;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import it.beije.mgmt.JpaEntityManager;
 import it.beije.mgmt.entity.Timesheet;
 import it.beije.mgmt.entity.User;
+
 import it.beije.mgmt.exception.IllegalDateException;
 import it.beije.mgmt.exception.IllegalHourException;
 import it.beije.mgmt.exception.UpdateException;
-import it.beije.mgmt.jpa.JpaEntityManager;
+
 import it.beije.mgmt.repository.TimesheetRepository;
 import it.beije.mgmt.exception.NoContentException;
 
 @Service
 public class TimesheetService {
+	
 	@Autowired
-	private static TimesheetRepository timesheetRepository;
+	private TimesheetRepository timesheetRepository;
+	
 //------------------------------------------------------------------------------------------------------------------------------------------------------	
 	private static boolean hasOverlap(Time s1, Time e1, Time s2, Time e2) {
 		
@@ -65,13 +70,14 @@ public class TimesheetService {
 			
 			
 		}
+		
 		return timesheetRepository.saveAll(timetables);
 	}
 //------------------------------------------------------------------------------------------------------------------------------------------------------
 	
-	public static List<Timesheet> takeRecordsFromDateId(Date startDate, int idUtente) {
+	public List<Timesheet> takeRecordsFromDateId(Date startDate, Long idUtente) {
 		
-		List<Timesheet> timetables = timesheetRepository.findByIdUtenteAndStartDate(idUtente, startDate);
+		List<Timesheet> timetables = timesheetRepository.findByIdUserAndDate(idUtente, startDate);
 		
 		if(timetables.isEmpty())
 			throw new NoContentException("ATTENZIONE: non è stata trovata alcuna timesheet con i parametri inseriti");
@@ -82,7 +88,7 @@ public class TimesheetService {
 	
 //------------------------------------------------------------------------------------------------------------------------------------------------------	
 	@Transactional
-	public static boolean submitUtente(int userId, Date datefrom) {
+	public boolean submitUtente(Long userId, Date datefrom) {
 		List<Timesheet> listaT = takeRecordsFromDateId(datefrom, userId);
 		java.util.Date today= new java.util.Date();
 		Date sqltoday= convertUtilToSql(today);
@@ -169,7 +175,7 @@ public class TimesheetService {
 		}
 //------------------------------------------------------------------------------------------------------------------------------------------------------	
 	
-	public static boolean submitUtente(int userId, Date datefrom, Date dateto) {
+	public boolean submitUtente(Long userId, Date datefrom, Date dateto) {
 		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
 		EntityManager entitymanager = emfactory.createEntityManager();
 		EntityTransaction entr = entitymanager.getTransaction();
@@ -194,14 +200,14 @@ public class TimesheetService {
 		}		
 	}
 //------------------------------------------------------------------------------------------------------------------------------------------------------		
-	public static boolean svuotaserver() {
+	public boolean svuotaserver() {
 		timesheetRepository.deleteAll();
 		return true;		
 	}
 //-------------------------------------------------------------------------------------------------------------------------------------------------------
-	public static List<Timesheet> retrieveTimatablesInDateRangeByUserId(int userId, Date dateFrom, Date dateTo) {
+	public List<Timesheet> retrieveTimatablesInDateRangeByUserId(Long userId, Date dateFrom, Date dateTo) {
 
-		List<Timesheet> timetables = timesheetRepository.findByIdUtenteAndDateFromBetweenDateTo(userId, dateFrom, dateTo);
+		List<Timesheet> timetables = timesheetRepository.findByIdUserAndDateGreaterThanEqualAndDateLessThanEqual(userId, dateFrom, dateTo);
 
 		if(timetables.isEmpty())
 			throw new NoContentException("ATTENZIONE: non è stata trovata alcuna timesheet con i parametri inseriti");
@@ -216,7 +222,7 @@ public class TimesheetService {
     }
 //-------------------------------------------------------------------------------------------------------------------------------------------------------
 	@Transactional
-	public boolean validator(int userId, Date dateFrom, Date dateTo) {
+	public boolean validator(Long userId, Date dateFrom, Date dateTo) {
 		
 		java.util.Date today= new java.util.Date();
 		Date sqltoday= convertUtilToSql(today);
@@ -261,7 +267,7 @@ public class TimesheetService {
 		return nuova;
 	}
 //-----------------------------------------------------------------------------------------------------------------------------------------------------	
-	public static void updateTimesheet(Long id,Timesheet newt) {
+	public void updateTimesheet(Long id,Timesheet newt) {
 		Timesheet t= timesheetRepository.getOne(id);
 		
 		if(t.getSubmit()!=null)
@@ -290,7 +296,7 @@ public class TimesheetService {
 	}
 //-----------------------------------------------------------------------------------------------------------------------------------------------------
 	public List<Timesheet> takeRecordsFromDateToDate(Date dateFrom, Date dateTo) {
-		List<Timesheet> timetables = timesheetRepository.findByDateFromBetweenDateTo(dateFrom, dateTo);
+		List<Timesheet> timetables = timesheetRepository.findByDateGreaterThanEqualAndDateLessThanEqual(dateFrom, dateTo);
 
 		if(timetables.isEmpty())
 			throw new NoContentException("ATTENZIONE: non è stata trovata alcuna timesheet con i parametri inseriti");

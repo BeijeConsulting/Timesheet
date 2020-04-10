@@ -10,10 +10,10 @@ import javax.persistence.TypedQuery;
 
 import org.springframework.transaction.annotation.Transactional;
 
+import it.beije.mgmt.JpaEntityManager;
 import it.beije.mgmt.entity.Address;
 import it.beije.mgmt.entity.Computer;
 import it.beije.mgmt.entity.User;
-import it.beije.mgmt.jpa.JpaEntityManager;
 
 public class JPAService {
 

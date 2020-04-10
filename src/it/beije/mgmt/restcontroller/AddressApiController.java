@@ -2,12 +2,11 @@ package it.beije.mgmt.restcontroller;
 
 import java.io.IOException;
 import java.util.List;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
+
 import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,13 +16,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import it.beije.mgmt.entity.Address;
-import it.beije.mgmt.entity.User;
-import it.beije.mgmt.exception.MasterException;
-import it.beije.mgmt.exception.NoContentException;
-import it.beije.mgmt.jpa.JpaEntityManager;
 import it.beije.mgmt.exception.InvalidJSONException;
+import it.beije.mgmt.exception.MasterException;
 import it.beije.mgmt.service.AddressService;
-import it.beije.mgmt.service.UserService;
 
 
 @RestController
@@ -32,16 +27,14 @@ public class AddressApiController {
 	
 	@Autowired
 	private AddressService addressService;
-	@Autowired
-	private UserService userService;
+	
 
 	/****************** ADDRESS  *****************/
-	@Transactional
+
 	@RequestMapping(value = "/addresses/user/{id}", method = RequestMethod.GET)
 	public @ResponseBody List<Address> getAddressForUser(@PathVariable Long id) {
 		
 		try {
-			User us = userService.find(id);
 			return addressService.getAddressByUser(id);
 		}catch(MasterException e) {
 			throw e;
@@ -54,7 +47,6 @@ public class AddressApiController {
 			@RequestBody Address address, HttpServletResponse response) throws Exception {
 		
 		try {
-			userService.find(id);
 			return addressService.create(id, address);
 		}catch(RuntimeException e) {
 			throw new InvalidJSONException("Non è stato possibile aggiungere l'indirizzo desiderato");
