@@ -11,12 +11,12 @@ import javax.persistence.PersistenceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
+import it.beije.mgmt.JpaEntityManager;
 import it.beije.mgmt.entity.Address;
 import it.beije.mgmt.exception.MasterException;
 import it.beije.mgmt.exception.NoContentException;
 import it.beije.mgmt.exception.ServiceException;
-import it.beije.mgmt.jpa.JpaEntityManager;
+import it.beije.mgmt.entity.User;
 import it.beije.mgmt.repository.AddressRepository;
 
 

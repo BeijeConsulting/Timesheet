@@ -21,13 +21,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import it.beije.mgmt.JpaEntityManager;
 import it.beije.mgmt.dto.UserDto;
 import it.beije.mgmt.entity.Address;
 import it.beije.mgmt.entity.BankCredentials;
 import it.beije.mgmt.entity.Contract;
 import it.beije.mgmt.entity.Timesheet;
 import it.beije.mgmt.entity.User;
-import it.beije.mgmt.jpa.JpaEntityManager;
 import it.beije.mgmt.service.ContractService;
 import it.beije.mgmt.service.JPAService;
 

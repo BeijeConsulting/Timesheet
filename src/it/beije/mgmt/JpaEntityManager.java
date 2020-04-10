@@ -1,4 +1,4 @@
-/*package it.beije.mgmt.jpa;
+package it.beije.mgmt;
 
 
 import java.sql.SQLException;
@@ -16,14 +16,10 @@ public class JpaEntityManager {
 	
 	private static EntityManagerFactory emfactory = null;
 	
-	static {
-		emfactory = Persistence.createEntityManagerFactory("timesheetDB");
-	}
-	
 	private JpaEntityManager() {}
 	
 	@Bean(name = "entityManagerFactory")	
-	public static synchronized EntityManagerFactory getInstance() {
+	public static synchronized EntityManagerFactory getInstance() /*throws DBException*/ {
 		try {
 			if (emfactory == null) {
 				emfactory = Persistence.createEntityManagerFactory("timesheetDB");
@@ -34,4 +30,3 @@ public class JpaEntityManager {
 		}
 	}
 }
-*/

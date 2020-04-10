@@ -16,7 +16,7 @@ import it.beije.mgmt.exception.DBException;
 import it.beije.mgmt.exception.MasterException;
 import it.beije.mgmt.exception.NoContentException;
 import it.beije.mgmt.exception.ServiceException;
-import it.beije.mgmt.jpa.JpaEntityManager;
+//import it.beije.mgmt.jpa.JpaEntityManager;
 import it.beije.mgmt.repository.ClientCompanyRepository;
 
 @Service
@@ -81,13 +81,13 @@ public class ClientCompanyService {
 
 	public List<ClientCompany> getClientsByUser(Long id) {
 		
-		try {
+		/*try {
 			List<ClientCompany> clients = clientRepository.findByIdUser(id);
 			if (clients.size()==0)
 				throw new NoContentException("La lista è vuota");
 		return clients;
-		}catch (Exception e) {
+		}catch (Exception e) {*/
 			throw new ServiceException("Si è verificato un errore");
 		}
 	}
-}
+

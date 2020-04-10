@@ -5,8 +5,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Objects;
-
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -16,13 +16,12 @@ import javax.persistence.Persistence;
 import javax.persistence.PersistenceException;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
-
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
-
+//import it.beije.mgmt.JpaEntityManager;
 import it.beije.mgmt.entity.BankCredentials;
 import it.beije.mgmt.entity.Computer;
 import it.beije.mgmt.entity.User;
@@ -30,7 +29,6 @@ import it.beije.mgmt.exception.DBException;
 import it.beije.mgmt.exception.MasterException;
 import it.beije.mgmt.exception.NoContentException;
 import it.beije.mgmt.exception.ServiceException;
-import it.beije.mgmt.jpa.JpaEntityManager;
 import it.beije.mgmt.repository.BankCredentialsRepository;
 
 
@@ -49,9 +47,11 @@ public class BankCredentialsService {
 	@Transactional
 	public BankCredentials find(Long id) throws MasterException {
 		try {
-			return bankCredentialsRepository.getOne(id);
-		}catch (EntityNotFoundException e) {
-			throw new NoContentException("Non è stato trovato un bank credentials con l'id selezionato o i dati potrebbero essere corrotti");
+			BankCredentials bankCredentials = bankCredentialsRepository.findById(id).get();
+				
+			return bankCredentials;
+		}catch (NoSuchElementException e) {
+			throw new NoContentException("Non è stato trovato un bank credentials con l'id ");
 		} catch (DBException e) {
 			throw e;
 		}
@@ -61,20 +61,31 @@ public class BankCredentialsService {
 	
 		try {
 			User user = userService.find(idUser);
-				if (Objects.isNull(bankCredentials.getIdUser())) {
-					bankCredentials.setIdUser(idUser);
-				}else if (bankCredentials.getIdUser().longValue() != idUser.longValue()) {
-					throw new NoContentException("userID non corrispondenti, impossibile creare bank credentials");
-					}
-		
-				List<BankCredentials> bankcredentials = user.getBankCredentials();
-				for (BankCredentials bc : bankcredentials) {
-					if (Objects.isNull(bc.getEndDate())) {
+			System.out.println("baaaaa "+user.getId());
+
+			//System.out.println("user.getBankCredentials()?"
+				//	+ (user.getBankCredentials() != null ? user.getBankCredentials().size() : "NULL"));
+
+			
+				//if (Objects.isNull(bankCredentials.getIdUser())) {
+					//bankCredentials.setIdUser(idUser);
+			//	}else if (bankCredentials.getIdUser().longValue() != idUser.longValue()) {
+				//	throw new NoContentException("userID non corrispondenti, impossibile creare bank credentials");
+					//}
+				
+
+			//BankCredentials bankCredentials = null;// = bankCredentialsRepository.find();
+				
+				//for (BankCredentials bc : bankcredentials) {
+					if (Objects.isNull(bankCredentials.getEndDate())) {
 						LocalDate date = LocalDate.now();
 						java.sql.Date dateSql = java.sql.Date.valueOf(date);
-						bc.setEndDate(dateSql);		
-					}		
-				}
+						bankCredentials.setEndDate(dateSql);		
+					}
+				
+				//System.out.println("okkkkkkkkkkkkkkkkk" + user.getId());
+				//bankcredentials.add(bankCredentials);
+				//user.setBankCredentials(bankcredentials);
 		return bankCredentialsRepository.saveAndFlush(bankCredentials);
 		}catch(EntityExistsException eee) {
 			throw new ServiceException("Bank Credentials già presente nel database");
@@ -131,13 +142,13 @@ public class BankCredentialsService {
 	List<BankCredentials> bankCredentials = bankCredentialsRepository.findByIdUser(id);
 	System.out.println("bankCredentials : " + bankCredentials.size());
 	if(bankCredentials.size() == 0) {
-		System.out.println("ok");
+		//System.out.println("ok");
 		throw new NoContentException(" non è stato trovato nessun bank credential per questo id");
 	}
 	return bankCredentials;
 }
 
-	@Transactional
+	/*@Transactional
 	public BankCredentials update(Long id, BankCredentials bankCredentials) {
 		
 		try {
@@ -162,6 +173,6 @@ public class BankCredentialsService {
 			
 		
 		
-	}
+	}*/
 
 }

@@ -23,7 +23,7 @@ import it.beije.mgmt.entity.ClientCompany;
 import it.beije.mgmt.entity.User;
 import it.beije.mgmt.exception.MasterException;
 import it.beije.mgmt.exception.NoContentException;
-import it.beije.mgmt.jpa.JpaEntityManager;
+//import it.beije.mgmt.jpa.JpaEntityManager;
 import it.beije.mgmt.exception.InvalidJSONException;
 import it.beije.mgmt.service.ClientCompanyService;
 

@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+//import it.beije.mgmt.JpaEntityManager;
 import it.beije.mgmt.dto.UserDto;
 import it.beije.mgmt.entity.Address;
 import it.beije.mgmt.entity.BankCredentials;
@@ -30,7 +31,6 @@ import it.beije.mgmt.entity.User;
 import it.beije.mgmt.exception.DBException;
 import it.beije.mgmt.exception.MasterException;
 import it.beije.mgmt.exception.NoContentException;
-import it.beije.mgmt.jpa.JpaEntityManager;
 import it.beije.mgmt.exception.InvalidJSONException;
 import it.beije.mgmt.service.BankCredentialsService;
 import it.beije.mgmt.service.JPAService;
@@ -81,10 +81,10 @@ public class BankCredentialsApiController {
 	HttpServletResponse response) throws IOException {
 	System.out.println("get bankCredentials by idBankCredentials: " + id);
 
-	BankCredentials bc = null;
+
 	try {	
 		//System.out.println("ok");
-		bc = bankCredentialsService.find(id);
+		BankCredentials bc = bankCredentialsService.find(id);
 		return bc;
 	}catch (MasterException e) {
 	throw e;
@@ -92,7 +92,7 @@ public class BankCredentialsApiController {
 	
 	}
 	// update existing bank credentials
-	@RequestMapping(value = "/bankCredentials/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
+	/*@RequestMapping(value = "/bankCredentials/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody BankCredentials updateBankCredential(@PathVariable Long id, @RequestBody BankCredentials bankCredentials,
 		Model model, HttpServletResponse response) throws IOException {
 		System.out.println("update bankCredentials by id: " + id);
@@ -101,6 +101,6 @@ public class BankCredentialsApiController {
 	}catch(MasterException e) {
 		throw new InvalidJSONException("Non è stato possibile modificare bank credentials");
 	}
-}
+}*/
 
 }

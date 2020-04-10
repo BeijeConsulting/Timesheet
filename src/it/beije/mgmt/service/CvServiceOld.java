@@ -2,6 +2,8 @@ package it.beije.mgmt.service;
 
 import java.util.List;
 import org.springframework.transaction.annotation.Transactional;
+
+import it.beije.mgmt.JpaEntityManager;
 import it.beije.mgmt.entity.cv.CV;
 import it.beije.mgmt.entity.cv.Certification;
 import java.util.ArrayList;
@@ -13,7 +15,6 @@ import org.springframework.stereotype.Service;
 import it.beije.mgmt.entity.cv.Education;
 import it.beije.mgmt.entity.cv.Work;
 import it.beije.mgmt.entity.cv.Language;
-import it.beije.mgmt.jpa.JpaEntityManager;
 
 @Service
 public class CvServiceOld {

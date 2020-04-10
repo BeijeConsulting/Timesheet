@@ -8,5 +8,6 @@ import it.beije.mgmt.entity.Computer;
 
 @Repository
 public interface ComputerRepository  extends JpaRepository<Computer, Long>  {
+	
 	List<Computer> findBySerialNumberAndRamAndCpuAndHardDisk(String serialNumber, Integer ram, String cpu, String hardDisk);
 }
