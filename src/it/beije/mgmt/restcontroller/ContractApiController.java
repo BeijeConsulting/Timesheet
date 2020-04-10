@@ -38,15 +38,13 @@ public class ContractApiController {
 	@Autowired
 	private ContractService contractService;
 
-	/****************** BANK CREDENTIALS????????????????????? *****************/
-	// storico banck credentials user
+	
 	@Transactional
 	@RequestMapping(value = "/contracts/user/{id}", method = RequestMethod.GET)
 	public @ResponseBody List<Contract> getContractForUser(@PathVariable Long id) {
 		return contractService.getContractByUser(id);
 	}
 
-	// write new bank credentials by idUser
 	@RequestMapping(value = "/contract/user/{id}", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody Contract createContract(@PathVariable Long id,
 			@RequestBody Contract contract, HttpServletResponse response) throws Exception {
@@ -56,7 +54,6 @@ public class ContractApiController {
 		return contractService.create(id, contract);
 	}
 
-	// get bank credentials by idBankCredentials
 	@RequestMapping(value = { "/contract/{id}" }, method = RequestMethod.GET)
 	public @ResponseBody Contract getContract(@PathVariable Long id, Model model,
 			HttpServletResponse response) throws IOException {
@@ -68,7 +65,6 @@ public class ContractApiController {
 		return entitymanager.find(Contract.class, id);
 	}
 
-	// update existing bank credentials
 	@RequestMapping(value = "/contract/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody Contract updateContract(@PathVariable Long id, @RequestBody Contract contract,
 			Model model, HttpServletResponse response) throws IOException {

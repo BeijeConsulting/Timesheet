@@ -230,10 +230,12 @@ public class TimesheetService {
 			for(Timesheet t : lista) {
 				if(t.getSubmit()!=null) {
 					
-					
 					t.setValidated(sqltoday);
 					timesheetRepository.save(t);
 				}
+			else 
+				throw new UpdateException("ATTENZIONE: Non è possibile validare una timesheet che non è stata submittata");
+			
 			}	
 			return true;
 		}
@@ -244,6 +246,7 @@ public class TimesheetService {
 			
 			List<Timesheet> lista = controlloValidazione(retrieveTimatablesInDateRangeByUserId(userId,  dateFrom,dateTo));	
 			for(Timesheet t : lista) {
+				
 				if(t.getSubmit()!=null) {
 					t.setValidated(sqltoday);
 					timesheetRepository.save(t);				

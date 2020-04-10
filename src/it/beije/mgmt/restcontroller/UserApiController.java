@@ -55,8 +55,7 @@ public class UserApiController {
 
 	@RequestMapping(value = { "/user/{id}" }, method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
 	public @ResponseBody UserDto getUserDto(@PathVariable Long id, // @PathVariable(required=false) boolean complete,
-			@RequestParam(required = false) boolean complete, Model model, HttpServletResponse response)
-			throws IOException {
+			@RequestParam(required = false) boolean complete, Model model, HttpServletResponse response) throws IOException {
 		try {
 			UserDto us = userService.findApi(id, complete);
 			return us;
@@ -76,8 +75,7 @@ public class UserApiController {
 	// Questo metodo consente di avere lo user completo con tutti gli storici, la
 	// variabile historical è opzionale
 	@RequestMapping(value =  "/user_entity/{id}" , method = RequestMethod.GET)
-	public @ResponseBody User getUser(@PathVariable Long id, Model model, HttpServletResponse response)
-			throws IOException {
+	public @ResponseBody User getUser(@PathVariable Long id, Model model, HttpServletResponse response) throws IOException {
 		try {
 			User us = userService.find(id);
 			return us;
