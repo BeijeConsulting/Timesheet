@@ -60,7 +60,7 @@ public class BankCredentialsApiController {
 //		entitymanager.close();
 //
 //		return bankcredentials;
-		User us = userService.find(id);
+		User us = userService.findById(id);
 		if(us.isEmpty()) 
 			throw new NoContentException("Non è stato trovato un utente con l'id selezionato");
 		return bankCredentialsService.getBankCredentialsByUser(id);
@@ -74,7 +74,7 @@ public class BankCredentialsApiController {
 
 		System.out.println("insert BankCredentials: " + bankCredentials);
 
-		User us = userService.find(id);
+		User us = userService.findById(id);
 		if(us.isEmpty()) 
 			throw new NoContentException("Non è stato trovato un utente con l'id selezionato");
 		BankCredentials bc = new BankCredentials();

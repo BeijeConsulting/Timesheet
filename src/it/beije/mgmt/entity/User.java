@@ -15,6 +15,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 
 @Entity
@@ -86,8 +87,9 @@ public class User implements Serializable {
 	@Column(name = "pic_url")
 	private String picUrl;
 
-	@OneToMany(cascade=CascadeType.ALL/*, fetch=FetchType.EAGER*/)
-	@JoinColumn(name="id_user")
+//	@OneToMany(cascade=CascadeType.ALL/*, fetch=FetchType.EAGER*/)
+//	@JoinColumn(name="id_user")
+	@Transient
 	private List<Address> addresses;
 
 	@OneToMany(cascade=CascadeType.ALL/*, fetch=FetchType.EAGER*/)

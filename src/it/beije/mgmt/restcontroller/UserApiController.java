@@ -25,6 +25,7 @@ import it.beije.mgmt.exception.ErrorMessage;
 import it.beije.mgmt.exception.MasterException;
 import it.beije.mgmt.exception.NoContentException;
 import it.beije.mgmt.jpa.UserRequest;
+import it.beije.mgmt.service.AddressService;
 import it.beije.mgmt.service.UserService;
 
 @RestController
@@ -37,6 +38,9 @@ public class UserApiController {
 	 */
 	@Autowired
 	private UserService userService;
+
+	@Autowired
+	private AddressService addressService;
 
 	///////// START USER //////////////////////
 	@RequestMapping(value = "/users", method = RequestMethod.GET)
@@ -58,7 +62,7 @@ public class UserApiController {
 			@RequestParam(required = false) boolean complete, Model model, HttpServletResponse response)
 			throws IOException {
 		try {
-			UserDto us = userService.findApi(id, complete);
+			UserDto us = userService.find(id, complete);
 			return us;
 		}catch(MasterException e) {
 			throw e;
@@ -79,7 +83,13 @@ public class UserApiController {
 	public @ResponseBody User getUser(@PathVariable Long id, Model model, HttpServletResponse response)
 			throws IOException {
 		try {
-			User us = userService.find(id);
+			User us = userService.findById(id);
+			System.out.println("user : " + us);
+			System.out.println("user : " + us.getId());
+			System.out.println("user : " + us.getAddresses());
+			
+			addressService.getAddressByUser(id);
+			
 			return us;
 		}catch(MasterException e) {
 			throw e;

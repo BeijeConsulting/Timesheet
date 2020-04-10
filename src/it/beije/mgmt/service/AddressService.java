@@ -32,7 +32,7 @@ public class AddressService {
 	public Address create(Long idUser, Address address) throws Exception {
 		
 		try {
-			userService.find(idUser);
+			userService.findById(idUser);
 			if(address.getId()!=null)
 				throw new InvalidJSONException("Errore nei dati inviati");
 			if (Objects.isNull(address.getIdUser()))
@@ -52,7 +52,7 @@ public class AddressService {
 	public List<Address> getAddressByUser(Long id) {
 		
 		try {
-			userService.find(id);
+			userService.findById(id);
 			List<Address> address = addressRepository.findByIdUser(id);
 			if (address.size()==0)
 				throw new NoContentException("La lista è vuota");

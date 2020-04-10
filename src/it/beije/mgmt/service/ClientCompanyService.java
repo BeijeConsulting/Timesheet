@@ -84,7 +84,7 @@ public class ClientCompanyService {
 	public List<ClientCompany> getClientsByUser(Long id) {
 		
 		try {
-			User user = userService.find(id);
+			User user = userService.findById(id);
 			List<ClientCompany> clients = user.getClients();/*clientRepository.findByIdUser(id);*/
 			if (clients.size()==0)
 				throw new NoContentException("La lista è vuota");

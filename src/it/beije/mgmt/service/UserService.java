@@ -61,13 +61,12 @@ public class UserService implements UserDetailsService{
 	}
 
 	/**
-	 * NON FUNGE CORRETTAMENTE VEDI COMMENTI
 	 * @param id
 	 * @return
 	 * @throws MasterException 
 	 * @throws DBException 
 	 */
-	public User find(Long id) {
+	public User findById(Long id) {
 		
 		try {
 			return userRepository.findById(id).get();
@@ -78,21 +77,20 @@ public class UserService implements UserDetailsService{
 		}
 	}
 	
-		/** FUNZIONA: Questo metodo prima carica l'utente dal database con la query, passa al dto con il metodo BeanUtils.copyProperties ed ignora
-		 * le proprietà elencate.
-		 * 
-		 * Se non viene trovato alcun utente tramite l'id, restituisce un utente vuoto
-		 * 
-		 * @param id parametro in ingresso per trovare l'utente sul database
-		 * @return
-		 * @throws MasterException 
-		 */
-	
-	public UserDto findApi(Long id, boolean complete) throws MasterException {
+	/** FUNZIONA: Questo metodo prima carica l'utente dal database con la query, passa al dto con il metodo BeanUtils.copyProperties ed ignora
+	 * le proprietà elencate.
+	 * 
+	 * Se non viene trovato alcun utente tramite l'id, restituisce un utente vuoto
+	 * 
+	 * @param id parametro in ingresso per trovare l'utente sul database
+	 * @return
+	 * @throws MasterException 
+	 */
+	public UserDto find(Long id, boolean complete) throws MasterException {
 		
 		UserDto userDto = new UserDto();
 		try {
-			User user = find(id);
+			User user = findById(id);
 			if(complete)
 				BeanUtils.copyProperties(user, userDto, "password", "secondaryEmail", "fiscalCode", "birthDate", "birthPlace", "nationality",
 						"document", "idSkype", "admin", "archiveDate", "note", "addresses", "bankCredentials", "contracts");
@@ -198,7 +196,7 @@ public class UserService implements UserDetailsService{
 	public User update(Long id, User userData) throws MasterException {
 		
 		try {
-			User user = find(id);
+			User user = findById(id);
 			
 			if (userData.getFirstName() != null) user.setFirstName(userData.getFirstName());
 	    	if (userData.getLastName() != null) user.setLastName(userData.getLastName());
