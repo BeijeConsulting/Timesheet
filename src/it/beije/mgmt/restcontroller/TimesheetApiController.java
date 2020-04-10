@@ -14,8 +14,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import it.beije.mgmt.dto.UserDto;
 import it.beije.mgmt.entity.Timesheet;
+import it.beije.mgmt.jpa.TimesheetRequest;
+import it.beije.mgmt.jpa.UserRequest;
 import it.beije.mgmt.service.TimesheetService;
+import it.beije.mgmt.service.UserService;
 
 
 
@@ -87,7 +92,12 @@ public class TimesheetApiController {
 			return timesheetService.submitUtente(id, datefrom, dateto);
 		}
 
+		@RequestMapping(value = "/search", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+		public @ResponseBody List<Timesheet> searchUser(@RequestBody TimesheetRequest req) {
 
+			return new TimesheetService().trovaTimesheets(req);
+
+		}
 		
 
 }

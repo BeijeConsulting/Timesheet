@@ -10,13 +10,18 @@ import java.util.Objects;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
+import javax.persistence.TypedQuery;
+
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import it.beije.mgmt.JpaEntityManager;
+import it.beije.mgmt.dto.UserDto;
 import it.beije.mgmt.entity.Timesheet;
 import it.beije.mgmt.entity.User;
+import it.beije.mgmt.jpa.TimesheetRequest;
+import it.beije.mgmt.jpa.UserRequest;
 import it.beije.mgmt.repository.TimesheetRepository;
 import it.beije.mgmt.restcontroller.exception.IllegalDateException;
 import it.beije.mgmt.restcontroller.exception.IllegalHourException;
@@ -346,5 +351,88 @@ public class TimesheetService {
 		return user;
 	}
 //---------------------------------------------------------------------------------------------------------------------------------------------------------	
-	
+	public List<Timesheet> trovaTimesheets(Long idUser,Date dateFrom, Date dateTo, String type, boolean submit, boolean validate) {
+
+		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
+		EntityManager entitymanager = emfactory.createEntityManager();
+		
+		List<String> searchQuery=new ArrayList<>();
+		String whereClause="";
+		
+		if(submit== false && validate==true) {
+			throw new NoContentException("ATTENZIONE: non è possibile cercare timesheet validate e non submittate allo stesso tempo!");
+		}
+		
+		if(dateFrom==null && dateTo!=null)
+			throw new IllegalDateException("ATTENZIONE: non è possibile fare una ricerca inserendo solo la data di fine e non di inizio periodo. Se si desidera fare una ricerca per singola data inserire la data di inizio. ");
+		
+		if (idUser != null) {
+			searchQuery.add("a.id_user LIKE '%"+idUser+"%'");
+			whereClause+="WHERE ";
+		}
+		
+		if(dateTo==null) {
+			if (dateFrom != null) {
+				searchQuery.add("a.date LIKE '%"+dateFrom+"%'");
+				if (whereClause.length()==0)
+					whereClause+="WHERE ";
+			}
+		}
+		else {
+			searchQuery.add(" a.date >= '" + dateFrom + "' AND a.date<= '" + dateTo + "'");
+			if (whereClause.length()==0)
+				whereClause+="WHERE ";	
+			}
+		
+		if (type != null) {
+			searchQuery.add("a.type LIKE '%"+type+"%'");
+			if (whereClause.length()==0)
+				whereClause+="WHERE ";
+		}
+		
+		if(validate==true) {
+			
+	 			searchQuery.add("a.validate IS NOT NULL");
+				if (whereClause.length()==0)
+					whereClause+="WHERE ";
+		}
+		else {
+			
+			searchQuery.add("a.validate IS NULL");
+			if (whereClause.length()==0)
+				whereClause+="WHERE ";
+			
+			if (submit == false ) {
+				searchQuery.add("a.submit IS NULL");
+				if (whereClause.length()==0)
+					whereClause+="WHERE ";
+			}
+			else {
+					searchQuery.add("a.submit IS NOT NULL");
+					if (whereClause.length()==0)
+						whereClause+="WHERE ";}
+		}
+		
+		System.out.println("Sto cercando");
+		
+		for (int i=0;i<searchQuery.size();i++) {
+			whereClause+=searchQuery.get(i);
+			if (i!=searchQuery.size()-1)
+				whereClause+=" AND ";
+		}
+		System.out.println(whereClause);
+		TypedQuery<Timesheet> query=entitymanager.createQuery("SELECT a from Timesheet a "+whereClause,Timesheet.class);
+		
+		List<Timesheet> timesheetlist=query.getResultList();
+		
+		entitymanager.close();
+		
+		return timesheetlist;
+	}
+//---------------------------------------------------------------------------------------------------------------------------------------------------------	
+	public List<Timesheet> trovaTimesheets(TimesheetRequest req) {
+		
+		 return trovaTimesheets(req.getIdUser(),req.getDateFrom(),req.getDateTo(),req.getType(), req.getSubmit(), req.getValidate());
+	}
+
 }
