@@ -48,6 +48,12 @@ public class TimesheetApiController {
 			return timesheetService.insert(timesheets);
 		}
 		
+		@RequestMapping(value = "/timesheets/default/user/{idUser}", method = RequestMethod.POST,consumes = MediaType.APPLICATION_JSON_VALUE)
+		public @ResponseBody List<Timesheet> insertTimesheetsDefault( @PathVariable long idUser, Model model,	HttpServletResponse response) {
+			
+			return timesheetService.insert(idUser);
+		}
+		
 		@RequestMapping(value = "/timesheets/delete/{id}", method = RequestMethod.DELETE)
 		public @ResponseBody boolean delete(@PathVariable long id)  {
 			 timesheetService.deleteOne(id);

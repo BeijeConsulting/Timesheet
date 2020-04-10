@@ -23,6 +23,7 @@ import it.beije.mgmt.entity.User;
 import it.beije.mgmt.jpa.TimesheetRequest;
 import it.beije.mgmt.jpa.UserRequest;
 import it.beije.mgmt.repository.TimesheetRepository;
+import it.beije.mgmt.repository.UserRepository;
 import it.beije.mgmt.restcontroller.exception.IllegalDateException;
 import it.beije.mgmt.restcontroller.exception.IllegalHourException;
 import it.beije.mgmt.restcontroller.exception.NoContentException;
@@ -34,6 +35,8 @@ public class TimesheetService {
 	@Autowired
 	private TimesheetRepository timesheetRepository;
 	
+	@Autowired
+	private UserRepository userRepository;
 //------------------------------------------------------------------------------------------------------------------------------------------------------	
 	private static boolean hasOverlap(Time s1, Time e1, Time s2, Time e2) {
 		
@@ -70,11 +73,45 @@ public class TimesheetService {
 				
 				//SE LE ORE DI UNA TIMESHEET SONO MAGGIORI DI 8 C'è UN PROBLEMA
 				throw new IllegalHourException("ATTENZIONE: le ore complessive della giornata sono maggiori di 8!");
-			
-			
 		}
 		
 		return timesheetRepository.saveAll(timetables);
+	}
+//------------------------------------------------------------------------------------------------------------------------------------------------------
+	public List<Timesheet> insert(Long idUser) {
+		
+		java.util.Date today= new java.util.Date();
+		Date sqltoday= convertUtilToSql(today);
+		
+		List<Timesheet> timesheetDefault= new ArrayList<Timesheet>();
+		
+		String inizio1="09:00:00";
+		Time start1= Time.valueOf(inizio1);
+		
+		String inizio2="14:00:00";
+		Time start2= Time.valueOf(inizio2);
+		
+		String fine1="13:00:00";
+		Time end1= Time.valueOf(fine1);
+		
+		String fine2="18:00:00";
+		Time end2= Time.valueOf(fine2);
+		
+		if(userRepository.findById(idUser).get().isEmpty())
+			throw new NoContentException("ATTENZIONE: non è stato trovato alcun utente con questo id");
+		else {
+			Timesheet t= new Timesheet();
+			t.setDate(sqltoday);
+			t.setIdUser(idUser);
+			t.setStart1(start1);
+			t.setEnd1(end1);
+			t.setStart2(start2);
+			t.setEnd2(end2);
+			t.setTot(8.0);
+			timesheetDefault.add(t);
+		}
+		return insert(timesheetDefault);
+		
 	}
 //------------------------------------------------------------------------------------------------------------------------------------------------------
 	
