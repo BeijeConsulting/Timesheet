@@ -39,13 +39,13 @@ public class ClientCompany {
 	@Column(name = "secondary_email")
 	private String secondaryEmail;
 	
-	@OneToMany(cascade=CascadeType.ALL)
-	@JoinColumn(name="id_client_company")
+//	@OneToMany(cascade=CascadeType.ALL)
+//	@JoinColumn(name="id_client_company")
 	private List<Office> offices;
 	
-	@OneToMany(mappedBy = "company",
-			cascade = CascadeType.ALL,
-			orphanRemoval = true)
+//	@OneToMany(mappedBy = "company",
+//			cascade = CascadeType.ALL,
+//			orphanRemoval = true)
 	private List<UserHasClient> relativeUser;
 
 	public Long getId() {

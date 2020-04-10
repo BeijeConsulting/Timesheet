@@ -42,6 +42,10 @@ import it.beije.mgmt.exception.MasterException;
 import it.beije.mgmt.exception.NoContentException;
 import it.beije.mgmt.exception.ServiceException;
 import it.beije.mgmt.jpa.UserRequest;
+import it.beije.mgmt.repository.AddressRepository;
+import it.beije.mgmt.repository.BankCredentialsRepository;
+import it.beije.mgmt.repository.ContractRepository;
+import it.beije.mgmt.repository.TimesheetRepository;
 import it.beije.mgmt.repository.UserRepository;
 import it.beije.mgmt.repository.UserRepositoryCustom;
 import java.util.NoSuchElementException;
@@ -52,24 +56,47 @@ public class UserService implements UserDetailsService{
 	
 	@Autowired
 	private UserRepository userRepository;
-
 	@Autowired
-	private UserRepositoryCustom userRepositoryCustom;
+	private AddressRepository addressRepository;
+	@Autowired
+	private BankCredentialsRepository bankCredentialsRepository;
+	@Autowired
+	private ContractRepository contractRepository;
+	@Autowired
+	private TimesheetRepository timesheetRepository;
 	
 	static {
 		JpaEntityManager.getInstance();
 	}
 
 	/**
-	 * @param id
+	 * @param idUser
 	 * @return
 	 * @throws MasterException 
 	 * @throws DBException 
 	 */
-	public User findById(Long id) {
+	
+	
+	private void fillUserLists(User user, boolean all) {
+		Long idUser = user.getId();
+		user.setAddresses(all? addressRepository.findByIdUser(idUser) : addressRepository.findByIdUserAndEndDate(idUser, null));
+		System.out.println(user.getAddresses());
+		user.setBankCredentials(all? bankCredentialsRepository.findByIdUser(idUser) : bankCredentialsRepository.findByIdUserAndEndDate(idUser, null));
+		System.out.println(user.getBankCredentials());
+		user.setContracts(contractRepository.findByIdUser(idUser));
+		System.out.println(user.getContracts());
+//		user.setDefaultTimesheet(timesheetRepository.findByIdUserAndType(idUser, 'D'));
+//		System.out.println(user.getDefaultTimesheet());
+		user.setTimesheets(all? timesheetRepository.findByIdUser(idUser) : null);
+		System.out.println(user.getTimesheets());
+	}
+	
+	public User findById(Long idUser) {
 		
 		try {
-			return userRepository.findById(id).get();
+			User user = userRepository.findById(idUser).get();
+			fillUserLists(user, true);
+			return user;
 		}catch (EntityNotFoundException | IllegalArgumentException | NoSuchElementException e) {
 			throw new NoContentException("Non è stato trovato un utente con l'id selezionato o i dati potrebbero essere corrotti");
 		} catch (DBException e) {
@@ -86,18 +113,22 @@ public class UserService implements UserDetailsService{
 	 * @return
 	 * @throws MasterException 
 	 */
-	public UserDto find(Long id, boolean complete) throws MasterException {
+	public UserDto find(Long idUser, boolean complete) throws MasterException {
 		
 		UserDto userDto = new UserDto();
 		try {
-			User user = findById(id);
-			if(complete)
+			User user = userRepository.findById(idUser).get();
+			
+			if(complete) {
+				fillUserLists(user, false);
 				BeanUtils.copyProperties(user, userDto, "password", "secondaryEmail", "fiscalCode", "birthDate", "birthPlace", "nationality",
-						"document", "idSkype", "admin", "archiveDate", "note", "addresses", "bankCredentials", "contracts");
-			else
+						"document", "idSkype", "admin", "archiveDate", "note", "addresses", "bankCredentials", "contracts", "defaultTimesheet");
+			}else
 				BeanUtils.copyProperties(user, userDto, "password", "secondaryEmail", "fiscalCode", "birthDate", "birthPlace", "nationality",
 						"document", "idSkype", "admin", "archiveDate", "note");
 			return userDto;
+		}catch (EntityNotFoundException | IllegalArgumentException | NoSuchElementException e) {
+			throw new NoContentException("Non è stato trovato un utente con l'id selezionato o i dati potrebbero essere corrotti");
 		} catch (DBException e) {
 			throw e;
 		} catch (BeansException e) {

@@ -92,19 +92,27 @@ public class User implements Serializable {
 	@Transient
 	private List<Address> addresses;
 
-	@OneToMany(cascade=CascadeType.ALL/*, fetch=FetchType.EAGER*/)
-	@JoinColumn(name="id_user")
+//	@OneToMany(cascade=CascadeType.ALL/*, fetch=FetchType.EAGER*/)
+//	@JoinColumn(name="id_user")
+	@Transient
 	private List<BankCredentials> bankCredentials;
 
-	@OneToMany(cascade=CascadeType.ALL/*, fetch=FetchType.EAGER*/)
-	@JoinColumn(name="id_user")
+//	@OneToMany(cascade=CascadeType.ALL/*, fetch=FetchType.EAGER*/)
+//	@JoinColumn(name="id_user")
+	@Transient
 	private List<Contract> contracts;
 	
-	 @OneToMany(
-		        mappedBy = "user",
-		        cascade = CascadeType.ALL,
-		        orphanRemoval = true /*, fetch=FetchType.EAGER*/
-		    )
+	@Transient
+	private List<Timesheet> timesheets;
+	
+	@Transient
+	private Timesheet defaultTimesheet;
+
+//	@OneToMany(
+//		        mappedBy = "user",
+//		        cascade = CascadeType.ALL,
+//		        orphanRemoval = true /*, fetch=FetchType.EAGER*/
+//		    )
 	private List<UserHasClient> relativeClient;
 
 	public User() {
@@ -298,7 +306,6 @@ public class User implements Serializable {
 		return contracts;
 	}
 
-
 	public void setContracts(List<Contract> contracts) {
 		this.contracts = contracts;
 	}
@@ -309,6 +316,22 @@ public class User implements Serializable {
 
 	public void setRelativeClient(List<UserHasClient> relativeClient) {
 		this.relativeClient = relativeClient;
+	}
+	
+	public List<Timesheet> getTimesheets() {
+		 return timesheets;
+	}
+
+	public void setTimesheets(List<Timesheet> timesheets) {
+		this.timesheets = timesheets;
+	}
+
+	public Timesheet getDefaultTimesheet() {
+		return defaultTimesheet;
+	}
+
+	public void setDefaultTimesheet(Timesheet defaultTimesheet) {
+		this.defaultTimesheet = defaultTimesheet;
 	}
 	
 	public List<ClientCompany> getClients() {
