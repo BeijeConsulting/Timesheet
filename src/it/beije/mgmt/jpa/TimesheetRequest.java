@@ -9,7 +9,7 @@ public class TimesheetRequest {
 	private Date dateTo;
 	private String type;
 	private boolean submit;
-	private boolean validate;
+	private boolean validated;
 	
 	public Long getIdUser() {
 		return idUser;
@@ -41,11 +41,11 @@ public class TimesheetRequest {
 	public void setSubmit(Boolean submit) {
 		this.submit = submit;
 	}
-	public Boolean getValidate() {
-		return validate;
+	public Boolean getValidated() {
+		return validated;
 	}
-	public void setValidate(Boolean validate) {
-		this.validate = validate;
+	public void setValidated(Boolean validate) {
+		this.validated = validate;
 	}
 	
 	

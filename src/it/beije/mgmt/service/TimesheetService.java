@@ -81,6 +81,7 @@ public class TimesheetService {
 		if(userRepository.findById(idUser).get().isEmpty())
 			throw new NoContentException("ATTENZIONE: non è stato trovato alcun utente con questo id");
 		else {
+			
 			timesheet.setIdUser(idUser);
 			timesheet.setType("D");
 			t.add(timesheet);
@@ -94,6 +95,7 @@ public class TimesheetService {
 	}
 //--------------------------------------------------------------------------------------------------------------------------------------------------------
 public Timesheet getDefaultTimesheet(Long idUser) {
+	
 		String type="D";
 	return timesheetRepository.findByIdUserAndType(idUser, type);
 		}
@@ -374,7 +376,7 @@ public Timesheet getDefaultTimesheet(Long idUser) {
 		return user;
 	}
 //---------------------------------------------------------------------------------------------------------------------------------------------------------	
-	public List<Timesheet> trovaTimesheets(Long idUser,Date dateFrom, Date dateTo, String type, boolean submit, boolean validate) {
+	public List<Timesheet> trovaTimesheets(Long idUser,Date dateFrom, Date dateTo, String type, boolean submit, boolean validated) {
 
 		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
 		EntityManager entitymanager = emfactory.createEntityManager();
@@ -382,7 +384,7 @@ public Timesheet getDefaultTimesheet(Long idUser) {
 		List<String> searchQuery=new ArrayList<>();
 		String whereClause="";
 		
-		if(submit== false && validate==true) {
+		if(submit== false && validated==true) {
 			throw new NoContentException("ATTENZIONE: non è possibile cercare timesheet validate e non submittate allo stesso tempo!");
 		}
 		
@@ -390,7 +392,7 @@ public Timesheet getDefaultTimesheet(Long idUser) {
 			throw new IllegalDateException("ATTENZIONE: non è possibile fare una ricerca inserendo solo la data di fine e non di inizio periodo. Se si desidera fare una ricerca per singola data inserire la data di inizio. ");
 		
 		if (idUser != null) {
-			searchQuery.add("a.id_user LIKE '%"+idUser+"%'");
+			searchQuery.add("a.idUser LIKE '%"+idUser+"%'");
 			whereClause+="WHERE ";
 		}
 		
@@ -413,15 +415,15 @@ public Timesheet getDefaultTimesheet(Long idUser) {
 				whereClause+="WHERE ";
 		}
 		
-		if(validate==true) {
+		if(validated==true) {
 			
-	 			searchQuery.add("a.validate IS NOT NULL");
+	 			searchQuery.add("a.validated IS NOT NULL");
 				if (whereClause.length()==0)
 					whereClause+="WHERE ";
 		}
 		else {
 			
-			searchQuery.add("a.validate IS NULL");
+			searchQuery.add("a.validated IS NULL");
 			if (whereClause.length()==0)
 				whereClause+="WHERE ";
 			
@@ -443,6 +445,7 @@ public Timesheet getDefaultTimesheet(Long idUser) {
 			if (i!=searchQuery.size()-1)
 				whereClause+=" AND ";
 		}
+		
 		System.out.println(whereClause);
 		TypedQuery<Timesheet> query=entitymanager.createQuery("SELECT a from Timesheet a "+whereClause,Timesheet.class);
 		
@@ -455,7 +458,7 @@ public Timesheet getDefaultTimesheet(Long idUser) {
 //---------------------------------------------------------------------------------------------------------------------------------------------------------	
 	public List<Timesheet> trovaTimesheets(TimesheetRequest req) {
 		
-		 return trovaTimesheets(req.getIdUser(),req.getDateFrom(),req.getDateTo(),req.getType(), req.getSubmit(), req.getValidate());
+		 return trovaTimesheets(req.getIdUser(),req.getDateFrom(),req.getDateTo(),req.getType(), req.getSubmit(), req.getValidated());
 	}
 
 }

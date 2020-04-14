@@ -45,7 +45,7 @@ public class TimesheetApiController {
 		
 		@RequestMapping(value = { "/timesheet/default/user/{idUser}" }, method = RequestMethod.POST, produces = {MediaType.APPLICATION_JSON_VALUE})
 		public @ResponseBody Timesheet insertDefaultTimesheet(@PathVariable long idUser,@RequestBody Timesheet timsheet, Model model,HttpServletResponse response) {
-			
+	
 			return timesheetService.insertDefault(idUser,timsheet);		
 		}
 		
@@ -57,7 +57,8 @@ public class TimesheetApiController {
 			
 		@RequestMapping(value = "/timesheets/delete/{id}", method = RequestMethod.DELETE)
 		public @ResponseBody boolean delete(@PathVariable long id)  {
-			 timesheetService.deleteOne(id);
+			
+			timesheetService.deleteOne(id);
 			 return true;
 		}
 	
@@ -99,7 +100,7 @@ public class TimesheetApiController {
 			return timesheetService.submitUtente(id, datefrom, dateto);
 		}
 
-		@RequestMapping(value = "/timesheet/search", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+		@RequestMapping(value = "/timesheet/search", method = RequestMethod.GET, consumes = MediaType.APPLICATION_JSON_VALUE)
 		public @ResponseBody List<Timesheet> searchUser(@RequestBody TimesheetRequest req) {
 
 			return new TimesheetService().trovaTimesheets(req);
