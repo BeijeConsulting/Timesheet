@@ -63,15 +63,9 @@ public class UserService implements UserDetailsService{
 	private void fillUserLists(User user, boolean all) {
 		Long idUser = user.getId();
 		user.setAddresses(all? addressRepository.findByIdUser(idUser) : addressRepository.findByIdUserAndEndDate(idUser, null));
-		System.out.println("addresses: "+user.getAddresses());
 		user.setBankCredentials(all? bankCredentialsRepository.findByIdUser(idUser) : bankCredentialsRepository.findByIdUserAndEndDate(idUser, null));
-		System.out.println("bc: "+user.getBankCredentials());
 		user.setContracts(contractRepository.findByIdUser(idUser));
-		System.out.println("contracts: "+user.getContracts());
-	//	user.setDefaultTimesheet(timesheetRepository.findByIdUserAndType(idUser, 'D'));
-	//	System.out.println(user.getDefaultTimesheet());
-		user.setTimesheets(all? timesheetRepository.findByIdUser(idUser) : null);
-		System.out.println("ts: "+user.getTimesheets());
+		user.setDefaultTimesheet(timesheetRepository.findByIdUserAndType(idUser, "D"));
 	}
 	
 	public User findById(Long idUser) {
