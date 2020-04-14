@@ -9,7 +9,9 @@
 		<class>it.beije.mgmt.entity.Timesheet</class>
 		<class>it.beije.mgmt.entity.UserComputer</class>
 		<class>it.beije.mgmt.entity.Computer</class>
-
+		<class>it.beije.mgmt.entity.BankCredentials</class>
+		<class>it.beije.mgmt.entity.ClientCompany</class>
+		
 		<class>it.beije.mgmt.entity.cv.Education</class>
 		<class>it.beije.mgmt.entity.cv.Work</class>
 		<class>it.beije.mgmt.entity.cv.Certification</class>

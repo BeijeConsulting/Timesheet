@@ -11,10 +11,10 @@ import javax.persistence.ManyToOne;
 public class UserHasClientId implements Serializable {
 	
 
-//	@Column(name = "user_id")
+	@Column(name = "user_id")
     private Long userId;
  
- //   @Column(name = "client_company_id")
+   @Column(name = "client_company_id")
     private Long clientId;
 	
 	
