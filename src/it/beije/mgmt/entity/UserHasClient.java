@@ -18,12 +18,12 @@ public class UserHasClient {
 	@EmbeddedId
 	private UserHasClientId id;
 	
-//	@ManyToOne(fetch = FetchType.LAZY)
-//	@MapsId("userId")
+	@ManyToOne(fetch = FetchType.LAZY)
+	@MapsId("userId")
 	private User user;
 	
-//	@ManyToOne(fetch = FetchType.LAZY)
-//	@MapsId("clientId")
+	@ManyToOne(fetch = FetchType.LAZY)
+	@MapsId("clientId")
 	private ClientCompany company;
 	
 	@Column(name="start")

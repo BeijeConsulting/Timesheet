@@ -24,8 +24,7 @@ public class ClientCompanyService {
 	
 	@Autowired
 	private ClientCompanyRepository clientRepository;
-	@Autowired
-	private UserService userService;
+	
 
 	public List<ClientCompany> caricaTutti() {
 		List<ClientCompany> allClients = clientRepository.findAll();
@@ -80,12 +79,11 @@ public class ClientCompanyService {
 			throw e;
 		}
 	}
-
+//***************************************EDIT****************************************************+
 	public List<ClientCompany> getClientsByUser(Long id) {
 		
 		try {
-			User user = userService.findById(id);
-			List<ClientCompany> clients = user.getClients();/*clientRepository.findByIdUser(id);*/
+			List<ClientCompany> clients = null;/*clientRepository.findByIdUser(id);*/
 			if (clients.size()==0)
 				throw new NoContentException("La lista è vuota");
 		return clients;

@@ -108,6 +108,7 @@ public class User implements Serializable {
 //		        cascade = CascadeType.ALL,
 //		        orphanRemoval = true /*, fetch=FetchType.EAGER*/
 //		    )
+	@Transient
 	private List<UserHasClient> relativeClient;
 
 	public User() {

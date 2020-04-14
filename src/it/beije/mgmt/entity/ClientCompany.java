@@ -13,11 +13,14 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 
 @Entity
 @Table(name = "company")
-public class ClientCompany {	
+public class ClientCompany implements Serializable {	
+
+	private static final long serialVersionUID = 8007456604984540322L;
 
 	@Id 
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -41,11 +44,13 @@ public class ClientCompany {
 	
 //	@OneToMany(cascade=CascadeType.ALL)
 //	@JoinColumn(name="id_client_company")
+	@Transient
 	private List<Office> offices;
 	
 //	@OneToMany(mappedBy = "company",
 //			cascade = CascadeType.ALL,
 //			orphanRemoval = true)
+	@Transient
 	private List<UserHasClient> relativeUser;
 
 	public Long getId() {
