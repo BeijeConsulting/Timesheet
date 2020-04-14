@@ -25,7 +25,7 @@ public interface TimesheetRepository extends JpaRepository<Timesheet, Long> {
 	
 	List<Timesheet> deleteByIdUserAndDate(Long idUser, Date dateFrom);
 
-	Timesheet findByIdUserAndType(Long idUser, char c);
+	Timesheet findByIdUserAndType(Long idUser, String type);
 	
 	
 

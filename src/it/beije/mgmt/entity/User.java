@@ -103,9 +103,6 @@ public class User implements Serializable {
 	private List<Contract> contracts;
 	
 	@Transient
-	private List<Timesheet> timesheets;
-	
-	@Transient
 	private Timesheet defaultTimesheet;
 
 //	@OneToMany(
@@ -318,14 +315,6 @@ public class User implements Serializable {
 	public void setRelativeClient(List<UserHasClient> relativeClient) {
 		this.relativeClient = relativeClient;
 	}
-	
-	public List<Timesheet> getTimesheets() {
-		 return timesheets;
-	}
-
-	public void setTimesheets(List<Timesheet> timesheets) {
-		this.timesheets = timesheets;
-	}
 
 	public Timesheet getDefaultTimesheet() {
 		return defaultTimesheet;
@@ -335,13 +324,13 @@ public class User implements Serializable {
 		this.defaultTimesheet = defaultTimesheet;
 	}
 	
-	public List<ClientCompany> getClients() {
-		List<ClientCompany> clients = new ArrayList<>();
-		for(UserHasClient uhs : getRelativeClient()) {
-			clients.add(uhs.getCompany());
-		}
-		return clients;
-	}
+//	public List<ClientCompany> getClients() {
+//		List<ClientCompany> clients = new ArrayList<>();
+//		for(UserHasClient uhs : getRelativeClient()) {
+//			clients.add(uhs.getCompany());
+//		}
+//		return clients;
+//	}
 
 	public void addAddress(Address address) {
 		addresses.add(address);
