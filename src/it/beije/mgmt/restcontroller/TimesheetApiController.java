@@ -14,14 +14,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-
-import it.beije.mgmt.dto.UserDto;
 import it.beije.mgmt.entity.Timesheet;
 import it.beije.mgmt.jpa.TimesheetRequest;
-import it.beije.mgmt.jpa.UserRequest;
 import it.beije.mgmt.service.TimesheetService;
-import it.beije.mgmt.service.UserService;
-
 
 
 @RestController
@@ -48,12 +43,18 @@ public class TimesheetApiController {
 			return timesheetService.insert(timesheets);
 		}
 		
-		@RequestMapping(value = "/timesheets/default/user/{idUser}", method = RequestMethod.POST,consumes = MediaType.APPLICATION_JSON_VALUE)
-		public @ResponseBody List<Timesheet> insertTimesheetsDefault( @PathVariable long idUser, Model model,	HttpServletResponse response) {
+		@RequestMapping(value = { "/timesheet/default/user/{idUser}" }, method = RequestMethod.POST, produces = {MediaType.APPLICATION_JSON_VALUE})
+		public @ResponseBody Timesheet insertDefaultTimesheet(@PathVariable long idUser,@RequestBody Timesheet timsheet, Model model,HttpServletResponse response) {
 			
-			return timesheetService.insert(idUser);
+			return timesheetService.insertDefault(idUser,timsheet);		
 		}
 		
+		@RequestMapping(value = { "/timesheet/default/user/{idUser}" }, method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+		public @ResponseBody Timesheet getDefaultTimesheet(@PathVariable long idUser, Model model,HttpServletResponse response) {
+			
+			return timesheetService.getDefaultTimesheet(idUser);		
+		}
+			
 		@RequestMapping(value = "/timesheets/delete/{id}", method = RequestMethod.DELETE)
 		public @ResponseBody boolean delete(@PathVariable long id)  {
 			 timesheetService.deleteOne(id);

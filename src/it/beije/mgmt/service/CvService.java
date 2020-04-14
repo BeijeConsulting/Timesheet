@@ -22,7 +22,7 @@ import it.beije.mgmt.repository.CvRepository;
 import it.beije.mgmt.repository.EducationRepository;
 import it.beije.mgmt.repository.LanguageRepository;
 import it.beije.mgmt.repository.WorkRepository;
-import it.beije.mgmt.restcontroller.exception.NoContentException;
+import it.beije.mgmt.exception.NoContentException;
 
 @Service
 public class CvService {

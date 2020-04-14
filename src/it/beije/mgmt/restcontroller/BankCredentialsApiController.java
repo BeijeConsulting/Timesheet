@@ -27,8 +27,8 @@ import it.beije.mgmt.entity.BankCredentials;
 import it.beije.mgmt.entity.Contract;
 import it.beije.mgmt.entity.Timesheet;
 import it.beije.mgmt.entity.User;
-import it.beije.mgmt.restcontroller.exception.InvalidJSONException;
-import it.beije.mgmt.restcontroller.exception.NoContentException;
+import it.beije.mgmt.exception.InvalidJSONException;
+import it.beije.mgmt.exception.NoContentException;
 import it.beije.mgmt.service.BankCredentialsService;
 import it.beije.mgmt.service.JPAService;
 import it.beije.mgmt.service.UserService;
@@ -60,7 +60,7 @@ public class BankCredentialsApiController {
 //		entitymanager.close();
 //
 //		return bankcredentials;
-		User us = userService.find(id);
+		User us = userService.findById(id);
 		if(us.isEmpty()) 
 			throw new NoContentException("Non è stato trovato un utente con l'id selezionato");
 		return bankCredentialsService.getBankCredentialsByUser(id);
@@ -74,7 +74,7 @@ public class BankCredentialsApiController {
 
 		System.out.println("insert BankCredentials: " + bankCredentials);
 
-		User us = userService.find(id);
+		User us = userService.findById(id);
 		if(us.isEmpty()) 
 			throw new NoContentException("Non è stato trovato un utente con l'id selezionato");
 		BankCredentials bc = new BankCredentials();

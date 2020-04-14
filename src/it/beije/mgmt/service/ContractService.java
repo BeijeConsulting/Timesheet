@@ -21,7 +21,7 @@ import it.beije.mgmt.entity.Contract;
 import it.beije.mgmt.entity.User;
 import it.beije.mgmt.repository.ContractRepository;
 import it.beije.mgmt.repository.UserRepository;
-import it.beije.mgmt.restcontroller.exception.NoContentException;
+import it.beije.mgmt.exception.NoContentException;
 
 @Transactional
 @Service

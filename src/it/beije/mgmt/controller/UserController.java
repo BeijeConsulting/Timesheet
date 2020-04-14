@@ -11,6 +11,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,8 +29,10 @@ import it.beije.mgmt.service.UserService;
 
 @Controller
 @SessionAttributes("user")
-//@RequestMapping("/user")
 public class UserController {
+	
+	@Autowired
+	private UserService userService;
 
 	/**
 	 * Simply selects the home view to render by returning its name.
@@ -74,7 +77,7 @@ public class UserController {
 			user.setDocument(null);
 		if (user.getBirthDate().toLocalDate().isEqual(LocalDate.parse("1900-01-01")))
 			user.setBirthDate(null);
-		new UserService().create(user);
+		userService.create(user);
 		
 		System.out.println("sono in conferma " + user.getFirstName());
 		return "conferma";
@@ -97,7 +100,7 @@ public class UserController {
 		
 		try {
 		
-		user = new UserService().find(user.getId());
+		user = userService.findById(user.getId());
 		user.getFirstName();
 		model.addAttribute("user", user);
 			return "modificadati";
@@ -120,7 +123,7 @@ public class UserController {
 	@RequestMapping(value = "/confermamodificadati", method = RequestMethod.POST)
 	public String confermaModificaDati(@Validated User user, Model model) {
 
-		new UserService().modificaUtente(user);
+		userService.modificaUtente(user);
 		return "conferma";
 	}
 
@@ -137,7 +140,7 @@ public class UserController {
 	@PreAuthorize("hasAnyRole('ADMIN')")		
 	@RequestMapping(value = "/utentitrovati", method = RequestMethod.GET)
 	public String utentiTrovati(@Validated User user, Model model,HttpServletRequest request) {
-		List<User> trovati = new UserService().trovaUtenti(user.getFirstName(),user.getLastName(),user.getEmail(),user.getFiscalCode());
+		List<User> trovati = userService.trovaUtenti(user.getFirstName(),user.getLastName(),user.getEmail(),user.getFiscalCode());
 		request.getSession().setAttribute("users", trovati);
 		return "utentitrovati";
 	}
@@ -169,7 +172,7 @@ public class UserController {
 	@RequestMapping(value = "/confermacancellazione", method = RequestMethod.POST)
 	public String confermaCancellazione(@Validated User user, Model model) {
 
-		new UserService().archiviaUtente(user);
+		userService.archiviaUtente(user);
 		return "confermacancellazione";
 	}
 	

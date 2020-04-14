@@ -10,6 +10,7 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import it.beije.mgmt.entity.Address;
 import it.beije.mgmt.entity.BankCredentials;
 import it.beije.mgmt.entity.Contract;
+import it.beije.mgmt.entity.Timesheet;
 import it.beije.mgmt.entity.User;
 
 @JsonInclude(Include.NON_NULL)
@@ -38,6 +39,7 @@ public class UserDto implements Serializable {
 	private Address addresses[];
 	private BankCredentials bankCredential;
 	private Contract contract;
+	private Timesheet defaultTimesheet;
 
 	public Long getId() {
 		return id;
@@ -194,6 +196,14 @@ public class UserDto implements Serializable {
 	}
 
 	
+	public Timesheet getDefaultTimesheet() {
+		return defaultTimesheet;
+	}
+
+	public void setDefaultTimesheet(Timesheet defaultTimesheet) {
+		this.defaultTimesheet = defaultTimesheet;
+	}
+
 	public static UserDto valueOf(User user) {
         UserDto dto = new UserDto();
         dto.setId(Long.valueOf(user.getId()));

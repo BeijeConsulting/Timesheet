@@ -1,6 +1,4 @@
-package it.beije.mgmt.restcontroller.exception;
-
-import it.beije.mgmt.exception.MasterException;
+package it.beije.mgmt.exception;
 
 public class NoContentException extends MasterException{
 

@@ -2,17 +2,15 @@ package it.beije.mgmt.entity;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
-
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 
 @Entity
@@ -84,23 +82,32 @@ public class User implements Serializable {
 	@Column(name = "pic_url")
 	private String picUrl;
 
-	@OneToMany(cascade=CascadeType.ALL)
-	@JoinColumn(name="id_user")
+//	@OneToMany(cascade=CascadeType.ALL/*, fetch=FetchType.EAGER*/)
+//	@JoinColumn(name="id_user")
+	@Transient
 	private List<Address> addresses;
 
-	@OneToMany(cascade=CascadeType.ALL)
-	@JoinColumn(name="id_user")
+//	@OneToMany(cascade=CascadeType.ALL/*, fetch=FetchType.EAGER*/)
+//	@JoinColumn(name="id_user")
+	@Transient
 	private List<BankCredentials> bankCredentials;
 
-	@OneToMany(cascade=CascadeType.ALL)
-	@JoinColumn(name="id_user")
+//	@OneToMany(cascade=CascadeType.ALL/*, fetch=FetchType.EAGER*/)
+//	@JoinColumn(name="id_user")
+	@Transient
 	private List<Contract> contracts;
 	
-	 @OneToMany(
-		        mappedBy = "user",
-		        cascade = CascadeType.ALL,
-		        orphanRemoval = true
-		    )
+	@Transient
+	private List<Timesheet> timesheets;
+	
+	@Transient
+	private Timesheet defaultTimesheet;
+
+//	@OneToMany(
+//		        mappedBy = "user",
+//		        cascade = CascadeType.ALL,
+//		        orphanRemoval = true /*, fetch=FetchType.EAGER*/
+//		    )
 	private List<UserHasClient> relativeClient;
 
 	public User() {
@@ -294,9 +301,40 @@ public class User implements Serializable {
 		return contracts;
 	}
 
-
 	public void setContracts(List<Contract> contracts) {
 		this.contracts = contracts;
+	}
+
+	public List<UserHasClient> getRelativeClient() {
+		return relativeClient;
+	}
+
+	public void setRelativeClient(List<UserHasClient> relativeClient) {
+		this.relativeClient = relativeClient;
+	}
+	
+	public List<Timesheet> getTimesheets() {
+		 return timesheets;
+	}
+
+	public void setTimesheets(List<Timesheet> timesheets) {
+		this.timesheets = timesheets;
+	}
+
+	public Timesheet getDefaultTimesheet() {
+		return defaultTimesheet;
+	}
+
+	public void setDefaultTimesheet(Timesheet defaultTimesheet) {
+		this.defaultTimesheet = defaultTimesheet;
+	}
+	
+	public List<ClientCompany> getClients() {
+		List<ClientCompany> clients = new ArrayList<>();
+		for(UserHasClient uhs : getRelativeClient()) {
+			clients.add(uhs.getCompany());
+		}
+		return clients;
 	}
 
 	public void addAddress(Address address) {

@@ -21,10 +21,11 @@ import org.springframework.web.server.ResponseStatusException;
 
 import it.beije.mgmt.dto.UserDto;
 import it.beije.mgmt.entity.User;
+import it.beije.mgmt.exception.ErrorMessage;
+import it.beije.mgmt.exception.MasterException;
+import it.beije.mgmt.exception.NoContentException;
 import it.beije.mgmt.jpa.UserRequest;
-import it.beije.mgmt.restcontroller.exception.ErrorMessage;
-import it.beije.mgmt.restcontroller.exception.InvalidJSONException;
-import it.beije.mgmt.restcontroller.exception.NoContentException;
+import it.beije.mgmt.service.AddressService;
 import it.beije.mgmt.service.UserService;
 
 @RestController
@@ -38,12 +39,15 @@ public class UserApiController {
 	@Autowired
 	private UserService userService;
 
+	@Autowired
+	private AddressService addressService;
+
 	///////// START USER //////////////////////
 	@RequestMapping(value = "/users", method = RequestMethod.GET)
 	public @ResponseBody List<UserDto> getUsers(Model model, HttpServletResponse response) throws IOException {
 		try{
 			return userService.caricaTutti();
-		}catch(RuntimeException e) {
+		}catch(MasterException e) {
 			throw e;
 		}
 	}
@@ -57,9 +61,9 @@ public class UserApiController {
 	public @ResponseBody UserDto getUserDto(@PathVariable Long id, // @PathVariable(required=false) boolean complete,
 			@RequestParam(required = false) boolean complete, Model model, HttpServletResponse response) throws IOException {
 		try {
-			UserDto us = userService.findApi(id, complete);
+			UserDto us = userService.find(id, complete);
 			return us;
-		}catch(RuntimeException e) {
+		}catch(MasterException e) {
 			throw e;
 		}
 	}
@@ -77,40 +81,40 @@ public class UserApiController {
 	@RequestMapping(value =  "/user_entity/{id}" , method = RequestMethod.GET)
 	public @ResponseBody User getUser(@PathVariable Long id, Model model, HttpServletResponse response) throws IOException {
 		try {
-			User us = userService.find(id);
+			User us = userService.findById(id);
+			System.out.println("user : " + us);
+			System.out.println("user : " + us.getId());
+			System.out.println("user : " + us.getAddresses());
+			
+			addressService.getAddressByUser(id);
+			
 			return us;
-		}catch(RuntimeException e) {
+		}catch(MasterException e) {
 			throw e;
 		}
 	}
 
 	@RequestMapping(value = "/user", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody User insertUser(@RequestBody User user, HttpServletResponse response) throws IOException {
+		
 		System.out.println("insert user: " + user);
-		User us = new User();
 		try {
-			us = userService.create(user);
-		}catch(RuntimeException e) {
-			throw new InvalidJSONException("Non è stato possibile aggiungere l'utente desiderato");
+			return userService.create(user);
+		}catch(MasterException e) {
+			throw e;
 		}
-		return us;
 	}
 
 	// FIXARE QUESTA API (PROBLEMA DI LAZILY INITIALIZE SUGLI INDIRIZZI)
 	@RequestMapping(value = "/user/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody User updateUser(@PathVariable Long id, @RequestBody User user, HttpServletResponse response)
 			throws IOException {
-		System.out.println("update user by id: " + id);
-		System.out.println("update user: " + user);
-		User us = userService.find(id);
-		if(us.isEmpty()) 
-			throw new NoContentException("Non è stato trovato un utente con l'id selezionato");
+		
 		try {
-			us = userService.update(id, user);
-		}catch(RuntimeException e) {
-			throw new InvalidJSONException("Non è stato possibile modificare i dati dell'utente desiderato");
+			return userService.update(id, user);
+		}catch(MasterException e) {
+			throw e;
 		}
-		return us;
 	}
 
 	@RequestMapping(value = "/search", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)

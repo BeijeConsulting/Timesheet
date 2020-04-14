@@ -1,4 +1,4 @@
-package it.beije.mgmt.restcontroller.exception;
+package it.beije.mgmt.exception;
 
 public class NotExistPcException extends RuntimeException {
 	

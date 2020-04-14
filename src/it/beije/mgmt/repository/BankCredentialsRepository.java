@@ -13,5 +13,7 @@ import it.beije.mgmt.entity.BankCredentials;
 public interface BankCredentialsRepository extends JpaRepository<BankCredentials, Long> {
 	
 	List<BankCredentials> findByIdUser(Long idUser);
+
+	List<BankCredentials> findByIdUserAndEndDate(Long idUser, Object object);
 	
 }

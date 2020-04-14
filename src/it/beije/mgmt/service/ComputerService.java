@@ -16,8 +16,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import it.beije.mgmt.JpaEntityManager;
 import it.beije.mgmt.entity.Computer;
+import it.beije.mgmt.exception.NotExistPcException;
 import it.beije.mgmt.repository.ComputerRepository;
-import it.beije.mgmt.restcontroller.exception.NotExistPcException;
 
 
 @Service

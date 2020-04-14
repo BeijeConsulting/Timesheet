@@ -6,28 +6,25 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.TypedQuery;
-
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import it.beije.mgmt.JpaEntityManager;
-import it.beije.mgmt.dto.UserDto;
 import it.beije.mgmt.entity.Timesheet;
 import it.beije.mgmt.entity.User;
 import it.beije.mgmt.jpa.TimesheetRequest;
-import it.beije.mgmt.jpa.UserRequest;
+import it.beije.mgmt.exception.IllegalDateException;
+import it.beije.mgmt.exception.IllegalHourException;
+import it.beije.mgmt.exception.UpdateException;
 import it.beije.mgmt.repository.TimesheetRepository;
 import it.beije.mgmt.repository.UserRepository;
-import it.beije.mgmt.restcontroller.exception.IllegalDateException;
-import it.beije.mgmt.restcontroller.exception.IllegalHourException;
-import it.beije.mgmt.restcontroller.exception.NoContentException;
-import it.beije.mgmt.restcontroller.exception.UpdateException;
+import it.beije.mgmt.exception.NoContentException;
+import it.beije.mgmt.exception.ServiceException;
+
 
 @Service
 public class TimesheetService {
@@ -78,41 +75,29 @@ public class TimesheetService {
 		return timesheetRepository.saveAll(timetables);
 	}
 //------------------------------------------------------------------------------------------------------------------------------------------------------
-	public List<Timesheet> insert(Long idUser) {
+	public Timesheet insertDefault(Long idUser,Timesheet timesheet) {
 		
-		java.util.Date today= new java.util.Date();
-		Date sqltoday= convertUtilToSql(today);
-		
-		List<Timesheet> timesheetDefault= new ArrayList<Timesheet>();
-		
-		String inizio1="09:00:00";
-		Time start1= Time.valueOf(inizio1);
-		
-		String inizio2="14:00:00";
-		Time start2= Time.valueOf(inizio2);
-		
-		String fine1="13:00:00";
-		Time end1= Time.valueOf(fine1);
-		
-		String fine2="18:00:00";
-		Time end2= Time.valueOf(fine2);
-		
+		List<Timesheet> t= new ArrayList<Timesheet>();
 		if(userRepository.findById(idUser).get().isEmpty())
 			throw new NoContentException("ATTENZIONE: non è stato trovato alcun utente con questo id");
 		else {
-			Timesheet t= new Timesheet();
-			t.setDate(sqltoday);
-			t.setIdUser(idUser);
-			t.setStart1(start1);
-			t.setEnd1(end1);
-			t.setStart2(start2);
-			t.setEnd2(end2);
-			t.setTot(8.0);
-			timesheetDefault.add(t);
-		}
-		return insert(timesheetDefault);
+			timesheet.setIdUser(idUser);
+			timesheet.setType("D");
+			t.add(timesheet);
+			if(timesheetRepository.findByIdUserAndType(idUser, 'D')!=null)
+				
+				throw new ServiceException("ATTENZIONE: esiste già una timesheet default per questo utente.Se si desidera modificarla andare su modifica");
 		
+			insert(t);
+			return timesheet;
+		}
 	}
+//--------------------------------------------------------------------------------------------------------------------------------------------------------
+public Timesheet getDefaultTimesheet(Long idUser) {
+		char type='D';
+	return timesheetRepository.findByIdUserAndType(idUser, type);
+		}
+	
 //------------------------------------------------------------------------------------------------------------------------------------------------------
 	
 	public List<Timesheet> takeRecordsFromDateId(Date startDate, Long idUtente) {
@@ -311,6 +296,7 @@ public class TimesheetService {
 	}
 //-----------------------------------------------------------------------------------------------------------------------------------------------------	
 	public void updateTimesheet(Long id,Timesheet newt) {
+		
 		Timesheet t= timesheetRepository.getOne(id);
 		
 		if(t.getSubmit()!=null)
