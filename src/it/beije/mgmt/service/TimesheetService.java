@@ -84,7 +84,7 @@ public class TimesheetService {
 			timesheet.setIdUser(idUser);
 			timesheet.setType("D");
 			t.add(timesheet);
-			if(timesheetRepository.findByIdUserAndType(idUser, 'D')!=null)
+			if(timesheetRepository.findByIdUserAndType(idUser, "D")!=null)
 				
 				throw new ServiceException("ATTENZIONE: esiste già una timesheet default per questo utente.Se si desidera modificarla andare su modifica");
 		
@@ -94,7 +94,7 @@ public class TimesheetService {
 	}
 //--------------------------------------------------------------------------------------------------------------------------------------------------------
 public Timesheet getDefaultTimesheet(Long idUser) {
-		char type='D';
+		String type="D";
 	return timesheetRepository.findByIdUserAndType(idUser, type);
 		}
 	

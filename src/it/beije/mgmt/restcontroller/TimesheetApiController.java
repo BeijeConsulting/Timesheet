@@ -99,7 +99,7 @@ public class TimesheetApiController {
 			return timesheetService.submitUtente(id, datefrom, dateto);
 		}
 
-		@RequestMapping(value = "/search", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+		@RequestMapping(value = "/timesheet/search", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 		public @ResponseBody List<Timesheet> searchUser(@RequestBody TimesheetRequest req) {
 
 			return new TimesheetService().trovaTimesheets(req);

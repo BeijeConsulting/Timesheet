@@ -1,25 +1,17 @@
 package it.beije.mgmt.service;
 
 import java.sql.Date;
-import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityNotFoundException;
-import javax.persistence.NoResultException;
-import javax.persistence.Persistence;
 import javax.persistence.PersistenceException;
-import javax.persistence.Query;
-import javax.persistence.RollbackException;
 import javax.persistence.TypedQuery;
-
-import org.hibernate.Hibernate;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,13 +20,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import it.beije.mgmt.CustomUserDetail;
 import it.beije.mgmt.JpaEntityManager;
 import it.beije.mgmt.dto.UserDto;
-import it.beije.mgmt.entity.Address;
-import it.beije.mgmt.entity.BankCredentials;
-import it.beije.mgmt.entity.Contract;
 import it.beije.mgmt.entity.User;
 import it.beije.mgmt.exception.DBException;
 import it.beije.mgmt.exception.InvalidJSONException;
@@ -47,7 +35,6 @@ import it.beije.mgmt.repository.BankCredentialsRepository;
 import it.beije.mgmt.repository.ContractRepository;
 import it.beije.mgmt.repository.TimesheetRepository;
 import it.beije.mgmt.repository.UserRepository;
-import it.beije.mgmt.repository.UserRepositoryCustom;
 import java.util.NoSuchElementException;
 
 
@@ -62,12 +49,9 @@ public class UserService implements UserDetailsService{
 	private BankCredentialsRepository bankCredentialsRepository;
 	@Autowired
 	private ContractRepository contractRepository;
-	@Autowired
-	private TimesheetRepository timesheetRepository;
+//	@Autowired
+//	private TimesheetRepository timesheetRepository;
 	
-	static {
-		JpaEntityManager.getInstance();
-	}
 
 	/**
 	 * @param idUser
@@ -87,7 +71,7 @@ public class UserService implements UserDetailsService{
 		System.out.println(user.getContracts());
 //		user.setDefaultTimesheet(timesheetRepository.findByIdUserAndType(idUser, 'D'));
 //		System.out.println(user.getDefaultTimesheet());
-		user.setTimesheets(all? timesheetRepository.findByIdUser(idUser) : null);
+	//	user.setTimesheets(all? timesheetRepository.findByIdUser(idUser) : null);
 		System.out.println(user.getTimesheets());
 	}
 	
@@ -202,7 +186,7 @@ public class UserService implements UserDetailsService{
 	 */
 	@Transactional
 	public User create(User user) throws MasterException {
-		EntityManager entitymanager = null;
+		
 		try {
 			if(user.getId()!=null)
 				throw new InvalidJSONException("Errore nei dati inviati");
