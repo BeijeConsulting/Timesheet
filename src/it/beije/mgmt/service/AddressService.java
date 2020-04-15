@@ -27,7 +27,7 @@ public class AddressService {
 	private AddressRepository addressRepository;
 	
 	@Transactional
-	public Address create(Long idUser, Address address) throws Exception {
+	public Address create(Long idUser, Address address) {
 		
 		try {
 			if(address.getId()!=null)
@@ -38,7 +38,7 @@ public class AddressService {
 				throw new ServiceException("Dati non conformi");
 			return addressRepository.saveAndFlush(address);
 		}catch(EntityExistsException eee) {
-			throw new ServiceException("User già presente nel database");
+			throw new ServiceException("Indirizzo già presente nel database");
 		}catch(IllegalStateException  | PersistenceException e) {
 			throw new ServiceException("Al momento non è possibile soddisfare la richiesta");
 		}catch(MasterException e) {
@@ -52,7 +52,7 @@ public class AddressService {
 			List<Address> address = addressRepository.findByIdUser(id);
 			if (address.size()==0)
 				throw new NoContentException("La lista è vuota");
-		return address;
+			return address;
 		}catch (MasterException e) {
 			throw e;
 		}catch (Exception e) {
