@@ -70,7 +70,7 @@ public class UserService implements UserDetailsService{
 		Long idUser = user.getId();
 		user.setAddresses(allHistory? addressRepository.findByIdUser(idUser) : addressRepository.findByIdUserAndEndDate(idUser, null));
 		user.setBankCredentials(allHistory? bankCredentialsRepository.findByIdUser(idUser) : bankCredentialsRepository.findByIdUserAndEndDate(idUser, null));
-		user.setContracts(contractRepository.findByIdUser(idUser));
+		user.setContracts(allHistory? contractRepository.findByIdUser(idUser) : contractRepository.findByIdUserAndEndDate(idUser, null));
 		user.setDefaultTimesheet(timesheetRepository.findByIdUserAndType(idUser, "D"));
 	}
 	
@@ -97,10 +97,11 @@ public class UserService implements UserDetailsService{
 				fillUserLists(user, false);
 				BeanUtils.copyProperties(user, userDto, "password", "secondaryEmail", "fiscalCode", "birthDate", "birthPlace", "nationality",
 						"document", "idSkype", "admin", "archiveDate", "note");
-				if(user.getContracts().size() > 1 || user.getBankCredentials().size() > 1) throw new ServiceException("Dati non conformi");
+				if(user.getContracts().size() > 1 || user.getBankCredentials().size() > 1)
+					throw new ServiceException("Dati non conformi");
 				userDto.setAddresses(user.getAddresses().toArray(new Address[0]));
-				userDto.setBankCredential(user.getBankCredentials().get(0));
-				userDto.setContract(user.getContracts().get(0));
+				if(user.getBankCredentials().size()>0) userDto.setBankCredential(user.getBankCredentials().get(0));
+				if(user.getContracts().size()>0) userDto.setContract(user.getContracts().get(0));
 			}else
 				BeanUtils.copyProperties(user, userDto, "password", "secondaryEmail", "fiscalCode", "birthDate", "birthPlace", "nationality",
 						"document", "idSkype", "admin", "archiveDate", "note",  "addresses", "bankCredentials", "contracts", "defaultTimesheet");
