@@ -1,11 +1,17 @@
 package it.beije.mgmt.service;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
+
+import javax.persistence.Column;
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -23,6 +29,7 @@ import org.springframework.transaction.annotation.Transactional;
 import it.beije.mgmt.CustomUserDetail;
 import it.beije.mgmt.JpaEntityManager;
 import it.beije.mgmt.dto.UserDto;
+import it.beije.mgmt.entity.Address;
 import it.beije.mgmt.entity.User;
 import it.beije.mgmt.exception.DBException;
 import it.beije.mgmt.exception.InvalidJSONException;
@@ -36,7 +43,6 @@ import it.beije.mgmt.repository.ContractRepository;
 import it.beije.mgmt.repository.TimesheetRepository;
 import it.beije.mgmt.repository.UserRepository;
 import java.util.NoSuchElementException;
-
 
 @Service
 public class UserService implements UserDetailsService{
@@ -60,10 +66,10 @@ public class UserService implements UserDetailsService{
 	 */
 	
 	
-	private void fillUserLists(User user, boolean all) {
+	private void fillUserLists(User user, boolean allHistory) {
 		Long idUser = user.getId();
-		user.setAddresses(all? addressRepository.findByIdUser(idUser) : addressRepository.findByIdUserAndEndDate(idUser, null));
-		user.setBankCredentials(all? bankCredentialsRepository.findByIdUser(idUser) : bankCredentialsRepository.findByIdUserAndEndDate(idUser, null));
+		user.setAddresses(allHistory? addressRepository.findByIdUser(idUser) : addressRepository.findByIdUserAndEndDate(idUser, null));
+		user.setBankCredentials(allHistory? bankCredentialsRepository.findByIdUser(idUser) : bankCredentialsRepository.findByIdUserAndEndDate(idUser, null));
 		user.setContracts(contractRepository.findByIdUser(idUser));
 		user.setDefaultTimesheet(timesheetRepository.findByIdUserAndType(idUser, "D"));
 	}
@@ -81,15 +87,6 @@ public class UserService implements UserDetailsService{
 		}
 	}
 	
-	/** FUNZIONA: Questo metodo prima carica l'utente dal database con la query, passa al dto con il metodo BeanUtils.copyProperties ed ignora
-	 * le proprietà elencate.
-	 * 
-	 * Se non viene trovato alcun utente tramite l'id, restituisce un utente vuoto
-	 * 
-	 * @param id parametro in ingresso per trovare l'utente sul database
-	 * @return
-	 * @throws MasterException 
-	 */
 	public UserDto find(Long idUser, boolean complete) throws MasterException {
 		
 		UserDto userDto = new UserDto();
@@ -99,14 +96,18 @@ public class UserService implements UserDetailsService{
 			if(complete) {
 				fillUserLists(user, false);
 				BeanUtils.copyProperties(user, userDto, "password", "secondaryEmail", "fiscalCode", "birthDate", "birthPlace", "nationality",
-						"document", "idSkype", "admin", "archiveDate", "note", "addresses", "bankCredentials", "contracts", "defaultTimesheet");
+						"document", "idSkype", "admin", "archiveDate", "note");
+				if(user.getAddresses().size() > 1 || user.getBankCredentials().size() > 1) throw new ServiceException("Dati non conformi");
+				userDto.setAddresses(user.getAddresses().toArray(new Address[0]));
+				userDto.setBankCredential(user.getBankCredentials().get(0));
+				userDto.setContract(user.getContracts().get(0));
 			}else
 				BeanUtils.copyProperties(user, userDto, "password", "secondaryEmail", "fiscalCode", "birthDate", "birthPlace", "nationality",
-						"document", "idSkype", "admin", "archiveDate", "note");
+						"document", "idSkype", "admin", "archiveDate", "note",  "addresses", "bankCredentials", "contracts", "defaultTimesheet");
 			return userDto;
 		}catch (EntityNotFoundException | IllegalArgumentException | NoSuchElementException e) {
 			throw new NoContentException("Non è stato trovato un utente con l'id selezionato o i dati potrebbero essere corrotti");
-		} catch (DBException e) {
+		} catch (MasterException e) {
 			throw e;
 		} catch (BeansException e) {
 			throw new ServiceException("Non è stato possibile convertire i dati selezionati");
