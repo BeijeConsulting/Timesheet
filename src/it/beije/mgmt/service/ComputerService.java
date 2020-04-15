@@ -10,6 +10,8 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,8 +28,10 @@ public class ComputerService {
 	@Autowired
 	private ComputerRepository computerRepository;
 	
+	Logger log = LoggerFactory.getLogger(this.getClass());
+	
 	public List<Computer> getComputers(Boolean check) {
-		System.out.println("check : " + check);
+		log.debug("check : " + check);
 		return getComputers(check, !check);
 	}
 	//Non so benissimo cosa fa qusta query e quindi non so come gestire gli errori
@@ -91,7 +95,7 @@ public class ComputerService {
 				whereClause+="WHERE ";
 		}
 		
-		System.out.println("Sto cercando");
+		log.debug("Sto cercando");
 		
 		for (int i=0;i<searchQuery.size();i++) {
 			whereClause+=searchQuery.get(i);

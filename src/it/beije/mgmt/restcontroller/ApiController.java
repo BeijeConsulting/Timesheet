@@ -2,6 +2,8 @@ package it.beije.mgmt.restcontroller;
 
 import java.util.Locale;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -15,6 +17,8 @@ import it.beije.mgmt.entity.User;
 @RestController
 @RequestMapping("api")
 public class ApiController {
+	
+	Logger log = LoggerFactory.getLogger(this.getClass());
 
 	//	@Autowired
 	//	private UserService userService;
@@ -25,14 +29,14 @@ public class ApiController {
 	///////// TEST //////////////////////
 	@RequestMapping(value = "/test", method = RequestMethod.GET)
 	private @ResponseBody User test(Locale locale, Model model) {
-		System.out.println("Home Page Requested, locale = " + locale);
+		log.info("Home Page Requested, locale = " + locale);
 
 		return new User();
 	}
 
 	@RequestMapping(value = "/testTT", method = RequestMethod.GET)
 	public @ResponseBody Timesheet testTT(Locale locale, Model model) {
-		System.out.println("Home Page Requested, locale = " + locale);
+		log.info("Home Page Requested, locale = " + locale);
 
 		return new Timesheet();
 	}

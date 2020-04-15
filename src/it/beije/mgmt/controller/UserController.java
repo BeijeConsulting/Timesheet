@@ -11,6 +11,8 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.servlet.http.HttpServletRequest;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -33,6 +35,8 @@ public class UserController {
 	
 	@Autowired
 	private UserService userService;
+	
+	Logger log = LoggerFactory.getLogger(this.getClass());
 
 	/**
 	 * Simply selects the home view to render by returning its name.
@@ -42,7 +46,7 @@ public class UserController {
 	@PreAuthorize("hasAnyRole('USER')")	
 	@RequestMapping(value = "/home", method = RequestMethod.GET)
 	public String home(Locale locale, Model model) {
-		System.out.println("Home Page Requested, locale = " + locale);
+		log.debug("Home Page Requested, locale = " + locale);
 		Date date = new Date();
 		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
 		String dataFormattato = dateFormat.format(date);
@@ -56,10 +60,10 @@ public class UserController {
 	
 	@RequestMapping(value = "/insertuser", method = RequestMethod.GET)
 	public String index(@Validated User user, Model model) {
-		System.out.println("Pagine inseriti: " + user.getLastName());
+		log.info("Pagine inseriti: " + user.getLastName());
 		model.addAttribute("userName", user);
 
-		System.out.println("sono in inserisciutente");
+		log.debug("sono in inserisciutente");
 
 		return "inserisciutente";
 	}
@@ -78,8 +82,7 @@ public class UserController {
 		if (user.getBirthDate().toLocalDate().isEqual(LocalDate.parse("1900-01-01")))
 			user.setBirthDate(null);
 		userService.create(user);
-		
-		System.out.println("sono in conferma " + user.getFirstName());
+		log.debug("sono in conferma " + user.getFirstName());
 		return "conferma";
 	}
 	

@@ -12,6 +12,8 @@ import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import org.hibernate.Hibernate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,14 +25,16 @@ import it.beije.mgmt.entity.Contract;
 @Service
 public class ComputerService_Vecchio {
 	
+	Logger log = LoggerFactory.getLogger(this.getClass());
+	
 	public List<Computer> getComputers(Boolean check) {
-		System.out.println("check : " + check);
+		log.debug("check : " + check);
 		return getComputers(check, !check);
 	}
 	
 	public List<Computer> getComputers(boolean check, boolean maintenance) {
-		System.out.println("available : " + check);
-		System.out.println("maintenance : " + maintenance);
+		log.debug("available : " + check);
+		log.debug("maintenance : " + maintenance);
 		EntityManager entityManager = Persistence.createEntityManagerFactory("timesheetDB").createEntityManager();
 		List<Computer> computers = new ArrayList<>();
 		
@@ -95,7 +99,7 @@ public class ComputerService_Vecchio {
 				whereClause+="WHERE ";
 		}
 		
-		System.out.println("Sto cercando");
+		log.debug("Sto cercando");
 		
 		for (int i=0;i<searchQuery.size();i++) {
 			whereClause+=searchQuery.get(i);
@@ -166,7 +170,7 @@ public List<Computer> all() {
 
 	entitymanager.close();
 	
-	System.out.println("caricaTutti : " + computer.size());
+	log.debug("caricaTutti : " + computer.size());
 	
 	return computer;
 }

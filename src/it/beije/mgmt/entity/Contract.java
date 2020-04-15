@@ -12,6 +12,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
@@ -23,6 +25,8 @@ import it.beije.mgmt.tool.Utils;
 @Table(name = "contratto")
 @Entity
 public class Contract {
+	
+	Logger log = LoggerFactory.getLogger(this.getClass());
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -91,7 +95,7 @@ public class Contract {
 	}
 	@JsonSetter
 	public void setContract_type(char contract_type) {
-		System.out.println("setContract_type : " + contract_type);
+		log.info("setContract_type : " + contract_type);
 		this.type = new ContractType();
 		type.setCod(contract_type);
 	}

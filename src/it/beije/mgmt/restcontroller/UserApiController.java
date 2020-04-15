@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -41,6 +43,9 @@ public class UserApiController {
 
 	@Autowired
 	private AddressService addressService;
+	
+	Logger log = LoggerFactory.getLogger(this.getClass());
+
 
 	///////// START USER //////////////////////
 	@RequestMapping(value = "/users", method = RequestMethod.GET)
@@ -82,9 +87,9 @@ public class UserApiController {
 	public @ResponseBody User getUser(@PathVariable Long id, Model model, HttpServletResponse response) throws IOException {
 		try {
 			User us = userService.findById(id);
-			System.out.println("user : " + us);
-			System.out.println("user : " + us.getId());
-			System.out.println("user : " + us.getAddresses());
+			log.debug("user : " + us);
+			log.debug("user : " + us.getId());
+			log.debug("user : " + us.getAddresses());
 			
 			addressService.getAddressByUser(id);
 			
@@ -97,7 +102,7 @@ public class UserApiController {
 	@RequestMapping(value = "/user", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody User insertUser(@RequestBody User user, HttpServletResponse response) throws IOException {
 		
-		System.out.println("insert user: " + user);
+		log.debug("insert user: " + user);
 		try {
 			return userService.create(user);
 		}catch(MasterException e) {
@@ -135,8 +140,8 @@ public class UserApiController {
 	@RequestMapping(value = "/user/{id}", method = RequestMethod.DELETE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody boolean archiveUser(@PathVariable Long id, @RequestBody User user,
 			HttpServletResponse response) throws IOException {
-		System.out.println("archive user by id: " + id);
-		System.out.println("archve user: " + user);
+		log.debug("archive user by id: " + id);
+		log.debug("archve user: " + user);
 		return userService.archiviaUtente(user);
 	}
 

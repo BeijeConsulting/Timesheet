@@ -23,12 +23,16 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.criterion.Restrictions;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import it.beije.mgmt.entity.User;
 
 public class DBImportExport {
+	
+	static Logger log = LoggerFactory.getLogger(DBImportExport.class);
 	
 	public static void main(String... args) throws Exception {
 		
@@ -88,7 +92,7 @@ public class DBImportExport {
 		session.close();
 		factory.close();
 		
-		System.out.println("CSV importato");
+		log.debug("CSV importato");
 } //Chiusura Metodo
 	
 	//EXPORT CSV METHOD
@@ -128,10 +132,10 @@ public class DBImportExport {
 //               }
             fw.flush();
             fw.close();
-            System.out.println("CSV File creato correttamente.");
+            log.debug("CSV File creato correttamente.");
             }
     	catch(Exception e) {
-			System.out.println(e.getMessage());
+			log.error(e.getMessage());
 			e.printStackTrace();
 		}
 		finally {
@@ -227,7 +231,7 @@ public class DBImportExport {
 //               } //end while
 		} 
 		catch(Exception e) {
-			System.out.println(e.getMessage());
+			log.error(e.getMessage());
 			e.printStackTrace();
 		}
 		finally {
@@ -251,7 +255,7 @@ public class DBImportExport {
 	            FileWriter fos = new FileWriter(pathfile);
 	            StreamResult result = new StreamResult(fos);
 	            aTransformer.transform(source, result);
-	            System.out.println("XML File creato correttamente.");
+	            log.debug("XML File creato correttamente.");
 	        } catch (IOException e) {
 	            e.printStackTrace();
 	        }

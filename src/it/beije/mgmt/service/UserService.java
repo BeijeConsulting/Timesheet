@@ -18,6 +18,9 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.PersistenceException;
 import javax.persistence.TypedQuery;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,6 +60,9 @@ public class UserService implements UserDetailsService{
 	private ContractRepository contractRepository;
 	@Autowired
 	private TimesheetRepository timesheetRepository;
+	
+	Logger log = LoggerFactory.getLogger(this.getClass());
+
 
 	/**
 	 * @param idUser
@@ -215,7 +221,7 @@ public class UserService implements UserDetailsService{
 				whereClause+="WHERE ";
 		}
 		
-		System.out.println("Sto cercando");
+		log.debug("Sto cercando");
 		
 		for (int i=0;i<searchQuery.size();i++) {
 			whereClause+=searchQuery.get(i);
@@ -394,7 +400,7 @@ public class UserService implements UserDetailsService{
 				whereClause+="WHERE ";
 		}
 		
-		System.out.println("Sto cercando");
+		log.debug("Sto cercando");
 		
 		for (int i=0;i<searchQuery.size();i++) {
 			whereClause+=searchQuery.get(i);

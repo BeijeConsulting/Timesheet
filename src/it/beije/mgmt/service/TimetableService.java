@@ -10,6 +10,9 @@ import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import java.sql.Date;
 import java.sql.Time;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import it.beije.mgmt.JpaEntityManager;
@@ -23,6 +26,9 @@ import it.beije.mgmt.exception.IllegalDateException;
 
 @Service
 public class TimetableService {
+	
+	static Logger log = LoggerFactory.getLogger(TimetableService.class);
+
 	
 	private static boolean hasOverlap(Time s1, Time e1, Time s2, Time e2) {
 		
@@ -51,7 +57,7 @@ public class TimetableService {
 
 		entitymanager.close();
 		
-		System.out.println("caricaTutto : " + timetables.size());
+		log.debug("caricaTutto : " + timetables.size());
 		
 		return timetables;
 	}
@@ -92,16 +98,16 @@ public class TimetableService {
 	 *****************************************************************************************************************/
 	public boolean checkPassword(int id, String password) {
 		boolean check = false;
-		System.out.println("password in metodo: " + password);
-		System.out.println(id);
+		log.debug("password in metodo: " + password);
+		log.debug("id "+id);
 		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
 		EntityManager entitymanager = emfactory.createEntityManager();
 		User user = entitymanager.find(User.class, id);
 
 		if (user == null) {
-			System.out.println("non è stato trovato nulla");
+			log.error("non è stato trovato nulla");
 		}
-		System.out.println(user.getPassword());
+		log.debug(user.getPassword());
 		if (user.getPassword().equals(password))
 			check = true;
 		return check;
@@ -182,7 +188,7 @@ public class TimetableService {
 	{
 		if(tot > 8) {
 			//SE IL TOTALE DELLE ORE DI UNA SINGOLA TIMESHEET SUPERA 8 C'è UN PROBLEMA.
-			System.out.println(tot);
+			log.debug("totale "+tot);
 			throw new IllegalHourException("ATTENZIONE: le ore complessive della giornata sono maggiori di 8!");
 		}
 		else
@@ -280,8 +286,8 @@ public class TimetableService {
 			EntityManager entitymanager = emfactory.createEntityManager();
 			EntityTransaction entr = entitymanager.getTransaction();
 			entr.begin();
-			System.out.println(lista);
-			System.out.println("secondo ciclo");
+			log.debug("list "+lista);
+			log.debug("secondo ciclo");
 			for(Timesheet t : lista) {
 				if(t.getSubmit()!=null) {
 					String q= "UPDATE Timesheet t SET t.validated = '"+today+"' WHERE id ='"+ t.getId()+"'";
@@ -302,7 +308,7 @@ public class TimetableService {
 			EntityManager entitymanager = emfactory.createEntityManager();
 			EntityTransaction entr = entitymanager.getTransaction();
 			entr.begin();
-			System.out.println(lista);
+			log.debug("list "+lista);
 			
 			for(Timesheet t : lista) {
 				if(t.getSubmit()!=null) {
@@ -345,7 +351,7 @@ public class TimetableService {
 			query.setParameter(6, newTable.getEnd2());
 			query.setParameter(7, service.oreTrascorse(newTable.getStart1(), newTable.getEnd1(), newTable.getStart2(), newTable.getEnd2()) );
 			int x = query.executeUpdate();
-			System.out.println("NUM RECORD MODIFICATI = "+ x);
+			log.debug("NUM RECORD MODIFICATI = "+ x);
 			entr.commit();
 			}
 			finally{
@@ -367,7 +373,7 @@ public class TimetableService {
 				"SELECT t FROM Timesheet t WHERE t.date >= '" + startDate + "' AND t.date<= '" + endDate + "'",
 				Timesheet.class);
 
-		System.out.println(q.getFirstResult());
+		log.debug("result "+q.getFirstResult());
 		records = q.getResultList();
 
 		return records;

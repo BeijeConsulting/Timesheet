@@ -11,6 +11,8 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.TypedQuery;
 import org.springframework.transaction.annotation.Transactional;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import it.beije.mgmt.JpaEntityManager;
@@ -34,6 +36,9 @@ public class TimesheetService {
 	
 	@Autowired
 	private UserRepository userRepository;
+	
+	Logger log = LoggerFactory.getLogger(this.getClass());
+
 //------------------------------------------------------------------------------------------------------------------------------------------------------	
 	private static boolean hasOverlap(Time s1, Time e1, Time s2, Time e2) {
 		
@@ -151,7 +156,7 @@ public Timesheet getDefaultTimesheet(Long idUser) {
 		{
 			if(tot > 8) {
 				//SE IL TOTALE DELLE ORE SUPERA 8 C'è UN PROBLEMA.
-				System.out.println(tot);
+				log.debug("totale "+tot);
 				throw new IllegalHourException("ATTENZIONE: le ore complessive della giornata sono maggiori di 8!");
 			}
 			else
@@ -436,14 +441,14 @@ public Timesheet getDefaultTimesheet(Long idUser) {
 						whereClause+="WHERE ";}
 		}
 		
-		System.out.println("Sto cercando");
+		log.debug("Sto cercando");
 		
 		for (int i=0;i<searchQuery.size();i++) {
 			whereClause+=searchQuery.get(i);
 			if (i!=searchQuery.size()-1)
 				whereClause+=" AND ";
 		}
-		System.out.println(whereClause);
+		log.debug(" "+whereClause);
 		TypedQuery<Timesheet> query=entitymanager.createQuery("SELECT a from Timesheet a "+whereClause,Timesheet.class);
 		
 		List<Timesheet> timesheetlist=query.getResultList();

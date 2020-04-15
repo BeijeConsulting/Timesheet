@@ -15,6 +15,8 @@ import java.util.Map;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
@@ -25,7 +27,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.context.annotation.SessionScope;
-
 import it.beije.mgmt.entity.Timesheet;
 import it.beije.mgmt.entity.User;
 import it.beije.mgmt.service.TimetableService;
@@ -39,6 +40,7 @@ public class TimetableController {
 	@Autowired
 	private TimetableService timetableService;
 	
+	Logger log = LoggerFactory.getLogger(this.getClass());
 
 	private Timesheet table = null;
 	String password;
@@ -49,7 +51,7 @@ public class TimetableController {
 	
 	@RequestMapping(value = "/prehome", method = RequestMethod.GET)
 	public String preHome(Locale locale, Model model) {
-		System.out.println("Home Page Requested, locale = " + locale);
+		log.debug("Home Page Requested, locale = " + locale);
 		Date date = new Date();
 		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
 
@@ -62,7 +64,7 @@ public class TimetableController {
 	@RequestMapping(value= "/listtimetable", method= RequestMethod.GET)
 	public String selezioneN(Locale locale, Model model) {
 		
-		System.out.println("Selezione n timesheet da inserire");
+		log.info("Selezione n timesheet da inserire");
 		Date date = new Date();
 		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
 
@@ -86,7 +88,7 @@ public class TimetableController {
 	public String addtimesheet(Model model, @Validated Timesheet timesheet) throws Exception {
 		
 		if (TimetableService.findRecordsFromId(timesheet.getIdUser())==null)  {
-			System.out.println("Utente non trovato");
+			log.error("Utente non trovato");
 			
 			return "utentenontrovato";
 		}
@@ -132,7 +134,7 @@ public class TimetableController {
 	
 	@RequestMapping(value = "/timetable", method = RequestMethod.POST)
 	public String home(Locale locale, Model model) {
-		System.out.println("Home Page Requested, locale = " + locale);
+		log.debug("Home Page Requested, locale = " + locale);
 		Date date = new Date();
 		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
 
@@ -145,7 +147,7 @@ public class TimetableController {
 
 	@RequestMapping(value = "/ricerca", method = RequestMethod.POST)
 	public String ricerca (Locale locale, Model model) {
-		System.out.println("Home Page Requested, locale = " + locale);
+		log.debug("Home Page Requested, locale = " + locale);
 		Date date = new Date();
 		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
 
@@ -157,7 +159,7 @@ public class TimetableController {
 	}
 	@RequestMapping(value = "/cancella", method = RequestMethod.POST)
 	public String ricercacanc (Locale locale, Model model) {
-		System.out.println("Home Page Requested, locale = " + locale);
+		log.debug("Home Page Requested, locale = " + locale);
 		Date date = new Date();
 		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
 
@@ -172,10 +174,10 @@ public class TimetableController {
 	@RequestMapping(value = "/user", method = RequestMethod.POST)
 		public String user(@Validated Timesheet timetable,  Model model) {
 		
-		System.out.println("entro");
+		log.debug("entro");
 		
 		if (TimetableService.findRecordsFromId(timetable.getIdUser())==null)  {
-			System.out.println("Utente non trovato");
+			log.error("Utente non trovato");
 			return "utentenontrovato";
 		}	
 	
@@ -186,23 +188,21 @@ public class TimetableController {
 		table=timetable;
 	model.addAttribute("timetable", timetable);
 		
-		System.out.println("data saddsxta"+ timetable.getDate());
+		//System.out.println("data saddsxta"+ timetable.getDate());
 
-	
-		
 		return "user";
 	}
 	
 	@RequestMapping(value = "/confermadatitimetable", method = RequestMethod.POST)
 	public String elaboraDati () {
-		System.out.println("Sto elaborando i tuoi dati...");
+		 log.debug("Sto elaborando i tuoi dati...");
 		 timetableService.creaRecordTimetable(table);
 		 return "conferma";
 	}
 	
 	@RequestMapping(value = "/confermacanc", method = RequestMethod.POST)
 	public String cancellasheet() {
-		System.out.println("Sto elaborando i tuoi dati");
+		 log.debug("Sto elaborando i tuoi dati");
 		 timetableService.cancellaTimetable(tableU);
 		 return "conferma";
 	}
@@ -216,10 +216,10 @@ public class TimetableController {
 		
 		String formattedDate = dateFormat.format(date);
 		model.addAttribute("serverTime", formattedDate);
-		System.out.println("Modifica dei dati...");
+		log.debug("Modifica dei dati...");
 		
 		model.addAttribute(table);
-		System.out.println("fine modifica sul controller");
+		log.debug("fine modifica sul controller");
 		Time s1 = null;
 		Time e1 = null;
 		Time s2 = null;
@@ -260,11 +260,11 @@ public class TimetableController {
 			else return "erroremodificaorari";
 		}
 		else if (s2==null||e2==null) {
-			System.out.println("prima if prima metodo");
+			//System.out.println("prima if prima metodo");
 			if (!(s1==null||e1==null)) {
-				System.out.println("dopo if prima metodo");
+			//System.out.println("dopo if prima metodo");
 			table.setTot(timetableService.oreTrascorse(s1, e1));
-			System.out.println("dopo if dopo metodo");
+			//System.out.println("dopo if dopo metodo");
 			 timetableService.creaRecordTimetable(table);
 			return "conferma";
 			}
@@ -274,21 +274,21 @@ public class TimetableController {
 		table.setTot(timetableService.oreTrascorse(s1, e1, s2, e2));
 //		table=timetable;
 		model.addAttribute("timetable", table);
-		System.out.println("Controllo"+table.getType());
-		 timetableService.creaRecordTimetable(table);
+		log.debug("Controllo"+table.getType());
+		timetableService.creaRecordTimetable(table);
 		return "conferma";}
 	}
 		
 	
 	@RequestMapping(value = "/erroremodificaorari", method = RequestMethod.GET)
 	public String erroreOrari () {
-		System.out.println("hai cannato gli orari, torna al modifica");
+		log.error("hai cannato gli orari, torna al modifica");
 		return "modifica";
 	}
 	
 	@RequestMapping(value = "/utentenontrovato", method = RequestMethod.GET)
 	public String nonTrovato () {
-		System.out.println("Ti stiamo reinderizzando alla home");
+		log.info("Ti stiamo reinderizzando alla home");
 		return "prehome";
 	}	
 	
@@ -317,7 +317,7 @@ public class TimetableController {
 				
 		//ricavo l'id degli utenti e ricerco per id_user per recuperare nome e cognome di ogni utente e fare la successiva stampa
 		if (TimetableService.findRecordsFromId(idUser)==null)  {
-			System.out.println("Utente non trovato");
+			log.error("Utente non trovato");
 			return "utentenontrovato";
 		}
 		
@@ -349,7 +349,7 @@ public class TimetableController {
 				
 		//ricavo l'id degli utenti e ricerco per id_user per recuperare nome e cognome di ogni utente e fare la successiva stampa
 		if (TimetableService.findRecordsFromId(idUser)==null)  {
-			System.out.println("Utente non trovato");
+			log.error("Utente non trovato");
 			return "utentenontrovato";
 		}
 		
@@ -378,15 +378,15 @@ public class TimetableController {
 	
 	@RequestMapping(value = "/salvamodifiche", method = RequestMethod.POST)
 	public String salvaModifiche (@Validated Timesheet timetable,@RequestParam("date") java.sql.Date data, @RequestParam("idUser") int idUser) {
-		System.out.println("Sto elaborando i tuoi dati...");
+		log.debug("Sto elaborando i tuoi dati...");
 //		
 //		
-		System.out.println(timetable.getIdUser());
-		System.out.println(timetable.getType());
-		System.out.println(timetable.getStart1());
-		System.out.println(timetable.getEnd1());
-		System.out.println(timetable.getStart2());
-		System.out.println("controlloCosimo" + timetable.getEnd2());
+		log.debug("Id user "+timetable.getIdUser());
+		log.info("type "+timetable.getType());
+		log.info("start date 1 "+timetable.getStart1());
+		log.info("end date 1 "+timetable.getEnd1());
+		log.info("start date 2 "+timetable.getStart2());
+		log.info("end date 2 " + timetable.getEnd2());
 		
 		
 		 timetableService.updateRecord(idUser, data, timetable);
@@ -407,7 +407,7 @@ public class TimetableController {
 	public String leggirigheperiod (@Validated Timesheet timetable,@RequestParam("start") java.sql.Date start,@RequestParam("end") java.sql.Date end, @RequestParam("idUser") int idUser) {
 		
 		List result = TimetableService.takeRecordsFromIdTimetableVersionWithPeriod(idUser,start,end);
-		System.out.println(result.toString());
+		log.debug(result.toString());
 		
 		return "leggirigheperiod";
 	}

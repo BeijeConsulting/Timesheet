@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.ui.Model;
@@ -26,6 +28,8 @@ public class ComputerApiController {
 	@Autowired
 	private ComputerService computerService;
 	
+	Logger log = LoggerFactory.getLogger(this.getClass());
+
 		/**
 		 * DA AGGIORNARE TUTTE LE API CONFRONTANDOSI CON QUELLE DI USER, COSTRUENDO UN COMPUTERDTO
 		 * @param model
@@ -46,7 +50,7 @@ public class ComputerApiController {
 		@RequestMapping(value = "/computer/{id}", method = RequestMethod.GET)
 		public @ResponseBody Computer getComputer(@PathVariable Long id, Model model,
 				HttpServletResponse response) throws IOException {
-			System.out.println("get computer by id: " + id);
+				log.debug("get computer by id: " + id);
 
 			return computerService.find(id);
 		}
@@ -56,7 +60,7 @@ public class ComputerApiController {
 				consumes = MediaType.APPLICATION_JSON_VALUE)
 		public @ResponseBody Computer insertComputer(@RequestBody Computer computer, Model model,
 				HttpServletResponse response) throws IOException {
-			System.out.println("insert computer: " + computer);
+				log.debug("insert computer: " + computer);
 
 			return computerService.create(computer);
 		}
@@ -67,8 +71,8 @@ public class ComputerApiController {
 				consumes = MediaType.APPLICATION_JSON_VALUE)
 		public @ResponseBody Computer updateComputer(@PathVariable Long id, @RequestBody Computer computer, Model model,
 				HttpServletResponse response) throws IOException {
-			System.out.println("update computer by id: " + id);
-			System.out.println("update computer: " + computer);
+			log.debug("update computer by id: " + id);
+			log.debug("update computer: " + computer);
 
 			return computerService.update(computer, id);
 		}

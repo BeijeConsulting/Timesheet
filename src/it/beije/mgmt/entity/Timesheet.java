@@ -10,6 +10,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.lang.NonNull;
 import com.fasterxml.jackson.annotation.JsonGetter;
 import it.beije.mgmt.tool.Utils;
@@ -19,6 +22,8 @@ import it.beije.mgmt.tool.Utils;
 @Table(name = "timesheet")
 public class Timesheet implements Serializable {
 	private static final long serialVersionUID = 2L;
+	
+	Logger log = LoggerFactory.getLogger(this.getClass());
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -107,12 +112,12 @@ public class Timesheet implements Serializable {
 		return Utils.formatDate(this.submit);
 	}
 	public void setDate(Date date) {
-		System.out.println("set date from Date");
+		log.debug("set date from Date");
 		this.date = date;
 	}
 //	@JsonSetter("date")
 	public void setDate(String date) throws ParseException {
-		System.out.println("set date from String");
+		log.debug("set date from String");
 		this.date = Utils.parseDate(date);
 	}
 ////	@JsonGetter("date")

@@ -10,8 +10,8 @@ import javax.persistence.EntityManagerFactory;
 
 import javax.persistence.Persistence;
 
-
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,6 +33,8 @@ public class ContractService {
 	@Autowired
 	private UserRepository userRepository;
 	
+	Logger log = LoggerFactory.getLogger(this.getClass());
+
 	//Aggiunge un nuovo contratto alla lista dell'utente
 	// user repository non ancora finito , modificare in seguito 
 	public Contract create(Long idUser, Contract contract) throws Exception {
@@ -42,7 +44,7 @@ public class ContractService {
 		if(user== null)
 			throw new NoContentException("Id user invalido");
 
-		System.out.println("user.getContract()?"
+		log.debug("user.getContract()?"
 				+ (user.getContracts() != null ? user.getContracts().size() : "NULL"));
 
 		if (Objects.isNull(contract.getIdUser())) {
@@ -77,7 +79,7 @@ public class ContractService {
 			throw new NoContentException("contratto non valido");
 		}
 
-		System.out.println("bankCredentials : " + contracts.size());
+		log.debug("bankCredentials : " + contracts.size());
 
 		return contracts;
 	}

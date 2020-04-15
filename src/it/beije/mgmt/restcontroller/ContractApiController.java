@@ -9,6 +9,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,6 +39,8 @@ import it.beije.mgmt.service.JPAService;
 public class ContractApiController {
 	@Autowired
 	private ContractService contractService;
+	
+	Logger log = LoggerFactory.getLogger(this.getClass());
 
 	
 	@Transactional
@@ -49,7 +53,7 @@ public class ContractApiController {
 	public @ResponseBody Contract createContract(@PathVariable Long id,
 			@RequestBody Contract contract, HttpServletResponse response) throws Exception {
 
-		System.out.println("insert Contract: " + contract);
+		log.debug("insert Contract: " + contract);
 
 		return contractService.create(id, contract);
 	}
@@ -58,7 +62,7 @@ public class ContractApiController {
 	public @ResponseBody Contract getContract(@PathVariable Long id, Model model,
 			HttpServletResponse response) throws IOException {
 		
-		System.out.println("get contract by idContract: " + id);
+		log.debug("get contract by idContract: " + id);
 		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
 		EntityManager entitymanager = emfactory.createEntityManager();
 		
@@ -69,8 +73,8 @@ public class ContractApiController {
 	public @ResponseBody Contract updateContract(@PathVariable Long id, @RequestBody Contract contract,
 			Model model, HttpServletResponse response) throws IOException {
 		
-		System.out.println("update contract by id: " + id);
-		System.out.println("update contract: " + contract);
+		log.debug("update contract by id: " + id);
+		log.debug("update contract: " + contract);
 
 		return contractService.update(id, contract);
 	}

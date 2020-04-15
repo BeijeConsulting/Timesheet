@@ -11,11 +11,17 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import it.beije.mgmt.entity.User;
 
 public class ImportUser {
 
+	static Logger log = LoggerFactory.getLogger(ImportUser.class);
+
 	public static void main(String[] args) {
+		
 		
 		try {
 			
@@ -58,12 +64,12 @@ public class ImportUser {
 			br.close();
 				      
 			entityManager.close();
-			System.out.println("Contatti caricati in DB");
+			log.debug("Contatti caricati in DB");
 				    }
 				    catch (Exception e)
 				    {
-				      System.err.println("Got an exception! File non caricato correttamente!");
-				      System.err.println(e.getMessage());
+				      log.error("Got an exception! File non caricato correttamente!");
+				      log.error(e.getMessage());
 				    }
 				  }
 

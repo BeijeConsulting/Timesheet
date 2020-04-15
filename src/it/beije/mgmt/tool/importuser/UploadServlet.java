@@ -20,10 +20,15 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 	@WebServlet("/UploadServlet")
 	public class UploadServlet extends HttpServlet {
 		private static final long serialVersionUID = 1L;
+		
+		Logger log = LoggerFactory.getLogger(this.getClass());
+		
 	    private ServletFileUpload uploader = null;
 		@Override
 		public void init() throws ServletException{
@@ -41,7 +46,7 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 			if(!file.exists()){
 				throw new ServletException("File doesn't exists on server.");
 			}
-			System.out.println("File location on server:"+file.getAbsolutePath());
+			log.debug("File location on server:"+file.getAbsolutePath());
 			ServletContext ctx = getServletContext();
 			InputStream fis = new FileInputStream(file);
 			String mimeType = ctx.getMimeType(file.getAbsolutePath());
@@ -58,7 +63,7 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 			os.flush();
 			os.close();
 			fis.close();
-			System.out.println("File downloaded at client successfully");
+			log.debug("File downloaded at client successfully");
 		}
 
 		protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -74,13 +79,13 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 				Iterator<FileItem> fileItemsIterator = fileItemsList.iterator();
 				while(fileItemsIterator.hasNext()){
 					FileItem fileItem = fileItemsIterator.next();
-					System.out.println("FieldName="+fileItem.getFieldName());
-					System.out.println("FileName="+fileItem.getName());
-					System.out.println("ContentType="+fileItem.getContentType());
-					System.out.println("Size in bytes="+fileItem.getSize());
+					log.debug("FieldName="+fileItem.getFieldName());
+					log.debug("FileName="+fileItem.getName());
+					log.debug("ContentType="+fileItem.getContentType());
+					log.debug("Size in bytes="+fileItem.getSize());
 					
 					File file = new File(request.getServletContext().getAttribute("FILES_DIR")+File.separator+fileItem.getName());
-					System.out.println("Absolute Path at server="+file.getAbsolutePath());
+					log.debug("Absolute Path at server="+file.getAbsolutePath());
 					fileItem.write(file);
 					out.write("File "+fileItem.getName()+ " uploaded successfully.");
 					out.write("<br>");

@@ -4,6 +4,9 @@ import java.io.IOException;
 import java.sql.Date;
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.ui.Model;
@@ -25,6 +28,8 @@ public class TimesheetApiController {
 	
 		@Autowired
 		private TimesheetService timesheetService;
+		
+		Logger log = LoggerFactory.getLogger(this.getClass());
 
 		@RequestMapping(value = "/timesheets", method = RequestMethod.GET)
 		public @ResponseBody List<Timesheet> getTimesheets(Model model, HttpServletResponse response) throws IOException {
@@ -38,7 +43,7 @@ public class TimesheetApiController {
 	
 		@RequestMapping(value = "/timesheets", method = RequestMethod.POST,	consumes = MediaType.APPLICATION_JSON_VALUE)
 		public @ResponseBody List<Timesheet> insertTimesheets(@RequestBody List<Timesheet> timesheets, Model model,	HttpServletResponse response) {
-			System.out.println("insert timesheets: " + timesheets);
+			log.debug("insert timesheets: " + timesheets);
 	
 			return timesheetService.insert(timesheets);
 		}
@@ -89,7 +94,7 @@ public class TimesheetApiController {
 		public @ResponseBody boolean submit(@PathVariable Long id,@RequestParam(value = "datefrom", required = true)Date datefrom,@RequestParam(value = "dateto", required = false)Date dateto) throws Exception {
 			if(dateto !=null) {
 				int i=dateto.compareTo(datefrom);
-				System.out.println(i);
+				//System.out.println(i);
 				if(i>0) {
 					return timesheetService.submitUtente(id, datefrom, dateto);
 				}
