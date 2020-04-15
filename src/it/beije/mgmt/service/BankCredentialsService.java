@@ -68,13 +68,14 @@ public class BankCredentialsService {
 	public BankCredentials update(Long id, BankCredentials bankCredentials) {
 		
 		try {
+			try {
 			BankCredentials bankCredentialOld = find(id);
 			if(bankCredentialOld.getEndDate()==null) 
 				bankCredentialOld.setEndDate(Date.valueOf(LocalDate.now()));
 			bankCredentials.setId(null);
-			BankCredentials newB = create(id, bankCredentials);
 			bankCredentialsRepository.saveAndFlush(bankCredentialOld);
-			return newB;
+			}catch (NoContentException e) {}
+			return create(id, bankCredentials);
 		}catch(IllegalStateException  | PersistenceException e) {
 			throw new ServiceException("Al momento non è possibile soddisfare la richiesta");
 		} catch (MasterException e) {
