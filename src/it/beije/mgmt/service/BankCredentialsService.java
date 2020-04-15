@@ -33,12 +33,13 @@ public class BankCredentialsService {
 	public BankCredentials create(Long idUser, BankCredentials bankCredentials) {
 			
 		try {
-			if(bankCredentials.getId()!=null)
+			if(bankCredentials.getId()!=null || bankCredentials.getStartDate()!=null || bankCredentials.getEndDate()!=null)
 				throw new InvalidJSONException("Errore nei dati inviati");
 			if (Objects.isNull(bankCredentials.getIdUser()))
 				bankCredentials.setIdUser(idUser);
 			else if (bankCredentials.getIdUser().longValue() != idUser.longValue())
 				throw new ServiceException("Dati non conformi");
+			bankCredentials.setStartDate(Date.valueOf(LocalDate.now()));
 			return bankCredentialsRepository.saveAndFlush(bankCredentials);
 		}catch(EntityExistsException eee) {
 			throw new ServiceException("Valore già presente nel database");
@@ -68,7 +69,8 @@ public class BankCredentialsService {
 		
 		try {
 			BankCredentials bankCredentialOld = find(id);
-			bankCredentialOld.setEndDate(Date.valueOf(LocalDate.now()));
+			if(bankCredentialOld.getEndDate()==null) 
+				bankCredentialOld.setEndDate(Date.valueOf(LocalDate.now()));
 			bankCredentials.setId(null);
 			BankCredentials newB = create(id, bankCredentials);
 			bankCredentialsRepository.saveAndFlush(bankCredentialOld);
