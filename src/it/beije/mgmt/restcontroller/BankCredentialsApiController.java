@@ -72,18 +72,12 @@ public class BankCredentialsApiController {
 	public @ResponseBody BankCredentials createBankCredentials(@PathVariable Long id,
 			@RequestBody BankCredentials bankCredentials, HttpServletResponse response) throws Exception {
 
-		System.out.println("insert BankCredentials: " + bankCredentials);
-
-		User us = userService.findById(id);
-		if(us.isEmpty()) 
-			throw new NoContentException("Non è stato trovato un utente con l'id selezionato");
-		BankCredentials bc = new BankCredentials();
 		try {
-			bc = bankCredentialsService.create(id, bankCredentials);
+			BankCredentials bc = bankCredentialsService.create(id, bankCredentials);
+			return bc;
 		}catch(RuntimeException e) {
 			throw new InvalidJSONException("Non è stato possibile aggiungere la cordinata bancaria desiderata");
 		}
-		return bc;
 	}
 
 	// get bank credentials by idBankCredentials
@@ -103,19 +97,13 @@ public class BankCredentialsApiController {
 	@RequestMapping(value = "/bankCredentials/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody BankCredentials updateBankCredential(@PathVariable Long id, @RequestBody BankCredentials bankCredentials,
 			Model model, HttpServletResponse response) throws IOException {
-		System.out.println("update bankCredentials by id: " + id);
-		System.out.println("update bankCredential: " + bankCredentials);
-		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
-		EntityManager entitymanager = emfactory.createEntityManager();
-		BankCredentials bc = entitymanager.find(BankCredentials.class, id);
-		if(bc.getId()==null) 
-			throw new NoContentException("Non è stato trovato una cordinata bancaria con l'id selezionato");
+		
 		try {
-			bc = bankCredentialsService.update(id, bankCredentials);
+			BankCredentials bc = bankCredentialsService.update(id, bankCredentials);
+			return bc;
 		}catch(RuntimeException e) {
 			throw new InvalidJSONException("Non è stato possibile modificare i dati della cordinata bancaria desiderata");
 		}
-		return bc;
 	}
 
 }
