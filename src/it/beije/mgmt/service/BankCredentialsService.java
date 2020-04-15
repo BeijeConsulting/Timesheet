@@ -15,6 +15,8 @@ import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import org.hibernate.Hibernate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,6 +32,9 @@ import it.beije.mgmt.repository.BankCredentialsRepository;
 @Service
 public class BankCredentialsService {
 	
+	private Logger log = LoggerFactory.getLogger(JpaEntityManager.class.getName());
+
+	
 	@Autowired
 	private BankCredentialsRepository bankCredentialsRepository;
 
@@ -38,9 +43,11 @@ public class BankCredentialsService {
 		entityManager.getTransaction().begin();
 		
 		User user = entityManager.find(User.class, idUser);
-
-		System.out.println("user.getBankCredentials()?"
+		
+		log.info("user.getBankCredentials()?"
 				+ (user.getBankCredentials() != null ? user.getBankCredentials().size() : "NULL"));
+	//	System.out.println("user.getBankCredentials()?"
+				//+ (user.getBankCredentials() != null ? user.getBankCredentials().size() : "NULL"));
 
 		if (Objects.isNull(bankCredentials.getIdUser())) {
 			bankCredentials.setIdUser(idUser);
@@ -109,7 +116,8 @@ public class BankCredentialsService {
 		
 		List<BankCredentials> bankCredentials = bankCredentialsRepository.findByIdUser(id);
 		
-		System.out.println("bankCredentials : " + bankCredentials.size());
+		log.info("bankCredentials : " + bankCredentials.size());
+		//System.out.println("bankCredentials : " + bankCredentials.size());
 		
 		return bankCredentials;
 	}
