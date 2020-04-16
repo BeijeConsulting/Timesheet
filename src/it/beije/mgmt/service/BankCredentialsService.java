@@ -75,13 +75,13 @@ public class BankCredentialsService {
 		
 		try {
 			try {
-			BankCredentials bankCredentialOld = find(id);
-			if(bankCredentialOld.getEndDate()==null) 
-				bankCredentialOld.setEndDate(Date.valueOf(LocalDate.now()));
-			bankCredentials.setId(null);
-			bankCredentialsRepository.saveAndFlush(bankCredentialOld);
-			}catch (NoContentException e) {}
-			return create(id, bankCredentials);
+				BankCredentials bankCredentialOld = find(id);
+				if(bankCredentialOld.getEndDate()==null) 
+					bankCredentialOld.setEndDate(Date.valueOf(LocalDate.now()));
+				bankCredentials.setId(null);
+				bankCredentialsRepository.saveAndFlush(bankCredentialOld);
+			}catch (RuntimeException e) {}
+			return create(bankCredentials.getIdUser(), bankCredentials);
 		}catch(IllegalStateException  | PersistenceException e) {
 			throw new ServiceException("Al momento non è possibile soddisfare la richiesta");
 		} catch (MasterException e) {
