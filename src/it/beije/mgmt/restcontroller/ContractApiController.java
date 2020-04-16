@@ -28,6 +28,7 @@ import it.beije.mgmt.entity.BankCredentials;
 import it.beije.mgmt.entity.Contract;
 import it.beije.mgmt.entity.Timesheet;
 import it.beije.mgmt.entity.User;
+import it.beije.mgmt.exception.MasterException;
 import it.beije.mgmt.service.ContractService;
 import it.beije.mgmt.service.JPAService;
 
@@ -42,27 +43,35 @@ public class ContractApiController {
 	@Transactional
 	@RequestMapping(value = "/contracts/user/{id}", method = RequestMethod.GET)
 	public @ResponseBody List<Contract> getContractForUser(@PathVariable Long id) {
-		return contractService.getContractByUser(id);
+		
+		try {
+			return contractService.getContractByUser(id);
+		}catch(MasterException e) {
+			throw e;
+		}
 	}
 
 	@RequestMapping(value = "/contract/user/{id}", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody Contract createContract(@PathVariable Long id,
 			@RequestBody Contract contract, HttpServletResponse response) throws Exception {
 
-		System.out.println("insert Contract: " + contract);
-
-		return contractService.create(id, contract);
+		try {
+			return contractService.create(id, contract);
+		}catch(RuntimeException e) {
+			throw e;
+		}		
 	}
 
 	@RequestMapping(value = { "/contract/{id}" }, method = RequestMethod.GET)
 	public @ResponseBody Contract getContract(@PathVariable Long id, Model model,
 			HttpServletResponse response) throws IOException {
 		
-		System.out.println("get contract by idContract: " + id);
-		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
-		EntityManager entitymanager = emfactory.createEntityManager();
 		
-		return entitymanager.find(Contract.class, id);
+		try {
+			return contractService.find(id);
+		}catch(MasterException e) {
+			throw e;
+		}
 	}
 
 	@RequestMapping(value = "/contract/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -72,9 +81,12 @@ public class ContractApiController {
 		System.out.println("update contract by id: " + id);
 		System.out.println("update contract: " + contract);
 
-		return contractService.update(id, contract);
+		try {
+			return contractService.update(id, contract);
+		}catch(MasterException e) {
+			throw e;
+		}
 	}
-
 }
 
 

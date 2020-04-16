@@ -110,6 +110,12 @@ public class ContractService {
 
 		return contract;
 	}
+
+	public Contract find(Long id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
 
 

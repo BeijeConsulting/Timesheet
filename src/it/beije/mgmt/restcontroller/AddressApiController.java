@@ -64,12 +64,6 @@ public class AddressApiController {
 			throw e;
 		}
 	}
-//			entitymanager = JpaEntityManager.getInstance().createEntityManager();
-//			Address address = entitymanager.find(Address.class, id);
-//			if(address.getId()==null) 
-//				throw new NoContentException("Non è stato trovato un indirizzo con l'id selezionato");
-//		return address;
-//	}
 
 	@RequestMapping(value = "/address/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody Address updateContract(@PathVariable Long id, @RequestBody Address address,
