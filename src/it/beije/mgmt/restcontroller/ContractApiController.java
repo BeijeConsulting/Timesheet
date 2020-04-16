@@ -3,10 +3,7 @@ package it.beije.mgmt.restcontroller;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Locale;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,20 +14,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import it.beije.mgmt.JpaEntityManager;
-import it.beije.mgmt.dto.UserDto;
-import it.beije.mgmt.entity.Address;
-import it.beije.mgmt.entity.BankCredentials;
 import it.beije.mgmt.entity.Contract;
-import it.beije.mgmt.entity.Timesheet;
-import it.beije.mgmt.entity.User;
 import it.beije.mgmt.exception.MasterException;
 import it.beije.mgmt.service.ContractService;
-import it.beije.mgmt.service.JPAService;
 
 @RestController
 @RequestMapping("api")
