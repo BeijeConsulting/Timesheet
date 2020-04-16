@@ -49,7 +49,7 @@ public class AddressApiController {
 		try {
 			return addressService.create(id, address);
 		}catch(RuntimeException e) {
-			throw new InvalidJSONException("Non è stato possibile aggiungere l'indirizzo desiderato");
+			throw e;
 		}
 	}
 
@@ -57,9 +57,7 @@ public class AddressApiController {
 	@RequestMapping(value = { "/address/{id}" }, method = RequestMethod.GET)
 	public @ResponseBody Address getAddress(@PathVariable Long id, Model model,
 			HttpServletResponse response) throws IOException {
-		System.out.println("get address by idAddress: " + id);
 		
-//		EntityManager entitymanager = null;
 		try {
 			return addressService.find(id);
 		}catch(MasterException e) {

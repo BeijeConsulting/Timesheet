@@ -1,11 +1,17 @@
 package it.beije.mgmt.service;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
+
+import javax.persistence.Column;
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -23,6 +29,7 @@ import org.springframework.transaction.annotation.Transactional;
 import it.beije.mgmt.CustomUserDetail;
 import it.beije.mgmt.JpaEntityManager;
 import it.beije.mgmt.dto.UserDto;
+import it.beije.mgmt.entity.Address;
 import it.beije.mgmt.entity.User;
 import it.beije.mgmt.exception.DBException;
 import it.beije.mgmt.exception.InvalidJSONException;
@@ -36,7 +43,6 @@ import it.beije.mgmt.repository.ContractRepository;
 import it.beije.mgmt.repository.TimesheetRepository;
 import it.beije.mgmt.repository.UserRepository;
 import java.util.NoSuchElementException;
-
 
 @Service
 public class UserService implements UserDetailsService{
@@ -60,11 +66,11 @@ public class UserService implements UserDetailsService{
 	 */
 	
 	
-	private void fillUserLists(User user, boolean all) {
+	private void fillUserLists(User user, boolean allHistory) {
 		Long idUser = user.getId();
-		user.setAddresses(all? addressRepository.findByIdUser(idUser) : addressRepository.findByIdUserAndEndDate(idUser, null));
-		user.setBankCredentials(all? bankCredentialsRepository.findByIdUser(idUser) : bankCredentialsRepository.findByIdUserAndEndDate(idUser, null));
-		user.setContracts(contractRepository.findByIdUser(idUser));
+		user.setAddresses(allHistory? addressRepository.findByIdUser(idUser) : addressRepository.findByIdUserAndEndDate(idUser, null));
+		user.setBankCredentials(allHistory? bankCredentialsRepository.findByIdUser(idUser) : bankCredentialsRepository.findByIdUserAndEndDate(idUser, null));
+		user.setContracts(allHistory? contractRepository.findByIdUser(idUser) : contractRepository.findByIdUserAndEndDate(idUser, null));
 		user.setDefaultTimesheet(timesheetRepository.findByIdUserAndType(idUser, "D"));
 	}
 	
@@ -81,15 +87,6 @@ public class UserService implements UserDetailsService{
 		}
 	}
 	
-	/** FUNZIONA: Questo metodo prima carica l'utente dal database con la query, passa al dto con il metodo BeanUtils.copyProperties ed ignora
-	 * le proprietà elencate.
-	 * 
-	 * Se non viene trovato alcun utente tramite l'id, restituisce un utente vuoto
-	 * 
-	 * @param id parametro in ingresso per trovare l'utente sul database
-	 * @return
-	 * @throws MasterException 
-	 */
 	public UserDto find(Long idUser, boolean complete) throws MasterException {
 		
 		UserDto userDto = new UserDto();
@@ -99,77 +96,24 @@ public class UserService implements UserDetailsService{
 			if(complete) {
 				fillUserLists(user, false);
 				BeanUtils.copyProperties(user, userDto, "password", "secondaryEmail", "fiscalCode", "birthDate", "birthPlace", "nationality",
-						"document", "idSkype", "admin", "archiveDate", "note", "addresses", "bankCredentials", "contracts", "defaultTimesheet");
+						"document", "idSkype", "admin", "archiveDate", "note");
+				if(user.getContracts().size() > 1 || user.getBankCredentials().size() > 1)
+					throw new ServiceException("Dati non conformi");
+				userDto.setAddresses(user.getAddresses().toArray(new Address[0]));
+				if(user.getBankCredentials().size()>0) userDto.setBankCredential(user.getBankCredentials().get(0));
+				if(user.getContracts().size()>0) userDto.setContract(user.getContracts().get(0));
 			}else
 				BeanUtils.copyProperties(user, userDto, "password", "secondaryEmail", "fiscalCode", "birthDate", "birthPlace", "nationality",
-						"document", "idSkype", "admin", "archiveDate", "note");
+						"document", "idSkype", "admin", "archiveDate", "note",  "addresses", "bankCredentials", "contracts", "defaultTimesheet");
 			return userDto;
 		}catch (EntityNotFoundException | IllegalArgumentException | NoSuchElementException e) {
 			throw new NoContentException("Non è stato trovato un utente con l'id selezionato o i dati potrebbero essere corrotti");
-		} catch (DBException e) {
+		} catch (MasterException e) {
 			throw e;
 		} catch (BeansException e) {
 			throw new ServiceException("Non è stato possibile convertire i dati selezionati");
 		}
 	}
-		/** FUNZIONA: Questo metodo prima carica l'utente dal database con la query, passa al dto con il metodo BeanUtils.copyProperties ed ignora
-		 * le proprietà password ed admin
-		 * 
-		 * Se non viene trovato alcun utente tramite l'id, restituisce un utente vuoto
-		 * 
-		 * Le tre query restituiscono le 3 relative liste collegate ad User (Address,BankCredentials e Contract) validi
-		 * 
-		 * 
-		 * Infine restituisce uno userDto con 2 indirizzi, un oggetto BankCredentials ed un oggetto Contract, all'interno di User
-		 * 
-		 * @param id parametro in ingresso per trovare l'utente sul database
-		 * @return
-		 */
-//		public UserDto findApiLong(Long id) {
-//			
-//			EntityManagerFactory emfactory = JpaEntityManager.getInstance();
-//			EntityManager entitymanager = emfactory.createEntityManager();
-//			User user;
-//			UserDto userDto = new UserDto();
-//			try {
-//				user = entitymanager.createQuery("SELECT u FROM User u WHERE u.id = "+id,User.class).getSingleResult();
-//				user.setAddresses(entitymanager.createQuery("Select a FROM Address a "
-//																	+ "WHERE idUser="+id+" and a.startDate < current_date() and"
-//																	+ " (a.endDate > current_date() or a.endDate is null)",
-//																	Address.class).getResultList());
-//				
-//				user.setBankCredentials(entitymanager.createQuery("Select b FROM BankCredentials b "
-//																	+ "WHERE idUser="+id+" and b.startDate < current_date() and"
-//																	+ " (b.endDate > current_date() or b.endDate is null)",
-//																	BankCredentials.class).getResultList());
-//				
-//				user.setContracts(entitymanager.createQuery("Select c FROM Contract c "
-//															+ "WHERE idUser="+id+" and c.startDate < current_date() and"
-//															+ " (c.endDate > current_date() or c.endDate is null)",
-//															Contract.class).getResultList());
-//				
-//				BeanUtils.copyProperties(user, userDto, "password", "admin");
-//				
-//				Address[] support = new Address[user.getAddresses().size()];
-//				support = user.getAddresses().toArray(support);
-//				
-//				if(user.getAddresses().size()>0) userDto.setAddresses(support);
-//				else userDto.setAddresses(new Address[0]);
-//					
-//				if (user.getContracts().size()>0) userDto.setContract(user.getContracts().get(0));
-//				else userDto.setContract(null);
-//				
-//				if (user.getBankCredentials().size()>0) userDto.setBankCredential(user.getBankCredentials().get(0));
-//				else userDto.setBankCredential(null);
-//				
-//				return userDto;
-//				
-//			} catch (NoResultException e) {
-//				throw new NoContentException("Non è stato trovato un utente con l'id selezionato o i dati potrebbero essere corrotti");
-//			}finally {
-//				entitymanager.close();
-//			}
-//		}
 	
 	/**
 	 * FUNZIONA: Crea un nuovo utente sul DB e restituisce l'oggetto

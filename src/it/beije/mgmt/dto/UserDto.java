@@ -23,7 +23,7 @@ public class UserDto implements Serializable {
 	private String lastName;
 	private String email;
 	private String phone;
-	
+	private String password;
 	private String secondaryEmail;
 	
 	private String fiscalCode;
@@ -202,6 +202,14 @@ public class UserDto implements Serializable {
 
 	public void setDefaultTimesheet(Timesheet defaultTimesheet) {
 		this.defaultTimesheet = defaultTimesheet;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 	public static UserDto valueOf(User user) {
