@@ -55,7 +55,6 @@ public class ContractApiController {
 	public @ResponseBody Contract getContract(@PathVariable Long id, Model model,
 			HttpServletResponse response) throws IOException {
 		
-		
 		try {
 			return contractService.find(id);
 		}catch(MasterException e) {
