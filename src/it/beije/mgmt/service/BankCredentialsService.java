@@ -11,6 +11,8 @@ import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.PersistenceException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,6 +27,9 @@ import it.beije.mgmt.repository.BankCredentialsRepository;
 
 @Service
 public class BankCredentialsService {
+	
+	private Logger log = LoggerFactory.getLogger(this.getClass());
+
 	
 	@Autowired
 	private BankCredentialsRepository bankCredentialsRepository;
@@ -49,11 +54,12 @@ public class BankCredentialsService {
 			throw e;
 		}
 	}
-	
+
 	public List<BankCredentials> getBankCredentialsByUser(Long id) {
 		
 		try {
 			List<BankCredentials> bankCred = bankCredentialsRepository.findByIdUser(id);
+			log.info("bankCredentials : " + bankCred.size());
 			if (bankCred.size()==0)
 				throw new NoContentException("La lista è vuota");
 			return bankCred;

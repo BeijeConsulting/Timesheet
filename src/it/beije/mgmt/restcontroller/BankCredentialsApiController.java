@@ -72,6 +72,7 @@ public class BankCredentialsApiController {
 		try {
 			return bankCredentialsService.update(id, bankCredentials);
 		}catch(MasterException e) {
+			
 			throw e;
 		}
 	}

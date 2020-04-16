@@ -4,6 +4,8 @@ import java.time.LocalDateTime;
 
 import javax.xml.ws.spi.http.HttpHandler;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +18,8 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @ControllerAdvice
 public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 	
+	private Logger log = LoggerFactory.getLogger(this.getClass());
+	
 	@ExceptionHandler(value = {NoContentException.class})
 	public ResponseEntity<ErrorMessage> ControllerExceptionHandler(NoContentException ex, WebRequest request) {
 		int errorCode = 222;
@@ -23,6 +27,7 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 		re.setMessage(ex.getLocalizedMessage());
 		re.setStatus(errorCode+" Invalid Id");
 		re.setTime(LocalDateTime.now());
+		log.error(re.getMessage());
 		return ResponseEntity.status(errorCode).body(re);
 	}
 	
@@ -33,6 +38,7 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 		re.setMessage(ex.getLocalizedMessage());
 		re.setStatus(errorCode+" Error in JSON");
 		re.setTime(LocalDateTime.now());
+		log.error(re.getMessage());
 		return ResponseEntity.status(errorCode).body(re);
 	}
 	
@@ -43,6 +49,7 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 		re.setMessage(ex.getLocalizedMessage());
 		re.setStatus(errorCode+" Error in DB");
 		re.setTime(LocalDateTime.now());
+		log.error(re.getMessage());
 		return ResponseEntity.status(errorCode).body(re);
 	}
 	
@@ -53,6 +60,7 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 		re.setMessage(ex.getLocalizedMessage());
 		re.setStatus(errorCode+" Error in Service");
 		re.setTime(LocalDateTime.now());
+		log.error(re.getMessage());
 		return ResponseEntity.status(errorCode).body(re);
 	}
 	
@@ -63,6 +71,7 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 		re.setMessage(ex.getLocalizedMessage());
 		re.setStatus(errorCode+" Error in date");
 		re.setTime(LocalDateTime.now());
+		log.error(re.getMessage());
 		return ResponseEntity.status(errorCode).body(re);
 	}
 	
@@ -73,6 +82,7 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 		re.setMessage(ex.getLocalizedMessage());
 		re.setStatus(errorCode+" Error in pc");
 		re.setTime(LocalDateTime.now());
+		log.error(re.getMessage());
 		return ResponseEntity.status(errorCode).body(re);
 	}
 	
@@ -83,6 +93,7 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 		re.setMessage(ex.getLocalizedMessage());
 		re.setStatus(errorCode+" Error in update");
 		re.setTime(LocalDateTime.now());
+		log.error(re.getMessage());
 		return ResponseEntity.status(errorCode).body(re);
 	}
 }

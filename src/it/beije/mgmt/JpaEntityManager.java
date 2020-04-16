@@ -6,6 +6,8 @@ import java.sql.SQLException;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
@@ -15,7 +17,7 @@ import it.beije.mgmt.exception.DBException;
 public class JpaEntityManager {
 	
 	private static EntityManagerFactory emfactory = null;
-	
+
 	private JpaEntityManager() {}
 	
 	@Bean(name = "entityManagerFactory")	

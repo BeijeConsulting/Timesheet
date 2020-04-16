@@ -11,6 +11,8 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.servlet.http.HttpServletRequest;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -31,6 +33,8 @@ import it.beije.mgmt.service.UserService;
 @SessionAttributes("user")
 public class UserController {
 	
+	private Logger log = LoggerFactory.getLogger(this.getClass());
+	
 	@Autowired
 	private UserService userService;
 
@@ -42,7 +46,8 @@ public class UserController {
 	@PreAuthorize("hasAnyRole('USER')")	
 	@RequestMapping(value = "/home", method = RequestMethod.GET)
 	public String home(Locale locale, Model model) {
-		System.out.println("Home Page Requested, locale = " + locale);
+		log.info("Home Page Requested, locale = " + locale);
+		//System.out.println("Home Page Requested, locale = " + locale);
 		Date date = new Date();
 		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
 		String dataFormattato = dateFormat.format(date);
@@ -56,10 +61,12 @@ public class UserController {
 	
 	@RequestMapping(value = "/insertuser", method = RequestMethod.GET)
 	public String index(@Validated User user, Model model) {
-		System.out.println("Pagine inseriti: " + user.getLastName());
+		log.info("Pagine inseriti: " + user.getLastName());
+		//System.out.println("Pagine inseriti: " + user.getLastName());
 		model.addAttribute("userName", user);
 
-		System.out.println("sono in inserisciutente");
+		log.debug("sono in inserisci utente");
+		//System.out.println("sono in inserisci utente");
 
 		return "inserisciutente";
 	}
@@ -79,7 +86,8 @@ public class UserController {
 			user.setBirthDate(null);
 		userService.create(user);
 		
-		System.out.println("sono in conferma " + user.getFirstName());
+		log.debug("sono in conferma " + user.getFirstName());
+		//System.out.println("sono in conferma " + user.getFirstName());
 		return "conferma";
 	}
 	
