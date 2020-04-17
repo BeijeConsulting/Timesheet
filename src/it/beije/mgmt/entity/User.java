@@ -29,7 +29,10 @@ public class User implements Serializable {
 
 	@Column(name = "last_name", nullable=false)
 	private String lastName;
-
+	
+	@Column(name = "gender"/*, nullable=false*/, length=1)
+	private String gender;
+	
 	@Column(name = "email", unique=true, nullable=false)
 	private String email;
 
@@ -48,7 +51,7 @@ public class User implements Serializable {
 	private String fiscalCode;
 
 	//	@JsonInclude(Include.NON_NULL)
-	@Column(name = "birth_date")
+	@Column(name = "birth_date"/*, nullable=false*/)
 	private Date birthDate;
 
 	//	@JsonInclude(Include.NON_NULL)
@@ -164,6 +167,14 @@ public class User implements Serializable {
 
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
+	}
+
+	public String getGender() {
+		return gender;
+	}
+
+	public void setGender(String gender) {
+		this.gender = gender;
 	}
 
 	public String getEmail() {

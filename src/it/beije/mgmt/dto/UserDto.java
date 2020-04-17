@@ -21,6 +21,7 @@ public class UserDto implements Serializable {
 	private Long id;
 	private String firstName;
 	private String lastName;
+	private String gender;
 	private String email;
 	private String phone;
 	private String password;
@@ -59,6 +60,14 @@ public class UserDto implements Serializable {
 
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
+	}
+
+	public String getGender() {
+		return gender;
+	}
+
+	public void setGender(String gender) {
+		this.gender = gender;
 	}
 
 	public String getEmail() {
