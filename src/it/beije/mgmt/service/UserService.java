@@ -81,6 +81,10 @@ public class UserService implements UserDetailsService{
 		}
 	}
 	
+	public Optional<User> getByUsername(String username) {
+        return userRepository.findByEmail(username);
+    }
+	
 	/** FUNZIONA: Questo metodo prima carica l'utente dal database con la query, passa al dto con il metodo BeanUtils.copyProperties ed ignora
 	 * le proprietà elencate.
 	 * 

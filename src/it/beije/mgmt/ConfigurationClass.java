@@ -45,7 +45,7 @@ public class ConfigurationClass extends WebSecurityConfigurerAdapter {
     }
 	
 	@Override
-	public void configure(WebSecurity web) {
+	public void configure(WebSecurity web) throws Exception {
 		//Questo Override serve per isolare l'autenticazione dalle API
 		super.configure(web);
 		web.ignoring().antMatchers("/api/**");
