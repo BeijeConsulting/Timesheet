@@ -30,7 +30,7 @@ public class User implements Serializable {
 	@Column(name = "last_name", nullable=false)
 	private String lastName;
 	
-	@Column(name = "gender"/*, nullable=false*/, length=1)
+	@Column(name = "gender", nullable=false, length=1)
 	private String gender;
 	
 	@Column(name = "email", unique=true, nullable=false)
