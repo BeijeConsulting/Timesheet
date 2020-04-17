@@ -38,7 +38,6 @@ public class PublicEndpointsController {
         }
     }
     
-   
 
     @PostMapping("/login")
     public Object login(

@@ -3,12 +3,17 @@ package it.beije.security;
 import java.util.Objects;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
+
 import it.beije.mgmt.entity.User;
 import it.beije.mgmt.exception.TokenVerificationException;
 import it.beije.mgmt.service.UserService;
 
+@Profile("jwt")
+@Service
 public class JWTAuthenticationService implements UserAuthenticationService {
 	
 	//INTERFACCIA BASATA SU JWT 

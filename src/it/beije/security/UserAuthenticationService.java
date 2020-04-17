@@ -2,6 +2,8 @@ package it.beije.security;
 
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.stereotype.Service;
+
 import it.beije.mgmt.entity.User;
 
 

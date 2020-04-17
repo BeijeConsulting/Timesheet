@@ -14,15 +14,20 @@ import java.util.stream.Collectors;
 
 @Service
 public class JWTService {
+	
     private Algorithm algorithm;
     private int defaultExpiration;
-
-    public JWTService(
-            @Value("jwt.secret") String secret) {
-            //@Value("${jwt.defaultExpirationMillis}") int defaultExpirationMillis) {
+    
+    
+    
+    
+    public JWTService() {
     	
-        this.algorithm = Algorithm.HMAC256(secret);
-        this.defaultExpiration = 3600;
+//            @Value("jwt.secret") String secret,                                       COMMENTATI E SETTATI DIRETTAMENTE IN QUANTO I LORO VALORI SONO NEL FILE APPLICATION PROPERTIES
+//            @Value("${jwt.defaultExpirationMillis}") int defaultExpirationMillis) {
+    	
+        this.algorithm = Algorithm.HMAC256("abcdefghijklmnopqrstuvwxyz123");   // STRING SECRET
+        this.defaultExpiration = 30000; //INT DEFAULTEXPIRATIONMILLIS
 
     }
 
