@@ -95,7 +95,7 @@ public class UserService implements UserDetailsService{
 				}
 				
 				fillUserLists(user, false);
-				BeanUtils.copyProperties(user, userDto, "password", "idSkype", "birthPlace", "nationality", "admin", "archiveDate");
+				BeanUtils.copyProperties(user, userDto, "password", "admin");
 				
 				if(user.getContracts().size() > 1 || user.getBankCredentials().size() > 1)
 					throw new ServiceException("Dati non conformi");
