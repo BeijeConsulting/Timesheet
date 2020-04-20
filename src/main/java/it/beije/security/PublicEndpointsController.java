@@ -21,8 +21,10 @@ import java.util.List;
 @RestController
 @RequestMapping("api")
 public class PublicEndpointsController {
+	
     @Autowired
     private UserRegistrationService registrationService;
+    
     @Autowired
     private UserAuthenticationService authenticationService;
 
