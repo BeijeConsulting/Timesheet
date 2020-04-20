@@ -95,7 +95,7 @@ public class UserService implements UserDetailsService{
 			
 			if(complete) {
 				fillUserLists(user, false);
-				BeanUtils.copyProperties(user, userDto, "password", "secondaryEmail", "fiscalCode", "birthDate", "birthPlace", "nationality",
+				BeanUtils.copyProperties(user, userDto, "password", "secondaryEmail", "fiscalCode", "birthPlace", "nationality",
 						"document", "idSkype", "admin", "archiveDate", "note");
 				
 				if(user.getContracts().size() > 1 || user.getBankCredentials().size() > 1)
@@ -105,7 +105,7 @@ public class UserService implements UserDetailsService{
 				if(user.getContracts().size()>0) userDto.setContract(user.getContracts().get(0));
 				
 			}else
-				BeanUtils.copyProperties(user, userDto, "password", "secondaryEmail", "fiscalCode", "birthDate", "birthPlace", "nationality",
+				BeanUtils.copyProperties(user, userDto, "gender", "password", "secondaryEmail", "fiscalCode", "birthDate", "birthPlace", "nationality",
 						"document", "idSkype", "admin", "archiveDate", "note",  "addresses", "bankCredentials", "contracts", "defaultTimesheet", "picUrl");
 			return userDto;
 		}catch (EntityNotFoundException | IllegalArgumentException | NoSuchElementException e) {
