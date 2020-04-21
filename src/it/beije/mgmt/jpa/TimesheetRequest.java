@@ -2,6 +2,7 @@ package it.beije.mgmt.jpa;
 
 import java.sql.Date;
 
+//TODO IM 20200421: sostituire o cambiare package
 public class TimesheetRequest {
 	
 	private Long idUser;

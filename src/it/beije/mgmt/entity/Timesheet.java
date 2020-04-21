@@ -12,6 +12,8 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import org.springframework.lang.NonNull;
 import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import it.beije.mgmt.tool.Utils;
 
 
@@ -25,22 +27,9 @@ public class Timesheet implements Serializable {
 	@Column(name = "id")
 	private Long id;
 	
-	
-	public Date getSubmit() {
-		return submit;
-	}
-	public void setSubmit(Date submit) {
-		this.submit = submit;
-	}
-
-	@Column(name = "validated")
-	private Date validated;
-	
-	@Column(name = "submit")
-	private Date submit;
-		
 	@NonNull
 	@Column(name = "id_user")
+	@JsonProperty("id_user")
 	private Long idUser;
 	
 	@NonNull
@@ -50,7 +39,6 @@ public class Timesheet implements Serializable {
 	@NonNull
 	@Column(name = "type")
 	private String type;
-
 	
 	@Column(name = "start1")
 	private Time start1;
@@ -67,12 +55,12 @@ public class Timesheet implements Serializable {
 	@Column(name = "tot")
 	private Double tot;
 	
-	public Date getValidated() {
-		return validated;
-	}
-	public void setValidated(Date validated) {
-		this.validated = validated;
-	}
+	@Column(name = "validated")
+	private Date validated;
+	
+	@Column(name = "submit")
+	private Date submit;
+		
 	
 	public Long getId() {
 		return id;
@@ -81,7 +69,7 @@ public class Timesheet implements Serializable {
 		this.id = id;
 	}
 	
-	
+
 	public Long getIdUser() {
 		return idUser;
 	}
@@ -96,15 +84,6 @@ public class Timesheet implements Serializable {
 	@JsonGetter("date")
 	public String getJsonData() {
 		return Utils.formatDate(this.date);
-	}
-	
-	@JsonGetter("validated")
-	public String getJsonvalidated() {
-		return Utils.formatDate(this.validated);
-	}
-	@JsonGetter("submit")
-	public String getJsonsubmit() {
-		return Utils.formatDate(this.submit);
 	}
 	public void setDate(Date date) {
 		System.out.println("set date from Date");
@@ -122,6 +101,7 @@ public class Timesheet implements Serializable {
 //	public void setJsonEndDate(String endDate) throws ParseException {
 //		this.date = Utils.parseDate(endDate);
 //	}
+	
 	
 	public String getType() {
 		return type;
@@ -171,14 +151,36 @@ public class Timesheet implements Serializable {
 		this.tot = tot;
 	}
 
+	
+	public Date getValidated() {
+		return validated;
+	}
+	@JsonGetter("validated")
+	public String getJsonValidated() {
+		return Utils.formatDate(this.validated);
+	}
+	public void setValidated(Date validated) {
+		this.validated = validated;
+	}
+
+	
+	public Date getSubmit() {
+		return submit;
+	}
+	@JsonGetter("submit")
+	public String getJsonSubmit() {
+		return Utils.formatDate(this.submit);
+	}
+	public void setSubmit(Date submit) {
+		this.submit = submit;
+	}
+
+	
 	@Override
 	public String toString() {
 		return "Timesheet [id=" + id + ", validated=" + validated + ", submit=" + submit + ", idUser=" + idUser
 				+ ", date=" + date + ", type=" + type + ", start1=" + start1 + ", end1=" + end1 + ", start2=" + start2
 				+ ", end2=" + end2 + ", tot=" + tot + "]";
 	}
-	public Timesheet() {
-		
-	}
-
+	
 }

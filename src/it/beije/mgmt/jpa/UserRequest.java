@@ -1,5 +1,6 @@
 package it.beije.mgmt.jpa;
 
+//TODO IM 20200421: sostituire o cambiare package
 public class UserRequest {
 	private String first_name;
 	private String last_name;
