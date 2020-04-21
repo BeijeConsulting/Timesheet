@@ -19,6 +19,7 @@ import javax.persistence.Table;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSetter;
 
 import it.beije.mgmt.tool.Utils;
@@ -46,21 +47,26 @@ public class Computer {
 	private int ram;
 	
 	@Column(name="hard_disk")
+	@JsonProperty("hard_disk")
 	private String hardDisk;
 	
 	@Column(name="serial_number")
+	@JsonProperty("serial_number")
 	private String serialNumber;
 	
 	@Column(name="operating_system")
+	@JsonProperty("operating_system")
 	private String operatingSystem;
 	
 	@Column(name="maintenance")
 	private boolean maintenance;
 	
 	@Column(name="purchase_date")
+	@JsonProperty("purchase_date")
 	private Date purchaseDate;
 	
 	@Column(name="disposal_date")
+	@JsonProperty("disposal_date")
 	private Date disposalDate;
 	
 	@Column(name="note")

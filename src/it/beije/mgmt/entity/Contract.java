@@ -18,6 +18,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSetter;
 
 import it.beije.mgmt.tool.Utils;
@@ -34,6 +35,7 @@ public class Contract {
 	private Long id;
 	
 	@Column(name="id_user")
+	@JsonProperty("id_user")
 	private Long idUser;
 	
 	@JsonIgnore
@@ -48,30 +50,36 @@ public class Contract {
 	private Byte lvl;
 	
 	@Column(name="minimo_contrattuale")
+	@JsonProperty("minimo_contrattuale")
 	private Double minimoContrattuale;
 	
 	@Column(name="superminimo")
 	private Double superminimo;
 	
 	@Column(name="retribuzione_mensile")
+	@JsonProperty("retribuzione_mensile")
 	private Double retribuzioneMensile;
 	
 	@Column(name="ral")
 	private Double ral;
 	
 	@Column(name="netto_mensile")
+	@JsonProperty("netto_mensile")
 	private Double nettoMensile;
 	
 	@Column(name="costo_interno")
+	@JsonProperty("costo_interno")
 	private Double costoInterno;
 	
 	@Column(name="note")
 	private String note;
 	
 	@Column(name="start_date")
+	@JsonProperty("start_date")
 	private Date startDate;
 	
 	@Column(name="end_date")
+	@JsonProperty("end_date")
 	private Date endDate;
 	
 	public Contract() {

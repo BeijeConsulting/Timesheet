@@ -104,9 +104,6 @@ public class User implements Serializable {
 	private Timesheet defaultTimesheet;
 	
 
-	@Column(name = "gender", nullable = false , length = 1)
-	private String gender;
-
 //	@OneToMany(
 //		        mappedBy = "user",
 //		        cascade = CascadeType.ALL,

@@ -13,6 +13,7 @@ import javax.persistence.Table;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSetter;
 
 import it.beije.mgmt.tool.Utils;
@@ -27,6 +28,7 @@ public class BankCredentials {
 	private Long id;
 	
 	@Column(name="id_user")
+	@JsonProperty("id_user")
 	private Long idUser;
 	
 	@Column(name="accountholder")
@@ -39,9 +41,11 @@ public class BankCredentials {
 	private String swift;
 	
 	@Column(name="start_date")
+	@JsonProperty("start_date")
 	private Date startDate;
 	
 	@Column(name="end_date")
+	@JsonProperty("end_date")
 	private Date endDate;
 	
 	@Column(name="notes")
