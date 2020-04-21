@@ -40,22 +40,21 @@ public class BankCredentialsApiController {
 		}
 	}
 
-	/*// write new bank credentials by idUser
+	// write new bank credentials by idUser
 	@RequestMapping(value = "/bankCredentials/user/{id}", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody BankCredentials createBankCredentials(@PathVariable Long id,
 			@RequestBody BankCredentials bankCredentials, HttpServletResponse response) throws Exception {
 
 		try {
 			return bankCredentialsService.create(id, bankCredentials);
-		}catch(RuntimeException e) {
+		} catch(RuntimeException e) {
 			throw e;
 		}
-	}*/
+	}
 
 	// get bank credentials by idBankCredentials
 	@RequestMapping(value = { "/bankCredentials/{id}" }, method = RequestMethod.GET)
-	public @ResponseBody BankCredentials getBankcredentials(@PathVariable Long id, Model model,
-			HttpServletResponse response) throws IOException {
+	public @ResponseBody BankCredentials getBankcredentials(@PathVariable Long id, Model model,	HttpServletResponse response) throws IOException {
 		
 		try {
 			return bankCredentialsService.find(id);
@@ -72,6 +71,7 @@ public class BankCredentialsApiController {
 		try {
 			return bankCredentialsService.update(id, bankCredentials);
 		}catch(MasterException e) {
+			
 			throw e;
 		}
 	}

@@ -80,7 +80,7 @@ public class User implements Serializable {
 	private String note;
 	
 	@Column(name = "pic_url")
-	private String picUrl;
+	private String picUrl;	
 
 //	@OneToMany(cascade=CascadeType.ALL/*, fetch=FetchType.EAGER*/)
 //	@JoinColumn(name="id_user")
@@ -99,6 +99,10 @@ public class User implements Serializable {
 	
 	@Transient
 	private Timesheet defaultTimesheet;
+	
+
+	@Column(name = "gender", nullable = false , length = 1)
+	private String gender;
 
 //	@OneToMany(
 //		        mappedBy = "user",

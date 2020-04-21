@@ -11,6 +11,8 @@ import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.PersistenceException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,34 +28,51 @@ import it.beije.mgmt.repository.BankCredentialsRepository;
 @Service
 public class BankCredentialsService {
 	
+	private Logger log = LoggerFactory.getLogger(this.getClass());
+	
 	@Autowired
 	private BankCredentialsRepository bankCredentialsRepository;
 
-	@Transactional
-	public BankCredentials create(Long idUser, BankCredentials bankCredentials) {
-			
+	
+	private BankCredentials create(BankCredentials bankCredentials) {
+		
 		try {
-			if(bankCredentials.getId()!=null || bankCredentials.getStartDate()!=null || bankCredentials.getEndDate()!=null)
+			if (bankCredentials.getId() != null) {
 				throw new InvalidJSONException("Errore nei dati inviati");
-			if (Objects.isNull(bankCredentials.getIdUser()))
-				bankCredentials.setIdUser(idUser);
-			else if (bankCredentials.getIdUser().longValue() != idUser.longValue())
-				throw new ServiceException("Dati non conformi");
+			}
 			bankCredentials.setStartDate(Date.valueOf(LocalDate.now()));
+			
 			return bankCredentialsRepository.saveAndFlush(bankCredentials);
-		}catch(EntityExistsException eee) {
+		} catch (EntityExistsException eee) {
 			throw new ServiceException("Valore già presente nel database");
-		}catch(IllegalStateException  | PersistenceException e) {
+		} catch (IllegalStateException  | PersistenceException e) {
 			throw new ServiceException("Al momento non è possibile soddisfare la richiesta");
-		}catch(MasterException e) {
+		} catch (MasterException e) {
 			throw e;
 		}
 	}
-	
+
+	@Transactional
+	public BankCredentials create(Long idUser, BankCredentials bankCredentials) {
+		
+		if (bankCredentials.getId() != null || bankCredentials.getStartDate() != null || bankCredentials.getEndDate() != null) {
+			throw new InvalidJSONException("Errore nei dati inviati");
+		}
+		if (Objects.isNull(bankCredentials.getIdUser())) {
+			bankCredentials.setIdUser(idUser);
+		} else if (bankCredentials.getIdUser().longValue() != idUser.longValue()) {
+			throw new ServiceException("Dati non conformi");
+		}
+		bankCredentials.setStartDate(Date.valueOf(LocalDate.now()));
+		
+		return this.create(bankCredentials);
+	}
+
 	public List<BankCredentials> getBankCredentialsByUser(Long id) {
 		
 		try {
 			List<BankCredentials> bankCred = bankCredentialsRepository.findByIdUser(id);
+			log.info("bankCredentials : " + bankCred.size());
 			if (bankCred.size()==0)
 				throw new NoContentException("La lista è vuota");
 			return bankCred;
@@ -67,15 +86,18 @@ public class BankCredentialsService {
 	@Transactional
 	public BankCredentials update(Long id, BankCredentials bankCredentials) {
 		
+		if (bankCredentials.getIdUser() == null) {
+			throw new InvalidJSONException("Errore nei dati inviati");
+		}
 		try {
-			try {
 			BankCredentials bankCredentialOld = find(id);
-			if(bankCredentialOld.getEndDate()==null) 
+			if (bankCredentialOld.getEndDate()==null) {
 				bankCredentialOld.setEndDate(Date.valueOf(LocalDate.now()));
+			}
 			bankCredentials.setId(null);
 			bankCredentialsRepository.saveAndFlush(bankCredentialOld);
-			}catch (NoContentException e) {}
-			return create(id, bankCredentials);
+			
+			return this.create(bankCredentials);
 		}catch(IllegalStateException  | PersistenceException e) {
 			throw new ServiceException("Al momento non è possibile soddisfare la richiesta");
 		} catch (MasterException e) {

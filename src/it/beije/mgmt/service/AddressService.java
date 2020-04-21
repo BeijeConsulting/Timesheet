@@ -61,19 +61,19 @@ public class AddressService {
 	}
 	
 	@Transactional
-	public Address update(Long id, Address addresses) {
+	public Address update(Long id, Address addressNew) {
 		
 		try {
 			Address address = find(id);
     	
-	    	if (!Objects.isNull(addresses.getStreet())) address.setStreet(addresses.getStreet());
-	    	if (addresses.getCity() != null) address.setCity(addresses.getCity());
-	    	if (addresses.getProvince() != null) address.setProvince(addresses.getProvince());
-	    	if (!Objects.isNull(addresses.getCap())) address.setCap(addresses.getCap());
-	    	if (!Objects.isNull(addresses.getCountry())) address.setCountry(addresses.getCountry());
-	    	if (!Objects.isNull(addresses.getStartDate())) address.setStartDate(addresses.getStartDate());
-	    	if (!Objects.isNull(addresses.getEndDate())) address.setEndDate(addresses.getEndDate());
-	    	if (!Objects.isNull(addresses.getType())) address.setType(addresses.getType());
+	    	if (!Objects.isNull(addressNew.getStreet())) address.setStreet(addressNew.getStreet());
+	    	if (addressNew.getCity() != null) address.setCity(addressNew.getCity());
+	    	if (addressNew.getProvince() != null) address.setProvince(addressNew.getProvince());
+	    	if (!Objects.isNull(addressNew.getCap())) address.setCap(addressNew.getCap());
+	    	if (!Objects.isNull(addressNew.getCountry())) address.setCountry(addressNew.getCountry());
+	    	if (!Objects.isNull(addressNew.getStartDate())) address.setStartDate(addressNew.getStartDate());
+	    	if (!Objects.isNull(addressNew.getEndDate())) address.setEndDate(addressNew.getEndDate());
+	    	if (!Objects.isNull(addressNew.getType())) address.setType(addressNew.getType());
 	    	
 			return addressRepository.saveAndFlush(address);
 		}catch(IllegalStateException  | PersistenceException e) {

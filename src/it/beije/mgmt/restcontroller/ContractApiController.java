@@ -3,10 +3,7 @@ package it.beije.mgmt.restcontroller;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Locale;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
@@ -19,19 +16,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import it.beije.mgmt.JpaEntityManager;
-import it.beije.mgmt.dto.UserDto;
-import it.beije.mgmt.entity.Address;
-import it.beije.mgmt.entity.BankCredentials;
 import it.beije.mgmt.entity.Contract;
-import it.beije.mgmt.entity.Timesheet;
-import it.beije.mgmt.entity.User;
+import it.beije.mgmt.exception.MasterException;
 import it.beije.mgmt.service.ContractService;
-import it.beije.mgmt.service.JPAService;
 
 @RestController
 @RequestMapping("api")
@@ -46,7 +36,12 @@ public class ContractApiController {
 	@Transactional
 	@RequestMapping(value = "/contracts/user/{id}", method = RequestMethod.GET)
 	public @ResponseBody List<Contract> getContractForUser(@PathVariable Long id) {
-		return contractService.getContractByUser(id);
+		
+		try {
+			return contractService.getContractByUser(id);
+		}catch(MasterException e) {
+			throw e;
+		}
 	}
 
 	@RequestMapping(value = "/contract/user/{id}", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -54,8 +49,11 @@ public class ContractApiController {
 			@RequestBody Contract contract, HttpServletResponse response) throws Exception {
 
 		log.debug("insert Contract: " + contract);
-
-		return contractService.create(id, contract);
+		try {
+			return contractService.create(id, contract);
+		}catch(RuntimeException e) {
+			throw e;
+		}		
 	}
 
 	@RequestMapping(value = { "/contract/{id}" }, method = RequestMethod.GET)
@@ -63,10 +61,12 @@ public class ContractApiController {
 			HttpServletResponse response) throws IOException {
 		
 		log.debug("get contract by idContract: " + id);
-		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
-		EntityManager entitymanager = emfactory.createEntityManager();
 		
-		return entitymanager.find(Contract.class, id);
+		try {
+			return contractService.find(id);
+		}catch(MasterException e) {
+			throw e;
+		}
 	}
 
 	@RequestMapping(value = "/contract/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -76,9 +76,12 @@ public class ContractApiController {
 		log.debug("update contract by id: " + id);
 		log.debug("update contract: " + contract);
 
-		return contractService.update(id, contract);
+		try {
+			return contractService.update(id, contract);
+		}catch(MasterException e) {
+			throw e;
+		}
 	}
-
 }
 
 

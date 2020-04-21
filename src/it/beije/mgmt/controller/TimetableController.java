@@ -37,10 +37,11 @@ import it.beije.mgmt.service.TimetableService;
 @SessionScope
 public class TimetableController {
 	
+	private Logger log = LoggerFactory.getLogger(this.getClass());
+	
 	@Autowired
 	private TimetableService timetableService;
 	
-	Logger log = LoggerFactory.getLogger(this.getClass());
 
 	private Timesheet table = null;
 	String password;
@@ -63,8 +64,8 @@ public class TimetableController {
 	}
 	@RequestMapping(value= "/listtimetable", method= RequestMethod.GET)
 	public String selezioneN(Locale locale, Model model) {
-		
-		log.info("Selezione n timesheet da inserire");
+
+		log.debug("Selezione n timesheet da inserire");
 		Date date = new Date();
 		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
 
@@ -88,8 +89,7 @@ public class TimetableController {
 	public String addtimesheet(Model model, @Validated Timesheet timesheet) throws Exception {
 		
 		if (TimetableService.findRecordsFromId(timesheet.getIdUser())==null)  {
-			log.error("Utente non trovato");
-			
+			log.error("utente non trovato");
 			return "utentenontrovato";
 		}
 		
@@ -173,11 +173,10 @@ public class TimetableController {
 //	@PostMapping("/user")
 	@RequestMapping(value = "/user", method = RequestMethod.POST)
 		public String user(@Validated Timesheet timetable,  Model model) {
-		
 		log.debug("entro");
 		
 		if (TimetableService.findRecordsFromId(timetable.getIdUser())==null)  {
-			log.error("Utente non trovato");
+			log.error("utente non trovato");
 			return "utentenontrovato";
 		}	
 	
@@ -186,23 +185,23 @@ public class TimetableController {
 	double tot =timetableService.oreTrascorse(timetable.getStart1(), timetable.getEnd1(), timetable.getStart2(),timetable.getEnd2());
 		timetable.setTot(tot);
 		table=timetable;
-	model.addAttribute("timetable", timetable);
+		log.debug("data "+ timetable.getDate());
+		model.addAttribute("timetable", timetable);
 		
-		//System.out.println("data saddsxta"+ timetable.getDate());
 
 		return "user";
 	}
 	
 	@RequestMapping(value = "/confermadatitimetable", method = RequestMethod.POST)
 	public String elaboraDati () {
-		 log.debug("Sto elaborando i tuoi dati...");
+		log.info("Sto elaborando i tuoi dati...");
 		 timetableService.creaRecordTimetable(table);
 		 return "conferma";
 	}
 	
 	@RequestMapping(value = "/confermacanc", method = RequestMethod.POST)
 	public String cancellasheet() {
-		 log.debug("Sto elaborando i tuoi dati");
+		log.info("Sto elaborando i tuoi dati...");
 		 timetableService.cancellaTimetable(tableU);
 		 return "conferma";
 	}
@@ -217,7 +216,6 @@ public class TimetableController {
 		String formattedDate = dateFormat.format(date);
 		model.addAttribute("serverTime", formattedDate);
 		log.debug("Modifica dei dati...");
-		
 		model.addAttribute(table);
 		log.debug("fine modifica sul controller");
 		Time s1 = null;
@@ -260,11 +258,9 @@ public class TimetableController {
 			else return "erroremodificaorari";
 		}
 		else if (s2==null||e2==null) {
-			//System.out.println("prima if prima metodo");
+			log.debug("prima if prima metodo");
 			if (!(s1==null||e1==null)) {
-			//System.out.println("dopo if prima metodo");
 			table.setTot(timetableService.oreTrascorse(s1, e1));
-			//System.out.println("dopo if dopo metodo");
 			 timetableService.creaRecordTimetable(table);
 			return "conferma";
 			}
@@ -379,14 +375,18 @@ public class TimetableController {
 	@RequestMapping(value = "/salvamodifiche", method = RequestMethod.POST)
 	public String salvaModifiche (@Validated Timesheet timetable,@RequestParam("date") java.sql.Date data, @RequestParam("idUser") int idUser) {
 		log.debug("Sto elaborando i tuoi dati...");
-//		
-//		
-		log.debug("Id user "+timetable.getIdUser());
-		log.info("type "+timetable.getType());
-		log.info("start date 1 "+timetable.getStart1());
-		log.info("end date 1 "+timetable.getEnd1());
-		log.info("start date 2 "+timetable.getStart2());
-		log.info("end date 2 " + timetable.getEnd2());
+		log.debug("Id user " + timetable.getIdUser());
+		//System.out.println(timetable.getIdUser());
+		log.debug("Type " + timetable.getType());
+		//System.out.println(timetable.getType());
+		log.debug("start date 1 "+timetable.getStart1());
+		//System.out.println(timetable.getStart1());
+		log.debug("start end 1 "+timetable.getEnd1());
+		//System.out.println(timetable.getEnd1());
+		log.debug("start date 2 "+timetable.getStart2());
+		//System.out.println(timetable.getStart2());
+		log.debug("start end 2 "+timetable.getStart1());
+		//System.out.println("controlloCosimo" + timetable.getEnd2());
 		
 		
 		 timetableService.updateRecord(idUser, data, timetable);

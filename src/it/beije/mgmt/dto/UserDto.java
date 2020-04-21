@@ -40,7 +40,17 @@ public class UserDto implements Serializable {
 	private BankCredentials bankCredential;
 	private Contract contract;
 	private Timesheet defaultTimesheet;
+	private String gender;
+	
 
+	public String getGender() {
+		return gender;
+	}
+	
+	public String setGender() {
+		return gender;
+	}
+	
 	public Long getId() {
 		return id;
 	}

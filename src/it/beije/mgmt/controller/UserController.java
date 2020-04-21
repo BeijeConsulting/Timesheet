@@ -33,10 +33,11 @@ import it.beije.mgmt.service.UserService;
 @SessionAttributes("user")
 public class UserController {
 	
+	private Logger log = LoggerFactory.getLogger(this.getClass());
+	
 	@Autowired
 	private UserService userService;
 	
-	Logger log = LoggerFactory.getLogger(this.getClass());
 
 	/**
 	 * Simply selects the home view to render by returning its name.
@@ -60,11 +61,8 @@ public class UserController {
 	
 	@RequestMapping(value = "/insertuser", method = RequestMethod.GET)
 	public String index(@Validated User user, Model model) {
-		log.info("Pagine inseriti: " + user.getLastName());
-		model.addAttribute("userName", user);
-
 		log.debug("sono in inserisciutente");
-
+		model.addAttribute("userName", user);
 		return "inserisciutente";
 	}
 
