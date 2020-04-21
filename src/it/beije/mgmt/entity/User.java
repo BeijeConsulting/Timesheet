@@ -2,8 +2,9 @@ package it.beije.mgmt.entity;
 
 import java.io.Serializable;
 import java.sql.Date;
-import java.util.ArrayList;
+import java.text.ParseException;
 import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,14 +13,18 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-import com.fasterxml.jackson.annotation.JsonAlias;
+import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonSetter;
+
+import it.beije.mgmt.tool.Utils;
 
 
 @Entity
 @Table(name = "user")
+@JsonInclude(Include.NON_NULL)
 public class User implements Serializable {
 	
 	private static final long serialVersionUID = 4865903039190150223L;
@@ -29,77 +34,68 @@ public class User implements Serializable {
 	@Column(name = "id")
 	private Long id;
 
+	@JsonProperty("first_name")
 	@Column(name = "first_name", nullable=false)
 	private String firstName;
 
+	@JsonProperty("last_name")
 	@Column(name = "last_name", nullable=false)
 	private String lastName;
 	
-	@JsonInclude(Include.NON_NULL)
 	@Column(name = "gender", nullable=false, length=1)
 	private String gender;
 	
 	@Column(name = "email", unique=true, nullable=false)
 	private String email;
 
-	@JsonInclude(Include.NON_NULL)
 	@Column(name = "password", nullable=false)
 	private String password;
 
-	@JsonInclude(Include.NON_NULL)
 	@Column(name = "phone")
 	private String phone;
 
-	@JsonInclude(Include.NON_NULL)
+	@JsonProperty("secondary_email")
 	@Column(name = "secondary_email")
 	private String secondaryEmail;
 
-	@JsonInclude(Include.NON_NULL)
+	@JsonProperty("fiscal_code")
 	@Column(name = "fiscal_code", unique=true)
 	private String fiscalCode;
 
-	@JsonInclude(Include.NON_NULL)
+	@JsonProperty("birth_date")
 	@Column(name = "birth_date")
 	private Date birthDate;
-
-	@JsonInclude(Include.NON_NULL)
+	
+	@JsonProperty("birth_place")
 	@Column(name = "birth_place")
 	private String birthPlace;
 
-	@JsonInclude(Include.NON_NULL)
 	@Column(name = "nationality")
 	private String nationality;
 
-	@JsonInclude(Include.NON_NULL)
 	@Column(name = "document", unique=true)
 	private String document;
 
-	@JsonInclude(Include.NON_NULL)
 	@JsonProperty("skype_id")
 	@Column(name = "id_skype")
 	private String idSkype;
 
-	@JsonInclude(Include.NON_NULL)
 	@Column(name = "admin")
 	private Boolean admin;
 
-	@JsonInclude(Include.NON_NULL)
 	@JsonProperty("archive_date")
 	@Column(name = "archive_date")
 	private Date archiveDate;
 
-	@JsonInclude(Include.NON_NULL)
 	@Column(name = "note")
 	private String note;
-	
-	@JsonInclude(Include.NON_NULL)
+
 	@JsonProperty("pic_url")
 	@Column(name = "pic_url")
 	private String picUrl;
 
 //	@OneToMany(cascade=CascadeType.ALL/*, fetch=FetchType.EAGER*/)
 //	@JoinColumn(name="id_user")
-	@JsonInclude(Include.NON_NULL)
 	@Transient
 	private List<Address> addresses;
 
@@ -113,16 +109,15 @@ public class User implements Serializable {
 //	@Transient
 //	private List<Contract> contracts;
 
-	@JsonInclude(Include.NON_NULL)
 	@Transient
+	@JsonProperty("bank_credentials")
 	private BankCredentials bankCredentials;
-	
-	@JsonInclude(Include.NON_NULL)
+
 	@Transient
 	private Contract contract;
-	
-	@JsonInclude(Include.NON_NULL)
+
 	@Transient
+	@JsonProperty("default_timesheet")
 	private Timesheet defaultTimesheet;
 
 //	@OneToMany(
@@ -130,8 +125,8 @@ public class User implements Serializable {
 //		        cascade = CascadeType.ALL,
 //		        orphanRemoval = true /*, fetch=FetchType.EAGER*/
 //		    )
-	@JsonInclude(Include.NON_NULL)
 	@Transient
+	@JsonProperty("relative_clients")
 	private List<UserHasClient> relativeClient;
 	
 
@@ -281,6 +276,21 @@ public class User implements Serializable {
 	public void setBirthDate(Date birthDate) {
 		this.birthDate = birthDate;
 	}
+	
+	@JsonGetter("birth_date")
+	public String getJsonBirthDate() {
+		return Utils.formatDate(this.birthDate);
+	}
+	
+	@JsonSetter("birth_date")
+	public void setJsonBirthDate(String birthDate) throws ParseException {
+		this.birthDate = Utils.parseDate(birthDate);
+	}
+	
+	@JsonGetter("archive_date")
+	public String getJsonArchiveDate() {
+		return Utils.formatDate(this.archiveDate);
+	}
 
 	public String getBirthPlace() {
 		return birthPlace;
@@ -306,12 +316,9 @@ public class User implements Serializable {
 		this.picUrl = picUrl;
 	}
 
-
-
 	public List<Address> getAddresses() {
 		return addresses;
 	}
-
 
 	public void setAddresses(List<Address> addresses) {
 		this.addresses = addresses;

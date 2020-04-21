@@ -38,7 +38,7 @@ import java.util.NoSuchElementException;
 
 
 @Service
-public class UserService implements UserDetailsService{
+public class UserService implements UserDetailsService {
 	
 	@Autowired
 	private UserRepository userRepository;
@@ -91,14 +91,10 @@ public class UserService implements UserDetailsService{
 			User user = userRepository.findById(idUser).get();
 			
 			if (complete) {
-				
 				fillUser(user);
-				//BeanUtils.copyProperties(user, userDto, "password", "admin");
+				BeanUtils.copyProperties(user, userDto, "password", "admin");
 				user.setPassword(null);
 				return user;
-				
-			//********************************************************************************************	
-			//	if(user.getAddresses().size()>0) userDto.setAddresses(user.getAddresses());
 				
 			} else {
 				BeanUtils.copyProperties(user, userDto, "gender", "password", "secondaryEmail", "fiscalCode", "birthDate", "birthPlace", "nationality",
@@ -165,17 +161,18 @@ public class UserService implements UserDetailsService{
 	    	if (userData.getLastName() != null) user.setLastName(userData.getLastName());
 	    	if (userData.getGender() != null && (userData.getGender().equalsIgnoreCase("m") || userData.getGender().equalsIgnoreCase("f"))) user.setGender(userData.getGender());
 	    	if (userData.getEmail() != null) user.setEmail(userData.getEmail());
-	    	if (userData.getSecondaryEmail() != null) user.setSecondaryEmail(userData.getSecondaryEmail());
+	    	if (userData.getPassword() != null) user.setPassword(userData.getPassword());
 	    	if (userData.getPhone() != null) user.setPhone(userData.getPhone());
+	    	if (userData.getSecondaryEmail() != null) user.setSecondaryEmail(userData.getSecondaryEmail());
 	    	if (userData.getFiscalCode() != null) user.setFiscalCode(userData.getFiscalCode());
 	    	if (userData.getBirthDate() != null) user.setBirthDate(userData.getBirthDate());
 	    	if (userData.getBirthPlace() != null) user.setBirthPlace(userData.getBirthPlace());
 	    	if (userData.getNationality() != null) user.setNationality(userData.getNationality());
 	    	if (userData.getDocument() != null) user.setDocument(userData.getDocument());
 	    	if (userData.getIdSkype() != null) user.setIdSkype(userData.getIdSkype());
-	    	if (userData.getNote() != null) user.setNote(userData.getNote());
 	    	if (userData.getArchiveDate() != null) user.setArchiveDate(userData.getArchiveDate());
-	    	if (userData.getPassword() != null) user.setPassword(userData.getPassword());
+	    	if (userData.getNote() != null) user.setNote(userData.getNote());
+	    	if (userData.getPicUrl() != null) user.setPicUrl(userData.getPicUrl());
 	    	
 			return userRepository.saveAndFlush(user);
 		}catch (EntityNotFoundException | IllegalArgumentException | NoSuchElementException e) {
