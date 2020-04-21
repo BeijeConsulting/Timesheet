@@ -5,6 +5,7 @@ import java.io.Serializable;
 import java.sql.Date;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 import it.beije.mgmt.entity.Address;
@@ -21,21 +22,36 @@ public class UserDto implements Serializable {
 	private Long id;
 	private String firstName;
 	private String lastName;
+	private String gender;
 	private String email;
 	private String phone;
 	private String password;
 	private String secondaryEmail;
 	
 	private String fiscalCode;
+	
+	@JsonProperty("birth_date")
 	private Date birthDate;
+	
+	@JsonProperty("birth_place")
 	private String birthPlace;
+	
 	private String nationality;
 	private String document;
+	
+	@JsonProperty("skype_id")
 	private String idSkype;
+	
 	private Boolean admin;
+	
+	@JsonProperty("archive_date")
 	private Date archiveDate;
+	
 	private String note;
+	
+	@JsonProperty("pic_url")
 	private String picUrl;
+
 	private Address addresses[];
 	private BankCredentials bankCredential;
 	private Contract contract;
@@ -69,6 +85,14 @@ public class UserDto implements Serializable {
 
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
+	}
+
+	public String getGender() {
+		return gender;
+	}
+
+	public void setGender(String gender) {
+		this.gender = gender;
 	}
 
 	public String getEmail() {

@@ -1,17 +1,12 @@
 package it.beije.mgmt.service;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 import java.util.stream.Collectors;
 
-import javax.persistence.Column;
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -46,6 +41,7 @@ import it.beije.mgmt.repository.ContractRepository;
 import it.beije.mgmt.repository.TimesheetRepository;
 import it.beije.mgmt.repository.UserRepository;
 import java.util.NoSuchElementException;
+
 
 @Service
 public class UserService implements UserDetailsService{
@@ -99,18 +95,23 @@ public class UserService implements UserDetailsService{
 		try {
 			User user = userRepository.findById(idUser).get();
 			
-			if(complete) {
+			if (complete) {
+				if (user.getPicUrl() == null || user.getPicUrl().length() == 0) {
+					user.setPicUrl("https://beije.s3.eu-west-1.amazonaws.com/abstract-user-flat-1.png"); //IM 20200420 : avatar di default
+				}
+				
 				fillUserLists(user, false);
-				BeanUtils.copyProperties(user, userDto, "password", "secondaryEmail", "fiscalCode", "birthDate", "birthPlace", "nationality",
-						"document", "idSkype", "admin", "archiveDate", "note");
+				BeanUtils.copyProperties(user, userDto, "password", "admin");
+				
 				if(user.getContracts().size() > 1 || user.getBankCredentials().size() > 1)
 					throw new ServiceException("Dati non conformi");
 				userDto.setAddresses(user.getAddresses().toArray(new Address[0]));
 				if(user.getBankCredentials().size()>0) userDto.setBankCredential(user.getBankCredentials().get(0));
 				if(user.getContracts().size()>0) userDto.setContract(user.getContracts().get(0));
-			}else
-				BeanUtils.copyProperties(user, userDto, "password", "secondaryEmail", "fiscalCode", "birthDate", "birthPlace", "nationality",
-						"document", "idSkype", "admin", "archiveDate", "note",  "addresses", "bankCredentials", "contracts", "defaultTimesheet");
+			} else {
+				BeanUtils.copyProperties(user, userDto, "gender", "password", "secondaryEmail", "fiscalCode", "birthDate", "birthPlace", "nationality",
+						"document", "idSkype", "admin", "archiveDate", "note",  "addresses", "bankCredentials", "contracts", "defaultTimesheet", "picUrl");
+			}
 			return userDto;
 		}catch (EntityNotFoundException | IllegalArgumentException | NoSuchElementException e) {
 			throw new NoContentException("Non è stato trovato un utente con l'id selezionato o i dati potrebbero essere corrotti");
@@ -131,7 +132,9 @@ public class UserService implements UserDetailsService{
 	public User create(User user) throws MasterException {
 		
 		try {
-			if(user.getId()!=null)
+			if(user.getId()!=null || user.getLastName()==null || user.getEmail()==null || user.getGender()==null
+					|| !user.getGender().equalsIgnoreCase("m") || !user.getGender().equalsIgnoreCase("f"))
+				
 				throw new InvalidJSONException("Errore nei dati inviati");
 			return userRepository.saveAndFlush(user);
 		}catch(EntityExistsException eee) {
@@ -158,6 +161,7 @@ public class UserService implements UserDetailsService{
 			
 			if (userData.getFirstName() != null) user.setFirstName(userData.getFirstName());
 	    	if (userData.getLastName() != null) user.setLastName(userData.getLastName());
+	    	if (userData.getGender() != null && (userData.getGender().equalsIgnoreCase("m") || userData.getGender().equalsIgnoreCase("f"))) user.setGender(userData.getGender());
 	    	if (userData.getEmail() != null) user.setEmail(userData.getEmail());
 	    	if (userData.getSecondaryEmail() != null) user.setSecondaryEmail(userData.getSecondaryEmail());
 	    	if (userData.getPhone() != null) user.setPhone(userData.getPhone());

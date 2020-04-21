@@ -12,6 +12,9 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 
 @Entity
 @Table(name = "user")
@@ -29,7 +32,10 @@ public class User implements Serializable {
 
 	@Column(name = "last_name", nullable=false)
 	private String lastName;
-
+	
+	@Column(name = "gender", nullable=false, length=1)
+	private String gender;
+	
 	@Column(name = "email", unique=true, nullable=false)
 	private String email;
 
@@ -47,11 +53,9 @@ public class User implements Serializable {
 	@Column(name = "fiscal_code", unique=true)
 	private String fiscalCode;
 
-	//	@JsonInclude(Include.NON_NULL)
 	@Column(name = "birth_date")
 	private Date birthDate;
 
-	//	@JsonInclude(Include.NON_NULL)
 	@Column(name = "birth_place")
 	private String birthPlace;
 
@@ -63,7 +67,6 @@ public class User implements Serializable {
 	@Column(name = "document", unique=true)
 	private String document;
 
-	//	@JsonInclude(Include.NON_NULL)
 	@Column(name = "id_skype")
 	private String idSkype;
 
@@ -168,6 +171,14 @@ public class User implements Serializable {
 
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
+	}
+
+	public String getGender() {
+		return gender;
+	}
+
+	public void setGender(String gender) {
+		this.gender = gender;
 	}
 
 	public String getEmail() {
