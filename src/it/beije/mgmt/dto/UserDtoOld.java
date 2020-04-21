@@ -1,4 +1,5 @@
 package it.beije.mgmt.dto;
+/*package it.beije.mgmt.dto;
 
 
 import java.io.Serializable;
@@ -251,4 +252,4 @@ public class UserDto implements Serializable {
         if(this.id==null) return true;
         else return false;
     }
-}
+}*/

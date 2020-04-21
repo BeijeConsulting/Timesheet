@@ -23,7 +23,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
-import it.beije.mgmt.dto.UserDto;
 import it.beije.mgmt.entity.User;
 import it.beije.mgmt.service.UserService;
 
@@ -108,7 +107,7 @@ public class UserController {
 		
 		try {
 		
-		user = userService.findById(user.getId());
+		user = userService.find(user.getId(), false);
 		user.getFirstName();
 		model.addAttribute("user", user);
 			return "modificadati";
@@ -131,7 +130,7 @@ public class UserController {
 	@RequestMapping(value = "/confermamodificadati", method = RequestMethod.POST)
 	public String confermaModificaDati(@Validated User user, Model model) {
 
-		userService.modificaUtente(user);
+		userService.update(user);
 		return "conferma";
 	}
 
@@ -180,7 +179,7 @@ public class UserController {
 	@RequestMapping(value = "/confermacancellazione", method = RequestMethod.POST)
 	public String confermaCancellazione(@Validated User user, Model model) {
 
-		userService.archiviaUtente(user);
+		userService.dismissUser(user);
 		return "confermacancellazione";
 	}
 	

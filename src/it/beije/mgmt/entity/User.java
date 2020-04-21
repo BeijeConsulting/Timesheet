@@ -13,6 +13,8 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 
@@ -33,73 +35,90 @@ public class User implements Serializable {
 	@Column(name = "last_name", nullable=false)
 	private String lastName;
 	
+	@JsonInclude(Include.NON_NULL)
 	@Column(name = "gender", nullable=false, length=1)
 	private String gender;
 	
 	@Column(name = "email", unique=true, nullable=false)
 	private String email;
 
+	@JsonInclude(Include.NON_NULL)
 	@Column(name = "password", nullable=false)
 	private String password;
 
+	@JsonInclude(Include.NON_NULL)
 	@Column(name = "phone")
 	private String phone;
 
-	//	@JsonInclude(Include.NON_NULL)
+	@JsonInclude(Include.NON_NULL)
 	@Column(name = "secondary_email")
 	private String secondaryEmail;
 
-	//	@JsonInclude(Include.NON_NULL)
+	@JsonInclude(Include.NON_NULL)
 	@Column(name = "fiscal_code", unique=true)
 	private String fiscalCode;
 
+	@JsonInclude(Include.NON_NULL)
 	@Column(name = "birth_date")
 	private Date birthDate;
 
+	@JsonInclude(Include.NON_NULL)
 	@Column(name = "birth_place")
 	private String birthPlace;
 
-	//	@JsonInclude(Include.NON_NULL)
+	@JsonInclude(Include.NON_NULL)
 	@Column(name = "nationality")
 	private String nationality;
 
-	//	@JsonInclude(Include.NON_NULL)
+	@JsonInclude(Include.NON_NULL)
 	@Column(name = "document", unique=true)
 	private String document;
 
+	@JsonInclude(Include.NON_NULL)
 	@Column(name = "id_skype")
 	private String idSkype;
 
-	//	@JsonInclude(Include.NON_NULL)
+	@JsonInclude(Include.NON_NULL)
 	@Column(name = "admin")
 	private Boolean admin;
 
-	//	@JsonInclude(Include.NON_NULL)
+	@JsonInclude(Include.NON_NULL)
 	@Column(name = "archive_date")
 	private Date archiveDate;
 
-	//	@JsonInclude(Include.NON_NULL)
+	@JsonInclude(Include.NON_NULL)
 	@Column(name = "note")
 	private String note;
 	
+	@JsonInclude(Include.NON_NULL)
 	@Column(name = "pic_url")
 	private String picUrl;
 
 //	@OneToMany(cascade=CascadeType.ALL/*, fetch=FetchType.EAGER*/)
 //	@JoinColumn(name="id_user")
+	@JsonInclude(Include.NON_NULL)
 	@Transient
 	private List<Address> addresses;
 
 //	@OneToMany(cascade=CascadeType.ALL/*, fetch=FetchType.EAGER*/)
 //	@JoinColumn(name="id_user")
-	@Transient
-	private List<BankCredentials> bankCredentials;
-
+//	@Transient
+//	private List<BankCredentials> bankCredentials;
+//
 //	@OneToMany(cascade=CascadeType.ALL/*, fetch=FetchType.EAGER*/)
 //	@JoinColumn(name="id_user")
+//	@Transient
+//	private List<Contract> contracts;
+
+	@JsonInclude(Include.NON_NULL)
 	@Transient
-	private List<Contract> contracts;
+	private BankCredentials bankCredentials;
 	
+	@JsonInclude(Include.NON_NULL)
+	@Transient
+	private Contract contract;
+	
+	@JsonInclude(Include.NON_NULL)
 	@Transient
 	private Timesheet defaultTimesheet;
 
@@ -108,8 +127,10 @@ public class User implements Serializable {
 //		        cascade = CascadeType.ALL,
 //		        orphanRemoval = true /*, fetch=FetchType.EAGER*/
 //		    )
+	@JsonInclude(Include.NON_NULL)
 	@Transient
 	private List<UserHasClient> relativeClient;
+	
 
 	public User() {
 		super();
@@ -293,8 +314,7 @@ public class User implements Serializable {
 		this.addresses = addresses;
 	}
 
-
-
+/*
 	public List<BankCredentials> getBankCredentials() {
 		
 		return bankCredentials;
@@ -312,6 +332,23 @@ public class User implements Serializable {
 
 	public void setContracts(List<Contract> contracts) {
 		this.contracts = contracts;
+	}
+*/
+	
+	public BankCredentials getBankCredentials() {
+		return bankCredentials;
+	}
+
+	public void setBankCredentials(BankCredentials bankCredentials) {
+		this.bankCredentials = bankCredentials;
+	}
+
+	public Contract getContract() {
+		return contract;
+	}
+
+	public void setContract(Contract contract) {
+		this.contract = contract;
 	}
 
 	public List<UserHasClient> getRelativeClient() {
@@ -346,7 +383,7 @@ public class User implements Serializable {
 		addresses.remove(address);
 	}
 
-
+/*
 	public void addBankCredentials(BankCredentials credentials) {
 		bankCredentials.add(credentials);
 	}
@@ -362,6 +399,7 @@ public class User implements Serializable {
 	public void removeContractType(Contract contract) {
 		contracts.remove(contract);
 	}
+*/
 	
 	public boolean isEmpty() {
         if(this.id==null) return true;
