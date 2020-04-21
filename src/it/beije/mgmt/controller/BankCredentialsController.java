@@ -21,7 +21,7 @@ public class BankCredentialsController {
 	public String getBankCredentials(@PathVariable Long id, Model model) {
 		
 		User user = JPAService.getBean(User.class, id);
-		List<BankCredentials> bankCredentials = user.getBankCredentials();
+		List<BankCredentials> bankCredentials = null/*user.getBankCredentials()*/;
 
 		model.addAttribute("bankcredentials", bankCredentials);
 		return "userbankcredentials";

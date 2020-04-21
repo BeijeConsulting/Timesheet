@@ -78,7 +78,7 @@ public class TimesheetService {
 	public Timesheet insertDefault(Long idUser,Timesheet timesheet) {
 		
 		List<Timesheet> t= new ArrayList<Timesheet>();
-		if(userRepository.findById(idUser).get().isEmpty())
+		if (userRepository.findById(idUser).isPresent())
 			throw new NoContentException("ATTENZIONE: non è stato trovato alcun utente con questo id");
 		else {
 			

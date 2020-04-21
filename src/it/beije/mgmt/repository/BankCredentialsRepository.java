@@ -14,6 +14,6 @@ public interface BankCredentialsRepository extends JpaRepository<BankCredentials
 	
 	List<BankCredentials> findByIdUser(Long idUser);
 
-	List<BankCredentials> findByIdUserAndEndDate(Long idUser, Object object);
+	BankCredentials findByIdUserAndEndDate(Long idUser, Object object);
 	
 }

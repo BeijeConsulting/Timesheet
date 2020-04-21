@@ -5,7 +5,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
@@ -23,8 +22,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import it.beije.mgmt.CustomUserDetail;
 import it.beije.mgmt.JpaEntityManager;
-import it.beije.mgmt.dto.UserDto;
-import it.beije.mgmt.entity.Address;
 import it.beije.mgmt.entity.User;
 import it.beije.mgmt.exception.DBException;
 import it.beije.mgmt.exception.InvalidJSONException;
@@ -61,47 +58,48 @@ public class UserService implements UserDetailsService{
 	 * @throws DBException 
 	 */
 	
-	
-	private void fillUserLists(User user, boolean allHistory) {
-		Long idUser = user.getId();
-		user.setAddresses(allHistory? addressRepository.findByIdUser(idUser) : addressRepository.findByIdUserAndEndDate(idUser, null));
-		user.setBankCredentials(allHistory? bankCredentialsRepository.findByIdUser(idUser) : bankCredentialsRepository.findByIdUserAndEndDate(idUser, null));
-		user.setContracts(allHistory? contractRepository.findByIdUser(idUser) : contractRepository.findByIdUserAndEndDate(idUser, null));
-		user.setDefaultTimesheet(timesheetRepository.findByIdUserAndType(idUser, "D"));
-	}
-	
-	public User findById(Long idUser) {
+	/**
+	 * QUESTO METODO CARICA TUTTI GLI UTENTI DAL DATABASE E LI TRASFERISCE IN UNA LISTA DI USERDTO
+	 * @return
+	 * @throws ServiceException 
+	 */
+	public List<User> findAll() {
 		
+		List<User> completeUsers = userRepository.findAll();
+		
+		if(completeUsers.size()==0)
+			throw new NoContentException("La lista è vuota");
 		try {
-			User user = userRepository.findById(idUser).get();
-			fillUserLists(user, true);
-			return user;
-		}catch (EntityNotFoundException | IllegalArgumentException | NoSuchElementException e) {
-			throw new NoContentException("Non è stato trovato un utente con l'id selezionato o i dati potrebbero essere corrotti");
-		} catch (DBException e) {
-			throw e;
+			
+			List<User> users = new ArrayList<>();
+			for(User u : completeUsers) {
+				User userDto = new User();
+				BeanUtils.copyProperties(u, userDto, "gender", "password", "secondaryEmail", "fiscalCode", "birthDate", "birthPlace", "nationality",
+						"document", "idSkype", "admin", "note",  "addresses", "bankCredentials", "contracts", "defaultTimesheet", "picUrl");
+				users.add(userDto);
+			}
+			return users;
+		}catch(Exception e) {
+			throw new ServiceException("Errore di conversione in \"UserService\"");
 		}
 	}
 	
-	public UserDto find(Long idUser, boolean complete) throws MasterException {
+	public User find(Long idUser, boolean complete) throws MasterException {
 		
-		UserDto userDto = new UserDto();
+		User userDto = new User();
 		try {
 			User user = userRepository.findById(idUser).get();
 			
 			if (complete) {
-				if (user.getPicUrl() == null || user.getPicUrl().length() == 0) {
-					user.setPicUrl("https://beije.s3.eu-west-1.amazonaws.com/abstract-user-flat-1.png"); //IM 20200420 : avatar di default
-				}
 				
-				fillUserLists(user, false);
-				BeanUtils.copyProperties(user, userDto, "password", "admin");
+				fillUser(user);
+				//BeanUtils.copyProperties(user, userDto, "password", "admin");
+				user.setPassword(null);
+				return user;
 				
-				if(user.getContracts().size() > 1 || user.getBankCredentials().size() > 1)
-					throw new ServiceException("Dati non conformi");
-				userDto.setAddresses(user.getAddresses().toArray(new Address[0]));
-				if(user.getBankCredentials().size()>0) userDto.setBankCredential(user.getBankCredentials().get(0));
-				if(user.getContracts().size()>0) userDto.setContract(user.getContracts().get(0));
+			//********************************************************************************************	
+			//	if(user.getAddresses().size()>0) userDto.setAddresses(user.getAddresses());
+				
 			} else {
 				BeanUtils.copyProperties(user, userDto, "gender", "password", "secondaryEmail", "fiscalCode", "birthDate", "birthPlace", "nationality",
 						"document", "idSkype", "admin", "archiveDate", "note",  "addresses", "bankCredentials", "contracts", "defaultTimesheet", "picUrl");
@@ -114,6 +112,17 @@ public class UserService implements UserDetailsService{
 		} catch (BeansException e) {
 			throw new ServiceException("Non è stato possibile convertire i dati selezionati");
 		}
+	}
+	
+	private void fillUser(User user) {
+		Long idUser = user.getId();
+		if (user.getPicUrl() == null || user.getPicUrl().length() == 0) {
+			user.setPicUrl("https://beije.s3.eu-west-1.amazonaws.com/abstract-user-flat-1.png"); //IM 20200420 : avatar di default
+		}
+		user.setAddresses(addressRepository.findByIdUserAndEndDate(idUser, null));
+		user.setBankCredentials(bankCredentialsRepository.findByIdUserAndEndDate(idUser, null));
+		user.setContract(contractRepository.findByIdUserAndEndDate(idUser, null));
+		user.setDefaultTimesheet(timesheetRepository.findByIdUserAndType(idUser, "D"));
 	}
 	
 	/**
@@ -141,17 +150,16 @@ public class UserService implements UserDetailsService{
 	}
 	
 	/**
-	 * NON FUNZIONA: LAZILY INITIALIZE, MODIFICA SUL DB MA NON RITORNA IL JSON CON LE MODIFICHE
 	 * @param id
 	 * @param userData
 	 * @return
 	 * @throws DBException 
 	 */
 	@Transactional
-	public User update(Long id, User userData) throws MasterException {
+	public User update(User userData) throws MasterException {
 		
 		try {
-			User user = findById(id);
+			User user = userRepository.findById(userData.getId()).get();
 			
 			if (userData.getFirstName() != null) user.setFirstName(userData.getFirstName());
 	    	if (userData.getLastName() != null) user.setLastName(userData.getLastName());
@@ -170,6 +178,8 @@ public class UserService implements UserDetailsService{
 	    	if (userData.getPassword() != null) user.setPassword(userData.getPassword());
 	    	
 			return userRepository.saveAndFlush(user);
+		}catch (EntityNotFoundException | IllegalArgumentException | NoSuchElementException e) {
+			throw new NoContentException("Non è stato trovato un utente con l'id selezionato o i dati potrebbero essere corrotti");
 		}catch(IllegalStateException  | PersistenceException e) {
 			throw new ServiceException("Al momento non è possibile soddisfare la richiesta");
 		} catch (MasterException e) {
@@ -177,8 +187,37 @@ public class UserService implements UserDetailsService{
 		}
 	}
 	
+	/**
+	 * QUESTO METODO SERVE PER INSERIRE LA DATA DI ARCHIVIAZIONE DI UN UTENTE DALLE JSP
+	 * @param user
+	 */
+	@Transactional
+	public boolean dismissUser(User user) {
+		
+		try {
+			User archived = new User();
+			archived.setArchiveDate(Date.valueOf(LocalDate.now()));
+			update(archived);	
+		}catch(MasterException e) {
+			return false;
+		}
+		return true;	
+	}
 	
-	public List<UserDto> trovaUtente(UserRequest req) {
+	@Override
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		try {
+			Optional<User> user = userRepository.findByEmail(username);
+			user.orElseThrow(() -> new UsernameNotFoundException("Username not found"));
+			return user.map(CustomUserDetail::new).get();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			throw e;
+		}		
+	}
+		
+	public List<User> trovaUtente(UserRequest req) {
 		// TODO Auto-generated method stub
 		return trovaUtente(req.getFirst_name(),req.getLast_name(),req.getEmail(),req.getFiscal_code());
 	}
@@ -192,7 +231,7 @@ public class UserService implements UserDetailsService{
 	 * @return
 	 */
 	/***********************************************************EDIT***************************************************/
-	public List<UserDto> trovaUtente(String firstName, String lastName, String email, String fiscalCode) {
+	public List<User> trovaUtente(String firstName, String lastName, String email, String fiscalCode) {
 
 		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
 		EntityManager entitymanager = emfactory.createEntityManager();
@@ -232,134 +271,9 @@ public class UserService implements UserDetailsService{
 		
 		List<User> userlist=query.getResultList();
 		
-		List<UserDto> users = new ArrayList<>();
-		
-		users=userlist.stream().map(e -> UserDto.valueOf(e)).collect(Collectors.toList());
-		
 		entitymanager.close();
 		
-		return users;
-	}
-	
-	/**
-	 * QUESTO METODO CARICA TUTTI GLI UTENTI DAL DATABASE E LI TRASFERISCE IN UNA LISTA DI USERDTO
-	 * @return
-	 * @throws ServiceException 
-	 */
-	public List<UserDto> caricaTutti() throws ServiceException {
-		
-		List<User> completeUsers = userRepository.findAll();
-		List<UserDto> users = new ArrayList<>();
-		if(completeUsers.size()==0)
-			throw new NoContentException("La lista è vuota");
-		try {
-			users=completeUsers.stream()
-					.filter(e -> e.getArchiveDate()==null)
-					.map(e -> UserDto.valueOf(e))
-					.collect(Collectors.toList());
-			return users;
-		}catch(Exception e) {
-			throw new ServiceException("Errore di conversione in \"UserService\"");
-		}
-	}
-	
-	/**
-	 * QUESTO METODO SERVE PER MODIFICARE I DATI DALLE JSP
-	 * @param user
-	 * @throws MasterException 
-	 */
-	@Transactional
-	public void modificaUtente(User userData) throws MasterException {
-		
-		try {
-			update(userData.getId(), userData);
-		} catch (MasterException e) {
-			throw e;
-		}
-
-//		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
-//		EntityManager entitymanager = emfactory.createEntityManager();
-//		entitymanager.getTransaction().begin();
-//		//		System.out.println("sono nel metodo modificaUtente");
-//		
-//		User user = entitymanager.find(User.class, userData.getId());
-//    	
-//    	if (userData.getFirstName() != null) user.setFirstName(userData.getFirstName());
-//    	if (userData.getLastName() != null) user.setLastName(userData.getLastName());
-//    	if (userData.getEmail() != null) user.setEmail(userData.getEmail());
-//    	if (userData.getSecondaryEmail() != null) user.setSecondaryEmail(userData.getSecondaryEmail());
-//    	if (userData.getPhone() != null) user.setPhone(userData.getPhone());
-//    	if (userData.getFiscalCode() != null) user.setFiscalCode(userData.getFiscalCode());
-//    	if (userData.getBirthDate() != null) user.setBirthDate(userData.getBirthDate());
-//    	if (userData.getBirthPlace() != null) user.setBirthPlace(userData.getBirthPlace());
-//    	if (userData.getNationality() != null) user.setNationality(userData.getNationality());
-//    	if (userData.getDocument() != null) user.setDocument(userData.getDocument());
-//    	if (userData.getIdSkype() != null) user.setIdSkype(userData.getIdSkype());
-//    	if (userData.getNote() != null) user.setNote(userData.getNote());
-//    	if (userData.getPassword() != null) user.setPassword(userData.getPassword());
-//    		
-//    	System.out.println("user.getAddresses() ? " + (user.getAddresses() != null ? user.getAddresses().size() : "NULL"));
-//    	System.out.println("user.getBankCredentials() ? " + (user.getBankCredentials() != null ? user.getBankCredentials().size() : "NULL"));
-//    	System.out.println("user.getContracts() ? " + (user.getContracts() != null ? user.getContracts().size() : "NULL"));
-//
-//		entitymanager.persist(user);
-//		entitymanager.getTransaction().commit();
-//		
-//		entitymanager.close();
-	}
-
-	/**
-	 * QUESTO METODO SERVE PER INSERIRE LA DATA DI ARCHIVIAZIONE DI UN UTENTE DALLE JSP
-	 * @param user
-	 */
-	@Transactional
-	public boolean archiviaUtente(User user) {
-		
-//		LocalDate data = LocalDate.now();
-//		EntityManager entitymanager = null;
-		try {
-			User archived = new User();
-			archived.setArchiveDate(Date.valueOf(LocalDate.now()));
-			update(archived.getId(), archived);
-			
-//			entitymanager = JpaEntityManager.getInstance().createEntityManager();
-//			entitymanager.getTransaction().begin();
-//			
-//			System.out.println("sono nel metodo archiviaUtente");
-//			String modifica="UPDATE User a SET";
-//		
-//			modifica += " a.archiveDate= '" + data + "' ";
-//		
-//			modifica += " WHERE a.id= "+user.getId();
-//		
-//			System.out.println(modifica);
-//		
-//			Query q = entitymanager.createQuery(modifica);
-//			int rowsUpdated = q.executeUpdate();
-//		
-//			//System.out.println(rowsUpdated);
-//			entitymanager.getTransaction().commit();
-		
-		}catch(MasterException e) {
-			return false;
-		}
-//		}finally{
-//			entitymanager.close();
-//		}
-		return true;	
-	}
-
-	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		try {
-			Optional<User> user = userRepository.findByEmail(username);
-			user.orElseThrow(() -> new UsernameNotFoundException("Username not found"));
-			return user.map(CustomUserDetail::new).get();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			throw e;
-		}		
+		return userlist;
 	}
 	
 	/**
@@ -426,4 +340,19 @@ public class UserService implements UserDetailsService{
 		u.setPhone(user.getPhone());
 		return u;
 	}
+	
+	/*	
+	public User findById(Long idUser) {
+		
+		try {
+			User user = userRepository.findById(idUser).get();
+			fillUserLists(user);
+			return user;
+		}catch (EntityNotFoundException | IllegalArgumentException | NoSuchElementException e) {
+			throw new NoContentException("Non è stato trovato un utente con l'id selezionato o i dati potrebbero essere corrotti");
+		} catch (DBException e) {
+			throw e;
+		}
+	}
+*/
 }

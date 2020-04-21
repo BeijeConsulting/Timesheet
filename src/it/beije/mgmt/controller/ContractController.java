@@ -23,7 +23,7 @@ public class ContractController {
 	public String getContract(@PathVariable int id, Model model) {
 		
 		User user = JPAService.getBean(User.class, id);
-		List<Contract> contracts = user.getContracts();
+		List<Contract> contracts = null/*user.getContracts()*/;
 		
 		model.addAttribute("contracts", contracts);
 		return "usercontracts";
