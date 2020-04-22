@@ -32,7 +32,6 @@ public class UserApiController {
 	@Autowired
 	private UserService userService;
 
-	///////// START USER //////////////////////
 	@RequestMapping(value = "/users", method = RequestMethod.GET)
 	public @ResponseBody List<User> getUsers(Model model, HttpServletResponse response) throws IOException {
 		try{
@@ -106,7 +105,7 @@ public class UserApiController {
 	@RequestMapping(value = "/user/search", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody List<User> searchUser(@RequestBody UserRequest req) {
 
-		return new UserService().trovaUtente(req);
+		return new UserService().searchUser(req);
 
 		/*
 		 * {"first_name" : "nome", "last_name" : "cognome", "email" : "email",

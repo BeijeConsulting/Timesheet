@@ -84,7 +84,7 @@ public class UserService implements UserDetailsService {
 		}
 	}
 	
-	public User find(Long idUser, boolean complete) throws MasterException {
+	public User find(Long idUser, boolean complete) {
 		
 		User userDto = new User();
 		try {
@@ -128,7 +128,7 @@ public class UserService implements UserDetailsService {
 	 * @throws MasterException 
 	 */
 	@Transactional
-	public User create(User user) throws MasterException {
+	public User create(User user) {
 		
 		try {
 			if(user.getId()!=null || user.getLastName()==null || user.getEmail()==null || user.getGender()==null
@@ -152,7 +152,7 @@ public class UserService implements UserDetailsService {
 	 * @throws DBException 
 	 */
 	@Transactional
-	public User update(User userData) throws MasterException {
+	public User update(User userData) {
 		
 		try {
 			User user = userRepository.findById(userData.getId()).get();
@@ -214,9 +214,10 @@ public class UserService implements UserDetailsService {
 		}		
 	}
 		
-	public List<User> trovaUtente(UserRequest req) {
+	@Transactional
+	public List<User> searchUser(UserRequest req) {
 		// TODO Auto-generated method stub
-		return trovaUtente(req.getFirst_name(),req.getLast_name(),req.getEmail(),req.getFiscal_code());
+		return searchUser(req.getFirst_name(),req.getLast_name(),req.getEmail(),req.getFiscal_code());
 	}
 	
 	/**
@@ -228,36 +229,44 @@ public class UserService implements UserDetailsService {
 	 * @return
 	 */
 	/***********************************************************EDIT***************************************************/
-	public List<User> trovaUtente(String firstName, String lastName, String email, String fiscalCode) {
+	private List<User> searchUser(String firstName, String lastName, String email, String fiscalCode) {
 
-		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
-		EntityManager entitymanager = emfactory.createEntityManager();
+//		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
+//		EntityManager entitymanager = emfactory.createEntityManager();
 		
 		List<String> searchQuery=new ArrayList<>();
 		String whereClause="";
+		List<User> list = new ArrayList<>();
 		
 		if (firstName != null && firstName.length()>0) {
-			searchQuery.add("a.firstName LIKE '%"+firstName+"%'");
-			whereClause+="WHERE ";
+			System.out.println(firstName);
+			list.addAll(userRepository.findByFirstName(firstName));
+			System.out.println(list.size());
+//			searchQuery.add("a.firstName LIKE '%"+firstName+"%'");
+//			whereClause+="WHERE ";
 		}
 		if (lastName != null && lastName.length()>0) {
-			searchQuery.add("a.lastName LIKE '%"+lastName+"%'");
-			if (whereClause.length()==0)
-				whereClause+="WHERE ";
+			list.addAll(userRepository.findByLastNameContaining(lastName));
+//			searchQuery.add("a.lastName LIKE '%"+lastName+"%'");
+//			if (whereClause.length()==0)
+//				whereClause+="WHERE ";
 		}
 		if (email != null && email.length()>0) {
-			searchQuery.add("a.email LIKE '%"+email+"%'");
-			if (whereClause.length()==0)
-				whereClause+="WHERE ";
+			User emailList = userRepository.findByEmail(email).get();
+			System.out.println(list.size());
+//			searchQuery.add("a.email LIKE '%"+email+"%'");
+//			if (whereClause.length()==0)
+//				whereClause+="WHERE ";
 		}
 		if (fiscalCode != null && fiscalCode.length()>0) {
-			searchQuery.add("a.fiscalCode LIKE '%"+fiscalCode+"%'");
-			if (whereClause.length()==0)
-				whereClause+="WHERE ";
+			list.addAll(userRepository.findByFiscalCodeContaining(fiscalCode));
+//			searchQuery.add("a.fiscalCode LIKE '%"+fiscalCode+"%'");
+//			if (whereClause.length()==0)
+//				whereClause+="WHERE ";
 		}
 		
 		System.out.println("Sto cercando");
-		
+/*		
 		for (int i=0;i<searchQuery.size();i++) {
 			whereClause+=searchQuery.get(i);
 			if (i!=searchQuery.size()-1)
@@ -271,6 +280,8 @@ public class UserService implements UserDetailsService {
 		entitymanager.close();
 		
 		return userlist;
+*/
+		return list;
 	}
 	
 	/**

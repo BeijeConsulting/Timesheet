@@ -14,6 +14,7 @@ import javax.persistence.Table;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSetter;
 
 import it.beije.mgmt.tool.Utils;
@@ -28,6 +29,7 @@ public class Address {
 	private Long id;
 	
 	@Column(name="id_user")
+	@JsonProperty("id_user")
 	private Long idUser;
 	
 	@Column(name="street", nullable=false)
@@ -46,9 +48,11 @@ public class Address {
 	private String country;
 	
 	@Column(name="start_date" , nullable=false)
+	@JsonProperty("start_date")
 	private Date startDate;
 	
 	@Column(name="end_date")
+	@JsonProperty("end_date")
 	private Date endDate;
 	
 	@Column(name="type")
