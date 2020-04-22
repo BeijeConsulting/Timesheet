@@ -2,6 +2,8 @@ package it.beije.mgmt.restcontroller;
 
 import java.io.IOException;
 import java.sql.Date;
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import it.beije.mgmt.entity.Timesheet;
+import it.beije.mgmt.exception.MasterException;
 import it.beije.mgmt.jpa.TimesheetRequest;
 import it.beije.mgmt.service.TimesheetService;
 
@@ -63,9 +66,9 @@ public class TimesheetApiController {
 		}
 	
 		@RequestMapping(value = "/timesheets/user/{id}", method = RequestMethod.GET)
-
 		public @ResponseBody List<Timesheet> retrieveTimeSheetTables(@PathVariable Long id,@RequestParam(value = "datefrom", required = true)Date datefrom,@RequestParam(value = "dateto", required = false)Date dateto) {
 //			Map<String, Object> result = new HashMap<String, Object>();
+			
 			dateto = dateto == null? new Date(System.currentTimeMillis()):dateto;
 			List<Timesheet> timetablelist = timesheetService.retrieveTimatablesInDateRangeByUserId(id,datefrom,dateto);
 
@@ -108,4 +111,15 @@ public class TimesheetApiController {
 		}
 		
 
+		@RequestMapping(value = "/timesheet/current", method = RequestMethod.GET)
+		public @ResponseBody List<Timesheet> getCurrentTimesheet(Model model, HttpServletResponse response) {
+			
+			try {
+				return timesheetService.retrieveTimatablesInDateRangeByUserId((long) 1 , 
+						Date.valueOf(LocalDate.now().minus(Period.of(0, 1, LocalDate.now().getDayOfMonth()-1))),
+						Date.valueOf(LocalDate.now()));
+			}catch(MasterException e) {
+				throw e;
+			}
+		}
 }

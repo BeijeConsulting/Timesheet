@@ -81,6 +81,7 @@ public class Timesheet implements Serializable {
 	public Date getDate() {
 		return date;
 	}
+	
 	@JsonGetter("date")
 	public String getJsonData() {
 		return Utils.formatDate(this.date);
@@ -89,11 +90,13 @@ public class Timesheet implements Serializable {
 		System.out.println("set date from Date");
 		this.date = date;
 	}
+	
 //	@JsonSetter("date")
 	public void setDate(String date) throws ParseException {
 		System.out.println("set date from String");
 		this.date = Utils.parseDate(date);
 	}
+	
 ////	@JsonGetter("date")
 //	public String getJsonStartDate() {
 //		return Utils.formatDate(this.date);
@@ -151,14 +154,15 @@ public class Timesheet implements Serializable {
 		this.tot = tot;
 	}
 
-	
 	public Date getValidated() {
 		return validated;
 	}
+	
 	@JsonGetter("validated")
 	public String getJsonValidated() {
 		return Utils.formatDate(this.validated);
 	}
+	
 	public void setValidated(Date validated) {
 		this.validated = validated;
 	}
@@ -167,14 +171,15 @@ public class Timesheet implements Serializable {
 	public Date getSubmit() {
 		return submit;
 	}
+	
 	@JsonGetter("submit")
 	public String getJsonSubmit() {
 		return Utils.formatDate(this.submit);
 	}
+	
 	public void setSubmit(Date submit) {
 		this.submit = submit;
 	}
-
 	
 	@Override
 	public String toString() {
@@ -182,5 +187,4 @@ public class Timesheet implements Serializable {
 				+ ", date=" + date + ", type=" + type + ", start1=" + start1 + ", end1=" + end1 + ", start2=" + start2
 				+ ", end2=" + end2 + ", tot=" + tot + "]";
 	}
-	
 }

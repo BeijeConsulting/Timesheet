@@ -86,18 +86,15 @@ public class Contract {
 		return id;
 	}
 
-
-
 	public void setId(Long id) {
 		this.id = id;
 	}
-
 	
-	@JsonGetter
+	@JsonGetter("contract_type")
 	public char getContract_type() {
 		return type != null ? type.getCod() : '-';
 	}
-	@JsonSetter
+	@JsonSetter("contract_type")
 	public void setContract_type(char contract_type) {
 		System.out.println("setContract_type : " + contract_type);
 		this.type = new ContractType();
@@ -189,11 +186,11 @@ public class Contract {
 		this.startDate = startDate;
 	}
 	
-	@JsonGetter("startDate")
+	@JsonGetter("start_date")
 	public String getJsonStartDate() {
 		return Utils.formatDate(this.startDate);
 	}
-	@JsonSetter
+	@JsonSetter("start_date")
 	public void setJsonStartDate(String startDate) throws ParseException {
 		this.startDate = Utils.parseDate(startDate);
 	}
@@ -206,11 +203,11 @@ public class Contract {
 		this.endDate = endDate;
 	}
 	
-	@JsonGetter("endDate")
+	@JsonGetter("end_date")
 	public String getJsonEndDate() {
 		return Utils.formatDate(this.endDate);
 	}
-	@JsonSetter
+	@JsonSetter("end_date")
 	public void setJsonEndDate(String endDate) throws ParseException {
 		this.endDate = Utils.parseDate(endDate);
 	}

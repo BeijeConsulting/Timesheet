@@ -2,7 +2,9 @@ package it.beije.mgmt.service;
 
 import java.sql.Date;
 import java.sql.Time;
+import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.Period;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -19,6 +21,7 @@ import it.beije.mgmt.entity.User;
 import it.beije.mgmt.jpa.TimesheetRequest;
 import it.beije.mgmt.exception.IllegalDateException;
 import it.beije.mgmt.exception.IllegalHourException;
+import it.beije.mgmt.exception.MasterException;
 import it.beije.mgmt.exception.UpdateException;
 import it.beije.mgmt.repository.TimesheetRepository;
 import it.beije.mgmt.repository.UserRepository;
@@ -94,11 +97,11 @@ public class TimesheetService {
 		}
 	}
 //--------------------------------------------------------------------------------------------------------------------------------------------------------
-public Timesheet getDefaultTimesheet(Long idUser) {
+	public Timesheet getDefaultTimesheet(Long idUser) {
 	
 		String type="D";
-	return timesheetRepository.findByIdUserAndType(idUser, type);
-		}
+		return timesheetRepository.findByIdUserAndType(idUser, type);
+	}
 	
 //------------------------------------------------------------------------------------------------------------------------------------------------------
 	
@@ -235,7 +238,6 @@ public Timesheet getDefaultTimesheet(Long idUser) {
 	public List<Timesheet> retrieveTimatablesInDateRangeByUserId(Long userId, Date dateFrom, Date dateTo) {
 
 		List<Timesheet> timetables = timesheetRepository.findByIdUserAndDateGreaterThanEqualAndDateLessThanEqual(userId, dateFrom, dateTo);
-
 		if(timetables.isEmpty())
 			throw new NoContentException("ATTENZIONE: non è stata trovata alcuna timesheet con i parametri inseriti");
 		else
@@ -460,5 +462,4 @@ public Timesheet getDefaultTimesheet(Long idUser) {
 		
 		 return trovaTimesheets(req.getIdUser(),req.getDateFrom(),req.getDateTo(),req.getType(), req.getSubmit(), req.getValidated());
 	}
-
 }
