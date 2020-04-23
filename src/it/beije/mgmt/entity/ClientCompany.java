@@ -54,9 +54,9 @@ public class ClientCompany implements Serializable {
 //	@OneToMany(mappedBy = "company",
 //			cascade = CascadeType.ALL,
 //			orphanRemoval = true)
-	@Transient
-	@JsonProperty("relative_user")
-	private List<UserHasClient> relativeUser;
+//	@Transient
+//	@JsonProperty("relative_user")
+//	private List<UserHasClient> relativeUser;
 
 	public Long getId() {
 		return id;
@@ -114,13 +114,13 @@ public class ClientCompany implements Serializable {
 		this.offices = offices;
 	}
 
-	public List<UserHasClient> getRelativeUser() {
-		return relativeUser;
-	}
-
-	public void setRelativeUser(List<UserHasClient> relativeUser) {
-		this.relativeUser = relativeUser;
-	}
+//	public List<UserHasClient> getRelativeUser() {
+//		return relativeUser;
+//	}
+//
+//	public void setRelativeUser(List<UserHasClient> relativeUser) {
+//		this.relativeUser = relativeUser;
+//	}
 	
 	public ClientCompany() {
 		super();
@@ -135,6 +135,6 @@ public class ClientCompany implements Serializable {
 		this.phone = client.phone;
 		this.secondaryEmail = client.secondaryEmail;
 		this.offices = client.offices;
-		this.relativeUser = client.relativeUser;
+//		this.relativeUser = client.relativeUser;
 	}
 }

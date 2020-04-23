@@ -12,8 +12,7 @@
 		<class>it.beije.mgmt.entity.Timesheet</class>
 		<class>it.beije.mgmt.entity.User</class>
 		<class>it.beije.mgmt.entity.UserComputer</class>
-		<class>it.beije.mgmt.entity.UserHasClient</class>
-		<class>it.beije.mgmt.entity.UserHasClientId</class>
+		<class>it.beije.mgmt.entity.ClientOrder</class>
 
 		<class>it.beije.mgmt.entity.cv.Certification</class>
 		<class>it.beije.mgmt.entity.cv.CV</class>

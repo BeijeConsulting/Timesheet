@@ -1,0 +1,33 @@
+Modifica nome tabella
+	contratto
+	clienti
+
+Modifica id_*** con ***_id
+	user_computer
+	bank_credentials
+	contratto
+	timesheet
+	address
+	education
+	certification
+	cv
+	language
+	
+Modifica chiave primaria (solo id)
+	education
+	timesheet_test
+	certification
+	technologies
+	cv
+	language
+	
+Chiave esterna non rilevata
+	timesheet
+	education
+	certification
+	technologies
+	cv
+	language
+	
+Altro
+	in "work" startDate e endDate sono varchar

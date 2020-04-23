@@ -125,9 +125,9 @@ public class User implements Serializable {
 //		        cascade = CascadeType.ALL,
 //		        orphanRemoval = true /*, fetch=FetchType.EAGER*/
 //		    )
-	@Transient
-	@JsonProperty("relative_clients")
-	private List<UserHasClient> relativeClient;
+//	@Transient
+//	@JsonProperty("relative_clients")
+//	private List<UserHasClient> relativeClient;
 	
 
 	public User() {
@@ -361,13 +361,13 @@ public class User implements Serializable {
 		this.contract = contract;
 	}
 
-	public List<UserHasClient> getRelativeClient() {
-		return relativeClient;
-	}
-
-	public void setRelativeClient(List<UserHasClient> relativeClient) {
-		this.relativeClient = relativeClient;
-	}
+//	public List<UserHasClient> getRelativeClient() {
+//		return relativeClient;
+//	}
+//
+//	public void setRelativeClient(List<UserHasClient> relativeClient) {
+//		this.relativeClient = relativeClient;
+//	}
 
 	public Timesheet getDefaultTimesheet() {
 		return defaultTimesheet;
