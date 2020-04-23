@@ -20,6 +20,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.lang.Nullable;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSetter;
 
 import it.beije.mgmt.tool.Utils;
@@ -37,21 +38,26 @@ public class UserComputer {
 	private String mouse;
 
 	@Column(name="lan_adapter")
+	@JsonProperty("lan_adapter")
 	private boolean lanAdapter;
 	
 	@Column(name="start_date")
+	@JsonProperty("start_date")
 	private Date startDate;
 	
 	@Column(name="end_date")
+	@JsonProperty("end_date")
 	private Date endDate;
 	
 	@Column(name="note")
 	private String note;
 
 	@Column(name="id_user")
+	@JsonProperty("id_user")
 	private Long idUser;
 	
 	@Column(name="id_computer")
+	@JsonProperty("id_computer")
 	private Long idComputer;
 	
 //	@OneToMany
@@ -100,7 +106,7 @@ public class UserComputer {
 		return startDate;
 	}
 	
-	@JsonGetter("startDate")
+	@JsonGetter("start_date")
 	public String getJsonStartDate() {
 		return Utils.formatDate(this.startDate);
 	}
@@ -118,7 +124,7 @@ public class UserComputer {
 		return endDate;
 	}
 	
-	@JsonGetter("endDate")
+	@JsonGetter("end_date")
 	public String getJsonEndDate() {
 		return Utils.formatDate(this.endDate);
 	}

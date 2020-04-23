@@ -14,6 +14,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 
 @Entity
 @Table(name = "company")
@@ -27,9 +29,11 @@ public class ClientCompany implements Serializable {
 	private Long id;
 
 	@Column(name = "first_name", nullable=false)
+	@JsonProperty("first_name")
 	private String firstName;
 
 	@Column(name = "last_name", nullable=false)
+	@JsonProperty("last_name")
 	private String lastName;
 
 	@Column(name = "email", unique=true, nullable=false)
@@ -39,6 +43,7 @@ public class ClientCompany implements Serializable {
 	private String phone;
 
 	@Column(name = "secondary_email")
+	@JsonProperty("secondary_email")
 	private String secondaryEmail;
 	
 //	@OneToMany(cascade=CascadeType.ALL)
@@ -50,6 +55,7 @@ public class ClientCompany implements Serializable {
 //			cascade = CascadeType.ALL,
 //			orphanRemoval = true)
 	@Transient
+	@JsonProperty("relative_user")
 	private List<UserHasClient> relativeUser;
 
 	public Long getId() {

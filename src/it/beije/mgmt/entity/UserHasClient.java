@@ -10,6 +10,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 
 @Table(name = "user_has_client")
 @Entity(name = "u_has_c")
@@ -27,9 +29,11 @@ public class UserHasClient {
 	private ClientCompany company;
 	
 	@Column(name="start")
+	@JsonProperty("start_date")
 	private LocalDate startDate;
 	
 	@Column(name="end")
+	@JsonProperty("end_date")
 	private LocalDate endDate;
 	
 	@Column(name="notes")

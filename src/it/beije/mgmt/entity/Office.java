@@ -9,6 +9,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 @Entity
 @Table(name = "office")
 public class Office {
@@ -34,9 +36,11 @@ public class Office {
 	private String country;
 	
 	@Column(name = "start_date", nullable=false)
+	@JsonProperty("start_date")
 	private LocalDate startDate;
 	
 	@Column(name = "end_date", nullable=true)
+	@JsonProperty("end_date")
 	private LocalDate endDate;
 	
 	@Column(name = "type", nullable=true)
