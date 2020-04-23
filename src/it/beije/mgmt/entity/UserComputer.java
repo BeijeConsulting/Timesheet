@@ -53,11 +53,11 @@ public class UserComputer {
 	private String note;
 
 	@Column(name="id_user")
-	@JsonProperty("id_user")
+	@JsonProperty("user_id")
 	private Long idUser;
 	
 	@Column(name="id_computer")
-	@JsonProperty("id_computer")
+	@JsonProperty("computer_id")
 	private Long idComputer;
 	
 //	@OneToMany

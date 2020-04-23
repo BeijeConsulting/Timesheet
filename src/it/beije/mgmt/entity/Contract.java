@@ -31,7 +31,7 @@ public class Contract {
 	private Long id;
 	
 	@Column(name="id_user")
-	@JsonProperty("id_user")
+	@JsonProperty("user_id")
 	private Long idUser;
 	
 	@JsonIgnore
