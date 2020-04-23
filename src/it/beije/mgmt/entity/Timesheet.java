@@ -29,7 +29,7 @@ public class Timesheet implements Serializable {
 	
 	@NonNull
 	@Column(name = "id_user")
-	@JsonProperty("id_user")
+	@JsonProperty("user_id")
 	private Long idUser;
 	
 	@NonNull
