@@ -15,7 +15,7 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-
+@Entity
 @Table(name = "client_order")
 public class ClientOrder {
 	
@@ -24,12 +24,12 @@ public class ClientOrder {
 	@Column(name = "id")
 	private Long id;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@MapsId("user_id")
+//	@ManyToOne(fetch = FetchType.LAZY)
+//	@MapsId("user_id")
 	private User user;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@MapsId("clienti_id")
+//	@ManyToOne(fetch = FetchType.LAZY)
+//	@MapsId("clienti_id")
 	private ClientCompany company;
 	
 	@Column(name="start_date")
