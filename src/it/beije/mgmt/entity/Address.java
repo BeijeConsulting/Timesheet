@@ -122,7 +122,7 @@ public class Address {
 		return startDate;
 	}
 	
-	@JsonGetter("startDate")
+	@JsonGetter("start_date")
 	public String getJsonStartDate() {
 		return Utils.formatDate(this.startDate);
 	}
@@ -141,7 +141,7 @@ public class Address {
 		return endDate;
 	}
 	
-	@JsonGetter("endDate")
+	@JsonGetter("end_date")
 	public String getJsonEndDate() {
 		return Utils.formatDate(this.endDate);
 	}

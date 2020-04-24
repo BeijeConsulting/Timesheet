@@ -105,7 +105,7 @@ public class UserApiController {
 	@RequestMapping(value = "/user/search", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody List<User> searchUser(@RequestBody UserRequest req) {
 
-		return new UserService().searchUser(req);
+		return userService.searchUser(req);
 
 		/*
 		 * {"first_name" : "nome", "last_name" : "cognome", "email" : "email",

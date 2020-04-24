@@ -32,8 +32,12 @@ import it.beije.mgmt.jpa.UserRequest;
 import it.beije.mgmt.repository.AddressRepository;
 import it.beije.mgmt.repository.BankCredentialsRepository;
 import it.beije.mgmt.repository.ContractRepository;
+import it.beije.mgmt.repository.SearchCriteria;
+import it.beije.mgmt.repository.SearchOperation;
 import it.beije.mgmt.repository.TimesheetRepository;
 import it.beije.mgmt.repository.UserRepository;
+import it.beije.mgmt.repository.UserSpecification;
+
 import java.util.NoSuchElementException;
 
 
@@ -88,7 +92,12 @@ public class UserService implements UserDetailsService {
 		
 		User userDto = new User();
 		try {
-			User user = userRepository.findById(idUser).get();
+			//User user = userRepository.findById(idUser).get();
+			UserSpecification spFindId = new UserSpecification();
+			spFindId.add(new SearchCriteria("id", idUser, SearchOperation.EQUAL));
+			
+			User user = userRepository.findOne(spFindId).get();
+			
 			
 			if (complete) {
 				fillUser(user);
@@ -208,8 +217,6 @@ public class UserService implements UserDetailsService {
 			user.orElseThrow(() -> new UsernameNotFoundException("Username not found"));
 			return user.map(CustomUserDetail::new).get();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 			throw e;
 		}		
 	}
@@ -219,125 +226,32 @@ public class UserService implements UserDetailsService {
 		// TODO Auto-generated method stub
 		return searchUser(req.getFirst_name(),req.getLast_name(),req.getEmail(),req.getFiscal_code());
 	}
-	
-	/**
-	 * QUESTO METODO RICERCA TUTTI GLI UTENTI DATI IN INPUT NOME|COGNOME|EMAIL|CODICE FISCALE
-	 * @param firstName
-	 * @param lastName
-	 * @param email
-	 * @param fiscalCode
-	 * @return
-	 */
-	/***********************************************************EDIT***************************************************/
 	private List<User> searchUser(String firstName, String lastName, String email, String fiscalCode) {
 
-//		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
-//		EntityManager entitymanager = emfactory.createEntityManager();
-		
-		List<String> searchQuery=new ArrayList<>();
-		String whereClause="";
 		List<User> list = new ArrayList<>();
 		
+		UserSpecification spSearch = new UserSpecification();
+		
 		if (firstName != null && firstName.length()>0) {
-			System.out.println(firstName);
-			list.addAll(userRepository.findByFirstName(firstName));
-			System.out.println(list.size());
-//			searchQuery.add("a.firstName LIKE '%"+firstName+"%'");
-//			whereClause+="WHERE ";
+			spSearch.add(new SearchCriteria("firstName", firstName, SearchOperation.MATCH));
+			list.addAll(userRepository.findAll(spSearch));
 		}
 		if (lastName != null && lastName.length()>0) {
-			list.addAll(userRepository.findByLastNameContaining(lastName));
-//			searchQuery.add("a.lastName LIKE '%"+lastName+"%'");
-//			if (whereClause.length()==0)
-//				whereClause+="WHERE ";
+			spSearch.add(new SearchCriteria("lastName", lastName, SearchOperation.MATCH));
+			list.addAll(userRepository.findAll(spSearch));
 		}
 		if (email != null && email.length()>0) {
-			User emailList = userRepository.findByEmail(email).get();
-			System.out.println(list.size());
-//			searchQuery.add("a.email LIKE '%"+email+"%'");
-//			if (whereClause.length()==0)
-//				whereClause+="WHERE ";
+			spSearch.add(new SearchCriteria("email", email, SearchOperation.MATCH));
+			list.addAll(userRepository.findAll(spSearch));
 		}
 		if (fiscalCode != null && fiscalCode.length()>0) {
-			list.addAll(userRepository.findByFiscalCodeContaining(fiscalCode));
-//			searchQuery.add("a.fiscalCode LIKE '%"+fiscalCode+"%'");
-//			if (whereClause.length()==0)
-//				whereClause+="WHERE ";
+			spSearch.add(new SearchCriteria("fiscalCode", fiscalCode, SearchOperation.MATCH));
+			list.addAll(userRepository.findAll(spSearch));
 		}
-		
-		System.out.println("Sto cercando");
-/*		
-		for (int i=0;i<searchQuery.size();i++) {
-			whereClause+=searchQuery.get(i);
-			if (i!=searchQuery.size()-1)
-				whereClause+=" OR ";
-		}
-		
-		TypedQuery<User> query=entitymanager.createQuery("SELECT a from User a "+whereClause,User.class);
-		
-		List<User> userlist=query.getResultList();
-		
-		entitymanager.close();
-		
-		return userlist;
-*/
+
 		return list;
 	}
 	
-	/**
-	 * QUESTO E' IL METODO PER RITORNARE LA LISTA DEGLI UTENTI CON TUTTI I DETTAGLI E LO STORICO(CLASSE USER
-	 * @param firstName
-	 * @param lastName
-	 * @param email
-	 * @param fiscalCode
-	 * @return
-	 */
-	@Transactional
-	public List<User> trovaUtenti(String firstName, String lastName, String email, String fiscalCode) {
-
-		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
-		EntityManager entitymanager = emfactory.createEntityManager();
-		
-		List<String> searchQuery=new ArrayList<>();
-		String whereClause="";
-		
-		if (firstName != null && firstName.length()>0) {
-			searchQuery.add("a.firstName LIKE '%"+firstName+"%'");
-			whereClause+="WHERE ";
-		}
-		if (lastName != null && lastName.length()>0) {
-			searchQuery.add("a.lastName LIKE '%"+lastName+"%'");
-			if (whereClause.length()==0)
-				whereClause+="WHERE ";
-		}
-		if (email != null && email.length()>0) {
-			searchQuery.add("a.email LIKE '%"+email+"%'");
-			if (whereClause.length()==0)
-				whereClause+="WHERE ";
-		}
-		if (fiscalCode != null && fiscalCode.length()>0) {
- 			searchQuery.add("a.fiscalCode LIKE '%"+fiscalCode+"%'");
-			if (whereClause.length()==0)
-				whereClause+="WHERE ";
-		}
-		
-		System.out.println("Sto cercando");
-		
-		for (int i=0;i<searchQuery.size();i++) {
-			whereClause+=searchQuery.get(i);
-			if (i!=searchQuery.size()-1)
-				whereClause+=" AND ";
-		}
-		
-		TypedQuery<User> query=entitymanager.createQuery("SELECT a from User a "+whereClause,User.class);
-		
-		List<User> userlist=query.getResultList();
-		
-		entitymanager.close();
-		
-
-		return userlist;
-	}
 
 	public User getShortVersion(User user) {
 		User u = new User();

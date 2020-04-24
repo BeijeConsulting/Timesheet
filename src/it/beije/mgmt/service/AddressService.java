@@ -1,5 +1,7 @@
 package it.beije.mgmt.service;
 
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Objects;
@@ -90,6 +92,18 @@ public class AddressService {
 		}catch (EntityNotFoundException | IllegalArgumentException | NoSuchElementException e) {
 			throw new NoContentException("Non è stato trovato un indirizzo con l'id selezionato o i dati potrebbero essere corrotti");
 		}
+	}
+	
+	@Transactional
+	public boolean archive(Long id) {
+		try {
+			Address address = find(id);
+			address.setEndDate(Date.valueOf(LocalDate.now()));	
+			update(id,address);
+		}catch(MasterException e) {
+			return false;
+		}
+		return true;	
 	}
 }
 

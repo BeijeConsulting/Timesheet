@@ -75,7 +75,12 @@ public class AddressApiController {
 			throw e;
 		}
 	}
-
+	
+	@RequestMapping(value = "/address/archive/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody boolean archiveAddress(@PathVariable Long id, HttpServletResponse response) {
+		
+		return addressService.archive(id);
+	}
 }
 
 

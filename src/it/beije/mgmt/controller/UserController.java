@@ -147,8 +147,8 @@ public class UserController {
 	@PreAuthorize("hasAnyRole('ADMIN')")		
 	@RequestMapping(value = "/utentitrovati", method = RequestMethod.GET)
 	public String utentiTrovati(@Validated User user, Model model,HttpServletRequest request) {
-		List<User> trovati = userService.trovaUtenti(user.getFirstName(),user.getLastName(),user.getEmail(),user.getFiscalCode());
-		request.getSession().setAttribute("users", trovati);
+//		List<User> trovati = userService.trovaUtenti(user.getFirstName(),user.getLastName(),user.getEmail(),user.getFiscalCode());
+//		request.getSession().setAttribute("users", trovati);
 		return "utentitrovati";
 	}
 	

@@ -1,7 +1,11 @@
 package it.beije.mgmt.restcontroller;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -35,6 +39,43 @@ public class ApiController {
 		System.out.println("Home Page Requested, locale = " + locale);
 
 		return new Timesheet();
+	}
+	
+	@RequestMapping(value = "/costant", method = RequestMethod.GET)
+	public @ResponseBody JSONObject costant(Model model) {
+		DateTimeFormatter dateParser = DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm");
+		LocalDateTime ldt = LocalDateTime.now();
+
+		JSONObject objectJson = new JSONObject();
+		objectJson.put("server_date",dateParser.format(ldt));
+		JSONObject objectJson1 = new JSONObject();
+		JSONObject objectJson2 = new JSONObject();
+		JSONObject objectJson3 = new JSONObject();
+		JSONObject objectJson4 = new JSONObject();
+		JSONObject objectJson5 = new JSONObject();
+		
+		JSONArray arrayJson = new JSONArray();
+		objectJson1.put("code", "W");
+		objectJson1.put("label", "Lavorativo");
+		objectJson2.put("code", "H");
+		objectJson2.put("label", "ferie");
+		objectJson3.put("code", "P");
+		objectJson3.put("label", "Permesso");
+		objectJson4.put("code", "S");
+		objectJson4.put("label", "Malattia");
+		objectJson5.put("code", "C");
+		objectJson5.put("label", "Cassa Integrazione");
+		
+		arrayJson.add(objectJson1);
+		arrayJson.add(objectJson2);
+		arrayJson.add(objectJson3);
+		arrayJson.add(objectJson4);
+		arrayJson.add(objectJson5);
+		JSONObject mainJson = new JSONObject();
+		mainJson.putAll(objectJson);
+		mainJson.put("timesheet_types", arrayJson);
+
+		return mainJson;
 	}
 	//////////////////////////////////////
 
