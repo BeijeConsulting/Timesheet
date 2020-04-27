@@ -22,6 +22,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import it.beije.mgmt.CustomUserDetail;
 import it.beije.mgmt.JpaEntityManager;
+import it.beije.mgmt.dto.UserSearchSpecification;
 import it.beije.mgmt.entity.User;
 import it.beije.mgmt.exception.DBException;
 import it.beije.mgmt.exception.InvalidJSONException;
@@ -36,7 +37,6 @@ import it.beije.mgmt.repository.SearchCriteria;
 import it.beije.mgmt.repository.SearchOperation;
 import it.beije.mgmt.repository.TimesheetRepository;
 import it.beije.mgmt.repository.UserRepository;
-import it.beije.mgmt.repository.UserSpecification;
 
 import java.util.NoSuchElementException;
 
@@ -73,9 +73,10 @@ public class UserService implements UserDetailsService {
 		
 		if(completeUsers.size()==0)
 			throw new NoContentException("La lista è vuota");
+		
 		try {
-			
 			List<User> users = new ArrayList<>();
+			
 			for(User u : completeUsers) {
 				User userDto = new User();
 				BeanUtils.copyProperties(u, userDto, "gender", "password", "secondaryEmail", "fiscalCode", "birthDate", "birthPlace", "nationality",
@@ -93,11 +94,9 @@ public class UserService implements UserDetailsService {
 		User userDto = new User();
 		try {
 			//User user = userRepository.findById(idUser).get();
-			UserSpecification spFindId = new UserSpecification();
+			UserSearchSpecification spFindId = new UserSearchSpecification();
 			spFindId.add(new SearchCriteria("id", idUser, SearchOperation.EQUAL));
-			
 			User user = userRepository.findOne(spFindId).get();
-			
 			
 			if (complete) {
 				fillUser(user);
@@ -230,7 +229,7 @@ public class UserService implements UserDetailsService {
 
 		List<User> list = new ArrayList<>();
 		
-		UserSpecification spSearch = new UserSpecification();
+		UserSearchSpecification spSearch = new UserSearchSpecification();
 		
 		if (firstName != null && firstName.length()>0) {
 			spSearch.add(new SearchCriteria("firstName", firstName, SearchOperation.MATCH));
@@ -248,7 +247,6 @@ public class UserService implements UserDetailsService {
 			spSearch.add(new SearchCriteria("fiscalCode", fiscalCode, SearchOperation.MATCH));
 			list.addAll(userRepository.findAll(spSearch));
 		}
-
 		return list;
 	}
 	

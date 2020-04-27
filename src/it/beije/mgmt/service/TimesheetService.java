@@ -16,6 +16,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import it.beije.mgmt.JpaEntityManager;
+import it.beije.mgmt.dto.TimesheetSearchSpecification;
+import it.beije.mgmt.dto.UserSearchSpecification;
 import it.beije.mgmt.entity.Timesheet;
 import it.beije.mgmt.entity.User;
 import it.beije.mgmt.jpa.TimesheetRequest;
@@ -23,8 +25,11 @@ import it.beije.mgmt.exception.IllegalDateException;
 import it.beije.mgmt.exception.IllegalHourException;
 import it.beije.mgmt.exception.MasterException;
 import it.beije.mgmt.exception.UpdateException;
+import it.beije.mgmt.repository.SearchCriteria;
+import it.beije.mgmt.repository.SearchOperation;
 import it.beije.mgmt.repository.TimesheetRepository;
 import it.beije.mgmt.repository.UserRepository;
+import it.beije.mgmt.tool.Utils;
 import it.beije.mgmt.exception.NoContentException;
 import it.beije.mgmt.exception.ServiceException;
 
@@ -42,59 +47,57 @@ public class TimesheetService {
 		
 		 if(((s1==null && e1==null) && (s2!=null && e2!=null)) || ((s1!=null && e1!=null) && (s2==null && e2==null)))
 			return false;
-		 
 		 if(!e1.before(s2) && !s1.after(e2)) {
 			 if(e1.equals(s2) || s1.equals(e2)) {
 				 return false;
-			 }
-			 else
+			 }else
 				 return true;
-		 }
-		 else 
+		 }else 
 			 return false;
 	}
 //------------------------------------------------------------------------------------------------------------------------------------------------------	
 	
-	public List<Timesheet> caricaTutto() {
-		return timesheetRepository.findAll();
+	public List<Timesheet> findAll() {
+		
+		List<Timesheet> completeTimes = timesheetRepository.findAll();
+
+		if(completeTimes.size()==0)
+			throw new NoContentException("La lista è vuota");
+		return completeTimes;
 	}
 //------------------------------------------------------------------------------------------------------------------------------------------------------	
 	@Transactional
 	public List<Timesheet> insert(List<Timesheet> timetables) {
 
 		for(Timesheet t : timetables) {
-			
 			if((t.getStart1()==null && t.getEnd1()!=null) || (t.getStart2()==null && t.getEnd2()!=null) || (t.getStart1()!=null && t.getEnd1()==null) || (t.getStart2()!=null && t.getEnd2()==null)
 					 || (t.getStart1()==null && t.getEnd1()==null && t.getStart2()==null && t.getEnd2()==null))
-				
 				 //SE GLI ORARI DI OGNI TIMESHEET HANNO UN INIZIO MA NON UNA FINE O VICEVERSA  OPPURE HA TUTTI ORARI NULL C'è  UN PROBLEMA
 				 throw new IllegalHourException("ATTENZIONE: é presente una timesheet con orari non completi");
 			if(t.getTot()>8)
-				
-				//SE LE ORE DI UNA TIMESHEET SONO MAGGIORI DI 8 C'è UN PROBLEMA
+				//SE LE ORE DI UNA TIMESHEET SONO MAGGIORI DI 8h C'è UN PROBLEMA
 				throw new IllegalHourException("ATTENZIONE: le ore complessive della giornata sono maggiori di 8!");
 		}
-		
 		return timesheetRepository.saveAll(timetables);
 	}
 //------------------------------------------------------------------------------------------------------------------------------------------------------
 	public Timesheet insertDefault(Long idUser,Timesheet timesheet) {
 		
 		List<Timesheet> t= new ArrayList<Timesheet>();
-		if (userRepository.findById(idUser).isPresent())
+		if (!userRepository.findById(idUser).isPresent())
 			throw new NoContentException("ATTENZIONE: non è stato trovato alcun utente con questo id");
-		else {
-			
-			timesheet.setIdUser(idUser);
-			timesheet.setType("D");
-			t.add(timesheet);
-			if(timesheetRepository.findByIdUserAndType(idUser, "D")!=null)
-				
-				throw new ServiceException("ATTENZIONE: esiste già una timesheet default per questo utente.Se si desidera modificarla andare su modifica");
-		
-			insert(t);
-			return timesheet;
-		}
+	
+		timesheet.setIdUser(idUser);
+		timesheet.setType("D");
+		t.add(timesheet);
+		TimesheetSearchSpecification spFindDef = new TimesheetSearchSpecification();
+		spFindDef.add(new SearchCriteria("idUser", idUser, SearchOperation.EQUAL));
+		spFindDef.add(new SearchCriteria("type", "D", SearchOperation.EQUAL));
+		if(timesheetRepository.findOne(spFindDef).isPresent())
+			throw new ServiceException("ATTENZIONE: esiste già una timesheet default per questo utente.Se si desidera modificarla andare su modifica");
+	
+		insert(t);
+		return timesheet;	
 	}
 //--------------------------------------------------------------------------------------------------------------------------------------------------------
 	public Timesheet getDefaultTimesheet(Long idUser) {
@@ -105,129 +108,101 @@ public class TimesheetService {
 	
 //------------------------------------------------------------------------------------------------------------------------------------------------------
 	
-	public List<Timesheet> takeRecordsFromDateId(Date startDate, Long idUtente) {
+	public List<Timesheet> takeRecordsFromDateId(Date startDate, Long idUser) {
 		
-		List<Timesheet> timetables = timesheetRepository.findByIdUserAndDate(idUtente, startDate);
+		TimesheetSearchSpecification spFindDef = new TimesheetSearchSpecification();
+		spFindDef.add(new SearchCriteria("idUser", idUser, SearchOperation.EQUAL));
+		spFindDef.add(new SearchCriteria("startDate", startDate, SearchOperation.EQUAL));
+		List<Timesheet> timetables = timesheetRepository.findAll(spFindDef);
 		
 		if(timetables.isEmpty())
 			throw new NoContentException("ATTENZIONE: non è stata trovata alcuna timesheet con i parametri inseriti");
-		else
-			return timetables;
+		return timetables;
 		
 	}
 	
 //------------------------------------------------------------------------------------------------------------------------------------------------------	
 	@Transactional
-	public boolean submitUtente(Long userId, Date datefrom) {
+	public boolean submitUser(Long userId, Date datefrom) {
 		List<Timesheet> listaT = takeRecordsFromDateId(datefrom, userId);
-		java.util.Date today= new java.util.Date();
-		Date sqltoday= convertUtilToSql(today);
+		Date sqltoday= Date.valueOf((LocalDate.now()));
 		String s = "";
 		double tot=0;
 		for(Timesheet t: listaT) {
 		//PER TUTTE LE TIMESHEET DELLA RICERCA (CHE PUò ANCHE ESSERE 1) SOMMO LE ORE TOTALI
 			 tot += t.getTot();
-			
 			 if(!s.contains(t.getType()))
 				 s += t.getType();
 			 else
 				 //SE CI SONO PIù TIMESHEET CON STESSA TIPOLOGIA NELLA STESSA DATA C'è UN PROBLEMA
 				 throw new IllegalHourException("ATTENZIONE: ci sono più timesheet con la stessa tipologia");
-			 
 			 if((t.getStart1()==null && t.getEnd1()!=null) || (t.getStart2()==null && t.getEnd2()!=null) || (t.getStart1()!=null && t.getEnd1()==null) || (t.getStart2()!=null && t.getEnd2()==null)
 					 || (t.getStart1()==null && t.getEnd1()==null && t.getStart2()==null && t.getEnd2()==null))
 				
 				 //SE GLI ORARI DI OGNI TIMESHEET HANNO UN INIZIO MA NON UNA FINE O VICEVERSA  OPPURE HA TUTTI ORARI NULL C'è  UN PROBLEMA
-				 throw new IllegalHourException("ATTENZIONE: é presente una timesheet con orari non completi");
-			 
+				 throw new IllegalHourException("ATTENZIONE: é presente una timesheet con orari non completi"); 
 		}
-		if((s.contains("f") || s.contains("F")) && s.length()>1)
+		if(tot > 8)
+			//SE IL TOTALE DELLE ORE SUPERA 8 C'è UN PROBLEMA.
+			throw new IllegalHourException("ATTENZIONE: le ore complessive della giornata sono maggiori di 8!");
+		if((s.toLowerCase().contains("f")) && s.length()>1)
 			//SE C'è UNA TIMESHEET FERIE ASSIEME AD ALTRE TIMESHEET CON STESSA DATA C'è UN PROBLEMA IN QUANTO SE SEI IN FERIE NON PUOI AVERE TIMESHEET PERMESSO O LAVORO
-		throw new IllegalHourException("ATTENZIONE: è presente una timesheet di tipo ferie assieme ad altre tipologie: o sei in ferie o sei al lavoro!");
-		
-		if(listaT.size() == 1 && tot <= 8) {
+			throw new IllegalHourException("ATTENZIONE: è presente una timesheet di tipo ferie assieme ad altre tipologie: o sei in ferie o sei al lavoro!");
+		if(listaT.size() == 1) {
 			// SE IN QUEL GIORNO ABBIAMO UNA SOLA TIMESHEET E LE ORE SONO MENO O UGUALI A 8 (MINORE PER POSSIBILI PARTTIME) PUOI FARE SUBMIT.
 			listaT.get(0).setSubmit(sqltoday);
 			timesheetRepository.save(listaT.get(0));
 			return true;
 		}
-		else
-			// SE SIAMO QUA O LE ORE SONO MAGGIORI DI 8 OPPURE ABBIAMO PIù TIMESHEET
-		{
-			if(tot > 8) {
-				//SE IL TOTALE DELLE ORE SUPERA 8 C'è UN PROBLEMA.
-				System.out.println(tot);
-				throw new IllegalHourException("ATTENZIONE: le ore complessive della giornata sono maggiori di 8!");
+		//SE ARRIVIAMO QUA SIGNIFICA CHE ABBIAMO MINIMO 2 TIMESHEET E MASSIMO 3 TIMESHEET DI UNO STESSO GIORNO E DOBBIAMO VEDERE SE ABBIAMO ORARI CHE SI SOVRAPPONGONO.
+		Time primaStart1=listaT.get(0).getStart1();
+		Time primaEnd1=listaT.get(0).getEnd1();
+		Time primaStart2=listaT.get(0).getStart2();
+		Time primaEnd2=listaT.get(0).getEnd2();
+		Time secondaStart1=listaT.get(1).getStart1();
+		Time secondaEnd1= listaT.get(1).getEnd1();
+		Time secondaStart2=listaT.get(1).getStart2();
+		Time secondaEnd2=listaT.get(1).getEnd2();
+			
+		for(int i=1;i<listaT.size();i++) {
+			if(i==1)
+				if(hasOverlap(primaStart1,primaEnd1,secondaStart1,secondaEnd1)|| hasOverlap(primaStart2, primaEnd2, secondaStart2, secondaEnd2))
+						throw new IllegalHourException(" ATTENZIONE: sono presenti degli accavallamenti con gli orari");
+			else if(i==2) {	
+				Time ultimoStart1=listaT.get(i).getStart1();
+				Time ultimoEnd1= listaT.get(i).getEnd1();
+				Time ultimoStart2=listaT.get(i).getStart2();
+				Time ultimoEnd2=listaT.get(i).getEnd2();
+		
+				if(hasOverlap(primaStart1, primaEnd1, ultimoStart1, ultimoEnd1)|| hasOverlap(primaStart2, primaEnd2, ultimoStart2, ultimoEnd2)) 
+					throw new IllegalHourException(" ATTENZIONE: sono presenti degli accavallamenti con gli orari");
+			
+				if(hasOverlap(secondaStart1, secondaEnd1, ultimoStart1, ultimoEnd1)|| hasOverlap(secondaStart2, secondaEnd2, ultimoStart2, ultimoEnd2))
+					throw new IllegalHourException(" ATTENZIONE: sono presenti degli accavallamenti con gli orari");
 			}
-			else
-				//SE ARRIVIAMO QUA SIGNIFICA CHE ABBIAMO MINIMO 2 TIMESHEET E MASSIMO 3 TIMESHEET DI UNO STESSO GIORNO E DOBBIAMO VEDERE SE ABBIAMO ORARI CHE SI SOVRAPPONGONO.
-			{
-				Time primaStart1=listaT.get(0).getStart1();
-				Time primaEnd1=listaT.get(0).getEnd1();
-				Time primaStart2=listaT.get(0).getStart2();
-				Time primaEnd2=listaT.get(0).getEnd2();
-				Time secondaStart1=listaT.get(1).getStart1();
-				Time secondaEnd1= listaT.get(1).getEnd1();
-				Time secondaStart2=listaT.get(1).getStart2();
-				Time secondaEnd2=listaT.get(1).getEnd2();
-				
-				for(int i=1;i<listaT.size();i++) {
-					
-					if(i==1) {
-						
-						if(hasOverlap(primaStart1,primaEnd1,secondaStart1,secondaEnd1)|| hasOverlap(primaStart2, primaEnd2, secondaStart2, secondaEnd2)){
-							
-							throw new IllegalHourException(" ATTENZIONE: sono presenti degli accavallamenti con gli orari");
-						}
-						else if(i==2) {
-							
-							Time ultimoStart1=listaT.get(i).getStart1();
-							Time ultimoEnd1= listaT.get(i).getEnd1();
-							Time ultimoStart2=listaT.get(i).getStart2();
-							Time ultimoEnd2=listaT.get(i).getEnd2();
-							
-							if(hasOverlap(primaStart1, primaEnd1, ultimoStart1, ultimoEnd1)|| hasOverlap(primaStart2, primaEnd2, ultimoStart2, ultimoEnd2)) 
-								throw new IllegalHourException(" ATTENZIONE: sono presenti degli accavallamenti con gli orari");
-						
-							if(hasOverlap(secondaStart1, secondaEnd1, ultimoStart1, ultimoEnd1)|| hasOverlap(secondaStart2, secondaEnd2, ultimoStart2, ultimoEnd2))
-								throw new IllegalHourException(" ATTENZIONE: sono presenti degli accavallamenti con gli orari");
-						}
-					}	
-				}
-				
-				for(Timesheet t: listaT) {
-					t.setSubmit(sqltoday);
-					timesheetRepository.save(t);
-				}
-				return true;
-				}
-			}
+		}	
+		for(Timesheet t: listaT) {
+			t.setSubmit(sqltoday);
+			timesheetRepository.save(t);
 		}
+		return true;
+	}
 //------------------------------------------------------------------------------------------------------------------------------------------------------	
 	
-	public boolean submitUtente(Long userId, Date datefrom, Date dateto) {
-		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
-		EntityManager entitymanager = emfactory.createEntityManager();
-		EntityTransaction entr = entitymanager.getTransaction();
-		entr.begin();
+	public boolean submitUser(Long userId, Date datefrom, Date dateto) {
 		if(dateto==null) {
 			//CASO IN CUI SI SELEZIONA UN UNICO GIORNO SENZA QUINDI IL DATETO
-			 return submitUtente(userId,datefrom);
+			 return submitUser(userId,datefrom);
 		}
-
-		else {
-			if(dateto.before(datefrom))
-				throw new IllegalDateException("ATTENZIONE: la data di fine non può essere precedente a quella di inizio");
-			List<Timesheet> listaT = retrieveTimatablesInDateRangeByUserId(userId, datefrom, dateto);
-			for(Timesheet t: listaT) {
-				Date occorrenza = t.getDate();
-				if(t.getSubmit()==null)
-				 submitUtente(userId, occorrenza);
-				
-			}
-			return true;
-			
-		}		
+		if(dateto.before(datefrom))
+			throw new IllegalDateException("ATTENZIONE: la data di fine non può essere precedente a quella di inizio");
+		List<Timesheet> listaT = retrieveTimatablesInDateRangeByUserId(userId, datefrom, dateto);
+		for(Timesheet t: listaT) {
+			Date occorrenza = t.getDate();
+			if(t.getSubmit()==null)
+				submitUser(userId, occorrenza);	
+		}
+		return true;	
 	}
 //------------------------------------------------------------------------------------------------------------------------------------------------------		
 	public boolean svuotaserver() {
@@ -235,60 +210,52 @@ public class TimesheetService {
 		return true;		
 	}
 //-------------------------------------------------------------------------------------------------------------------------------------------------------
-	public List<Timesheet> retrieveTimatablesInDateRangeByUserId(Long userId, Date dateFrom, Date dateTo) {
+	public List<Timesheet> retrieveTimatablesInDateRangeByUserId(Long idUser, Date dateFrom, Date dateTo) {
 
-		List<Timesheet> timetables = timesheetRepository.findByIdUserAndDateGreaterThanEqualAndDateLessThanEqual(userId, dateFrom, dateTo);
+		TimesheetSearchSpecification spFindDef = new TimesheetSearchSpecification();
+		spFindDef.add(new SearchCriteria("idUser", idUser, SearchOperation.EQUAL));
+		spFindDef.add(new SearchCriteria("date", dateFrom, SearchOperation.GREATER_THAN_EQUAL));
+		spFindDef.add(new SearchCriteria("date", dateTo, SearchOperation.LESS_THAN_EQUAL));
+		List<Timesheet> timetables = timesheetRepository.findAll(spFindDef);
 		if(timetables.isEmpty())
 			throw new NoContentException("ATTENZIONE: non è stata trovata alcuna timesheet con i parametri inseriti");
-		else
-			return timetables;
+		return timetables;
 	}
 
 //-------------------------------------------------------------------------------------------------------------------------------------------------------
-	private static java.sql.Date convertUtilToSql(java.util.Date uDate) {
-        java.sql.Date sDate = new java.sql.Date(uDate.getTime());
-        return sDate;
-    }
+	
 //-------------------------------------------------------------------------------------------------------------------------------------------------------
 	@Transactional
 	public boolean validator(Long userId, Date dateFrom, Date dateTo) {
 		
-		java.util.Date today= new java.util.Date();
-		Date sqltoday= convertUtilToSql(today);
+		Date sqltoday= Date.valueOf(LocalDate.now());
 		
 		if(dateTo==null) {
-			List<Timesheet> lista = controlloValidazione(retrieveTimatablesInDateRangeByUserId(userId, dateFrom, dateFrom));
+			List<Timesheet> lista = checkValidations(retrieveTimatablesInDateRangeByUserId(userId, dateFrom, dateFrom));
 			for(Timesheet t : lista) {
 				if(t.getSubmit()!=null) {
-					
 					t.setValidated(sqltoday);
 					timesheetRepository.save(t);
-				}
-			else 
-				throw new UpdateException("ATTENZIONE: Non è possibile validare una timesheet che non è stata submittata");
-			
+				} else 
+					throw new UpdateException("ATTENZIONE: Non è possibile validare una timesheet che non è stata submittata");
 			}	
 			return true;
 		}
-		else {
-			
-			if(dateTo.before(dateFrom))
-				throw new IllegalDateException("ATTENZIONE: la data di fine non può essere precedente a quella di inizio");
-			
-			List<Timesheet> lista = controlloValidazione(retrieveTimatablesInDateRangeByUserId(userId,  dateFrom,dateTo));	
-			for(Timesheet t : lista) {
-				
-				if(t.getSubmit()!=null) {
-					t.setValidated(sqltoday);
-					timesheetRepository.save(t);				
+		if(dateTo.before(dateFrom))
+			throw new IllegalDateException("ATTENZIONE: la data di fine non può essere precedente a quella di inizio");
+		
+		List<Timesheet> lista = checkValidations(retrieveTimatablesInDateRangeByUserId(userId,  dateFrom,dateTo));	
+		for(Timesheet t : lista) {	
+			if(t.getSubmit()!=null) {
+				t.setValidated(sqltoday);
+				timesheetRepository.save(t);				
 			}
 		}	
 		return true;	
-		}
 	}
 //-----------------------------------------------------------------------------------------------------------------------------------------------------
 	
-	public List<Timesheet> controlloValidazione(List<Timesheet> lista){
+	public List<Timesheet> checkValidations(List<Timesheet> lista){
 		//SE UNA TIMESHEET è GIà VALIDATA LA SALTO
 		List<Timesheet> nuova = new ArrayList<Timesheet>();
 		for(Timesheet t : lista) {
@@ -329,12 +296,15 @@ public class TimesheetService {
 	}
 //-----------------------------------------------------------------------------------------------------------------------------------------------------
 	public List<Timesheet> takeRecordsFromDateToDate(Date dateFrom, Date dateTo) {
-		List<Timesheet> timetables = timesheetRepository.findByDateGreaterThanEqualAndDateLessThanEqual(dateFrom, dateTo);
+		TimesheetSearchSpecification spFindDef = new TimesheetSearchSpecification();
+		spFindDef.add(new SearchCriteria("date", dateFrom, SearchOperation.GREATER_THAN_EQUAL));
+		spFindDef.add(new SearchCriteria("date", dateTo, SearchOperation.LESS_THAN_EQUAL));
+		List<Timesheet> timetables = timesheetRepository.findAll(spFindDef);
 
 		if(timetables.isEmpty())
 			throw new NoContentException("ATTENZIONE: non è stata trovata alcuna timesheet con i parametri inseriti");
-		else
-			return timetables;
+		
+		return timetables;
 	}
 	
 //-----------------------------------------------------------------------------------------------------------------------------------------------------	
@@ -378,88 +348,44 @@ public class TimesheetService {
 		return user;
 	}
 //---------------------------------------------------------------------------------------------------------------------------------------------------------	
-	public List<Timesheet> trovaTimesheets(Long idUser,Date dateFrom, Date dateTo, String type, boolean submit, boolean validated) {
-
-		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
-		EntityManager entitymanager = emfactory.createEntityManager();
+	public List<Timesheet> searchTimesheets(Long idUser,Date dateFrom, Date dateTo, String type, boolean submit, boolean validated) {
+		
+		TimesheetSearchSpecification spFindDef = new TimesheetSearchSpecification();
+		
+		
+		
 		
 		List<String> searchQuery=new ArrayList<>();
 		String whereClause="";
-		
-		if(submit== false && validated==true) {
+		if(submit== false && validated==true)
 			throw new NoContentException("ATTENZIONE: non è possibile cercare timesheet validate e non submittate allo stesso tempo!");
-		}
-		
+
 		if(dateFrom==null && dateTo!=null)
 			throw new IllegalDateException("ATTENZIONE: non è possibile fare una ricerca inserendo solo la data di fine e non di inizio periodo. Se si desidera fare una ricerca per singola data inserire la data di inizio. ");
 		
-		if (idUser != null) {
-			searchQuery.add("a.idUser LIKE '%"+idUser+"%'");
-			whereClause+="WHERE ";
-		}
+		if (idUser != null)
+			spFindDef.add(new SearchCriteria("idUser", idUser, SearchOperation.MATCH));
+		if (dateFrom != null)
+			spFindDef.add(new SearchCriteria("date", dateFrom, SearchOperation.GREATER_THAN_EQUAL));
+		if(dateTo!=null)
+			spFindDef.add(new SearchCriteria("date", dateTo, SearchOperation.LESS_THAN_EQUAL));
+		if (type != null)
+			spFindDef.add(new SearchCriteria("type", type, SearchOperation.MATCH));	
 		
-		if(dateTo==null) {
-			if (dateFrom != null) {
-				searchQuery.add("a.date LIKE '%"+dateFrom+"%'");
-				if (whereClause.length()==0)
-					whereClause+="WHERE ";
-			}
-		}
-		else {
-			searchQuery.add(" a.date >= '" + dateFrom + "' AND a.date<= '" + dateTo + "'");
-			if (whereClause.length()==0)
-				whereClause+="WHERE ";	
-			}
-		
-		if (type != null) {
-			searchQuery.add("a.type LIKE '%"+type+"%'");
-			if (whereClause.length()==0)
-				whereClause+="WHERE ";
-		}
-		
-		if(validated==true) {
-			
-	 			searchQuery.add("a.validated IS NOT NULL");
-				if (whereClause.length()==0)
-					whereClause+="WHERE ";
-		}
-		else {
-			
-			searchQuery.add("a.validated IS NULL");
-			if (whereClause.length()==0)
-				whereClause+="WHERE ";
-			
-			if (submit == false ) {
-				searchQuery.add("a.submit IS NULL");
-				if (whereClause.length()==0)
-					whereClause+="WHERE ";
-			}
-			else {
-					searchQuery.add("a.submit IS NOT NULL");
-					if (whereClause.length()==0)
-						whereClause+="WHERE ";}
-		}
-		
-		System.out.println("Sto cercando");
-		
-		for (int i=0;i<searchQuery.size();i++) {
-			whereClause+=searchQuery.get(i);
-			if (i!=searchQuery.size()-1)
-				whereClause+=" AND ";
-		}
-		
-		System.out.println(whereClause);
-		TypedQuery<Timesheet> query=entitymanager.createQuery("SELECT a from Timesheet a "+whereClause,Timesheet.class);
-		
-		List<Timesheet> timesheetlist=query.getResultList();
-		
-		entitymanager.close();
-		
-		return timesheetlist;
+		if(validated)
+			spFindDef.add(new SearchCriteria("validated", null, SearchOperation.NOT_EQUAL));
+		else
+			spFindDef.add(new SearchCriteria("validated", null, SearchOperation.EQUAL));
+		if(submit)
+			spFindDef.add(new SearchCriteria("validated", null, SearchOperation.NOT_EQUAL));
+		else
+			spFindDef.add(new SearchCriteria("submit", null, SearchOperation.EQUAL));
+
+		return timesheetRepository.findAll(spFindDef);
 	}
 //---------------------------------------------------------------------------------------------------------------------------------------------------------	
-	public List<Timesheet> trovaTimesheets(TimesheetRequest req) {
+	public List<Timesheet> searchTimesheets(TimesheetRequest req) {
 		
-		 return trovaTimesheets(req.getIdUser(),req.getDateFrom(),req.getDateTo(),req.getType(), req.getSubmit(), req.getValidated());
+		 return searchTimesheets(req.getIdUser(),req.getDateFrom(),req.getDateTo(),req.getType(), req.getSubmit(), req.getValidated());
 	}
 }

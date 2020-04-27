@@ -4,11 +4,13 @@ import java.sql.Date;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
 import it.beije.mgmt.entity.Timesheet;
+import it.beije.mgmt.entity.User;
 
 @Repository
-public interface TimesheetRepository extends JpaRepository<Timesheet, Long> {
+public interface TimesheetRepository extends JpaRepository<Timesheet, Long> , JpaSpecificationExecutor<Timesheet> {
 	
 	List<Timesheet> findByIdUserAndDate(Long idUser, Date startDate );
 	

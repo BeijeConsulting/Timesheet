@@ -1,4 +1,4 @@
-package it.beije.mgmt.repository;
+package it.beije.mgmt.dto;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,8 +12,10 @@ import javax.persistence.criteria.Root;
 import org.springframework.data.jpa.domain.Specification;
 
 import it.beije.mgmt.entity.User;
+import it.beije.mgmt.repository.SearchCriteria;
+import it.beije.mgmt.repository.SearchOperation;
 
-public class UserSpecification implements Specification<User> {
+public class UserSearchSpecification implements Specification<User> {
 
     /**
 	 * 
@@ -22,7 +24,7 @@ public class UserSpecification implements Specification<User> {
 	
 	private List<SearchCriteria> list;
 
-    public UserSpecification() {
+    public UserSearchSpecification() {
         this.list = new ArrayList<>();
     }
 

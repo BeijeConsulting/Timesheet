@@ -31,7 +31,7 @@ public class TimesheetApiController {
 
 		@RequestMapping(value = "/timesheets", method = RequestMethod.GET)
 		public @ResponseBody List<Timesheet> getTimesheets(Model model, HttpServletResponse response) throws IOException {
-			return timesheetService.caricaTutto();
+			return timesheetService.findAll();
 		}
 		@RequestMapping(value = "/timesheets/svuotaserver", method = RequestMethod.GET) // METODO USATO SOLO PER TESTARE
 		public @ResponseBody boolean svuotaserver(Model model, HttpServletResponse response) {
@@ -95,18 +95,18 @@ public class TimesheetApiController {
 				int i=dateto.compareTo(datefrom);
 				System.out.println(i);
 				if(i>0) {
-					return timesheetService.submitUtente(id, datefrom, dateto);
+					return timesheetService.submitUser(id, datefrom, dateto);
 				}
 				else
 					return false;
 			}
-			return timesheetService.submitUtente(id, datefrom, dateto);
+			return timesheetService.submitUser(id, datefrom, dateto);
 		}
 
 		@RequestMapping(value = "/timesheet/search", method = RequestMethod.GET, consumes = MediaType.APPLICATION_JSON_VALUE)
 		public @ResponseBody List<Timesheet> searchUser(@RequestBody TimesheetRequest req) {
 
-			return new TimesheetService().trovaTimesheets(req);
+			return new TimesheetService().searchTimesheets(req);
 
 		}
 		
