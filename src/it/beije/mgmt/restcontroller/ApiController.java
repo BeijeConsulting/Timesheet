@@ -41,7 +41,7 @@ public class ApiController {
 		return new Timesheet();
 	}
 	
-	@RequestMapping(value = "/costant", method = RequestMethod.GET)
+	@RequestMapping(value = "/constant", method = RequestMethod.GET)
 	public @ResponseBody JSONObject costant(Model model) {
 		DateTimeFormatter dateParser = DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm");
 		LocalDateTime ldt = LocalDateTime.now();

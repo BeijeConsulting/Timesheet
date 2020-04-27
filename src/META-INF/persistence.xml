@@ -21,7 +21,7 @@
 		<class>it.beije.mgmt.entity.cv.Technology</class>
 		<class>it.beije.mgmt.entity.cv.Work</class>
 
-	<!-- AWS TEST
+	<!-- AWS TEST -->
 		<properties>
 			<property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
 			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://beijetest.ccc2op6yesad.eu-west-1.rds.amazonaws.com:3306/beijedb?serverTimezone=CET"/>
@@ -29,16 +29,16 @@
 			<property name="javax.persistence.jdbc.password" value="beije001"/>
 			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5Dialect"/>
 		</properties>
-	 -->
+	 
 
-	<!-- AWS DEV > -->
+	<!-- AWS DEV > 
 		<properties>
 			<property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
 			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://beijedev.ccc2op6yesad.eu-west-1.rds.amazonaws.com:3306/beijedb?serverTimezone=CET"/>
 			<property name="javax.persistence.jdbc.user" value="beije"/>
 			<property name="javax.persistence.jdbc.password" value="beije001"/>
 			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5Dialect"/>
-		</properties>
+		</properties>-->
 
 	<!-- LOCALE >
 		<properties>

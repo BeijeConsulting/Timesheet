@@ -1,6 +1,6 @@
 ## Address
 
-### Elenco indirizzi [/addresses/user/{id}] [GET]
+### Elenco indirizzi [/addresses/user/{id} GET]
 Ritorna l'elenco degli indirizzi di un determinato User
 
 + Parameters
@@ -44,7 +44,7 @@ Ritorna l'elenco degli indirizzi di un determinato User
         "message": "Non è stato trovato un utente con l'id selezionato"
     }
     ```
-### Aggiunta nuovo indirizzo [/address/user/{id}] [POST]
+### Aggiunta nuovo indirizzo [/address/user/{id} POST]
 Aggiunta di un nuovo indirizzo dato un id user
 
 + Parameters
@@ -95,7 +95,7 @@ Aggiunta di un nuovo indirizzo dato un id user
     }
     ```
 
-### Dettagli Address [/address/{id}] [GET]
+### Dettagli Address [/address/{id} GET]
 Visualizza i dettagli di un indirizzo dato il suo id
 + Parameters
   + id(long) id dell'indirizzo
@@ -124,7 +124,7 @@ Visualizza i dettagli di un indirizzo dato il suo id
     }
     ```
     
-### Modifica dell'indirizzo [/address/{id}] [PUT]
+### Modifica dell'indirizzo [/address/{id} PUT]
 
 + Parameters
   + id(long) id dell'indirizzo
@@ -179,7 +179,7 @@ Visualizza i dettagli di un indirizzo dato il suo id
 
 ## Bank Credential
 
-### Storico bankCredentials [/bankCredentials/user/{id}] [GET]
+### Storico bankCredentials [/bankCredentials/user/{id} GET]
 Ritorna l'elenco delle Bank Credentials di un determinato User
 
 + Parameters
@@ -221,7 +221,7 @@ Ritorna l'elenco delle Bank Credentials di un determinato User
         "message": "Non è stato trovato un utente con l'id selezionato"
     }
     ```
-### Creazione nuovo BankCredential [/bankCredentials/user/{id}] [POST]
+### Creazione nuovo BankCredential [/bankCredentials/user/{id} POST]
 Creazione nuovo BankCredentials a partire da un User
 
 + Parameters
@@ -270,7 +270,7 @@ Creazione nuovo BankCredentials a partire da un User
     }
     ```
 
-### Dettagli Bank Credentials [/bankCredentials/{id}] [GET]
+### Dettagli Bank Credentials [/bankCredentials/{id} GET]
 + Parameters
   + id(long) id Bank Credentials
   
@@ -297,7 +297,7 @@ Creazione nuovo BankCredentials a partire da un User
     }
     ```
     
-### Modifica Bank Credentials [/bankCredentials/{id}] [PUT]
+### Modifica Bank Credentials [/bankCredentials/{id} PUT]
 
 + Parameters
   + id(long) id Bank Credentials
@@ -347,7 +347,7 @@ Creazione nuovo BankCredentials a partire da un User
     ```
 ## User
 
-### Elenco users [/users] [GET]
+### Elenco users [/users GET]
 Ritorna l'elenco degli utenti presenti
 
 + Response 200
@@ -371,7 +371,7 @@ Ritorna l'elenco degli utenti presenti
     ]
     ```
 
-### Dettaglio user [/user/{id}] [GET]
+### Dettaglio user [/user/{id} GET]
 
 Ritorna le informazioni di un user.
 
@@ -435,7 +435,7 @@ Ritorna le informazioni di un user.
         "message": "Non Ã¨ stato trovato un utente con l'id selezionato"
     }
      ```
-### Storico user [/user_entity/{id}] [GET]
+### Storico user [/user_entity/{id} GET]
 
 Ritorna le informazioni di un user comprensivo di tutti gli storici.
 
@@ -543,7 +543,7 @@ Ritorna le informazioni di un user comprensivo di tutti gli storici.
     }
      ```
     
-### Creazione nuovo user [/user] [POST]
+### Creazione nuovo user [/user POST]
 Creazione nuovo user.
 
 + Request
@@ -604,7 +604,7 @@ Creazione nuovo user.
     }
     ```
     
-### Modifica dati user [/user/{id}] [PUT]
+### Modifica dati user [/user/{id} PUT]
 
 + Parameters
     + id(long) id dell'user da modificare
@@ -674,7 +674,7 @@ Creazione nuovo user.
     }
     ```
 
-## Ricerca occorrenze presenti in user data una Stringa [/search] [POST]
+## Ricerca occorrenze presenti in user data una Stringa [/search POST]
 
 + Request
     ```json
