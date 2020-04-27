@@ -16,11 +16,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import it.beije.mgmt.JpaEntityManager;
-import it.beije.mgmt.dto.TimesheetSearchSpecification;
-import it.beije.mgmt.dto.UserSearchSpecification;
+import it.beije.mgmt.dto.TimesheetSearchRequest;
 import it.beije.mgmt.entity.Timesheet;
 import it.beije.mgmt.entity.User;
-import it.beije.mgmt.jpa.TimesheetRequest;
 import it.beije.mgmt.exception.IllegalDateException;
 import it.beije.mgmt.exception.IllegalHourException;
 import it.beije.mgmt.exception.MasterException;
@@ -28,7 +26,9 @@ import it.beije.mgmt.exception.UpdateException;
 import it.beije.mgmt.repository.SearchCriteria;
 import it.beije.mgmt.repository.SearchOperation;
 import it.beije.mgmt.repository.TimesheetRepository;
+import it.beije.mgmt.repository.TimesheetSpecification;
 import it.beije.mgmt.repository.UserRepository;
+import it.beije.mgmt.repository.UserSpecification;
 import it.beije.mgmt.tool.Utils;
 import it.beije.mgmt.exception.NoContentException;
 import it.beije.mgmt.exception.ServiceException;
@@ -90,7 +90,7 @@ public class TimesheetService {
 		timesheet.setIdUser(idUser);
 		timesheet.setType("D");
 		t.add(timesheet);
-		TimesheetSearchSpecification spFindDef = new TimesheetSearchSpecification();
+		TimesheetSpecification spFindDef = new TimesheetSpecification();
 		spFindDef.add(new SearchCriteria("idUser", idUser, SearchOperation.EQUAL));
 		spFindDef.add(new SearchCriteria("type", "D", SearchOperation.EQUAL));
 		if(timesheetRepository.findOne(spFindDef).isPresent())
@@ -110,7 +110,7 @@ public class TimesheetService {
 	
 	public List<Timesheet> takeRecordsFromDateId(Date startDate, Long idUser) {
 		
-		TimesheetSearchSpecification spFindDef = new TimesheetSearchSpecification();
+		TimesheetSpecification spFindDef = new TimesheetSpecification();
 		spFindDef.add(new SearchCriteria("idUser", idUser, SearchOperation.EQUAL));
 		spFindDef.add(new SearchCriteria("startDate", startDate, SearchOperation.EQUAL));
 		List<Timesheet> timetables = timesheetRepository.findAll(spFindDef);
@@ -212,7 +212,7 @@ public class TimesheetService {
 //-------------------------------------------------------------------------------------------------------------------------------------------------------
 	public List<Timesheet> retrieveTimatablesInDateRangeByUserId(Long idUser, Date dateFrom, Date dateTo) {
 
-		TimesheetSearchSpecification spFindDef = new TimesheetSearchSpecification();
+		TimesheetSpecification spFindDef = new TimesheetSpecification();
 		spFindDef.add(new SearchCriteria("idUser", idUser, SearchOperation.EQUAL));
 		spFindDef.add(new SearchCriteria("date", dateFrom, SearchOperation.GREATER_THAN_EQUAL));
 		spFindDef.add(new SearchCriteria("date", dateTo, SearchOperation.LESS_THAN_EQUAL));
@@ -296,7 +296,7 @@ public class TimesheetService {
 	}
 //-----------------------------------------------------------------------------------------------------------------------------------------------------
 	public List<Timesheet> takeRecordsFromDateToDate(Date dateFrom, Date dateTo) {
-		TimesheetSearchSpecification spFindDef = new TimesheetSearchSpecification();
+		TimesheetSpecification spFindDef = new TimesheetSpecification();
 		spFindDef.add(new SearchCriteria("date", dateFrom, SearchOperation.GREATER_THAN_EQUAL));
 		spFindDef.add(new SearchCriteria("date", dateTo, SearchOperation.LESS_THAN_EQUAL));
 		List<Timesheet> timetables = timesheetRepository.findAll(spFindDef);
@@ -350,7 +350,7 @@ public class TimesheetService {
 //---------------------------------------------------------------------------------------------------------------------------------------------------------	
 	public List<Timesheet> searchTimesheets(Long idUser,Date dateFrom, Date dateTo, String type, boolean submit, boolean validated) {
 		
-		TimesheetSearchSpecification spFindDef = new TimesheetSearchSpecification();
+		TimesheetSpecification spFindDef = new TimesheetSpecification();
 		
 		
 		
@@ -384,7 +384,7 @@ public class TimesheetService {
 		return timesheetRepository.findAll(spFindDef);
 	}
 //---------------------------------------------------------------------------------------------------------------------------------------------------------	
-	public List<Timesheet> searchTimesheets(TimesheetRequest req) {
+	public List<Timesheet> searchTimesheets(TimesheetSearchRequest req) {
 		
 		 return searchTimesheets(req.getIdUser(),req.getDateFrom(),req.getDateTo(),req.getType(), req.getSubmit(), req.getValidated());
 	}

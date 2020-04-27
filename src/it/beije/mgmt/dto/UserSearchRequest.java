@@ -1,7 +1,6 @@
-package it.beije.mgmt.jpa;
+package it.beije.mgmt.dto;
 
-//TODO IM 20200421: sostituire o cambiare package
-public class UserRequest {
+public class UserSearchRequest {
 	private String first_name;
 	private String last_name;
 	private String email;

@@ -16,9 +16,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import it.beije.mgmt.dto.UserSearchRequest;
 import it.beije.mgmt.entity.User;
 import it.beije.mgmt.exception.MasterException;
-import it.beije.mgmt.jpa.UserRequest;
 import it.beije.mgmt.service.UserService;
 
 @RestController
@@ -103,7 +103,7 @@ public class UserApiController {
 	}
 
 	@RequestMapping(value = "/user/search", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody List<User> searchUser(@RequestBody UserRequest req) {
+	public @ResponseBody List<User> searchUser(@RequestBody UserSearchRequest req) {
 
 		return userService.searchUser(req);
 
