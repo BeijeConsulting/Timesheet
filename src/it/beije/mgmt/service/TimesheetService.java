@@ -7,13 +7,19 @@ import java.time.LocalTime;
 import java.time.Period;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Objects;
+
+import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityNotFoundException;
 import javax.persistence.EntityTransaction;
+import javax.persistence.PersistenceException;
 import javax.persistence.TypedQuery;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.stereotype.Service;
 import it.beije.mgmt.JpaEntityManager;
 import it.beije.mgmt.dto.TimesheetSearchSpecification;
@@ -42,8 +48,9 @@ public class TimesheetService {
 	
 	@Autowired
 	private UserRepository userRepository;
+	
 //------------------------------------------------------------------------------------------------------------------------------------------------------	
-	private static boolean hasOverlap(Time s1, Time e1, Time s2, Time e2) {
+	private boolean hasOverlap(Time s1, Time e1, Time s2, Time e2) {
 		
 		 if(((s1==null && e1==null) && (s2!=null && e2!=null)) || ((s1!=null && e1!=null) && (s2==null && e2==null)))
 			return false;
@@ -60,7 +67,6 @@ public class TimesheetService {
 	public List<Timesheet> findAll() {
 		
 		List<Timesheet> completeTimes = timesheetRepository.findAll();
-
 		if(completeTimes.size()==0)
 			throw new NoContentException("La lista è vuota");
 		return completeTimes;
@@ -78,37 +84,53 @@ public class TimesheetService {
 				//SE LE ORE DI UNA TIMESHEET SONO MAGGIORI DI 8h C'è UN PROBLEMA
 				throw new IllegalHourException("ATTENZIONE: le ore complessive della giornata sono maggiori di 8!");
 		}
-		return timesheetRepository.saveAll(timetables);
+		try {
+			return timesheetRepository.saveAll(timetables);
+		}catch(EntityExistsException e) {
+			throw new ServiceException("Timesheet già presente nel database");
+		}catch(IllegalStateException  | PersistenceException e) {
+			throw new ServiceException("Al momento non è possibile soddisfare la richiesta");
+		}
 	}
 //------------------------------------------------------------------------------------------------------------------------------------------------------
 	public Timesheet insertDefault(Long idUser,Timesheet timesheet) {
 		
 		List<Timesheet> t= new ArrayList<Timesheet>();
-		if (!userRepository.findById(idUser).isPresent())
-			throw new NoContentException("ATTENZIONE: non è stato trovato alcun utente con questo id");
-	
-		timesheet.setIdUser(idUser);
-		timesheet.setType("D");
-		t.add(timesheet);
-		TimesheetSearchSpecification spFindDef = new TimesheetSearchSpecification();
-		spFindDef.add(new SearchCriteria("idUser", idUser, SearchOperation.EQUAL));
-		spFindDef.add(new SearchCriteria("type", "D", SearchOperation.EQUAL));
-		if(timesheetRepository.findOne(spFindDef).isPresent())
+		try {
+			if (!userRepository.findById(idUser).isPresent())
+				throw new NoContentException("ATTENZIONE: non è stato trovato alcun utente con questo id");
+		
+			timesheet.setIdUser(idUser);
+			timesheet.setType("D");
+			t.add(timesheet);
+			
+			getDefaultTimesheet(idUser);
 			throw new ServiceException("ATTENZIONE: esiste già una timesheet default per questo utente.Se si desidera modificarla andare su modifica");
-	
-		insert(t);
+		}catch(NoContentException e) {
+			insert(t);
+		}catch (RuntimeException e) {
+			throw e;
+		}
 		return timesheet;	
 	}
 //--------------------------------------------------------------------------------------------------------------------------------------------------------
 	public Timesheet getDefaultTimesheet(Long idUser) {
-	
-		String type="D";
-		return timesheetRepository.findByIdUserAndType(idUser, type);
+		
+		try {
+			TimesheetSearchSpecification spFindDef = new TimesheetSearchSpecification();
+			spFindDef.add(new SearchCriteria("idUser", idUser, SearchOperation.EQUAL));
+			spFindDef.add(new SearchCriteria("type", "D", SearchOperation.EQUAL));
+			return timesheetRepository.findOne(spFindDef).get();
+		}catch (NoSuchElementException e) {
+			throw new NoContentException("Non è stato trovato un utente con l'id selezionato o i dati potrebbero essere corrotti");
+		}catch (IncorrectResultSizeDataAccessException e) {
+			throw new ServiceException("Dati duplicati");
+		}
 	}
 	
 //------------------------------------------------------------------------------------------------------------------------------------------------------
 	
-	public List<Timesheet> takeRecordsFromDateId(Date startDate, Long idUser) {
+	public List<Timesheet> getRecordsFromDateId(Date startDate, Long idUser) {
 		
 		TimesheetSearchSpecification spFindDef = new TimesheetSearchSpecification();
 		spFindDef.add(new SearchCriteria("idUser", idUser, SearchOperation.EQUAL));
@@ -118,13 +140,12 @@ public class TimesheetService {
 		if(timetables.isEmpty())
 			throw new NoContentException("ATTENZIONE: non è stata trovata alcuna timesheet con i parametri inseriti");
 		return timetables;
-		
 	}
 	
 //------------------------------------------------------------------------------------------------------------------------------------------------------	
 	@Transactional
 	public boolean submitUser(Long userId, Date datefrom) {
-		List<Timesheet> listaT = takeRecordsFromDateId(datefrom, userId);
+		List<Timesheet> listaT = getRecordsFromDateId(datefrom, userId);
 		Date sqltoday= Date.valueOf((LocalDate.now()));
 		String s = "";
 		double tot=0;
@@ -180,12 +201,18 @@ public class TimesheetService {
 				if(hasOverlap(secondaStart1, secondaEnd1, ultimoStart1, ultimoEnd1)|| hasOverlap(secondaStart2, secondaEnd2, ultimoStart2, ultimoEnd2))
 					throw new IllegalHourException(" ATTENZIONE: sono presenti degli accavallamenti con gli orari");
 			}
-		}	
-		for(Timesheet t: listaT) {
-			t.setSubmit(sqltoday);
-			timesheetRepository.save(t);
 		}
-		return true;
+		try {
+			for(Timesheet t: listaT) {
+				t.setSubmit(sqltoday);
+				timesheetRepository.saveAndFlush(t);
+			}
+			return true;
+		}catch(EntityExistsException eee) {
+			throw new ServiceException("Entity già presente nel database");
+		}catch(IllegalStateException  | PersistenceException e) {
+			throw new ServiceException("Al momento non è possibile soddisfare la richiesta");
+		}
 	}
 //------------------------------------------------------------------------------------------------------------------------------------------------------	
 	
@@ -196,6 +223,7 @@ public class TimesheetService {
 		}
 		if(dateto.before(datefrom))
 			throw new IllegalDateException("ATTENZIONE: la data di fine non può essere precedente a quella di inizio");
+		
 		List<Timesheet> listaT = retrieveTimatablesInDateRangeByUserId(userId, datefrom, dateto);
 		for(Timesheet t: listaT) {
 			Date occorrenza = t.getDate();
@@ -255,7 +283,7 @@ public class TimesheetService {
 	}
 //-----------------------------------------------------------------------------------------------------------------------------------------------------
 	
-	public List<Timesheet> checkValidations(List<Timesheet> lista){
+	private List<Timesheet> checkValidations(List<Timesheet> lista){
 		//SE UNA TIMESHEET è GIà VALIDATA LA SALTO
 		List<Timesheet> nuova = new ArrayList<Timesheet>();
 		for(Timesheet t : lista) {
@@ -268,31 +296,37 @@ public class TimesheetService {
 //-----------------------------------------------------------------------------------------------------------------------------------------------------	
 	public void updateTimesheet(Long id,Timesheet newt) {
 		
-		Timesheet t= timesheetRepository.getOne(id);
+		try {
+			Timesheet t= timesheetRepository.findById(id).get();
 		
-		if(t.getSubmit()!=null)
-			throw new UpdateException("ATTENZIONE: una timesheet già submittata non può essere modificata");
-		
-		if(newt.getTot()>8) 
-			//SE LE ORE TOTALI DELLA TIMESHEET SONO MAGGIORI DI 8 C'è UN PROBLEMA
-			throw new IllegalHourException("ATTENZIONE: le ore complessive della giornata sono maggiori di 8!");
-		
-		if((newt.getStart1()==null && newt.getEnd1()!=null) || (newt.getStart2()==null && newt.getEnd2()!=null) || (newt.getStart1()!=null && newt.getEnd1()==null) || (newt.getStart2()!=null && newt.getEnd2()==null)|| (newt.getStart1()==null && newt.getEnd1()==null && newt.getStart2()==null && newt.getEnd2()==null))
+			if(t.getSubmit()!=null)
+				throw new UpdateException("ATTENZIONE: una timesheet già submittata non può essere modificata");
 			
-			 //SE GLI ORARI DI OGNI TIMESHEET HANNO UN INIZIO MA NON UNA FINE O VICEVERSA  OPPURE HA TUTTI ORARI NULL C'è  UN PROBLEMA
-			 throw new IllegalHourException("ATTENZIONE: é presente una timesheet con orari non completi");
-		
-		if(!Objects.isNull(newt.getDate())) t.setDate(newt.getDate());	
-		if(!Objects.isNull(newt.getStart1())) t.setStart1(newt.getStart1());
-		if(!Objects.isNull(newt.getEnd1())) t.setEnd1(newt.getEnd1());
-		if(!Objects.isNull(newt.getStart2())) t.setStart2(newt.getStart2());
-		if(!Objects.isNull(newt.getEnd2())) t.setEnd2(newt.getEnd2());
-		if(!Objects.isNull(newt.getTot())) t.setTot(newt.getTot());
-		if(!Objects.isNull(newt.getIdUser())) t.setIdUser(newt.getIdUser());
-		if(!Objects.isNull(newt.getType())) t.setType(newt.getType());
+			if(newt.getTot()>8) 
+				//SE LE ORE TOTALI DELLA TIMESHEET SONO MAGGIORI DI 8 C'è UN PROBLEMA
+				throw new IllegalHourException("ATTENZIONE: le ore complessive della giornata sono maggiori di 8!");
 			
-		timesheetRepository.save(t);
-		
+			if((newt.getStart1()==null && newt.getEnd1()!=null) || (newt.getStart2()==null && newt.getEnd2()!=null) || (newt.getStart1()!=null && newt.getEnd1()==null) || (newt.getStart2()!=null && newt.getEnd2()==null)|| (newt.getStart1()==null && newt.getEnd1()==null && newt.getStart2()==null && newt.getEnd2()==null))
+				 //SE GLI ORARI DI OGNI TIMESHEET HANNO UN INIZIO MA NON UNA FINE O VICEVERSA  OPPURE HA TUTTI ORARI NULL C'è  UN PROBLEMA
+				 throw new IllegalHourException("ATTENZIONE: é presente una timesheet con orari non completi");
+			
+			if(!Objects.isNull(newt.getDate())) t.setDate(newt.getDate());	
+			if(!Objects.isNull(newt.getStart1())) t.setStart1(newt.getStart1());
+			if(!Objects.isNull(newt.getEnd1())) t.setEnd1(newt.getEnd1());
+			if(!Objects.isNull(newt.getStart2())) t.setStart2(newt.getStart2());
+			if(!Objects.isNull(newt.getEnd2())) t.setEnd2(newt.getEnd2());
+			if(!Objects.isNull(newt.getTot())) t.setTot(newt.getTot());
+			if(!Objects.isNull(newt.getIdUser())) t.setIdUser(newt.getIdUser());
+			if(!Objects.isNull(newt.getType())) t.setType(newt.getType());
+				
+			timesheetRepository.save(t);
+		}catch (EntityNotFoundException | IllegalArgumentException | NoSuchElementException e) {
+			throw new NoContentException("Non è stato trovato un timesheet con l'id selezionato o i dati potrebbero essere corrotti");
+		}catch(IllegalStateException  | PersistenceException e) {
+			throw new ServiceException("Al momento non è possibile soddisfare la richiesta");
+		} catch (MasterException e) {
+			throw e;
+		}
 	}
 //-----------------------------------------------------------------------------------------------------------------------------------------------------
 	public List<Timesheet> takeRecordsFromDateToDate(Date dateFrom, Date dateTo) {
@@ -307,56 +341,16 @@ public class TimesheetService {
 		return timetables;
 	}
 	
-//-----------------------------------------------------------------------------------------------------------------------------------------------------	
-	public double oreTrascorse(Time time, Time time2, Time time3, Time time4) { //Calcolo ore in orario lavorativo normale
-		double tempoTrascorso = 0;
-		LocalTime.parse(time.toString()).getHour();
-	//	tempoTrascorso =((time2.getHours()-time.getHours())+(time4.getHours()-time3.getHours()));
-		tempoTrascorso =(LocalTime.parse(time2.toString()).getHour()-LocalTime.parse(time.toString()).getHour())+(LocalTime.parse(time4.toString()).getHour()-LocalTime.parse(time3.toString()).getHour());
-		return tempoTrascorso;
-
-	}
-	public double oreTrascorse(Time time,Time time2) {
-		double tempoTrascorso = 0;
-		tempoTrascorso =LocalTime.parse(time2.toString()).getHour()-LocalTime.parse(time.toString()).getHour();
-		return tempoTrascorso;
-
-	}
-//--------------------------------------------------------------------------------------------------------------------------------------------------------	
-//	public static Timesheet singolatimesheet(int userId,Date dateFrom){
-//		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
-//		EntityManager entitymanager = emfactory.createEntityManager();
-//		Query q = entitymanager.createQuery("FROM Timesheet t WHERE t.idUser = "+userId+" and t.date = '"+dateFrom+"'");
-//		Timesheet timetables = (Timesheet) q.getSingleResult();
-//		entitymanager.close();
-//		if(timetables==null)
-//			throw new NoContentException("ATTENZIONE: non è stata trovata alcuna timesheet con i parametri inseriti");
-//		else
-//			return timetables;
-//	}
-//-------------------------------------------------------------------------------------------------------------------------------------------------------
 	public void deleteOne(long id) {
 		
 		 timesheetRepository.deleteById(id);
 	}
-//--------------------------------------------------------------------------------------------------------------------------------------------------------	
-	public static User findRecordsFromId(long id) {
-		
-		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
-		EntityManager entitymanager = emfactory.createEntityManager();
-		User user = entitymanager.find(User.class, id);
-		return user;
-	}
+
 //---------------------------------------------------------------------------------------------------------------------------------------------------------	
 	public List<Timesheet> searchTimesheets(Long idUser,Date dateFrom, Date dateTo, String type, boolean submit, boolean validated) {
 		
 		TimesheetSearchSpecification spFindDef = new TimesheetSearchSpecification();
 		
-		
-		
-		
-		List<String> searchQuery=new ArrayList<>();
-		String whereClause="";
 		if(submit== false && validated==true)
 			throw new NoContentException("ATTENZIONE: non è possibile cercare timesheet validate e non submittate allo stesso tempo!");
 
@@ -388,4 +382,33 @@ public class TimesheetService {
 		
 		 return searchTimesheets(req.getIdUser(),req.getDateFrom(),req.getDateTo(),req.getType(), req.getSubmit(), req.getValidated());
 	}
+	
+//-----------------------------------------------------------------------------------------------------------------------------------------------------	
+//	public double oreTrascorse(Time time, Time time2, Time time3, Time time4) { //Calcolo ore in orario lavorativo normale
+//		double tempoTrascorso = 0;
+//		LocalTime.parse(time.toString()).getHour();
+//	//	tempoTrascorso =((time2.getHours()-time.getHours())+(time4.getHours()-time3.getHours()));
+//		tempoTrascorso =(LocalTime.parse(time2.toString()).getHour()-LocalTime.parse(time.toString()).getHour())+(LocalTime.parse(time4.toString()).getHour()-LocalTime.parse(time3.toString()).getHour());
+//		return tempoTrascorso;
+
+//	}
+//	public double oreTrascorse(Time time,Time time2) {
+//		double tempoTrascorso = 0;
+//		tempoTrascorso =LocalTime.parse(time2.toString()).getHour()-LocalTime.parse(time.toString()).getHour();
+//		return tempoTrascorso;
+//
+//	}
+//--------------------------------------------------------------------------------------------------------------------------------------------------------	
+//	public static Timesheet singolatimesheet(int userId,Date dateFrom){
+//		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
+//		EntityManager entitymanager = emfactory.createEntityManager();
+//		Query q = entitymanager.createQuery("FROM Timesheet t WHERE t.idUser = "+userId+" and t.date = '"+dateFrom+"'");
+//		Timesheet timetables = (Timesheet) q.getSingleResult();
+//		entitymanager.close();
+//		if(timetables==null)
+//			throw new NoContentException("ATTENZIONE: non è stata trovata alcuna timesheet con i parametri inseriti");
+//		else
+//			return timetables;
+//	}
+//-------------------------------------------------------------------------------------------------------------------------------------------------------
 }
