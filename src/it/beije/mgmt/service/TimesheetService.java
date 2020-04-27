@@ -22,11 +22,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.stereotype.Service;
 import it.beije.mgmt.JpaEntityManager;
-import it.beije.mgmt.dto.TimesheetSearchSpecification;
-import it.beije.mgmt.dto.UserSearchSpecification;
+import it.beije.mgmt.dto.TimesheetSearchRequest;
 import it.beije.mgmt.entity.Timesheet;
 import it.beije.mgmt.entity.User;
-import it.beije.mgmt.jpa.TimesheetRequest;
 import it.beije.mgmt.exception.IllegalDateException;
 import it.beije.mgmt.exception.IllegalHourException;
 import it.beije.mgmt.exception.MasterException;
@@ -34,7 +32,9 @@ import it.beije.mgmt.exception.UpdateException;
 import it.beije.mgmt.repository.SearchCriteria;
 import it.beije.mgmt.repository.SearchOperation;
 import it.beije.mgmt.repository.TimesheetRepository;
+import it.beije.mgmt.repository.TimesheetSpecification;
 import it.beije.mgmt.repository.UserRepository;
+import it.beije.mgmt.repository.UserSpecification;
 import it.beije.mgmt.tool.Utils;
 import it.beije.mgmt.exception.NoContentException;
 import it.beije.mgmt.exception.ServiceException;
@@ -96,6 +96,7 @@ public class TimesheetService {
 	public Timesheet insertDefault(Long idUser,Timesheet timesheet) {
 		
 		List<Timesheet> t= new ArrayList<Timesheet>();
+
 		try {
 			if (!userRepository.findById(idUser).isPresent())
 				throw new NoContentException("ATTENZIONE: non è stato trovato alcun utente con questo id");
@@ -103,21 +104,22 @@ public class TimesheetService {
 			timesheet.setIdUser(idUser);
 			timesheet.setType("D");
 			t.add(timesheet);
-			
-			getDefaultTimesheet(idUser);
-			throw new ServiceException("ATTENZIONE: esiste già una timesheet default per questo utente.Se si desidera modificarla andare su modifica");
-		}catch(NoContentException e) {
-			insert(t);
+			try {
+				getDefaultTimesheet(idUser);
+			}catch(NoContentException e) {
+					insert(t);
+					return timesheet;
+			}
 		}catch (RuntimeException e) {
 			throw e;
 		}
-		return timesheet;	
+		throw new ServiceException("Non è stato possibile inserire il timesheet di default");
 	}
 //--------------------------------------------------------------------------------------------------------------------------------------------------------
 	public Timesheet getDefaultTimesheet(Long idUser) {
 		
 		try {
-			TimesheetSearchSpecification spFindDef = new TimesheetSearchSpecification();
+			TimesheetSpecification spFindDef = new TimesheetSpecification();
 			spFindDef.add(new SearchCriteria("idUser", idUser, SearchOperation.EQUAL));
 			spFindDef.add(new SearchCriteria("type", "D", SearchOperation.EQUAL));
 			return timesheetRepository.findOne(spFindDef).get();
@@ -132,7 +134,7 @@ public class TimesheetService {
 	
 	public List<Timesheet> getRecordsFromDateId(Date startDate, Long idUser) {
 		
-		TimesheetSearchSpecification spFindDef = new TimesheetSearchSpecification();
+		TimesheetSpecification spFindDef = new TimesheetSpecification();
 		spFindDef.add(new SearchCriteria("idUser", idUser, SearchOperation.EQUAL));
 		spFindDef.add(new SearchCriteria("startDate", startDate, SearchOperation.EQUAL));
 		List<Timesheet> timetables = timesheetRepository.findAll(spFindDef);
@@ -240,7 +242,7 @@ public class TimesheetService {
 //-------------------------------------------------------------------------------------------------------------------------------------------------------
 	public List<Timesheet> retrieveTimatablesInDateRangeByUserId(Long idUser, Date dateFrom, Date dateTo) {
 
-		TimesheetSearchSpecification spFindDef = new TimesheetSearchSpecification();
+		TimesheetSpecification spFindDef = new TimesheetSpecification();
 		spFindDef.add(new SearchCriteria("idUser", idUser, SearchOperation.EQUAL));
 		spFindDef.add(new SearchCriteria("date", dateFrom, SearchOperation.GREATER_THAN_EQUAL));
 		spFindDef.add(new SearchCriteria("date", dateTo, SearchOperation.LESS_THAN_EQUAL));
@@ -330,7 +332,7 @@ public class TimesheetService {
 	}
 //-----------------------------------------------------------------------------------------------------------------------------------------------------
 	public List<Timesheet> takeRecordsFromDateToDate(Date dateFrom, Date dateTo) {
-		TimesheetSearchSpecification spFindDef = new TimesheetSearchSpecification();
+		TimesheetSpecification spFindDef = new TimesheetSpecification();
 		spFindDef.add(new SearchCriteria("date", dateFrom, SearchOperation.GREATER_THAN_EQUAL));
 		spFindDef.add(new SearchCriteria("date", dateTo, SearchOperation.LESS_THAN_EQUAL));
 		List<Timesheet> timetables = timesheetRepository.findAll(spFindDef);
@@ -349,7 +351,7 @@ public class TimesheetService {
 //---------------------------------------------------------------------------------------------------------------------------------------------------------	
 	public List<Timesheet> searchTimesheets(Long idUser,Date dateFrom, Date dateTo, String type, boolean submit, boolean validated) {
 		
-		TimesheetSearchSpecification spFindDef = new TimesheetSearchSpecification();
+		TimesheetSpecification spFindDef = new TimesheetSpecification();
 		
 		if(submit== false && validated==true)
 			throw new NoContentException("ATTENZIONE: non è possibile cercare timesheet validate e non submittate allo stesso tempo!");
@@ -378,7 +380,7 @@ public class TimesheetService {
 		return timesheetRepository.findAll(spFindDef);
 	}
 //---------------------------------------------------------------------------------------------------------------------------------------------------------	
-	public List<Timesheet> searchTimesheets(TimesheetRequest req) {
+	public List<Timesheet> searchTimesheets(TimesheetSearchRequest req) {
 		
 		 return searchTimesheets(req.getIdUser(),req.getDateFrom(),req.getDateTo(),req.getType(), req.getSubmit(), req.getValidated());
 	}

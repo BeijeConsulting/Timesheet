@@ -22,14 +22,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import it.beije.mgmt.CustomUserDetail;
 import it.beije.mgmt.JpaEntityManager;
-import it.beije.mgmt.dto.UserSearchSpecification;
+import it.beije.mgmt.dto.UserSearchRequest;
 import it.beije.mgmt.entity.User;
 import it.beije.mgmt.exception.DBException;
 import it.beije.mgmt.exception.InvalidJSONException;
 import it.beije.mgmt.exception.MasterException;
 import it.beije.mgmt.exception.NoContentException;
 import it.beije.mgmt.exception.ServiceException;
-import it.beije.mgmt.jpa.UserRequest;
 import it.beije.mgmt.repository.AddressRepository;
 import it.beije.mgmt.repository.BankCredentialsRepository;
 import it.beije.mgmt.repository.ContractRepository;
@@ -37,6 +36,7 @@ import it.beije.mgmt.repository.SearchCriteria;
 import it.beije.mgmt.repository.SearchOperation;
 import it.beije.mgmt.repository.TimesheetRepository;
 import it.beije.mgmt.repository.UserRepository;
+import it.beije.mgmt.repository.UserSpecification;
 
 import java.util.NoSuchElementException;
 
@@ -94,7 +94,7 @@ public class UserService implements UserDetailsService {
 		User userDto = new User();
 		try {
 			//User user = userRepository.findById(idUser).get();
-			UserSearchSpecification spFindId = new UserSearchSpecification();
+			UserSpecification spFindId = new UserSpecification();
 			spFindId.add(new SearchCriteria("id", idUser, SearchOperation.EQUAL));
 			User user = userRepository.findOne(spFindId).get();
 			
@@ -221,32 +221,25 @@ public class UserService implements UserDetailsService {
 	}
 		
 	@Transactional
-	public List<User> searchUser(UserRequest req) {
+	public List<User> searchUser(UserSearchRequest req) {
 		// TODO Auto-generated method stub
 		return searchUser(req.getFirst_name(),req.getLast_name(),req.getEmail(),req.getFiscal_code());
 	}
 	private List<User> searchUser(String firstName, String lastName, String email, String fiscalCode) {
 
 		List<User> list = new ArrayList<>();
+		UserSpecification spSearch = new UserSpecification();
 		
-		UserSearchSpecification spSearch = new UserSearchSpecification();
-		
-		if (firstName != null && firstName.length()>0) {
+		if (firstName != null && firstName.length()>0)
 			spSearch.add(new SearchCriteria("firstName", firstName, SearchOperation.MATCH));
-			list.addAll(userRepository.findAll(spSearch));
-		}
-		if (lastName != null && lastName.length()>0) {
+		if (lastName != null && lastName.length()>0) 
 			spSearch.add(new SearchCriteria("lastName", lastName, SearchOperation.MATCH));
-			list.addAll(userRepository.findAll(spSearch));
-		}
-		if (email != null && email.length()>0) {
+		if (email != null && email.length()>0) 
 			spSearch.add(new SearchCriteria("email", email, SearchOperation.MATCH));
-			list.addAll(userRepository.findAll(spSearch));
-		}
-		if (fiscalCode != null && fiscalCode.length()>0) {
+		if (fiscalCode != null && fiscalCode.length()>0) 
 			spSearch.add(new SearchCriteria("fiscalCode", fiscalCode, SearchOperation.MATCH));
-			list.addAll(userRepository.findAll(spSearch));
-		}
+		
+		list.addAll(userRepository.findAll(spSearch));
 		return list;
 	}
 	

@@ -16,9 +16,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import it.beije.mgmt.dto.TimesheetSearchRequest;
 import it.beije.mgmt.entity.Timesheet;
 import it.beije.mgmt.exception.MasterException;
-import it.beije.mgmt.jpa.TimesheetRequest;
 import it.beije.mgmt.service.TimesheetService;
 
 
@@ -104,7 +105,7 @@ public class TimesheetApiController {
 		}
 
 		@RequestMapping(value = "/timesheet/search", method = RequestMethod.GET, consumes = MediaType.APPLICATION_JSON_VALUE)
-		public @ResponseBody List<Timesheet> searchUser(@RequestBody TimesheetRequest req) {
+		public @ResponseBody List<Timesheet> searchUser(@RequestBody TimesheetSearchRequest req) {
 
 			return new TimesheetService().searchTimesheets(req);
 

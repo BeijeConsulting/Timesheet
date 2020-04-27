@@ -1,9 +1,8 @@
-package it.beije.mgmt.jpa;
+package it.beije.mgmt.dto;
 
 import java.sql.Date;
 
-//TODO IM 20200421: sostituire o cambiare package
-public class TimesheetRequest {
+public class TimesheetSearchRequest {
 	
 	private Long idUser;
 	private Date dateFrom;

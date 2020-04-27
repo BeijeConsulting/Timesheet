@@ -1,9 +1,8 @@
-package it.beije.mgmt.dto;
+package it.beije.mgmt.repository;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.Entity;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
@@ -11,11 +10,9 @@ import javax.persistence.criteria.Root;
 
 import org.springframework.data.jpa.domain.Specification;
 
-import it.beije.mgmt.entity.User;
-import it.beije.mgmt.repository.SearchCriteria;
-import it.beije.mgmt.repository.SearchOperation;
+import it.beije.mgmt.entity.Timesheet;
 
-public class UserSearchSpecification implements Specification<User> {
+public class TimesheetSpecification implements Specification<Timesheet> {
 
     /**
 	 * 
@@ -24,7 +21,7 @@ public class UserSearchSpecification implements Specification<User> {
 	
 	private List<SearchCriteria> list;
 
-    public UserSearchSpecification() {
+    public TimesheetSpecification() {
         this.list = new ArrayList<>();
     }
 
@@ -33,7 +30,7 @@ public class UserSearchSpecification implements Specification<User> {
     }
 
     @Override
-    public Predicate toPredicate(Root<User> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
+    public Predicate toPredicate(Root<Timesheet> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
 
         List<Predicate> predicates = new ArrayList<>();
 
@@ -77,3 +74,4 @@ public class UserSearchSpecification implements Specification<User> {
         return builder.and(predicates.toArray(new Predicate[0]));
     }
 }
+
