@@ -24,37 +24,37 @@ import it.beije.mgmt.exception.IllegalDateException;
 @Service
 public class TimetableService {
 	
-	private static boolean hasOverlap(Time s1, Time e1, Time s2, Time e2) {
-		
-		 if(((s1==null && e1==null) && (s2!=null && e2!=null)) || ((s1!=null && e1!=null) && (s2==null && e2==null)))
-			return false;
-		 
-		 if(!e1.before(s2) && !s1.after(e2)) {
-			 if(e1.equals(s2) || s1.equals(e2)) {
-				 return false;
-			 }
-			 else
-				 return true;
-		 }
-		 else 
-			 return false;
-	}
+//	private static boolean hasOverlap(Time s1, Time e1, Time s2, Time e2) {
+//		
+//		 if(((s1==null && e1==null) && (s2!=null && e2!=null)) || ((s1!=null && e1!=null) && (s2==null && e2==null)))
+//			return false;
+//		 
+//		 if(!e1.before(s2) && !s1.after(e2)) {
+//			 if(e1.equals(s2) || s1.equals(e2)) {
+//				 return false;
+//			 }
+//			 else
+//				 return true;
+//		 }
+//		 else 
+//			 return false;
+//	}
 //----------------------------------------------------------------------------------------------------------------------------------------------------	
-	public List<Timesheet> caricaTutto() {
-
-		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
-		EntityManager entitymanager = emfactory.createEntityManager();
-
-		Query q = entitymanager.createQuery("SELECT t FROM Timesheet t");
-
-		List<Timesheet> timetables = q.getResultList();
-
-		entitymanager.close();
-		
-		System.out.println("caricaTutto : " + timetables.size());
-		
-		return timetables;
-	}
+//	public List<Timesheet> caricaTutto() {
+//
+//		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
+//		EntityManager entitymanager = emfactory.createEntityManager();
+//
+//		Query q = entitymanager.createQuery("SELECT t FROM Timesheet t");
+//
+//		List<Timesheet> timetables = q.getResultList();
+//
+//		entitymanager.close();
+//		
+//		System.out.println("caricaTutto : " + timetables.size());
+//		
+//		return timetables;
+//	}
 //----------------------------------------------------------------------------------------------------------------------------------------------------	
 	public List<Timesheet> insert(List<Timesheet> timetables) {
 		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
@@ -139,121 +139,121 @@ public class TimetableService {
 	    }
 	 
 //----------------------------------------------------------------------------------------------------------------------------------------------------	 
-	public static boolean submitUtente(int userId, Date datefrom) {
-	List<Timesheet> listaT = multiTimesheetPerDay(userId, datefrom);
-	LocalDateTime today = LocalDateTime.now();
-	EntityManagerFactory emfactory = JpaEntityManager.getInstance();
-	EntityManager entitymanager = emfactory.createEntityManager();
-	EntityTransaction entr = entitymanager.getTransaction();
-	entr.begin();
-	String s = "";
-	double tot=0;
-	for(Timesheet t: listaT) {
-	
-		 tot += t.getTot();
-		
-		 if(!s.contains(t.getType()))
-			 s += t.getType();
-		 else
-			 //SE CI SONO PIù TIMESHEET CON STESSA TIPOLOGIA NELLA STESSA DATA C'è UN PROBLEMA
-			 throw new IllegalHourException("ATTENZIONE: ci sono più timesheet con la stessa tipologia");
-		 
-		 if((t.getStart1()==null && t.getEnd1()!=null) || (t.getStart2()==null && t.getEnd2()!=null) || (t.getStart1()!=null && t.getEnd1()==null) || (t.getStart2()!=null && t.getEnd2()==null)
-				 || (t.getStart1()==null && t.getEnd1()==null && t.getStart2()==null && t.getEnd2()==null))
-			
-			 //SE GLI ORARI DI OGNI TIMESHEET HANNO UN INIZIO MA NON UNA FINE O VICEVERSA  OPPURE HA TUTTI ORARI NULL C'è  UN PROBLEMA
-			 throw new IllegalHourException("ATTENZIONE: é presente una timesheet con orari non completi");
-		 
-	}
-	if((s.contains("f") || s.contains("F")) && s.length()>1)
-		//SE C'è UNA TIMESHEET FERIE ASSIEME AD ALTRE TIMESHEET CON STESSA DATA C'è UN PROBLEMA IN QUANTO SE SEI IN FERIE NON PUOI AVERE TIMESHEET PERMESSO O LAVORO
-	throw new IllegalHourException("ATTENZIONE: è presente una timesheet di tipo ferie assieme ad altre tipologie: o sei in ferie o sei al lavoro!");
-	
-	if(listaT.size() == 1 && tot <= 8) {
-		// SE IN QUEL GIORNO ABBIAMO UNA SOLA TIMESHEET E LE ORE SONO MENO O UGIALI A 8 (MINORE PER POSSIBILI PARTTIME) PUOI FARE SUBMIT.
-		String q= "UPDATE Timesheet t SET t.submit = '"+today+"' WHERE id_user ='"+userId+"'AND t.date='"+datefrom+"'";
-		Query query = entitymanager.createQuery(q);
-		int result=query.executeUpdate();
-		entr.commit();
-		entitymanager.close();
-		return true;
-	}
-	else
-	{
-		if(tot > 8) {
-			//SE IL TOTALE DELLE ORE DI UNA SINGOLA TIMESHEET SUPERA 8 C'è UN PROBLEMA.
-			System.out.println(tot);
-			throw new IllegalHourException("ATTENZIONE: le ore complessive della giornata sono maggiori di 8!");
-		}
-		else
-			//SE ARRIVIAMO QUA SIGNIFICA CHE ABBIAMO MINIMO 2 TIMESHEET E MASSIMO 3 TIMESHEET DI UNO STESSO GIORNO E DOBBIAMO VEDERE SE ABBIAMO ORARI CHE SI SOVRAPPONGONO.
-		{
-			Time primaStart1=listaT.get(0).getStart1();
-			Time primaEnd1=listaT.get(0).getEnd1();
-			Time primaStart2=listaT.get(0).getStart2();
-			Time primaEnd2=listaT.get(0).getEnd2();
-			Time secondaStart1=listaT.get(1).getStart1();
-			Time secondaEnd1= listaT.get(1).getEnd1();
-			Time secondaStart2=listaT.get(1).getStart2();
-			Time secondaEnd2=listaT.get(1).getEnd2();
-			
-			for(int i=1;i<listaT.size();i++) {
-				
-				if(i==1) {
-					
-					if(hasOverlap(primaStart1,primaEnd1,secondaStart1,secondaEnd1)|| hasOverlap(primaStart2, primaEnd2, secondaStart2, secondaEnd2)){
-						
-						throw new IllegalHourException(" ATTENZIONE: sono presenti degli accavallamenti con gli orari");
-					}
-					else if(i==2) {
-						
-						Time ultimoStart1=listaT.get(i).getStart1();
-						Time ultimoEnd1= listaT.get(i).getEnd1();
-						Time ultimoStart2=listaT.get(i).getStart2();
-						Time ultimoEnd2=listaT.get(i).getEnd2();
-						
-						if(hasOverlap(primaStart1, primaEnd1, ultimoStart1, ultimoEnd1)|| hasOverlap(primaStart2, primaEnd2, ultimoStart2, ultimoEnd2)) 
-							throw new IllegalHourException(" ATTENZIONE: sono presenti degli accavallamenti con gli orari");
-					
-						if(hasOverlap(secondaStart1, secondaEnd1, ultimoStart1, ultimoEnd1)|| hasOverlap(secondaStart2, secondaEnd2, ultimoStart2, ultimoEnd2))
-							throw new IllegalHourException(" ATTENZIONE: sono presenti degli accavallamenti con gli orari");
-					}
-				}	
-			}
-			String q= "UPDATE Timesheet t SET t.submit = '"+today+"' WHERE id_user ='"+userId+"'AND t.date='"+datefrom+"'";	
-			Query query = entitymanager.createQuery(q);
-			int result=query.executeUpdate();
-			entr.commit();
-			entitymanager.close();
-			return true;
-			}
-		}
-	}
+//	public static boolean submitUtente(int userId, Date datefrom) {
+//	List<Timesheet> listaT = multiTimesheetPerDay(userId, datefrom);
+//	LocalDateTime today = LocalDateTime.now();
+//	EntityManagerFactory emfactory = JpaEntityManager.getInstance();
+//	EntityManager entitymanager = emfactory.createEntityManager();
+//	EntityTransaction entr = entitymanager.getTransaction();
+//	entr.begin();
+//	String s = "";
+//	double tot=0;
+//	for(Timesheet t: listaT) {
+//	
+//		 tot += t.getTot();
+//		
+//		 if(!s.contains(t.getType()))
+//			 s += t.getType();
+//		 else
+//			 //SE CI SONO PIù TIMESHEET CON STESSA TIPOLOGIA NELLA STESSA DATA C'è UN PROBLEMA
+//			 throw new IllegalHourException("ATTENZIONE: ci sono più timesheet con la stessa tipologia");
+//		 
+//		 if((t.getStart1()==null && t.getEnd1()!=null) || (t.getStart2()==null && t.getEnd2()!=null) || (t.getStart1()!=null && t.getEnd1()==null) || (t.getStart2()!=null && t.getEnd2()==null)
+//				 || (t.getStart1()==null && t.getEnd1()==null && t.getStart2()==null && t.getEnd2()==null))
+//			
+//			 //SE GLI ORARI DI OGNI TIMESHEET HANNO UN INIZIO MA NON UNA FINE O VICEVERSA  OPPURE HA TUTTI ORARI NULL C'è  UN PROBLEMA
+//			 throw new IllegalHourException("ATTENZIONE: é presente una timesheet con orari non completi");
+//		 
+//	}
+//	if((s.contains("f") || s.contains("F")) && s.length()>1)
+//		//SE C'è UNA TIMESHEET FERIE ASSIEME AD ALTRE TIMESHEET CON STESSA DATA C'è UN PROBLEMA IN QUANTO SE SEI IN FERIE NON PUOI AVERE TIMESHEET PERMESSO O LAVORO
+//	throw new IllegalHourException("ATTENZIONE: è presente una timesheet di tipo ferie assieme ad altre tipologie: o sei in ferie o sei al lavoro!");
+//	
+//	if(listaT.size() == 1 && tot <= 8) {
+//		// SE IN QUEL GIORNO ABBIAMO UNA SOLA TIMESHEET E LE ORE SONO MENO O UGIALI A 8 (MINORE PER POSSIBILI PARTTIME) PUOI FARE SUBMIT.
+//		String q= "UPDATE Timesheet t SET t.submit = '"+today+"' WHERE id_user ='"+userId+"'AND t.date='"+datefrom+"'";
+//		Query query = entitymanager.createQuery(q);
+//		int result=query.executeUpdate();
+//		entr.commit();
+//		entitymanager.close();
+//		return true;
+//	}
+//	else
+//	{
+//		if(tot > 8) {
+//			//SE IL TOTALE DELLE ORE DI UNA SINGOLA TIMESHEET SUPERA 8 C'è UN PROBLEMA.
+//			System.out.println(tot);
+//			throw new IllegalHourException("ATTENZIONE: le ore complessive della giornata sono maggiori di 8!");
+//		}
+//		else
+//			//SE ARRIVIAMO QUA SIGNIFICA CHE ABBIAMO MINIMO 2 TIMESHEET E MASSIMO 3 TIMESHEET DI UNO STESSO GIORNO E DOBBIAMO VEDERE SE ABBIAMO ORARI CHE SI SOVRAPPONGONO.
+//		{
+//			Time primaStart1=listaT.get(0).getStart1();
+//			Time primaEnd1=listaT.get(0).getEnd1();
+//			Time primaStart2=listaT.get(0).getStart2();
+//			Time primaEnd2=listaT.get(0).getEnd2();
+//			Time secondaStart1=listaT.get(1).getStart1();
+//			Time secondaEnd1= listaT.get(1).getEnd1();
+//			Time secondaStart2=listaT.get(1).getStart2();
+//			Time secondaEnd2=listaT.get(1).getEnd2();
+//			
+//			for(int i=1;i<listaT.size();i++) {
+//				
+//				if(i==1) {
+//					
+//					if(hasOverlap(primaStart1,primaEnd1,secondaStart1,secondaEnd1)|| hasOverlap(primaStart2, primaEnd2, secondaStart2, secondaEnd2)){
+//						
+//						throw new IllegalHourException(" ATTENZIONE: sono presenti degli accavallamenti con gli orari");
+//					}
+//					else if(i==2) {
+//						
+//						Time ultimoStart1=listaT.get(i).getStart1();
+//						Time ultimoEnd1= listaT.get(i).getEnd1();
+//						Time ultimoStart2=listaT.get(i).getStart2();
+//						Time ultimoEnd2=listaT.get(i).getEnd2();
+//						
+//						if(hasOverlap(primaStart1, primaEnd1, ultimoStart1, ultimoEnd1)|| hasOverlap(primaStart2, primaEnd2, ultimoStart2, ultimoEnd2)) 
+//							throw new IllegalHourException(" ATTENZIONE: sono presenti degli accavallamenti con gli orari");
+//					
+//						if(hasOverlap(secondaStart1, secondaEnd1, ultimoStart1, ultimoEnd1)|| hasOverlap(secondaStart2, secondaEnd2, ultimoStart2, ultimoEnd2))
+//							throw new IllegalHourException(" ATTENZIONE: sono presenti degli accavallamenti con gli orari");
+//					}
+//				}	
+//			}
+//			String q= "UPDATE Timesheet t SET t.submit = '"+today+"' WHERE id_user ='"+userId+"'AND t.date='"+datefrom+"'";	
+//			Query query = entitymanager.createQuery(q);
+//			int result=query.executeUpdate();
+//			entr.commit();
+//			entitymanager.close();
+//			return true;
+//			}
+//		}
+//	}
 //----------------------------------------------------------------------------------------------------------------------------------------------------	
-	public static boolean submitUtente(int userId, Date datefrom, Date dateto) {
-		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
-		EntityManager entitymanager = emfactory.createEntityManager();
-		EntityTransaction entr = entitymanager.getTransaction();
-		entr.begin();
-		if(dateto==null) {
-			//CASO IN CUI SI SELEZIONA UN UNICO GIORNO SENZA QUINDI IL DATETO
-			 return submitUtente(userId,datefrom);
-		}
-
-		else {
-			if(dateto.before(datefrom))
-				throw new IllegalDateException("ATTENZIONE: la data di fine non può essere precedente a quella di inizio");
-			List<Timesheet> listaT = TimetableService.retrieveTimatablesInDateRangeByUserId(userId, datefrom, dateto);
-			for(Timesheet t: listaT) {
-				Date occorrenza = t.getDate();
-				if(t.getSubmit()==null)
-				 submitUtente(userId, occorrenza);
-				
-			}
-			return true;
-			
-		}	
-}
+//	public static boolean submitUtente(int userId, Date datefrom, Date dateto) {
+//		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
+//		EntityManager entitymanager = emfactory.createEntityManager();
+//		EntityTransaction entr = entitymanager.getTransaction();
+//		entr.begin();
+//		if(dateto==null) {
+//			//CASO IN CUI SI SELEZIONA UN UNICO GIORNO SENZA QUINDI IL DATETO
+//			 return submitUtente(userId,datefrom);
+//		}
+//
+//		else {
+//			if(dateto.before(datefrom))
+//				throw new IllegalDateException("ATTENZIONE: la data di fine non può essere precedente a quella di inizio");
+//			List<Timesheet> listaT = TimetableService.retrieveTimatablesInDateRangeByUserId(userId, datefrom, dateto);
+//			for(Timesheet t: listaT) {
+//				Date occorrenza = t.getDate();
+//				if(t.getSubmit()==null)
+//				 submitUtente(userId, occorrenza);
+//				
+//			}
+//			return true;
+//			
+//		}	
+//}
 //----------------------------------------------------------------------------------------------------------------------------------------------------
 	public static boolean svuotaserver() {
 		EntityManagerFactory emfactory = JpaEntityManager.getInstance();
