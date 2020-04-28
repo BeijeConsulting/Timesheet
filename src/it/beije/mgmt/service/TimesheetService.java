@@ -49,7 +49,7 @@ public class TimesheetService {
 	@Autowired
 	private UserRepository userRepository;
 	
-//------------------------------------------------------------------------------------------------------------------------------------------------------	
+
 	private boolean hasOverlap(Time s1, Time e1, Time s2, Time e2) {
 		
 		 if(((s1==null && e1==null) && (s2!=null && e2!=null)) || ((s1!=null && e1!=null) && (s2==null && e2==null)))
@@ -62,7 +62,7 @@ public class TimesheetService {
 		 }else 
 			 return false;
 	}
-//------------------------------------------------------------------------------------------------------------------------------------------------------	
+	
 	
 	public List<Timesheet> findAll() {
 		
@@ -71,7 +71,8 @@ public class TimesheetService {
 			throw new NoContentException("La lista è vuota");
 		return completeTimes;
 	}
-//------------------------------------------------------------------------------------------------------------------------------------------------------	
+
+	
 	@Transactional
 	public List<Timesheet> insert(List<Timesheet> timetables) {
 
@@ -83,6 +84,9 @@ public class TimesheetService {
 			if(t.getTot()>8)
 				//SE LE ORE DI UNA TIMESHEET SONO MAGGIORI DI 8h C'è UN PROBLEMA
 				throw new IllegalHourException("ATTENZIONE: le ore complessive della giornata sono maggiori di 8!");
+			if(t.getType().equals("D"));
+				//SE LE ORE DI UNA TIMESHEET SONO MAGGIORI DI 8h C'è UN PROBLEMA
+				throw new IllegalHourException("ATTENZIONE: non è possibile inserire timesheet di default in questa sezione");
 		}
 		try {
 			return timesheetRepository.saveAll(timetables);
@@ -92,10 +96,9 @@ public class TimesheetService {
 			throw new ServiceException("Al momento non è possibile soddisfare la richiesta");
 		}
 	}
-//------------------------------------------------------------------------------------------------------------------------------------------------------
+	
+	
 	public Timesheet insertDefault(Long idUser,Timesheet timesheet) {
-		
-		List<Timesheet> t= new ArrayList<Timesheet>();
 
 		try {
 			if (!userRepository.findById(idUser).isPresent())
@@ -103,17 +106,19 @@ public class TimesheetService {
 		
 			timesheet.setIdUser(idUser);
 			timesheet.setType("D");
-			t.add(timesheet);
+			boolean noDefault = false;
 			try {
 				getDefaultTimesheet(idUser);
 			}catch(NoContentException e) {
-					insert(t);
-					return timesheet;
+					noDefault = true;
 			}
+			if(noDefault)
+				return timesheetRepository.saveAndFlush(timesheet);
+			else
+				throw new ServiceException("Non è stato possibile inserire il timesheet di default");
 		}catch (RuntimeException e) {
 			throw e;
 		}
-		throw new ServiceException("Non è stato possibile inserire il timesheet di default");
 	}
 //--------------------------------------------------------------------------------------------------------------------------------------------------------
 	public Timesheet getDefaultTimesheet(Long idUser) {
@@ -124,13 +129,12 @@ public class TimesheetService {
 			spFindDef.add(new SearchCriteria("type", "D", SearchOperation.EQUAL));
 			return timesheetRepository.findOne(spFindDef).get();
 		}catch (NoSuchElementException e) {
-			throw new NoContentException("Non è stato trovato un utente con l'id selezionato o i dati potrebbero essere corrotti");
+			throw new NoContentException("Non è stato trovato un elemento che soddisfi i criteri richiesti");
 		}catch (IncorrectResultSizeDataAccessException e) {
 			throw new ServiceException("Dati duplicati");
 		}
 	}
-	
-//------------------------------------------------------------------------------------------------------------------------------------------------------
+
 	
 	public List<Timesheet> getRecordsFromDateId(Date startDate, Long idUser) {
 		
@@ -144,7 +148,7 @@ public class TimesheetService {
 		return timetables;
 	}
 	
-//------------------------------------------------------------------------------------------------------------------------------------------------------	
+
 	@Transactional
 	public boolean submitUser(Long userId, Date datefrom) {
 		List<Timesheet> listaT = getRecordsFromDateId(datefrom, userId);
@@ -216,7 +220,7 @@ public class TimesheetService {
 			throw new ServiceException("Al momento non è possibile soddisfare la richiesta");
 		}
 	}
-//------------------------------------------------------------------------------------------------------------------------------------------------------	
+
 	
 	public boolean submitUser(Long userId, Date datefrom, Date dateto) {
 		if(dateto==null) {
@@ -234,12 +238,14 @@ public class TimesheetService {
 		}
 		return true;	
 	}
-//------------------------------------------------------------------------------------------------------------------------------------------------------		
+
+	
 	public boolean svuotaserver() {
 		timesheetRepository.deleteAll();
 		return true;		
 	}
-//-------------------------------------------------------------------------------------------------------------------------------------------------------
+
+	
 	public List<Timesheet> retrieveTimatablesInDateRangeByUserId(Long idUser, Date dateFrom, Date dateTo) {
 
 		TimesheetSpecification spFindDef = new TimesheetSpecification();
@@ -252,9 +258,7 @@ public class TimesheetService {
 		return timetables;
 	}
 
-//-------------------------------------------------------------------------------------------------------------------------------------------------------
-	
-//-------------------------------------------------------------------------------------------------------------------------------------------------------
+
 	@Transactional
 	public boolean validator(Long userId, Date dateFrom, Date dateTo) {
 		
@@ -283,7 +287,7 @@ public class TimesheetService {
 		}	
 		return true;	
 	}
-//-----------------------------------------------------------------------------------------------------------------------------------------------------
+
 	
 	private List<Timesheet> checkValidations(List<Timesheet> lista){
 		//SE UNA TIMESHEET è GIà VALIDATA LA SALTO
@@ -295,7 +299,8 @@ public class TimesheetService {
 		}
 		return nuova;
 	}
-//-----------------------------------------------------------------------------------------------------------------------------------------------------	
+
+
 	public void updateTimesheet(Long id,Timesheet newt) {
 		
 		try {
@@ -330,7 +335,8 @@ public class TimesheetService {
 			throw e;
 		}
 	}
-//-----------------------------------------------------------------------------------------------------------------------------------------------------
+
+
 	public List<Timesheet> takeRecordsFromDateToDate(Date dateFrom, Date dateTo) {
 		TimesheetSpecification spFindDef = new TimesheetSpecification();
 		spFindDef.add(new SearchCriteria("date", dateFrom, SearchOperation.GREATER_THAN_EQUAL));
@@ -348,7 +354,7 @@ public class TimesheetService {
 		 timesheetRepository.deleteById(id);
 	}
 
-//---------------------------------------------------------------------------------------------------------------------------------------------------------	
+
 	public List<Timesheet> searchTimesheets(Long idUser,Date dateFrom, Date dateTo, String type, boolean submit, boolean validated) {
 		
 		TimesheetSpecification spFindDef = new TimesheetSpecification();
@@ -379,7 +385,8 @@ public class TimesheetService {
 
 		return timesheetRepository.findAll(spFindDef);
 	}
-//---------------------------------------------------------------------------------------------------------------------------------------------------------	
+
+
 	public List<Timesheet> searchTimesheets(TimesheetSearchRequest req) {
 		
 		 return searchTimesheets(req.getIdUser(),req.getDateFrom(),req.getDateTo(),req.getType(), req.getSubmit(), req.getValidated());
