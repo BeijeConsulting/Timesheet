@@ -34,7 +34,7 @@ public class AddressService {
 		try {
 			if(address.getId()!=null)
 				throw new InvalidJSONException("Errore nei dati inviati");
-			if (Objects.isNull(address.getIdUser()))
+			if (address.getIdUser()==null)
 				address.setIdUser(idUser);
 			else if (address.getIdUser().longValue() != idUser.longValue())
 				throw new ServiceException("Dati non conformi");
@@ -42,6 +42,7 @@ public class AddressService {
 		}catch(EntityExistsException eee) {
 			throw new ServiceException("Indirizzo già presente nel database");
 		}catch(IllegalStateException  | PersistenceException e) {
+			e.printStackTrace();
 			throw new ServiceException("Al momento non è possibile soddisfare la richiesta");
 		}catch(MasterException e) {
 			throw e;

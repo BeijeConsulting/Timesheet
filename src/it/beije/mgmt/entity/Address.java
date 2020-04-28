@@ -132,7 +132,7 @@ public class Address {
 		this.startDate = startDate;
 	}
 
-	@JsonSetter
+	@JsonSetter("start_date")
 	public void setJsonStartDate(String startDate) throws ParseException {
 		this.startDate = Utils.parseDate(startDate);
 	}
@@ -164,18 +164,18 @@ public class Address {
 		this.type = type;
 	}
 
-	public String toString() {
-		StringBuilder row = new StringBuilder();
-		row.append("Id: ").append(id).append("\n");
-		row.append("Street: ").append(street).append("\n");
-		row.append("City: ").append(city).append("\n");
-		row.append("Province: ").append(province).append("\n");
-		row.append("Cap: ").append(cap).append("\n");
-		row.append("Country: ").append(country).append("\n");
-		row.append("Start Date: ").append(startDate).append("\n");
-		row.append("End Date: ").append(endDate).append("\n");
-		return row.toString();
-	}
+//	public String toString() {
+//		StringBuilder row = new StringBuilder();
+//		row.append("Id: ").append(id).append("\n");
+//		row.append("Street: ").append(street).append("\n");
+//		row.append("City: ").append(city).append("\n");
+//		row.append("Province: ").append(province).append("\n");
+//		row.append("Cap: ").append(cap).append("\n");
+//		row.append("Country: ").append(country).append("\n");
+//		row.append("Start Date: ").append(startDate).append("\n");
+//		row.append("End Date: ").append(endDate).append("\n");
+//		return row.toString();
+//	}
 	
 	@Override
 	public boolean equals(Object o) {
