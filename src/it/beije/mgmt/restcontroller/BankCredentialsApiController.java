@@ -30,7 +30,7 @@ public class BankCredentialsApiController {
 	/****************** BANK CREDENTIALS *****************/
 	// storico bank credentials user
 	@Transactional
-	@RequestMapping(value = "/bankCredentials/user/{id}", method = RequestMethod.GET)
+	@RequestMapping(value = "/bank_credentials/user/{id}", method = RequestMethod.GET)
 	public @ResponseBody List<BankCredentials> getCredentialsForUser(@PathVariable Long id) {
 
 		try {
@@ -41,7 +41,7 @@ public class BankCredentialsApiController {
 	}
 
 	// write new bank credentials by idUser
-	@RequestMapping(value = "/bankCredentials/user/{id}", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/bank_credentials/user/{id}", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody BankCredentials createBankCredentials(@PathVariable Long id,
 			@RequestBody BankCredentials bankCredentials, HttpServletResponse response) throws Exception {
 
@@ -53,7 +53,7 @@ public class BankCredentialsApiController {
 	}
 
 	// get bank credentials by idBankCredentials
-	@RequestMapping(value = { "/bankCredentials/{id}" }, method = RequestMethod.GET)
+	@RequestMapping(value = { "/bank_credentials/{id}" }, method = RequestMethod.GET)
 	public @ResponseBody BankCredentials getBankcredentials(@PathVariable Long id, Model model,	HttpServletResponse response) throws IOException {
 		
 		try {
@@ -64,7 +64,7 @@ public class BankCredentialsApiController {
 	}
 
 	// update existing bank credentials
-	@RequestMapping(value = "/bankCredentials/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/bank_credentials/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody BankCredentials updateBankCredential(@PathVariable Long id, @RequestBody BankCredentials bankCredentials,
 			Model model, HttpServletResponse response) throws IOException {
 		

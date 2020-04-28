@@ -179,7 +179,7 @@ Visualizza i dettagli di un indirizzo dato il suo id
 
 ## Bank Credential
 
-### Storico bankCredentials [/bankCredentials/user/{id} GET]
+### Storico bankCredentials [/bank_credentials/user/{id} GET]
 Ritorna l'elenco delle Bank Credentials di un determinato User
 
 + Parameters
@@ -221,7 +221,7 @@ Ritorna l'elenco delle Bank Credentials di un determinato User
         "message": "Non è stato trovato un utente con l'id selezionato"
     }
     ```
-### Creazione nuovo BankCredential [/bankCredentials/user/{id} POST]
+### Creazione nuovo BankCredential [/bank_credentials/user/{id} POST]
 Creazione nuovo BankCredentials a partire da un User
 
 + Parameters
@@ -270,7 +270,7 @@ Creazione nuovo BankCredentials a partire da un User
     }
     ```
 
-### Dettagli Bank Credentials [/bankCredentials/{id} GET]
+### Dettagli Bank Credentials [/bank_credentials/{id} GET]
 + Parameters
   + id(long) id Bank Credentials
   
@@ -297,7 +297,7 @@ Creazione nuovo BankCredentials a partire da un User
     }
     ```
     
-### Modifica Bank Credentials [/bankCredentials/{id} PUT]
+### Modifica Bank Credentials [/bank_credentials/{id} PUT]
 
 + Parameters
   + id(long) id Bank Credentials
@@ -463,7 +463,7 @@ Ritorna le informazioni di un user comprensivo di tutti gli storici.
         "note": null,
         "picUrl": null,
         "addresses": [],
-        "bankCredentials": [
+        "bank_credentials": [
             {
                 "id": 10,
                 "idUser": 31,
@@ -566,7 +566,7 @@ Creazione nuovo user.
         "note": null,
         "picUrl": null,
         "addresses": [],
-        "bankCredentials": [],
+        "bank_credentials": [],
         "contracts": []
     }
     ```
@@ -591,7 +591,7 @@ Creazione nuovo user.
         "note": null,
         "picUrl": null,
         "addresses": [],
-        "bankCredentials": [],
+        "bank_credentials": [],
         "contracts": []
     }
     ```
@@ -629,7 +629,7 @@ Creazione nuovo user.
         "note": null,
         "picUrl": null,
         "addresses": [],
-        "bankCredentials": [],
+        "bank_credentials": [],
         "contracts": []
     }
     ```
@@ -653,7 +653,7 @@ Creazione nuovo user.
         "note": null,
         "picUrl": null,
         "addresses": [],
-        "bankCredentials": [],
+        "bank_credentials": [],
         "contracts": []
     }
     ```
