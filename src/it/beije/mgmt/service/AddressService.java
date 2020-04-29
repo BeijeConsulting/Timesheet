@@ -10,6 +10,8 @@ import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.PersistenceException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,13 +26,13 @@ import it.beije.mgmt.repository.AddressRepository;
 
 @Service
 public class AddressService {
-	
+	private Logger log = LoggerFactory.getLogger(this.getClass());
 	@Autowired
 	private AddressRepository addressRepository;
 	
 	@Transactional
 	public Address create(Long idUser, Address address) {
-		
+		log.debug("POST /addresses/user/{id}");
 		try {
 			if(address.getId()!=null)
 				throw new InvalidJSONException("Errore nei dati inviati");
@@ -50,6 +52,7 @@ public class AddressService {
 	}
 
 	public List<Address> getAddressByUser(Long id) {
+		log.debug("GET /addresses/user/{id}");
 		
 		try {
 			List<Address> address = addressRepository.findByIdUser(id);
@@ -65,7 +68,7 @@ public class AddressService {
 	
 	@Transactional
 	public Address update(Long id, Address addressNew) {
-		
+		log.debug("PUT /addresses/{id}");
 		try {
 			Address address = find(id);
     	
@@ -87,7 +90,7 @@ public class AddressService {
 	}
 
 	public Address find(Long id) {
-
+		log.debug("GET /addresses/{id}");
 		try {
 			return addressRepository.findById(id).get();
 		}catch (EntityNotFoundException | IllegalArgumentException | NoSuchElementException e) {
@@ -97,6 +100,7 @@ public class AddressService {
 	
 	@Transactional
 	public boolean archive(Long id) {
+		log.debug("PUT /address/archive/{id}");
 		try {
 			Address address = find(id);
 			address.setEndDate(Date.valueOf(LocalDate.now()));	

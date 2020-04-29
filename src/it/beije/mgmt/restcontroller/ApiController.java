@@ -3,9 +3,11 @@ package it.beije.mgmt.restcontroller;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
+import java.util.logging.Logger;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.slf4j.LoggerFactory;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -19,7 +21,8 @@ import it.beije.mgmt.entity.User;
 @RestController
 @RequestMapping("api")
 public class ApiController {
-
+		
+     
 	//	@Autowired
 	//	private UserService userService;
 
@@ -27,8 +30,10 @@ public class ApiController {
 	//	private TimetableService timetableService;
 
 	///////// TEST //////////////////////
+	
 	@RequestMapping(value = "/test", method = RequestMethod.GET)
 	private @ResponseBody User test(Locale locale, Model model) {
+		
 		System.out.println("Home Page Requested, locale = " + locale);
 
 		return new User();

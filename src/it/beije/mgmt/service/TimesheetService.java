@@ -18,6 +18,8 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.PersistenceException;
 import javax.persistence.TypedQuery;
 import org.springframework.transaction.annotation.Transactional;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.stereotype.Service;
@@ -42,6 +44,7 @@ import it.beije.mgmt.exception.ServiceException;
 
 @Service
 public class TimesheetService {
+	private Logger log = LoggerFactory.getLogger(this.getClass());
 	
 	@Autowired
 	private TimesheetRepository timesheetRepository;
@@ -65,7 +68,7 @@ public class TimesheetService {
 	
 	
 	public List<Timesheet> findAll() {
-		
+		log.debug("GET /timesheets");
 		List<Timesheet> completeTimes = timesheetRepository.findAll();
 		if(completeTimes.size()==0)
 			throw new NoContentException("La lista è vuota");
@@ -75,6 +78,7 @@ public class TimesheetService {
 	
 	@Transactional
 	public List<Timesheet> insert(List<Timesheet> timetables) {
+		log.debug("POST /timesheets");
 
 		for(Timesheet t : timetables) {
 			if((t.getStart1()==null && t.getEnd1()!=null) || (t.getStart2()==null && t.getEnd2()!=null) || (t.getStart1()!=null && t.getEnd1()==null) || (t.getStart2()!=null && t.getEnd2()==null)
@@ -99,6 +103,8 @@ public class TimesheetService {
 	
 	
 	public Timesheet insertDefault(Long idUser,Timesheet timesheet) {
+		log.debug("POST /timesheet/default/user/{idUser}");
+		
 
 		try {
 			if (!userRepository.findById(idUser).isPresent())
@@ -122,6 +128,7 @@ public class TimesheetService {
 	}
 //--------------------------------------------------------------------------------------------------------------------------------------------------------
 	public Timesheet getDefaultTimesheet(Long idUser) {
+		log.debug("GET /timesheet/default/user/{idUser}");
 		
 		try {
 			TimesheetSpecification spFindDef = new TimesheetSpecification();
@@ -223,6 +230,7 @@ public class TimesheetService {
 
 	
 	public boolean submitUser(Long userId, Date datefrom, Date dateto) {
+		log.debug("POST /timesheets/submit/{id}");
 		if(dateto==null) {
 			//CASO IN CUI SI SELEZIONA UN UNICO GIORNO SENZA QUINDI IL DATETO
 			 return submitUser(userId,datefrom);
@@ -241,12 +249,14 @@ public class TimesheetService {
 
 	
 	public boolean svuotaserver() {
+		log.debug("GET /timesheets/svuotaserver");
 		timesheetRepository.deleteAll();
 		return true;		
 	}
 
 	
 	public List<Timesheet> retrieveTimatablesInDateRangeByUserId(Long idUser, Date dateFrom, Date dateTo) {
+		log.debug("GET /timesheet/current");
 
 		TimesheetSpecification spFindDef = new TimesheetSpecification();
 		spFindDef.add(new SearchCriteria("idUser", idUser, SearchOperation.EQUAL));
@@ -261,6 +271,7 @@ public class TimesheetService {
 
 	@Transactional
 	public boolean validator(Long userId, Date dateFrom, Date dateTo) {
+		log.debug("POST /timesheets/validate/{id}");
 		
 		Date sqltoday= Date.valueOf(LocalDate.now());
 		
@@ -302,6 +313,7 @@ public class TimesheetService {
 
 
 	public void updateTimesheet(Long id,Timesheet newt) {
+		log.debug("PUT /timesheets/modifica/{id}");
 		
 		try {
 			Timesheet t= timesheetRepository.findById(id).get();
@@ -350,6 +362,8 @@ public class TimesheetService {
 	}
 	
 	public void deleteOne(long id) {
+		log.debug("DELETE /timesheets/delete/{id}");
+		
 		
 		 timesheetRepository.deleteById(id);
 	}
@@ -388,6 +402,7 @@ public class TimesheetService {
 
 
 	public List<Timesheet> searchTimesheets(TimesheetSearchRequest req) {
+		log.debug("GET /timesheet/search");
 		
 		 return searchTimesheets(req.getIdUser(),req.getDateFrom(),req.getDateTo(),req.getType(), req.getSubmit(), req.getValidated());
 	}

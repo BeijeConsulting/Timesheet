@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.ui.Model;
@@ -22,6 +24,7 @@ import it.beije.mgmt.service.JPAService;
 @RestController
 @RequestMapping("api")
 public class ComputerApiController {
+	private Logger log = LoggerFactory.getLogger(this.getClass());
 	
 	@Autowired
 	private ComputerService computerService;
@@ -38,6 +41,7 @@ public class ComputerApiController {
 	//FUNZIONA MA NON IMPLEMENTATO IN JSP
 		@RequestMapping(value = "/computers", method = RequestMethod.GET)
 		public @ResponseBody List<Computer> getComputers(Model model) throws IOException {
+			log.debug("GET /computers");
 			return computerService.all();
 		}
 
@@ -46,6 +50,7 @@ public class ComputerApiController {
 		@RequestMapping(value = "/computer/{id}", method = RequestMethod.GET)
 		public @ResponseBody Computer getComputer(@PathVariable Long id, Model model,
 				HttpServletResponse response) throws IOException {
+			log.debug("GET /computers/{id}");
 			System.out.println("get computer by id: " + id);
 
 			return computerService.find(id);
@@ -56,6 +61,7 @@ public class ComputerApiController {
 				consumes = MediaType.APPLICATION_JSON_VALUE)
 		public @ResponseBody Computer insertComputer(@RequestBody Computer computer, Model model,
 				HttpServletResponse response) throws IOException {
+			log.debug("POST /computers");
 			System.out.println("insert computer: " + computer);
 
 			return computerService.create(computer);
@@ -67,6 +73,7 @@ public class ComputerApiController {
 				consumes = MediaType.APPLICATION_JSON_VALUE)
 		public @ResponseBody Computer updateComputer(@PathVariable Long id, @RequestBody Computer computer, Model model,
 				HttpServletResponse response) throws IOException {
+			log.debug("PUT /computer/{id}");
 			System.out.println("update computer by id: " + id);
 			System.out.println("update computer: " + computer);
 
