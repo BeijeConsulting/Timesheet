@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.MediaType;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -18,15 +19,18 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import it.beije.mgmt.entity.Address;
 import it.beije.mgmt.entity.BankCredentials;
 import it.beije.mgmt.exception.MasterException;
+import it.beije.mgmt.repository.BankCredentialsRepository;
 import it.beije.mgmt.service.BankCredentialsService;
 
 @RestController
 @RequestMapping("api")
 public class BankCredentialsApiController {
 	private Logger log = LoggerFactory.getLogger(this.getClass());
-
+	@Autowired
+	BankCredentialsRepository repository;
 	@Autowired
 	private BankCredentialsService bankCredentialsService;
 
@@ -36,7 +40,7 @@ public class BankCredentialsApiController {
 	@RequestMapping(value = "/bank_credentials/user/{id}", method = RequestMethod.GET)
 	public @ResponseBody List<BankCredentials> getCredentialsForUser(@PathVariable Long id) {
 		log.debug("GET /bank_credentials/user/{id}\"");
-
+		List<BankCredentials> ordinab = repository.findAll(Sort.by(Sort.Direction.DESC, "start_date"));
 		try {
 			return bankCredentialsService.getBankCredentialsByUser(id);
 		} catch (MasterException e) {
