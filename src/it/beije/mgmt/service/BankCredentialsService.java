@@ -14,6 +14,7 @@ import javax.persistence.PersistenceException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -71,7 +72,7 @@ public class BankCredentialsService {
 	public List<BankCredentials> getBankCredentialsByUser(Long id) {
 		
 		try {
-			List<BankCredentials> bankCred = bankCredentialsRepository.findByIdUser(id);
+			List<BankCredentials> bankCred = bankCredentialsRepository.findByIdUser(id, Sort.by(Sort.Direction.DESC, "start_date"));
 			log.info("bankCredentials : " + bankCred.size());
 			if (bankCred.size()==0)
 				throw new NoContentException("La lista è vuota");
