@@ -34,7 +34,7 @@ public class Contract {
 	@JsonProperty("user_id")
 	private Long idUser;
 	
-	@JsonIgnore
+	
 	@ManyToOne(targetEntity=ContractType.class)
     @JoinColumn(name = "contract_type")
 	private ContractType type;

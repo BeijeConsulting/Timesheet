@@ -22,6 +22,7 @@ public class ContractType {
 	@Column(name="cod")
 	private char cod;
 	
+	@JsonIgnore
 	@OneToMany(targetEntity=Contract.class, mappedBy = "type", cascade = CascadeType.ALL, fetch=FetchType.EAGER)
 	private List<Contract> contracts;
 	
