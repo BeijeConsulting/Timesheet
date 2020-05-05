@@ -43,7 +43,7 @@ public class AddressApiController {
 	@RequestMapping(value = "/addresses/user/{id}", method = RequestMethod.GET)
 	public @ResponseBody List<Address> getAddressForUser(@PathVariable Long id) {
 		log.debug("GET /addresses/user/{id}");
-		List<Address> ordinad = repository.findAll(Sort.by(Sort.Direction.DESC, "start_date"));
+		List<Address> ordinad = repository.findAll(Sort.by(Sort.Direction.DESC, "Startdate"));
 		try {
 			return addressService.getAddressByUser(id);
 		}catch(MasterException e) {

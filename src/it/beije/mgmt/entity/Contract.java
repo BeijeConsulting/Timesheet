@@ -34,7 +34,7 @@ public class Contract {
 	@JsonProperty("user_id")
 	private Long idUser;
 	
-	@JsonIgnore
+	
 	@ManyToOne(targetEntity=ContractType.class)
     @JoinColumn(name = "contract_type")
 	private ContractType type;
@@ -42,8 +42,12 @@ public class Contract {
 	@Column(name="ccnl")
 	private String ccnl;
 	
-	@Column(name="liv")
-	private Byte lvl;
+	@Column(name="livello")
+	private String livello;
+	
+	@Column(name="rimborso_spese")
+	@JsonProperty("rimborso_spese")
+	private Double rimborsoSpese;
 	
 	@Column(name="minimo_contrattuale")
 	@JsonProperty("minimo_contrattuale")
@@ -115,11 +119,20 @@ public class Contract {
 		this.ccnl = ccnl;
 	}
 
-	public Byte getLvl() {
-		return lvl;
+	public String getLivello() {
+		return livello;
 	}
-	public void setLvl(byte lvl) {
-		this.lvl = lvl;
+
+	public void setLivello(String livello) {
+		this.livello = livello;
+	}
+
+	public Double getRimborsoSpese() {
+		return rimborsoSpese;
+	}
+
+	public void setRimborsoSpese(Double rimborsoSpese) {
+		this.rimborsoSpese = rimborsoSpese;
 	}
 
 	public Double getMinimoContrattuale() {
@@ -217,7 +230,7 @@ public class Contract {
 		StringBuilder row = new StringBuilder();
 		row.append("Id: ").append(id);
 		row.append("CCNL: ").append(ccnl);
-		row.append("Level: ").append(lvl);
+		row.append("Level: ").append(livello);
 		return row.toString();
 	}
 	

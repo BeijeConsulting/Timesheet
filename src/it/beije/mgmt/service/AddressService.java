@@ -13,10 +13,12 @@ import javax.persistence.PersistenceException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import it.beije.mgmt.entity.Address;
+import it.beije.mgmt.entity.BankCredentials;
 import it.beije.mgmt.exception.InvalidJSONException;
 import it.beije.mgmt.exception.MasterException;
 import it.beije.mgmt.exception.NoContentException;
@@ -53,9 +55,8 @@ public class AddressService {
 
 	public List<Address> getAddressByUser(Long id) {
 		log.debug("GET /addresses/user/{id}");
-		
 		try {
-			List<Address> address = addressRepository.findByIdUser(id);
+			List<Address> address = AddressRepository.findByIdUser(id, Sort.by(Sort.Direction.DESC, "Startdate"));
 			if (address.size()==0)
 				throw new NoContentException("La lista è vuota");
 			return address;
