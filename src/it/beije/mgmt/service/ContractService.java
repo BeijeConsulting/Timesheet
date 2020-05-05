@@ -76,7 +76,7 @@ public class ContractService {
 			if (!Objects.isNull(newContract.getContract_type())) contract.setContract_type(newContract.getContract_type());
 			if (newContract.getType() != null) contract.setType(newContract.getType());
 			if (newContract.getCcnl() != null) contract.setCcnl(newContract.getCcnl());
-			if (!Objects.isNull(newContract.getLvl())) contract.setLvl(newContract.getLvl());
+			if (!Objects.isNull(newContract.getLivello())) contract.setLivello(newContract.getLivello());
 			if (!Objects.isNull(newContract.getMinimoContrattuale())) contract.setMinimoContrattuale(newContract.getMinimoContrattuale());
 			if (!Objects.isNull(newContract.getSuperminimo())) contract.setSuperminimo(newContract.getSuperminimo());
 			if (!Objects.isNull(newContract.getRetribuzioneMensile())) contract.setRetribuzioneMensile(newContract.getRetribuzioneMensile());
