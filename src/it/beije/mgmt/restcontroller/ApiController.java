@@ -58,12 +58,11 @@ public class ApiController {
 		JSONObject objectJson3 = new JSONObject();
 		JSONObject objectJson4 = new JSONObject();
 		JSONObject objectJson5 = new JSONObject();
-		
 		JSONArray arrayJson = new JSONArray();
-		objectJson1.put("code", "W");
-		objectJson1.put("label", "Lavorativo");
-		objectJson2.put("code", "H");
-		objectJson2.put("label", "ferie");
+		objectJson1.put("code", "R");
+		objectJson1.put("label", "Residenza");
+		objectJson2.put("code", "D");
+		objectJson2.put("label", "Domicilio");
 		objectJson3.put("code", "P");
 		objectJson3.put("label", "Permesso");
 		objectJson4.put("code", "S");
