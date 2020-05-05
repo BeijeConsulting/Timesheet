@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,6 +26,7 @@ import it.beije.mgmt.service.ClientCompanyService;
 @RestController
 @RequestMapping("api")
 public class ClientCompanyApiController {
+	private Logger log = LoggerFactory.getLogger(this.getClass());
 
 	@Autowired
 	private ClientCompanyService clientService;
@@ -31,6 +34,7 @@ public class ClientCompanyApiController {
 	@Transactional
 	@RequestMapping(value = "/clientcompanies", method = RequestMethod.GET)
 	public @ResponseBody List<ClientCompany> getClientCompanies(Model model, HttpServletResponse response){
+		log.debug("GET /clientcompanies");
 		
 		try{
 			return clientService.caricaTutti();
@@ -43,6 +47,7 @@ public class ClientCompanyApiController {
 	@RequestMapping(value = { "/clientcompany/{id}" }, method = RequestMethod.GET)
 	public @ResponseBody ClientCompany getClientCompany(@PathVariable Long id, Model model,
 			HttpServletResponse response) {
+		log.debug("GET /clientcompanies/{id}");
 		
 		try {
 			return clientService.find(id);
@@ -54,7 +59,7 @@ public class ClientCompanyApiController {
 	@Transactional
 	@RequestMapping(value = "/clientcompany", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody ClientCompany insertClientCompany(@RequestBody ClientCompany client, HttpServletResponse response) throws IOException {
-
+		log.debug("POST /clientcompany");
 		try {
 			return clientService.create(client);
 		}catch(MasterException e) {
@@ -66,6 +71,7 @@ public class ClientCompanyApiController {
 	@RequestMapping(value = "/clientcompany/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody ClientCompany updateClientCompany(@PathVariable Long id, @RequestBody ClientCompany client,
 			Model model, HttpServletResponse response) throws IOException {
+		log.debug("PUT /clientcompany/{id}");
 
 		try {
 			return clientService.update(id, client);
@@ -77,6 +83,7 @@ public class ClientCompanyApiController {
 	@Transactional
 	@RequestMapping(value = "/clientcompanies/user/{id}", method = RequestMethod.GET)
 	public @ResponseBody List<ClientCompany> getClientsForUser(@PathVariable Long id) {
+		log.debug("GET /clientcompanies/user/{id}");
 		
 		try {
 			return clientService.getClientsByUser(id);

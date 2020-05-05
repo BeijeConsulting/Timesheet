@@ -24,7 +24,7 @@ import it.beije.mgmt.repository.ContractRepository;
 @Transactional
 @Service
 public class ContractService {
-
+	
 	@Autowired
 	private ContractRepository contractRepository;
 	
@@ -33,6 +33,7 @@ public class ContractService {
 	//Aggiunge un nuovo contratto alla lista dell'utente
 	// user repository non ancora finito , modificare in seguito 
 	public Contract create(Long idUser, Contract contract) throws Exception {
+		log.debug("POST /contracts/user/{id}");
 	
 		try {
 			if(contract.getId()!=null)
@@ -53,6 +54,7 @@ public class ContractService {
 	
 	// ritorna la lista dei contratti dell'utente dato il suo id 
 	public List<Contract> getContractByUser(Long id) {
+		log.debug("GET /contracts/user/{id}");
 		
 		try {
 			List<Contract> contracts = contractRepository.findByIdUser(id);
@@ -69,7 +71,7 @@ public class ContractService {
 	//aggiorna i risultati di un contratto
 	@Transactional
 	public Contract update(Long id, Contract newContract) {
-		
+		log.debug("PUT /contract/{id}");
 		try {
 			Contract contract = find(id);
 
@@ -96,6 +98,7 @@ public class ContractService {
 	}
 
 	public Contract find(Long id) {
+		log.debug("GET /contracts/{id}");
 		
 		try {
 			return contractRepository.findById(id).get();

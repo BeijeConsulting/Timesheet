@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.ui.Model;
@@ -24,6 +26,7 @@ import it.beije.mgmt.service.UserService;
 @RestController
 @RequestMapping("api")
 public class UserApiController {
+	private Logger log = LoggerFactory.getLogger(this.getClass());
 
 	/**
 	 * ANDARE NELLA CLASSE USERSERVICE PER VEDERE TUTTI I METODI UTILIZZATI PER LE
@@ -34,6 +37,7 @@ public class UserApiController {
 
 	@RequestMapping(value = "/users", method = RequestMethod.GET)
 	public @ResponseBody List<User> getUsers(Model model, HttpServletResponse response) throws IOException {
+		log.debug("GET /users");
 		try{
 			return userService.findAll();
 		}catch(MasterException e) {
@@ -49,6 +53,7 @@ public class UserApiController {
 	@RequestMapping(value = { "/user/{id}" }, method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
 	public @ResponseBody User getUser(@PathVariable Long id, // @PathVariable(required=false) boolean complete,
 			@RequestParam(required = false) boolean complete, Model model, HttpServletResponse response) throws IOException {
+		log.debug("GET /user/{id}");
 		
 		try {
 			return userService.find(id, complete);
@@ -72,7 +77,7 @@ public class UserApiController {
 
 	@RequestMapping(value = "/user", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody User insertUser(@RequestBody User user, HttpServletResponse response) throws IOException {
-		
+		log.debug("POST /user");
 		try {
 			return userService.create(user);
 		}catch(MasterException e) {
@@ -84,6 +89,7 @@ public class UserApiController {
 	@RequestMapping(value = "/user/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody User updateUser(@PathVariable Long id, @RequestBody User user, HttpServletResponse response)
 			throws IOException {
+		log.debug("PUT /user/{id}");
 		
 		try {
 			user.setId(id);
@@ -98,12 +104,14 @@ public class UserApiController {
 	@RequestMapping(value = "/user/{id}", method = RequestMethod.DELETE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody boolean archiveUser(@PathVariable Long id, @RequestBody User user,
 			HttpServletResponse response) throws IOException {
+		log.debug("DELETE /user/{id}");
 		
 		return userService.dismissUser(user);
 	}
 
 	@RequestMapping(value = "/user/search", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody List<User> searchUser(@RequestBody UserSearchRequest req) {
+		log.debug("POST /user/search");
 
 		return userService.searchUser(req);
 

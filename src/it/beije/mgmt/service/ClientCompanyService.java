@@ -8,6 +8,8 @@ import javax.persistence.EntityNotFoundException;
 import javax.persistence.PersistenceException;
 import javax.transaction.Transactional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,9 +26,11 @@ public class ClientCompanyService {
 	
 	@Autowired
 	private ClientCompanyRepository clientRepository;
+	private Logger log = LoggerFactory.getLogger(this.getClass());
 	
 
 	public List<ClientCompany> caricaTutti() {
+		log.debug("GET /clientcompanies");
 		List<ClientCompany> allClients = clientRepository.findAll();
 		if(allClients.size()==0)
 			throw new NoContentException("La lista è vuota");
@@ -34,6 +38,7 @@ public class ClientCompanyService {
 	}
 
 	public ClientCompany find(Long id) {
+		log.debug("GET /clientcompanies/{id}");
 
 		try {
 			return clientRepository.findById(id).get();
@@ -46,6 +51,7 @@ public class ClientCompanyService {
 
 	@Transactional
 	public ClientCompany create(ClientCompany client) {
+		log.debug("POST /clientcompany");
 
 		try {
 			if(client.getId()!=null)
@@ -62,6 +68,7 @@ public class ClientCompanyService {
 	
 	@Transactional
 	public ClientCompany update(Long id, ClientCompany clientData) {
+		log.debug("PUT /clientcompany/{id}");
 		
 		try {
 			ClientCompany client = clientRepository.findById(id).get();
@@ -81,6 +88,7 @@ public class ClientCompanyService {
 	}
 //***************************************EDIT****************************************************+
 	public List<ClientCompany> getClientsByUser(Long id) {
+		log.debug("GET /clientcompanies/user/{id}");
 		
 		try {
 			List<ClientCompany> clients = null;/*clientRepository.findByIdUser(id);*/

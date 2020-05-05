@@ -10,6 +10,8 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,6 +24,7 @@ import it.beije.mgmt.repository.ComputerRepository;
 
 @Service
 public class ComputerService {
+	private Logger log = LoggerFactory.getLogger(this.getClass());
 	
 	@Autowired
 	private ComputerRepository computerRepository;
@@ -108,11 +111,13 @@ public class ComputerService {
 //----------------------------------------------------------------------------------------------------------------
 @Transactional
 	public Computer create(Computer computer) {
+	log.debug("POST /computers");
 		return computerRepository.save(computer);
 	}
 //----------------------------------------------------------------------------------------------------------------
 @Transactional	
 	public Computer update(Computer computer,Long id) {
+	log.debug("PUT /computer/{id}");
 
 		Optional<Computer> pc = computerRepository.findById(id);
 		if(pc==null)
@@ -137,10 +142,12 @@ public class ComputerService {
 	}
 //----------------------------------------------------------------------------------------------------------------
 	public List<Computer> all() {
+		log.debug("GET /computers");
 		return computerRepository.findAll();
 }
 //----------------------------------------------------------------------------------------------------------------
 	public Computer find(Long id) {
+		log.debug("GET /computers/{id}");
 		return  computerRepository.getOne(id);
 }
 }

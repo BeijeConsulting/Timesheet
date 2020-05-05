@@ -55,6 +55,7 @@ public class BankCredentialsService {
 
 	@Transactional
 	public BankCredentials create(Long idUser, BankCredentials bankCredentials) {
+		log.debug("POST /bank_credentials/user/{id}\"");
 		
 		if (bankCredentials.getId() != null || bankCredentials.getStartDate() != null || bankCredentials.getEndDate() != null) {
 			throw new InvalidJSONException("Errore nei dati inviati");
@@ -70,9 +71,10 @@ public class BankCredentialsService {
 	}
 
 	public List<BankCredentials> getBankCredentialsByUser(Long id) {
+		log.debug("GET /bank_credentials/user/{id}\"");
 		
 		try {
-			List<BankCredentials> bankCred = bankCredentialsRepository.findByIdUser(id, Sort.by(Sort.Direction.DESC, "start_date"));
+			List<BankCredentials> bankCred = bankCredentialsRepository.findByIdUser(id, Sort.by(Sort.Direction.DESC, "Startdate"));
 			log.info("bankCredentials : " + bankCred.size());
 			if (bankCred.size()==0)
 				throw new NoContentException("La lista è vuota");
@@ -86,6 +88,7 @@ public class BankCredentialsService {
 	
 	@Transactional
 	public BankCredentials update(Long id, BankCredentials bankCredentials) {
+		log.debug("PUT /bank_credentials/{id}\"");
 		
 		if (bankCredentials.getIdUser() == null) {
 			throw new InvalidJSONException("Errore nei dati inviati");
@@ -107,6 +110,7 @@ public class BankCredentialsService {
 	}
 
 	public BankCredentials find(Long id) {
+		log.debug("GET /bank_credentials/user/{id}\"");
 
 		try {
 			return bankCredentialsRepository.findById(id).get();

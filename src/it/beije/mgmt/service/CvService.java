@@ -12,6 +12,8 @@ import java.util.Optional;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+
+import org.hibernate.annotations.common.util.impl.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import it.beije.mgmt.entity.cv.Education;
@@ -26,6 +28,7 @@ import it.beije.mgmt.exception.NoContentException;
 
 @Service
 public class CvService {
+	
 	
 	@Autowired
 	private CvRepository cvrepository;
@@ -48,6 +51,7 @@ public class CvService {
 	@Transactional
 	public CV getCvByUserId(Long idUser) {
 		
+		
 		CV cv =cvrepository.getOne(idUser);
 		if(cv==null) 
 			throw new NoContentException("ATTENZIONE: Non è stato trovato alcun Cv per questo id utente");
@@ -69,6 +73,7 @@ public class CvService {
 //---------------------------------------------------------------------------------------------------------------------------------------------------
 	@Transactional
 	public CV updateCv(Long idCv,CV newCv) {
+		
 		
 		Optional<CV> cv= cvrepository.findById(idCv);
 		
@@ -296,7 +301,8 @@ public class CvService {
 			throw new NoContentException("ATTENZIONE: non è stato trovato alcun risultato");
 	}
 //----------------------------------------------------------------------------------------------------------------------------------------------------
-	public boolean addNewCv(Long idUser,CV cv) {	
+	public boolean addNewCv(Long idUser,CV cv) {
+		
 		if(cv!=null) {
 			cv.setIdUser(idUser);
 			cvrepository.saveAndFlush(cv);
