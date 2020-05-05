@@ -40,7 +40,7 @@ public class BankCredentialsApiController {
 	@RequestMapping(value = "/bank_credentials/user/{id}", method = RequestMethod.GET)
 	public @ResponseBody List<BankCredentials> getCredentialsForUser(@PathVariable Long id) {
 		log.debug("GET /bank_credentials/user/{id}\"");
-		List<BankCredentials> ordinab = repository.findAll(Sort.by(Sort.Direction.DESC, "start_date"));
+		List<BankCredentials> ordinab = repository.findAll(Sort.by(Sort.Direction.DESC, "Startdate"));
 		try {
 			return bankCredentialsService.getBankCredentialsByUser(id);
 		} catch (MasterException e) {
