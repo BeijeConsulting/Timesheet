@@ -70,7 +70,7 @@ public class TimesheetApiController {
 		public @ResponseBody List<Timesheet> retrieveTimeSheetTables(@PathVariable Long id,@RequestParam(value = "datefrom", required = true)Date datefrom,@RequestParam(value = "dateto", required = false)Date dateto) {
 //			Map<String, Object> result = new HashMap<String, Object>();
 			
-			dateto = dateto == null? new Date(System.currentTimeMillis()):dateto;
+			dateto = dateto == null? new Date(System.currentTimeMillis()) : dateto;
 			List<Timesheet> timetablelist = timesheetService.retrieveTimatablesInDateRangeByUserId(id,datefrom,dateto);
 
 			return timetablelist;
