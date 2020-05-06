@@ -41,6 +41,7 @@ public class ComputerApiController {
 	//FUNZIONA MA NON IMPLEMENTATO IN JSP
 		@RequestMapping(value = "/computers", method = RequestMethod.GET)
 		public @ResponseBody List<Computer> getComputers(Model model) throws IOException {
+			// no syso
 			log.debug("GET /computers");
 			return computerService.all();
 		}
