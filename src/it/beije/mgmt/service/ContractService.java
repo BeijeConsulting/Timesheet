@@ -56,16 +56,13 @@ public class ContractService {
 	public List<Contract> getContractByUser(Long id) {
 		
 		try {
-			List<Contract> contracts = contractRepository.findByIdUser(id, Sort.by(Sort.Direction.DESC, "startDate"));
-			System.out.println(contracts.size());
+			List<Contract> contracts = contractRepository.findByIdUser(id, Sort.by(Sort.Direction.DESC, "startDate"));	
 			if (contracts.size()==0)
 				throw new NoContentException("La lista è vuota");
 			return contracts;
 		}catch (MasterException e) {
-			e.printStackTrace();
 			throw e;
 		}catch (Exception e) {
-			e.printStackTrace();
 			throw new ServiceException("Si è verificato un errore");
 		}
 	}
