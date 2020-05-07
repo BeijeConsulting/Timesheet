@@ -20,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import it.beije.mgmt.dto.TimesheetSearchRequest;
 import it.beije.mgmt.entity.Timesheet;
+import it.beije.mgmt.entity.User;
 import it.beije.mgmt.exception.IllegalDateException;
 import it.beije.mgmt.exception.IllegalHourException;
 import it.beije.mgmt.exception.MasterException;
@@ -31,6 +32,7 @@ import it.beije.mgmt.repository.SearchOperation;
 import it.beije.mgmt.repository.TimesheetRepository;
 import it.beije.mgmt.repository.TimesheetSpecification;
 import it.beije.mgmt.repository.UserRepository;
+import it.beije.mgmt.dto.TimesheetDto;
 
 
 @Service
@@ -372,7 +374,7 @@ public class TimesheetService {
 		else
 			spFindDef.add(new SearchCriteria("validated", null, SearchOperation.EQUAL));
 		if(submit)
-			spFindDef.add(new SearchCriteria("validated", null, SearchOperation.NOT_EQUAL));
+			spFindDef.add(new SearchCriteria("submit", null, SearchOperation.NOT_EQUAL));
 		else
 			spFindDef.add(new SearchCriteria("submit", null, SearchOperation.EQUAL));
 
@@ -384,7 +386,40 @@ public class TimesheetService {
 		
 		 return searchTimesheets(req.getIdUser(),req.getDateFrom(),req.getDateTo(),req.getType(), req.getSubmit(), req.getValidated());
 	}
-	
+
+
+	public List<TimesheetDto> generateTimesheetDto() {
+		List<TimesheetDto> list = new ArrayList<>();
+		List<Timesheet> allTimesheets = new ArrayList<>();
+		TimesheetSpecification spFindDef = new TimesheetSpecification();
+		try {
+			spFindDef.add(new SearchCriteria("validated", null, SearchOperation.IS_NULL));
+			spFindDef.add(new SearchCriteria("submit", null, SearchOperation.IS_NOT_NULL));
+			allTimesheets = timesheetRepository.findAll(spFindDef);
+			for(Timesheet t : allTimesheets) {
+				boolean userIsPresent = false;
+				for(TimesheetDto dto : list) {
+					if(dto.getIdUser() == t.getIdUser()) {
+						dto.addTimesheet(t);
+						userIsPresent = true;
+						break;
+					}
+				}
+				if(list.size()==0 || !userIsPresent) {
+					TimesheetDto dto = new TimesheetDto();
+					User user = userRepository.findById(t.getIdUser()).get();
+					dto.setIdUser(user.getId());
+					dto.setUserName(user.getFirstName()+" "+user.getLastName());
+					dto.addTimesheet(t);
+					list.add(dto);
+				}
+			}	
+			return list;
+		}catch(MasterException e) {
+			throw e;
+		}
+	}
+
 //-----------------------------------------------------------------------------------------------------------------------------------------------------	
 //	public double oreTrascorse(Time time, Time time2, Time time3, Time time4) { //Calcolo ore in orario lavorativo normale
 //		double tempoTrascorso = 0;
