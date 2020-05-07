@@ -3,43 +3,36 @@ package it.beije.mgmt.service;
 import java.sql.Date;
 import java.sql.Time;
 import java.time.LocalDate;
-import java.time.LocalTime;
-import java.time.Period;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 
 import javax.persistence.EntityExistsException;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityNotFoundException;
-import javax.persistence.EntityTransaction;
 import javax.persistence.PersistenceException;
-import javax.persistence.TypedQuery;
-import org.springframework.transaction.annotation.Transactional;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.stereotype.Service;
-import it.beije.mgmt.JpaEntityManager;
+import org.springframework.transaction.annotation.Transactional;
+
 import it.beije.mgmt.dto.TimesheetSearchRequest;
 import it.beije.mgmt.entity.Timesheet;
-import it.beije.mgmt.entity.User;
 import it.beije.mgmt.exception.IllegalDateException;
 import it.beije.mgmt.exception.IllegalHourException;
 import it.beije.mgmt.exception.MasterException;
+import it.beije.mgmt.exception.NoContentException;
+import it.beije.mgmt.exception.ServiceException;
 import it.beije.mgmt.exception.UpdateException;
 import it.beije.mgmt.repository.SearchCriteria;
 import it.beije.mgmt.repository.SearchOperation;
 import it.beije.mgmt.repository.TimesheetRepository;
 import it.beije.mgmt.repository.TimesheetSpecification;
 import it.beije.mgmt.repository.UserRepository;
-import it.beije.mgmt.repository.UserSpecification;
-import it.beije.mgmt.tool.Utils;
-import it.beije.mgmt.exception.NoContentException;
-import it.beije.mgmt.exception.ServiceException;
 
 
 @Service
@@ -260,8 +253,8 @@ public class TimesheetService {
 
 		TimesheetSpecification spFindDef = new TimesheetSpecification();
 		spFindDef.add(new SearchCriteria("idUser", idUser, SearchOperation.EQUAL));
-		spFindDef.add(new SearchCriteria("date", dateFrom, SearchOperation.GREATER_THAN_EQUAL));
-		spFindDef.add(new SearchCriteria("date", dateTo, SearchOperation.LESS_THAN_EQUAL));
+		spFindDef.add(new SearchCriteria("date", dateFrom, SearchOperation.AFTER));
+		spFindDef.add(new SearchCriteria("date", dateTo, SearchOperation.BEFORE));
 		List<Timesheet> timetables = timesheetRepository.findAll(spFindDef);
 		if(timetables.isEmpty())
 			throw new NoContentException("ATTENZIONE: non è stata trovata alcuna timesheet con i parametri inseriti");

@@ -11,6 +11,7 @@ import javax.persistence.PersistenceException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -57,7 +58,7 @@ public class ContractService {
 		log.debug("GET /contracts/user/{id}");
 		
 		try {
-			List<Contract> contracts = contractRepository.findByIdUser(id);
+			List<Contract> contracts = contractRepository.findByIdUser(id, Sort.by(Sort.Direction.DESC, "startDate"));	
 			if (contracts.size()==0)
 				throw new NoContentException("La lista è vuota");
 			return contracts;

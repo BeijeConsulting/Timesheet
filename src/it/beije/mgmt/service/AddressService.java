@@ -56,7 +56,7 @@ public class AddressService {
 	public List<Address> getAddressByUser(Long id) {
 		log.debug("GET /addresses/user/{id}");
 		try {
-			List<Address> address = AddressRepository.findByIdUser(id, Sort.by(Sort.Direction.DESC, "Startdate"));
+			List<Address> address = AddressRepository.findByIdUser(id, Sort.by(Sort.Direction.DESC, "startDate"));
 			if (address.size()==0)
 				throw new NoContentException("La lista è vuota");
 			return address;

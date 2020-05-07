@@ -81,7 +81,7 @@ public class TimesheetApiController {
 			log.debug("GET /timesheets/user/{id}");
 //			Map<String, Object> result = new HashMap<String, Object>();
 			
-			dateto = dateto == null? new Date(System.currentTimeMillis()):dateto;
+			dateto = dateto == null? new Date(System.currentTimeMillis()) : dateto;
 			List<Timesheet> timetablelist = timesheetService.retrieveTimatablesInDateRangeByUserId(id,datefrom,dateto);
 
 			return timetablelist;

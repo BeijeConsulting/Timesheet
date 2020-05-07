@@ -1,5 +1,6 @@
 package it.beije.mgmt.repository;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -69,6 +70,16 @@ public class TimesheetSpecification implements Specification<Timesheet> {
                 predicates.add(builder.in(root.get(criteria.getKey())).value(criteria.getValue()));
             } else if (criteria.getOperation().equals(SearchOperation.NOT_IN)) {
                 predicates.add(builder.not(root.get(criteria.getKey())).in(criteria.getValue()));
+            }
+            
+            
+            else if (criteria.getOperation().equals(SearchOperation.AFTER)) {
+            	predicates.add(builder.greaterThanOrEqualTo(
+                        root.get(criteria.getKey()).as(Date.class), (Date) criteria.getValue()));
+            }
+            else if (criteria.getOperation().equals(SearchOperation.BEFORE)) {
+            	predicates.add(builder.lessThanOrEqualTo(
+            			root.get(criteria.getKey()).as(Date.class), (Date) criteria.getValue()));
             }
         }
         return builder.and(predicates.toArray(new Predicate[0]));
