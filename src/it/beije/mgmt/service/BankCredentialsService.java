@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import it.beije.mgmt.entity.BankCredentials;
+import it.beije.mgmt.entity.Contract;
 import it.beije.mgmt.exception.InvalidJSONException;
 import it.beije.mgmt.exception.MasterException;
 import it.beije.mgmt.exception.NoContentException;
@@ -69,6 +70,7 @@ public class BankCredentialsService {
 		
 		return this.create(bankCredentials);
 	}
+//da modificare	
 
 	public List<BankCredentials> getBankCredentialsByUser(Long id) {
 		log.debug("GET /bank_credentials/user/{id}\"");
@@ -76,7 +78,6 @@ public class BankCredentialsService {
 		try {
 
 			List<BankCredentials> bankCred = bankCredentialsRepository.findByIdUser(id, Sort.by(Sort.Direction.DESC, "startDate"));
-
 			log.info("bankCredentials : " + bankCred.size());
 			if (bankCred.size()==0)
 				throw new NoContentException("La lista è vuota");

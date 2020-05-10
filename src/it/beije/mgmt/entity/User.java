@@ -320,9 +320,7 @@ public class User implements Serializable {
 		return addresses;
 	}
 
-	public void setAddresses(List<Address> addresses) {
-		this.addresses = addresses;
-	}
+	
 
 /*
 	public List<BankCredentials> getBankCredentials() {
@@ -345,6 +343,10 @@ public class User implements Serializable {
 	}
 */
 	
+	public void setAddresses(List<Address> addresses) {
+		this.addresses = addresses;
+	}
+
 	public BankCredentials getBankCredentials() {
 		return bankCredentials;
 	}

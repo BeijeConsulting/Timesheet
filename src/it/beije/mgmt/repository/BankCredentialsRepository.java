@@ -1,5 +1,7 @@
 package it.beije.mgmt.repository;
 
+
+import java.sql.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,6 +17,6 @@ public interface BankCredentialsRepository extends JpaRepository<BankCredentials
 	
 	List<BankCredentials> findByIdUser(Long idUser, Sort sort);
 
-	BankCredentials findByIdUserAndEndDate(Long idUser, Object object);
+	BankCredentials findByIdUserAndEndDate(Long idUser, Date endDate);
 	
 }

@@ -8,16 +8,13 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import it.beije.mgmt.entity.Address;
+import it.beije.mgmt.entity.Contract;
 
 
 @Repository
 public interface AddressRepository extends JpaRepository<Address, Long> {
 	
-	static List<Address> findByIdUser(Long idUser, Sort sort) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
-	List<Address> findByIdUserAndEndDate(Long idUser, Date endDate);
-	
+	List<Address> findByIdUser(Long idUser, Sort sort);
+
+	Address findByIdUserAndEndDate(Long idUser, Date endDate);
 }

@@ -19,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import it.beije.mgmt.entity.Address;
 import it.beije.mgmt.entity.BankCredentials;
+import it.beije.mgmt.entity.Contract;
 import it.beije.mgmt.exception.InvalidJSONException;
 import it.beije.mgmt.exception.MasterException;
 import it.beije.mgmt.exception.NoContentException;
@@ -52,11 +53,11 @@ public class AddressService {
 			throw e;
 		}
 	}
-
+	
 	public List<Address> getAddressByUser(Long id) {
 		log.debug("GET /addresses/user/{id}");
 		try {
-			List<Address> address = AddressRepository.findByIdUser(id, Sort.by(Sort.Direction.DESC, "startDate"));
+			List<Address> address = addressRepository.findByIdUser(id, Sort.by(Sort.Direction.DESC, "startDate"));
 			if (address.size()==0)
 				throw new NoContentException("La lista è vuota");
 			return address;
