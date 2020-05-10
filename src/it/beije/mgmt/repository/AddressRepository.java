@@ -16,5 +16,5 @@ public interface AddressRepository extends JpaRepository<Address, Long> {
 	
 	List<Address> findByIdUser(Long idUser, Sort sort);
 
-	Address findByIdUserAndEndDate(Long idUser, Date endDate);
+	List<Address> findByIdUserAndEndDate(Long idUser, Date endDate);
 }
