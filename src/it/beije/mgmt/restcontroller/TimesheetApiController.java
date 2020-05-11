@@ -8,10 +8,13 @@ import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 
 
+
 import org.json.simple.JSONObject;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import org.json.simple.JSONObject;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -24,7 +27,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+
 // import it.beije.mgmt.dto.TimesheetDto;
+
+import it.beije.mgmt.dto.TimesheetDto;
+
 import it.beije.mgmt.dto.TimesheetSearchRequest;
 import it.beije.mgmt.entity.Timesheet;
 import it.beije.mgmt.exception.MasterException;
@@ -128,6 +135,7 @@ public class TimesheetApiController {
 		public @ResponseBody List<Timesheet> searchUser(@RequestBody TimesheetSearchRequest req) {
 
 			return timesheetService.searchTimesheets(req);
+
 		}
 		
 
@@ -144,14 +152,16 @@ public class TimesheetApiController {
 			}
 		}
 		
-		//		@RequestMapping(value = "/timesheet/active", method = RequestMethod.GET)
-		//	public @ResponseBody List<TimesheetDto> getActiveTimesheet(Model model, HttpServletResponse response) {
+
+		@RequestMapping(value = "/timesheet/active", method = RequestMethod.GET)
+		public @ResponseBody List<TimesheetDto> getActiveTimesheet(Model model, HttpServletResponse response) {
 			
-		//		try {
-		//	return timesheetService.generateTimesheetDto();
-				//		}catch(MasterException e) {
-				//		throw e;
-				//		}
-		//	}
+			try {
+				return timesheetService.generateTimesheetDto();
+			}catch(MasterException e) {
+				throw e;
+			}
+		}
+
 		
 }
