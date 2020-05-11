@@ -29,6 +29,7 @@ public class ComputerApiController {
 	@Autowired
 	private ComputerService computerService;
 
+
 	/**
 	 * DA AGGIORNARE TUTTE LE API CONFRONTANDOSI CON QUELLE DI USER, COSTRUENDO UN
 	 * COMPUTERDTO
@@ -37,21 +38,22 @@ public class ComputerApiController {
 	 * @return
 	 * @throws IOException
 	 */
-	///////// START USER //////////////////////
 
-	// FUNZIONA MA NON IMPLEMENTATO IN JSP
-	@RequestMapping(value = "/computers", method = RequestMethod.GET)
-	public @ResponseBody List<Computer> getComputers(Model model) throws IOException {
-		log.debug("GET /computers");
-		try {
-			//	System.out.println("prova1");
+	
+	
+	//FUNZIONA MA NON IMPLEMENTATO IN JSP
+		@RequestMapping(value = "/computers", method = RequestMethod.GET)
+		public @ResponseBody List<Computer> getComputers(Model model) throws IOException {
+	try{
+			log.debug("GET /computers");
 			return computerService.all();
 		
 		}catch(RuntimeException e) {
 			throw e;
 		}
+}
 		
-	}
+	
 
 	// FUNZIONA MA NON IMPLEMENTATO IN JSP
 	@RequestMapping(value = "/computer/{id}", method = RequestMethod.GET)
