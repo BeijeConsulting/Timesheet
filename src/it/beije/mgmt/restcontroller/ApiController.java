@@ -45,46 +45,41 @@ public class ApiController {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm Z");
 		Date date = new Date();
 
-		JSONObject objectJson = new JSONObject();
-		objectJson.put("server_date",dateFormat.format(date));
+		JSONObject objectServerDate = new JSONObject();
+		objectServerDate.put("server_date",dateFormat.format(date));
 		
-		JSONObject objectJson1 = new JSONObject();
-		JSONObject objectJson2 = new JSONObject();
-		JSONObject objectJson3 = new JSONObject();
-		JSONObject objectJson4 = new JSONObject();
-		JSONObject objectJson5 = new JSONObject();
-		JSONObject objectJson6 = new JSONObject();
-		JSONObject objectJson7 = new JSONObject();
-		JSONArray arrayJson = new JSONArray();
-		JSONArray arrayJson1 = new JSONArray();
-		objectJson1.put("code", "R");
-		objectJson1.put("label", "Residenza");
-		objectJson2.put("code", "D");
-		objectJson2.put("label", "Domicilio");
-		objectJson3.put("code", "P");
-		objectJson3.put("label", "Permesso");
-		objectJson4.put("code", "S");
-		objectJson4.put("label", "Malattia");
-		objectJson5.put("code", "C");
-		objectJson5.put("label", "Cassa Integrazione");
-		objectJson6.put("code","R");
-		objectJson6.put("label","Residenza");
-		objectJson7.put("code","D");
-		objectJson7.put("label","Domicilio");
-		arrayJson1.add(objectJson6);
-		arrayJson1.add(objectJson7);
-        arrayJson.add(objectJson1);
-		arrayJson.add(objectJson2);
-		arrayJson.add(objectJson3);
-		arrayJson.add(objectJson4);
-		arrayJson.add(objectJson5);
+		JSONObject objectGmap = new JSONObject();
+		objectGmap.put("gmap_key","XYZ");
+		
+		JSONObject objectTT1 = new JSONObject();
+		JSONObject objectTT2 = new JSONObject();
+		JSONObject objectTT3 = new JSONObject();
+		JSONObject objectTT4 = new JSONObject();
+		JSONObject objectTT5 = new JSONObject();
+		
+		JSONArray arrayTimesheetTypes = new JSONArray();
+		objectTT1.put("code", "W");
+		objectTT1.put("label", "Lavorativo");
+		objectTT2.put("code", "H");
+		objectTT2.put("label", "ferie");
+		objectTT3.put("code", "P");
+		objectTT3.put("label", "Permesso");
+		objectTT4.put("code", "S");
+		objectTT4.put("label", "Malattia");
+		objectTT5.put("code", "C");
+		objectTT5.put("label", "Cassa Integrazione");
+		
+		arrayTimesheetTypes.add(objectTT1);
+		arrayTimesheetTypes.add(objectTT2);
+		arrayTimesheetTypes.add(objectTT3);
+		arrayTimesheetTypes.add(objectTT4);
+		arrayTimesheetTypes.add(objectTT5);
+		
 		JSONObject mainJson = new JSONObject();
-		
-		mainJson.putAll(objectJson);
-		mainJson.put("address_types", arrayJson1);
-		mainJson.put("timesheet_types", arrayJson);
+		mainJson.putAll(objectServerDate);
+		mainJson.put("timesheet_types", arrayTimesheetTypes);
+		mainJson.putAll(objectGmap);
 
 		return mainJson;
 	}
-
 }
