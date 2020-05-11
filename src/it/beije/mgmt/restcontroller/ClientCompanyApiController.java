@@ -33,7 +33,7 @@ public class ClientCompanyApiController {
 	public @ResponseBody List<ClientCompany> getClientCompanies(Model model, HttpServletResponse response){
 		
 		try{
-			return clientService.caricaTutti();
+			return clientService.findAll();
 		}catch(MasterException e) {
 			throw e;
 		}

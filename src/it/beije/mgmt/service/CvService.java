@@ -1,28 +1,24 @@
 package it.beije.mgmt.service;
 
 import java.util.List;
-import org.springframework.transaction.annotation.Transactional;
-
-import it.beije.mgmt.JpaEntityManager;
-import it.beije.mgmt.entity.cv.CV;
-import it.beije.mgmt.entity.cv.Certification;
-import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Optional;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import it.beije.mgmt.entity.cv.CV;
+import it.beije.mgmt.entity.cv.Certification;
 import it.beije.mgmt.entity.cv.Education;
-import it.beije.mgmt.entity.cv.Work;
 import it.beije.mgmt.entity.cv.Language;
+import it.beije.mgmt.entity.cv.Work;
+import it.beije.mgmt.exception.NoContentException;
 import it.beije.mgmt.repository.CertificationRepository;
 import it.beije.mgmt.repository.CvRepository;
 import it.beije.mgmt.repository.EducationRepository;
 import it.beije.mgmt.repository.LanguageRepository;
 import it.beije.mgmt.repository.WorkRepository;
-import it.beije.mgmt.exception.NoContentException;
 
 @Service
 public class CvService {

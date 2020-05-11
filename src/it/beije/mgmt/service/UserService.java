@@ -4,14 +4,13 @@ import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import javax.persistence.EntityExistsException;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.PersistenceException;
-import javax.persistence.TypedQuery;
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,8 +19,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import it.beije.mgmt.CustomUserDetail;
-import it.beije.mgmt.JpaEntityManager;
 import it.beije.mgmt.dto.UserSearchRequest;
 import it.beije.mgmt.entity.User;
 import it.beije.mgmt.exception.DBException;
@@ -37,8 +36,6 @@ import it.beije.mgmt.repository.SearchOperation;
 import it.beije.mgmt.repository.TimesheetRepository;
 import it.beije.mgmt.repository.UserRepository;
 import it.beije.mgmt.repository.UserSpecification;
-
-import java.util.NoSuchElementException;
 
 
 @Service

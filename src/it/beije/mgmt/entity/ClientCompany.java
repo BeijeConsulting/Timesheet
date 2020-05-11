@@ -1,24 +1,23 @@
 package it.beije.mgmt.entity;
 import java.io.Serializable;
-import java.sql.Date;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 @Entity
-@Table(name = "company")
+@Table(name = "clienti")
+@JsonInclude(Include.NON_NULL)
 public class ClientCompany implements Serializable {	
 
 	private static final long serialVersionUID = 8007456604984540322L;
@@ -28,35 +27,31 @@ public class ClientCompany implements Serializable {
 	@Column(name = "id")
 	private Long id;
 
-	@Column(name = "first_name", nullable=false)
-	@JsonProperty("first_name")
-	private String firstName;
+	@Column(name = "business_name", nullable=false)
+	@JsonProperty("business_name")
+	private String businessName;
 
-	@Column(name = "last_name", nullable=false)
-	@JsonProperty("last_name")
-	private String lastName;
+	@Column(name = "description")
+	private String description;
 
-	@Column(name = "email", unique=true, nullable=false)
-	private String email;
+	@Column(name = "address")
+	private String address;
 
-	@Column(name = "phone")
-	private String phone;
-
-	@Column(name = "secondary_email")
-	@JsonProperty("secondary_email")
-	private String secondaryEmail;
+	@Column(name = "city")
+	private String city;
+	
+	@Column(name = "postal_code")
+	@JsonProperty("postal_code")
+	private String postalCode;
+	
+	@Column(name = "manager_name")
+	@JsonProperty("manager_name")
+	private String managerName;
 	
 //	@OneToMany(cascade=CascadeType.ALL)
 //	@JoinColumn(name="id_client_company")
 	@Transient
 	private List<Office> offices;
-	
-//	@OneToMany(mappedBy = "company",
-//			cascade = CascadeType.ALL,
-//			orphanRemoval = true)
-//	@Transient
-//	@JsonProperty("relative_user")
-//	private List<UserHasClient> relativeUser;
 
 	public Long getId() {
 		return id;
@@ -66,44 +61,52 @@ public class ClientCompany implements Serializable {
 		this.id = id;
 	}
 
-	public String getFirstName() {
-		return firstName;
+	public String getBusinessName() {
+		return businessName;
 	}
 
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
+	public void setBusinessName(String businessName) {
+		this.businessName = businessName;
 	}
 
-	public String getLastName() {
-		return lastName;
+	public String getDescription() {
+		return description;
 	}
 
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
-	public String getEmail() {
-		return email;
+	public String getAddress() {
+		return address;
 	}
 
-	public void setEmail(String email) {
-		this.email = email;
+	public void setAddress(String address) {
+		this.address = address;
 	}
 
-	public String getPhone() {
-		return phone;
+	public String getCity() {
+		return city;
 	}
 
-	public void setPhone(String phone) {
-		this.phone = phone;
+	public void setCity(String city) {
+		this.city = city;
 	}
 
-	public String getSecondaryEmail() {
-		return secondaryEmail;
+	public String getPostalCode() {
+		return postalCode;
 	}
 
-	public void setSecondaryEmail(String secondaryEmail) {
-		this.secondaryEmail = secondaryEmail;
+	public void setPostalCode(String postalCode) {
+		this.postalCode = postalCode;
+	}
+
+	public String getManagerName() {
+		return managerName;
+	}
+
+	public void setManagerName(String managerName) {
+		this.managerName = managerName;
 	}
 
 	public List<Office> getOffices() {
@@ -113,28 +116,13 @@ public class ClientCompany implements Serializable {
 	public void setOffices(List<Office> offices) {
 		this.offices = offices;
 	}
-
-//	public List<UserHasClient> getRelativeUser() {
-//		return relativeUser;
-//	}
-//
-//	public void setRelativeUser(List<UserHasClient> relativeUser) {
-//		this.relativeUser = relativeUser;
-//	}
 	
-	public ClientCompany() {
-		super();
-	}
+//	@OneToMany(mappedBy = "company",
+//			cascade = CascadeType.ALL,
+//			orphanRemoval = true)
+//	@Transient
+//	@JsonProperty("relative_user")
+//	private List<UserHasClient> relativeUser;
 
-	public ClientCompany(ClientCompany client) {
-		super();
-		this.id = client.id;
-		this.firstName = client.firstName;
-		this.lastName = client.lastName;
-		this.email = client.email;
-		this.phone = client.phone;
-		this.secondaryEmail = client.secondaryEmail;
-		this.offices = client.offices;
-//		this.relativeUser = client.relativeUser;
-	}
+
 }

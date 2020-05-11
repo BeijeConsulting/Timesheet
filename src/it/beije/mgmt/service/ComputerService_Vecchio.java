@@ -17,7 +17,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import it.beije.mgmt.JpaEntityManager;
 import it.beije.mgmt.entity.Computer;
-import it.beije.mgmt.entity.Contract;
 
 
 @Service

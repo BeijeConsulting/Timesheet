@@ -1,5 +1,6 @@
 package it.beije.mgmt.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -12,22 +13,26 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import it.beije.mgmt.entity.ClientCompany;
-import it.beije.mgmt.entity.User;
+import it.beije.mgmt.entity.ClientOrder;
 import it.beije.mgmt.exception.InvalidJSONException;
 import it.beije.mgmt.exception.MasterException;
 import it.beije.mgmt.exception.NoContentException;
 import it.beije.mgmt.exception.ServiceException;
 import it.beije.mgmt.repository.ClientCompanyRepository;
+import it.beije.mgmt.repository.ClientOrderRepository;
 
 @Service
 public class ClientCompanyService {
 	
 	@Autowired
-	private ClientCompanyRepository clientRepository;
+	private ClientCompanyRepository clientCompanyRepository;
+	
+	@Autowired
+	private ClientOrderRepository clientOrderRepository;
 	
 
-	public List<ClientCompany> caricaTutti() {
-		List<ClientCompany> allClients = clientRepository.findAll();
+	public List<ClientCompany> findAll() {
+		List<ClientCompany> allClients = clientCompanyRepository.findAll();
 		if(allClients.size()==0)
 			throw new NoContentException("La lista è vuota");
 		return allClients;
@@ -36,7 +41,7 @@ public class ClientCompanyService {
 	public ClientCompany find(Long id) {
 
 		try {
-			return clientRepository.findById(id).get();
+			return clientCompanyRepository.findById(id).get();
 		}catch (EntityNotFoundException | IllegalArgumentException | NoSuchElementException e) {
 			throw new NoContentException("Non è stato trovato un cliente con l'id selezionato o i dati potrebbero essere corrotti");
 		} catch (MasterException e) {
@@ -50,7 +55,7 @@ public class ClientCompanyService {
 		try {
 			if(client.getId()!=null)
 				throw new InvalidJSONException("Errore nei dati inviati");
-			return clientRepository.saveAndFlush(client);
+			return clientCompanyRepository.saveAndFlush(client);
 		}catch(EntityExistsException eee) {
 			throw new ServiceException("Cliente già presente nel database");
 		}catch(IllegalStateException  | PersistenceException e) {
@@ -64,26 +69,31 @@ public class ClientCompanyService {
 	public ClientCompany update(Long id, ClientCompany clientData) {
 		
 		try {
-			ClientCompany client = clientRepository.findById(id).get();
-			if (clientData.getFirstName() != null) client.setFirstName(clientData.getFirstName());
-	    	if (clientData.getLastName() != null) client.setLastName(clientData.getLastName());
-	    	if (clientData.getEmail() != null) client.setEmail(clientData.getEmail());
-	    	if (clientData.getSecondaryEmail() != null) client.setSecondaryEmail(clientData.getSecondaryEmail());
-	    	if (clientData.getPhone() != null) client.setPhone(clientData.getPhone());
-	    	if (clientData.getOffices() != null) client.setOffices(clientData.getOffices());
+			ClientCompany client = clientCompanyRepository.findById(id).get();
+			if (clientData.getBusinessName() != null) client.setBusinessName(clientData.getBusinessName());
+	    	if (clientData.getDescription() != null) client.setDescription(clientData.getDescription());
+	    	if (clientData.getAddress() != null) client.setAddress(clientData.getAddress());
+	    	if (clientData.getCity() != null) client.setCity(clientData.getCity());
+	    	if (clientData.getPostalCode() != null) client.setPostalCode(clientData.getPostalCode());
+	    	if (clientData.getManagerName() != null) client.setManagerName(clientData.getManagerName());
 	 
-			return clientRepository.saveAndFlush(client);
+			return clientCompanyRepository.saveAndFlush(client);
 		}catch(IllegalStateException  | PersistenceException e) {
 			throw new ServiceException("Al momento non è possibile soddisfare la richiesta");
 		} catch (MasterException e) {
 			throw e;
 		}
 	}
-//***************************************EDIT****************************************************+
+
 	public List<ClientCompany> getClientsByUser(Long id) {
 		
 		try {
-			List<ClientCompany> clients = null;/*clientRepository.findByIdUser(id);*/
+			List<ClientOrder> orders = clientOrderRepository.findByIdUser(id);
+			List<Long> idList = new ArrayList<>();
+			for(ClientOrder co : orders) {
+				if(!idList.contains(co.getIdClient())) idList.add(co.getIdClient());
+			}
+			List<ClientCompany> clients = clientCompanyRepository.findByIdIn(idList);
 			if (clients.size()==0)
 				throw new NoContentException("La lista è vuota");
 		return clients;

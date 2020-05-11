@@ -1,19 +1,7 @@
 package it.beije.mgmt.service;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-import javax.persistence.TypedQuery;
-
-import org.springframework.transaction.annotation.Transactional;
-
-import it.beije.mgmt.JpaEntityManager;
-import it.beije.mgmt.entity.Address;
-import it.beije.mgmt.entity.Computer;
-import it.beije.mgmt.entity.User;
 
 public class JPAService {
 
