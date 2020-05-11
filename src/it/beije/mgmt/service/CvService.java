@@ -23,6 +23,7 @@ import it.beije.mgmt.repository.WorkRepository;
 @Service
 public class CvService {
 	
+	
 	@Autowired
 	private CvRepository cvrepository;
 	
@@ -43,6 +44,7 @@ public class CvService {
 	
 	@Transactional
 	public CV getCvByUserId(Long idUser) {
+		
 		
 		CV cv =cvrepository.getOne(idUser);
 		if(cv==null) 
@@ -65,6 +67,7 @@ public class CvService {
 //---------------------------------------------------------------------------------------------------------------------------------------------------
 	@Transactional
 	public CV updateCv(Long idCv,CV newCv) {
+		
 		
 		Optional<CV> cv= cvrepository.findById(idCv);
 		
@@ -292,7 +295,8 @@ public class CvService {
 			throw new NoContentException("ATTENZIONE: non è stato trovato alcun risultato");
 	}
 //----------------------------------------------------------------------------------------------------------------------------------------------------
-	public boolean addNewCv(Long idUser,CV cv) {	
+	public boolean addNewCv(Long idUser,CV cv) {
+		
 		if(cv!=null) {
 			cv.setIdUser(idUser);
 			cvrepository.saveAndFlush(cv);

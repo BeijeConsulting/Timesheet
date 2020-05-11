@@ -10,11 +10,16 @@ import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.PersistenceException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import it.beije.mgmt.entity.Address;
+import it.beije.mgmt.entity.BankCredentials;
+import it.beije.mgmt.entity.Contract;
 import it.beije.mgmt.exception.InvalidJSONException;
 import it.beije.mgmt.exception.MasterException;
 import it.beije.mgmt.exception.NoContentException;
@@ -24,13 +29,13 @@ import it.beije.mgmt.repository.AddressRepository;
 
 @Service
 public class AddressService {
-	
+	private Logger log = LoggerFactory.getLogger(this.getClass());
 	@Autowired
 	private AddressRepository addressRepository;
 	
 	@Transactional
 	public Address create(Long idUser, Address address) {
-		
+		log.debug("POST /addresses/user/{id}");
 		try {
 			if(address.getId()!=null)
 				throw new InvalidJSONException("Errore nei dati inviati");
@@ -48,11 +53,11 @@ public class AddressService {
 			throw e;
 		}
 	}
-
+	
 	public List<Address> getAddressByUser(Long id) {
-		
+		log.debug("GET /addresses/user/{id}");
 		try {
-			List<Address> address = addressRepository.findByIdUser(id);
+			List<Address> address = addressRepository.findByIdUser(id, Sort.by(Sort.Direction.DESC, "startDate"));
 			if (address.size()==0)
 				throw new NoContentException("La lista è vuota");
 			return address;
@@ -65,7 +70,7 @@ public class AddressService {
 	
 	@Transactional
 	public Address update(Long id, Address addressNew) {
-		
+		log.debug("PUT /addresses/{id}");
 		try {
 			Address address = find(id);
     	
@@ -87,7 +92,7 @@ public class AddressService {
 	}
 
 	public Address find(Long id) {
-
+		log.debug("GET /addresses/{id}");
 		try {
 			return addressRepository.findById(id).get();
 		}catch (EntityNotFoundException | IllegalArgumentException | NoSuchElementException e) {
@@ -97,6 +102,7 @@ public class AddressService {
 	
 	@Transactional
 	public boolean archive(Long id) {
+		log.debug("PUT /address/archive/{id}");
 		try {
 			Address address = find(id);
 			address.setEndDate(Date.valueOf(LocalDate.now()));	

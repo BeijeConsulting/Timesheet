@@ -11,6 +11,8 @@ import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.PersistenceException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +42,7 @@ import it.beije.mgmt.repository.UserSpecification;
 
 @Service
 public class UserService implements UserDetailsService {
+	private Logger log = LoggerFactory.getLogger(this.getClass());
 	
 	@Autowired
 	private UserRepository userRepository;
@@ -65,6 +68,7 @@ public class UserService implements UserDetailsService {
 	 * @throws ServiceException 
 	 */
 	public List<User> findAll() {
+		log.debug("GET /users");
 		
 		List<User> completeUsers = userRepository.findAll();
 		
@@ -87,6 +91,7 @@ public class UserService implements UserDetailsService {
 	}
 	
 	public User find(Long idUser, boolean complete) {
+		log.debug("GET /user/{id}");
 		
 		User userDto = new User();
 		try {
@@ -134,6 +139,7 @@ public class UserService implements UserDetailsService {
 	 */
 	@Transactional
 	public User create(User user) {
+		log.debug("POST /user");
 		
 		try {
 			if(user.getId()!=null || user.getLastName()==null || user.getEmail()==null || user.getGender()==null
@@ -158,6 +164,7 @@ public class UserService implements UserDetailsService {
 	 */
 	@Transactional
 	public User update(User userData) {
+		log.debug("PUT /user/{id}");
 		
 		try {
 			User user = userRepository.findById(userData.getId()).get();
@@ -195,6 +202,7 @@ public class UserService implements UserDetailsService {
 	 */
 	@Transactional
 	public boolean dismissUser(User user) {
+		log.debug("DELETE /user/{id}");
 		
 		try {
 			User archived = new User();
@@ -219,6 +227,7 @@ public class UserService implements UserDetailsService {
 		
 	@Transactional
 	public List<User> searchUser(UserSearchRequest req) {
+		log.debug("POST /user/search");
 		// TODO Auto-generated method stub
 		return searchUser(req.getFirst_name(),req.getLast_name(),req.getEmail(),req.getFiscal_code());
 	}
