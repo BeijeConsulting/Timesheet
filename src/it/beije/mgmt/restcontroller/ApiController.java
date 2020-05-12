@@ -49,35 +49,54 @@ public class ApiController {
 		objectServerDate.put("server_date",dateFormat.format(date));
 		
 		JSONObject objectGmap = new JSONObject();
-		objectGmap.put("gmap_key","XYZ");
+		objectGmap.put("gmap_key","XYZ");	
 		
-		JSONObject objectTT1 = new JSONObject();
-		JSONObject objectTT2 = new JSONObject();
-		JSONObject objectTT3 = new JSONObject();
-		JSONObject objectTT4 = new JSONObject();
-		JSONObject objectTT5 = new JSONObject();
-		
-		JSONArray arrayTimesheetTypes = new JSONArray();
-		objectTT1.put("code", "W");
-		objectTT1.put("label", "Lavorativo");
-		objectTT2.put("code", "H");
-		objectTT2.put("label", "ferie");
-		objectTT3.put("code", "P");
-		objectTT3.put("label", "Permesso");
-		objectTT4.put("code", "S");
-		objectTT4.put("label", "Malattia");
-		objectTT5.put("code", "C");
-		objectTT5.put("label", "Cassa Integrazione");
-		
-		arrayTimesheetTypes.add(objectTT1);
-		arrayTimesheetTypes.add(objectTT2);
-		arrayTimesheetTypes.add(objectTT3);
-		arrayTimesheetTypes.add(objectTT4);
-		arrayTimesheetTypes.add(objectTT5);
-		
+		JSONArray timesheetTypes = new JSONArray();
+		JSONObject timesheetType = new JSONObject();
+		timesheetType.put("code", "W");
+		timesheetType.put("label", "Lavoro");
+		timesheetTypes.add(timesheetType);
+		timesheetType = new JSONObject();
+		timesheetType.put("code", "E");
+		timesheetType.put("label", "Straordinari");
+		timesheetTypes.add(timesheetType);
+		timesheetType = new JSONObject();
+		timesheetType.put("code", "H");
+		timesheetType.put("label", "Ferie");
+		timesheetTypes.add(timesheetType);
+		timesheetType = new JSONObject();
+		timesheetType.put("code", "P");
+		timesheetType.put("label", "Permesso");
+		timesheetTypes.add(timesheetType);
+		timesheetType = new JSONObject();
+		timesheetType.put("code", "S");
+		timesheetType.put("label", "Permesso Studio");
+		timesheetTypes.add(timesheetType);
+		timesheetType = new JSONObject();
+		timesheetType.put("code", "I");
+		timesheetType.put("label", "Malattia");
+		timesheetTypes.add(timesheetType);
+		timesheetType = new JSONObject();
+		timesheetType.put("code", "C");
+		timesheetType.put("label", "Cassa Integrazione");
+		timesheetTypes.add(timesheetType);
+
+
+		JSONArray addressTypes = new JSONArray();
+		JSONObject addressType = new JSONObject();
+		addressType.put("code","R");
+		addressType.put("label","Residenza");
+		addressTypes.add(addressType);
+		addressType = new JSONObject();
+		addressType.put("code","D");
+		addressType.put("label","Domicilio");
+		addressTypes.add(addressType);
+
 		JSONObject mainJson = new JSONObject();
+		
 		mainJson.putAll(objectServerDate);
-		mainJson.put("timesheet_types", arrayTimesheetTypes);
+		mainJson.put("address_types", addressTypes);
+		mainJson.put("timesheet_types", timesheetTypes);
 		mainJson.putAll(objectGmap);
 
 		return mainJson;
