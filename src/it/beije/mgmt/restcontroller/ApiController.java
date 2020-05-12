@@ -88,8 +88,8 @@ public class ApiController {
 		JSONObject mainJson = new JSONObject();
 		
 		mainJson.putAll(objectServerDate);
-		mainJson.put("timesheet_types", arrayTimesheetTypes);
 		mainJson.put("address_types", arrayTimesheetTypes1);
+		mainJson.put("timesheet_types", arrayTimesheetTypes);
 		mainJson.putAll(objectGmap);
 
 		return mainJson;
