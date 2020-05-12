@@ -56,8 +56,11 @@ public class ApiController {
 		JSONObject objectTT3 = new JSONObject();
 		JSONObject objectTT4 = new JSONObject();
 		JSONObject objectTT5 = new JSONObject();
+		JSONObject objectTT6 = new JSONObject();
+		JSONObject objectTT7 = new JSONObject();
 		
 		JSONArray arrayTimesheetTypes = new JSONArray();
+		JSONArray arrayTimesheetTypes1 = new JSONArray();
 		objectTT1.put("code", "W");
 		objectTT1.put("label", "Lavorativo");
 		objectTT2.put("code", "H");
@@ -68,16 +71,25 @@ public class ApiController {
 		objectTT4.put("label", "Malattia");
 		objectTT5.put("code", "C");
 		objectTT5.put("label", "Cassa Integrazione");
+		objectTT6.put("code","R");
+		objectTT6.put("label","Residenza");
+		objectTT7.put("code","D");
+		objectTT7.put("label","Domicilio");
+		
 		
 		arrayTimesheetTypes.add(objectTT1);
 		arrayTimesheetTypes.add(objectTT2);
 		arrayTimesheetTypes.add(objectTT3);
 		arrayTimesheetTypes.add(objectTT4);
 		arrayTimesheetTypes.add(objectTT5);
+		arrayTimesheetTypes1.add(objectTT6);
+		arrayTimesheetTypes1.add(objectTT7);
 		
 		JSONObject mainJson = new JSONObject();
+		
 		mainJson.putAll(objectServerDate);
 		mainJson.put("timesheet_types", arrayTimesheetTypes);
+		mainJson.put("address_types", arrayTimesheetTypes1);
 		mainJson.putAll(objectGmap);
 
 		return mainJson;
