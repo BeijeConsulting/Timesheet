@@ -49,8 +49,9 @@ public class ApiController {
 		objectServerDate.put("server_date",dateFormat.format(date));
 		
 		JSONObject objectGmap = new JSONObject();
-		objectGmap.put("gmap_key","XYZ");
+		objectGmap.put("gmap_key","XYZ");	
 		
+
 		JSONObject objectTT1 = new JSONObject();
 		JSONObject objectTT2 = new JSONObject();
 		JSONObject objectTT3 = new JSONObject();
@@ -85,11 +86,58 @@ public class ApiController {
 		arrayTimesheetTypes1.add(objectTT6);
 		arrayTimesheetTypes1.add(objectTT7);
 		
+
+		JSONArray timesheetTypes = new JSONArray();
+		JSONObject timesheetType = new JSONObject();
+		timesheetType.put("code", "W");
+		timesheetType.put("label", "Lavoro");
+		timesheetTypes.add(timesheetType);
+		timesheetType = new JSONObject();
+		timesheetType.put("code", "E");
+		timesheetType.put("label", "Straordinari");
+		timesheetTypes.add(timesheetType);
+		timesheetType = new JSONObject();
+		timesheetType.put("code", "H");
+		timesheetType.put("label", "Ferie");
+		timesheetTypes.add(timesheetType);
+		timesheetType = new JSONObject();
+		timesheetType.put("code", "P");
+		timesheetType.put("label", "Permesso");
+		timesheetTypes.add(timesheetType);
+		timesheetType = new JSONObject();
+		timesheetType.put("code", "S");
+		timesheetType.put("label", "Permesso Studio");
+		timesheetTypes.add(timesheetType);
+		timesheetType = new JSONObject();
+		timesheetType.put("code", "I");
+		timesheetType.put("label", "Malattia");
+		timesheetTypes.add(timesheetType);
+		timesheetType = new JSONObject();
+		timesheetType.put("code", "C");
+		timesheetType.put("label", "Cassa Integrazione");
+		timesheetTypes.add(timesheetType);
+
+
+		JSONArray addressTypes = new JSONArray();
+		JSONObject addressType = new JSONObject();
+		addressType.put("code","R");
+		addressType.put("label","Residenza");
+		addressTypes.add(addressType);
+		addressType = new JSONObject();
+		addressType.put("code","D");
+		addressType.put("label","Domicilio");
+		addressTypes.add(addressType);
+
+
 		JSONObject mainJson = new JSONObject();
 		
 		mainJson.putAll(objectServerDate);
+
 		mainJson.put("address_types", arrayTimesheetTypes1);
 		mainJson.put("timesheet_types", arrayTimesheetTypes);
+
+		mainJson.put("address_types", addressTypes);
+		mainJson.put("timesheet_types", timesheetTypes);
 		mainJson.putAll(objectGmap);
 
 		return mainJson;

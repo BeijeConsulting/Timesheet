@@ -1,24 +1,26 @@
 package it.beije.mgmt.service;
 
-import java.time.*;
+import java.sql.Date;
+import java.sql.Time;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
-import java.sql.Date;
-import java.sql.Time;
+
 import org.springframework.stereotype.Service;
 
 import it.beije.mgmt.JpaEntityManager;
 import it.beije.mgmt.entity.Timesheet;
 import it.beije.mgmt.entity.User;
-
-import it.beije.mgmt.exception.NoContentException;
-import it.beije.mgmt.exception.IllegalHourException;
 import it.beije.mgmt.exception.IllegalDateException;
+import it.beije.mgmt.exception.IllegalHourException;
+import it.beije.mgmt.exception.NoContentException;
 
 
 @Service

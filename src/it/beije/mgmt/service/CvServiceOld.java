@@ -1,20 +1,22 @@
 package it.beije.mgmt.service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import it.beije.mgmt.JpaEntityManager;
 import it.beije.mgmt.entity.cv.CV;
 import it.beije.mgmt.entity.cv.Certification;
-import java.util.ArrayList;
-import java.util.Objects;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-import org.springframework.stereotype.Service;
 import it.beije.mgmt.entity.cv.Education;
-import it.beije.mgmt.entity.cv.Work;
 import it.beije.mgmt.entity.cv.Language;
+import it.beije.mgmt.entity.cv.Work;
 
 @Service
 public class CvServiceOld {

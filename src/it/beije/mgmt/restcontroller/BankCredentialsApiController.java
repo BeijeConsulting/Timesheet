@@ -39,8 +39,8 @@ public class BankCredentialsApiController {
 	@Transactional
 	@RequestMapping(value = "/bank_credentials/user/{id}", method = RequestMethod.GET)
 	public @ResponseBody List<BankCredentials> getCredentialsForUser(@PathVariable Long id) {
+		
 		log.debug("GET /bank_credentials/user/{id}\"");
-		List<BankCredentials> ordinab = repository.findAll(Sort.by(Sort.Direction.DESC, "Startdate"));
 		try {
 			return bankCredentialsService.getBankCredentialsByUser(id);
 		} catch (MasterException e) {
@@ -51,9 +51,9 @@ public class BankCredentialsApiController {
 	// write new bank credentials by idUser
 	@RequestMapping(value = "/bank_credentials/user/{id}", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody BankCredentials createBankCredentials(@PathVariable Long id,
-			@RequestBody BankCredentials bankCredentials, HttpServletResponse response) throws Exception {
+			@RequestBody BankCredentials bankCredentials, HttpServletResponse response) {
+		
 		log.debug("POST /bank_credentials/user/{id}\"");
-
 		try {
 			return bankCredentialsService.create(id, bankCredentials);
 		} catch (RuntimeException e) {
@@ -64,7 +64,8 @@ public class BankCredentialsApiController {
 	// get bank credentials by idBankCredentials
 	@RequestMapping(value = { "/bank_credentials/{id}" }, method = RequestMethod.GET)
 	public @ResponseBody BankCredentials getBankcredentials(@PathVariable Long id, Model model,
-			HttpServletResponse response) throws IOException {
+			HttpServletResponse response) {
+		
 		log.debug("GET /bank_credentials/user/{id}\"");
 		try {
 			return bankCredentialsService.find(id);
@@ -76,8 +77,8 @@ public class BankCredentialsApiController {
 	// update existing bank credentials
 	@RequestMapping(value = "/bank_credentials/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody BankCredentials updateBankCredential(@PathVariable Long id,
-			@RequestBody BankCredentials bankCredentials, Model model, HttpServletResponse response)
-			throws IOException {
+			@RequestBody BankCredentials bankCredentials, Model model, HttpServletResponse response) {
+		
 		log.debug("PUT /bank_credentials/{id}\"");
 		try {
 			return bankCredentialsService.update(id, bankCredentials);

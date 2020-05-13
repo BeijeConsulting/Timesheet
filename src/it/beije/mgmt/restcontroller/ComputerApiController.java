@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import it.beije.mgmt.entity.Computer;
 import it.beije.mgmt.service.ComputerService;
-import it.beije.mgmt.service.JPAService;
 
 @RestController
 @RequestMapping("api")

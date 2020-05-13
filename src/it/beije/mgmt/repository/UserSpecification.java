@@ -3,7 +3,6 @@ package it.beije.mgmt.repository;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.Entity;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
@@ -29,6 +28,8 @@ public class UserSpecification implements Specification<User> {
     public void add(SearchCriteria criteria) {
         list.add(criteria);
     }
+    
+    
 
     @Override
     public Predicate toPredicate(Root<User> root, CriteriaQuery<?> query, CriteriaBuilder builder) {

@@ -37,7 +37,7 @@ public class ClientCompanyApiController {
 		log.debug("GET /clientcompanies");
 		
 		try{
-			return clientService.caricaTutti();
+			return clientService.findAll();
 		}catch(MasterException e) {
 			throw e;
 		}

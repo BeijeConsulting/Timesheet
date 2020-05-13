@@ -5,17 +5,11 @@ import java.sql.Date;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.List;
+
 import javax.servlet.http.HttpServletResponse;
-
-
-
-import org.json.simple.JSONObject;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import org.json.simple.JSONObject;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.ui.Model;
@@ -27,11 +21,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-
 // import it.beije.mgmt.dto.TimesheetDto;
 
 import it.beije.mgmt.dto.TimesheetDto;
-
 import it.beije.mgmt.dto.TimesheetSearchRequest;
 import it.beije.mgmt.entity.Timesheet;
 import it.beije.mgmt.exception.MasterException;
