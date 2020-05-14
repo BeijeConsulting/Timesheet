@@ -14,7 +14,7 @@ import javax.persistence.Table;
 
 @Table(name = "bank_credentials")
 @Entity
-public class Attachement {
+public class Attachment {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -38,7 +38,7 @@ public class Attachement {
 	
 	
 	
-	public Attachement() {
+	public Attachment() {
 		
 	}
 
