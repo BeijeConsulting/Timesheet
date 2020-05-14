@@ -1,7 +1,13 @@
 package it.beije.mgmt.restcontroller;
 
+import static java.util.stream.Collectors.toList;
+import static org.springframework.http.ResponseEntity.ok;
+
 import java.io.IOException;
+import java.security.Principal;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -9,7 +15,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,9 +45,23 @@ public class UserApiController {
 	 */
 	@Autowired
 	private UserService userService;
+	
+	@RequestMapping(value = "/user/itsme", method = RequestMethod.GET)
+	public @ResponseBody User getLoggedUser(Principal user, Model model, HttpServletResponse response) {
+        
+		try{
+			return (User) userService.loadUserByUsername(user.getName());
+		}catch(MasterException e) {
+			throw e;
+		}
+	}
 
+	
 	@RequestMapping(value = "/users", method = RequestMethod.GET)
-	public @ResponseBody List<User> getUsers(Model model, HttpServletResponse response) throws IOException {
+	public @ResponseBody List<User> getUsers(Model model, HttpServletResponse response) {
+		Map<Object, Object> mod = new HashMap<>();
+        
+		
 		log.debug("GET /users");
 		try{
 			return userService.findAll();

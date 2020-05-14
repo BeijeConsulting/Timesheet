@@ -5,6 +5,8 @@ import java.time.LocalDateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
@@ -91,8 +93,37 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 		log.error(re.getMessage());
 		return ResponseEntity.status(errorCode).body(re);
 	}
+	
+	@ExceptionHandler(value = {UsernameNotFoundException.class})
+	public ResponseEntity<ErrorMessage> ControllerExceptionHandler(UsernameNotFoundException ex, WebRequest request) {
+		int errorCode = 228;
+		ErrorMessage re = new ErrorMessage();
+		re.setMessage(ex.getLocalizedMessage());
+		re.setStatus(errorCode+"Error in credentials");
+		re.setTime(LocalDateTime.now());
+		log.error(re.getMessage());
+		return ResponseEntity.status(errorCode).body(re);
+	}
+	
+	@ExceptionHandler(value = {InvalidJwtAuthenticationException.class})
+	public ResponseEntity<ErrorMessage> ControllerExceptionHandler(InvalidJwtAuthenticationException ex, WebRequest request) {
+		int errorCode = 229;
+		ErrorMessage re = new ErrorMessage();
+		re.setMessage(ex.getLocalizedMessage());
+		re.setStatus(errorCode+"Error in credentials");
+		re.setTime(LocalDateTime.now());
+		log.error(re.getMessage());
+		return ResponseEntity.status(errorCode).body(re);
+	}
+	
+	@ExceptionHandler(value = {BadCredentialsException.class})
+	public ResponseEntity<ErrorMessage> ControllerExceptionHandler(BadCredentialsException ex, WebRequest request) {
+		int errorCode = 230;
+		ErrorMessage re = new ErrorMessage();
+		re.setMessage(ex.getLocalizedMessage());
+		re.setStatus(errorCode+"Error in credentials");
+		re.setTime(LocalDateTime.now());
+		log.error(re.getMessage());
+		return ResponseEntity.status(errorCode).body(re);
+	}
 }
-
-
-
-

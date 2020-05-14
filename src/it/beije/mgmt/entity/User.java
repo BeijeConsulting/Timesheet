@@ -1,31 +1,51 @@
 package it.beije.mgmt.entity;
 
+import static java.util.stream.Collectors.toList;
+
 import java.io.Serializable;
+import java.security.Principal;
 import java.sql.Date;
 import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSetter;
 
 import it.beije.mgmt.tool.Utils;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
 
 
 @Entity
 @Table(name = "user")
 @JsonInclude(Include.NON_NULL)
-public class User implements Serializable {
+public class User implements Serializable, UserDetails {
 	
 	private static final long serialVersionUID = 4865903039190150223L;
 
@@ -119,7 +139,36 @@ public class User implements Serializable {
 	@Transient
 	@JsonProperty("default_timesheet")
 	private Timesheet defaultTimesheet;
+	
+	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    @JoinTable(name = "user_authority",
+            joinColumns = {
+                    @JoinColumn(name = "user_id", referencedColumnName = "id",
+                            nullable = false, updatable = false)},
+            inverseJoinColumns = {
+                    @JoinColumn(name = "authority_id", referencedColumnName = "id",
+                            nullable = false, updatable = false)})
+	@JsonIgnore
+	private List<Authority> authorityEntity = new ArrayList<>();
+	
+	@JsonIgnore
+	@Transient
+	private List<String> authority = createStringAuth();
+	
+	private List<String> createStringAuth() {
+		List<String> list = new ArrayList<>();
+		for(Authority r : authorityEntity) list.add(r.getAuthority());
+		return list;		 
+	}
+	
+	
+//	@ElementCollection( fetch = FetchType.EAGER)
+//    @Builder.Default
+ //   private List<String> authority = new ArrayList<>();
+	
+	
 
+	
 //	@OneToMany(
 //		        mappedBy = "user",
 //		        cascade = CascadeType.ALL,
@@ -253,6 +302,7 @@ public class User implements Serializable {
 		this.admin = admin;
 	}
 
+	@Override
 	public String getPassword() {
 		return password;
 	}
@@ -394,6 +444,55 @@ public class User implements Serializable {
 	public void removeAddress(Address address) {
 		addresses.remove(address);
 	}
+
+	@JsonIgnore
+	public List<String> getAuthority() {
+		return authority;
+	}
+
+
+	@JsonIgnore
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		// TODO Auto-generated method stub
+		return this.authority.stream().map(SimpleGrantedAuthority::new).collect(toList());
+	}
+
+	@JsonIgnore
+	@Override
+	public String getUsername() {
+		// TODO Auto-generated method stub
+		return this.email;
+	}
+
+	@JsonIgnore
+	@Override
+	public boolean isAccountNonExpired() {
+		// TODO Auto-generated method stub
+		return true;
+	}
+
+	@JsonIgnore
+	@Override
+	public boolean isAccountNonLocked() {
+		// TODO Auto-generated method stub
+		return true;
+	}
+
+	@JsonIgnore
+	@Override
+	public boolean isCredentialsNonExpired() {
+		// TODO Auto-generated method stub
+		return true;
+	}
+
+	@JsonIgnore
+	@Override
+	public boolean isEnabled() {
+		// TODO Auto-generated method stub
+		return true;
+	}
+
 
 /*
 	public void addBankCredentials(BankCredentials credentials) {

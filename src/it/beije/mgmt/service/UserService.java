@@ -5,7 +5,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
@@ -22,7 +21,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import it.beije.mgmt.CustomUserDetail;
 import it.beije.mgmt.dto.UserSearchRequest;
 import it.beije.mgmt.entity.User;
 import it.beije.mgmt.exception.DBException;
@@ -214,17 +212,6 @@ public class UserService implements UserDetailsService {
 		return true;	
 	}
 	
-	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		try {
-			Optional<User> user = userRepository.findByEmail(username);
-			user.orElseThrow(() -> new UsernameNotFoundException("Username not found"));
-			return user.map(CustomUserDetail::new).get();
-		} catch (Exception e) {
-			throw e;
-		}		
-	}
-		
 	@Transactional
 	public List<User> searchUser(UserSearchRequest req) {
 		log.debug("POST /user/search");
@@ -260,6 +247,16 @@ public class UserService implements UserDetailsService {
 		return u;
 	}
 	
+	@Override
+	public User loadUserByUsername(String username) throws UsernameNotFoundException {
+		try {
+			 return userRepository.findByEmail(username)
+			            .orElseThrow(() -> new UsernameNotFoundException("Username: " + username + " not found"));
+		} catch (Exception e) {
+			throw e;
+		}		
+	}
+		
 	/*	
 	public User findById(Long idUser) {
 		
