@@ -34,7 +34,7 @@ public class Attachment {
 	private Date uploadDate;
 	
 	@Column(name="user_id")
-	private Date userId;
+	private Long userId;
 	
 	
 	
@@ -93,12 +93,12 @@ public class Attachment {
 	}
 
 
-	public Date getUserId() {
+	public Long getUserId() {
 		return userId;
 	}
 
 
-	public void setUserId(Date userId) {
+	public void setUserId(Long userId) {
 		this.userId = userId;
 	}
 

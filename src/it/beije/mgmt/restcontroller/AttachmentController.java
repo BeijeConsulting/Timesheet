@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,26 +21,30 @@ import it.beije.mgmt.entity.Attachment;
 import it.beije.mgmt.entity.Computer;
 import it.beije.mgmt.entity.Contract;
 import it.beije.mgmt.entity.User;
+import it.beije.mgmt.service.AttachmentService;
 import it.beije.mgmt.service.JPAService;
+import it.beije.mgmt.service.TimesheetService;
 
 @RestController
 @RequestMapping("api")
 public class AttachmentController {
+	@Autowired
+	private AttachmentService attachmentService;
 	
 	@RequestMapping(value = "/attachments/user/{user_id}", method = RequestMethod.GET)
 	public @ResponseBody List<Attachment> getAttachmentUser(@PathVariable Long id){
 		
-		//return AttachmentService.getAttachmentsByUser(id);   chiamata al service
+		return attachmentService.getAttachmentByUser(id);   
 		
 		
-		return null;
+		
 	}
 	@RequestMapping(value = "/attachment/{id}", method = RequestMethod.GET)
 	public @ResponseBody List<Attachment> getAttachment(@PathVariable Long id){
 		
 	
-		//return AttachmentService.getAttachmentsById(id);   chiamata al service
-		return null;
+		return attachmentService.getAttachmentByUser(id);   
+		
 		
 	}
 	@RequestMapping(value = "/attachment/user/{user_id}", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -48,11 +53,10 @@ public class AttachmentController {
 		
 	
 	
-		//return AttachmentService.insertAttachment(id);   chiamata al service
+		return attachmentService.create(attachment.getUserId(),attachment);   //da controllare l'id che si passa
 		
 		
 		
-		return attachment;
 	}
 	
 	@RequestMapping(value = "/attachment/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -60,8 +64,8 @@ public class AttachmentController {
 			HttpServletResponse response) throws IOException {
 		
 		
-		//return AttachmentService.update(attachment,id);   chiamata al service
+		return attachmentService.update(id,attachment);  
 		
-		return null;
+		
 	}
 }
