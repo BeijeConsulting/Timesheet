@@ -10,6 +10,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,12 +22,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import it.beije.mgmt.entity.Contract;
+import it.beije.mgmt.entity.User;
 import it.beije.mgmt.exception.MasterException;
+import it.beije.mgmt.exception.NoContentException;
 import it.beije.mgmt.service.ContractService;
 
 @RestController
 @RequestMapping("api")
-
+@PreAuthorize("hasAuthority('ADMIN')")
 public class ContractApiController {
 	@Autowired
 	private ContractService contractService;
@@ -33,10 +37,13 @@ public class ContractApiController {
 
 	
 	@Transactional
+	@PreAuthorize("hasAuthority('USER')")
 	@RequestMapping(value = "/contracts/user/{id}", method = RequestMethod.GET)
-	public @ResponseBody List<Contract> getContractForUser(@PathVariable Long id) {
+	public @ResponseBody List<Contract> getContractForUser(@PathVariable Long id, Authentication auth) {
+		
 		log.debug("GET /contracts/user/{id}");
 		try {
+			ApiController.verifyLoggedUser(auth, id);
 			return contractService.getContractByUser(id);
 		}catch(MasterException e) {
 			throw e;

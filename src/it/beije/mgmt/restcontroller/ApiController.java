@@ -14,9 +14,11 @@ import org.json.simple.JSONObject;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.ui.Model;
@@ -31,6 +33,7 @@ import it.beije.mgmt.dto.AuthenticationRequest;
 import it.beije.mgmt.entity.Timesheet;
 import it.beije.mgmt.entity.User;
 import it.beije.mgmt.exception.MasterException;
+import it.beije.mgmt.exception.NoContentException;
 import it.beije.mgmt.repository.UserRepository;
 import it.beije.mgmt.security.JwtTokenFilter;
 import it.beije.mgmt.security.JwtTokenProvider;
@@ -125,5 +128,11 @@ public class ApiController {
 		mainJson.putAll(objectGmap);
 
 		return mainJson;
+	}
+	
+	static void verifyLoggedUser(Authentication auth, Long id) {
+		User user = (User) auth.getPrincipal();
+		if(!user.getAuthority().contains("ADMIN") && user.getId()!=id)
+			throw new NoContentException("Non si possiedono i permessi necessari");
 	}
 }

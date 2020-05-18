@@ -12,6 +12,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,12 +28,14 @@ import org.springframework.web.bind.annotation.RestController;
 import it.beije.mgmt.dto.TimesheetDto;
 import it.beije.mgmt.dto.TimesheetSearchRequest;
 import it.beije.mgmt.entity.Timesheet;
+import it.beije.mgmt.entity.User;
 import it.beije.mgmt.exception.MasterException;
 import it.beije.mgmt.service.TimesheetService;
 
 
 @RestController
 @RequestMapping("api")
+@PreAuthorize("hasAuthority('ADMIN')")
 public class TimesheetApiController {
 	private Logger log = LoggerFactory.getLogger(this.getClass());
 	
@@ -58,33 +62,35 @@ public class TimesheetApiController {
 			return timesheetService.insert(timesheets);
 		}
 		
+		@PreAuthorize("hasAuthority('USER')")
 		@RequestMapping(value = { "/timesheet/default/user/{idUser}" }, method = RequestMethod.POST, produces = {MediaType.APPLICATION_JSON_VALUE})
-		public @ResponseBody Timesheet insertDefaultTimesheet(@PathVariable long idUser,@RequestBody Timesheet timsheet, Model model,HttpServletResponse response) {
+		public @ResponseBody Timesheet insertDefaultTimesheet(@PathVariable long idUser, @RequestBody Timesheet timsheet, Model model,HttpServletResponse response, Authentication auth) {
 			log.debug("POST /timesheet/default/user/{idUser}");
-	
+			ApiController.verifyLoggedUser(auth, idUser);
 			return timesheetService.insertDefault(idUser,timsheet);		
 		}
 		
+		@PreAuthorize("hasAuthority('USER')")
 		@RequestMapping(value = { "/timesheet/default/user/{idUser}" }, method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
-		public @ResponseBody Timesheet getDefaultTimesheet(@PathVariable long idUser, Model model,HttpServletResponse response) {
+		public @ResponseBody Timesheet getDefaultTimesheet(@PathVariable long idUser, Model model,HttpServletResponse response, Authentication auth) {
 			log.debug("GET /timesheet/default/user/{idUser}");
-			
+			ApiController.verifyLoggedUser(auth, idUser);
 			return timesheetService.getDefaultTimesheet(idUser);		
 		}
 			
 		@RequestMapping(value = "/timesheets/delete/{id}", method = RequestMethod.DELETE)
 		public @ResponseBody boolean delete(@PathVariable long id)  {
 			log.debug("DELETE /timesheets/delete/{id}");
-			
 			timesheetService.deleteOne(id);
 			 return true;
 		}
 	
+		@PreAuthorize("hasAuthority('USER')")
 		@RequestMapping(value = "/timesheets/user/{id}", method = RequestMethod.GET)
-		public @ResponseBody List<Timesheet> retrieveTimeSheetTables(@PathVariable Long id,@RequestParam(value = "datefrom", required = true)Date datefrom,@RequestParam(value = "dateto", required = false)Date dateto) {
+		public @ResponseBody List<Timesheet> retrieveTimeSheetTables(@PathVariable Long id,@RequestParam(value = "datefrom", required = true)Date datefrom,@RequestParam(value = "dateto", required = false)Date dateto, Authentication auth) {
 			log.debug("GET /timesheets/user/{id}");
-//			Map<String, Object> result = new HashMap<String, Object>();
-			
+
+			ApiController.verifyLoggedUser(auth, id);
 			dateto = dateto == null? new Date(System.currentTimeMillis()) : dateto;
 			List<Timesheet> timetablelist = timesheetService.retrieveTimatablesInDateRangeByUserId(id,datefrom,dateto);
 
@@ -114,10 +120,7 @@ public class TimesheetApiController {
 			if(dateto !=null) {
 				int i=dateto.compareTo(datefrom);
 				System.out.println(i);
-				if(i>0) {
-					return timesheetService.submitUser(id, datefrom, dateto);
-				}
-				else
+				if(i<=0)
 					return false;
 			}
 			return timesheetService.submitUser(id, datefrom, dateto);
@@ -131,12 +134,13 @@ public class TimesheetApiController {
 		}
 		
 
+		@PreAuthorize("hasAuthority('USER')")
 		@RequestMapping(value = "/timesheet/current", method = RequestMethod.GET)
-		public @ResponseBody List<Timesheet> getCurrentTimesheet(Model model, HttpServletResponse response) {
+		public @ResponseBody List<Timesheet> getCurrentTimesheet(Model model, HttpServletResponse response, Authentication auth) {
 			log.debug("GET /timesheet/current");
 			
 			try {
-				return timesheetService.retrieveTimatablesInDateRangeByUserId((long) 1 , 
+				return timesheetService.retrieveTimatablesInDateRangeByUserId( ((User) auth.getPrincipal()).getId(), 
 						Date.valueOf(LocalDate.now().minus(Period.of(0, 1, LocalDate.now().getDayOfMonth()-1))),
 						Date.valueOf(LocalDate.now()));
 			}catch(MasterException e) {
@@ -144,7 +148,7 @@ public class TimesheetApiController {
 			}
 		}
 		
-
+		
 		@RequestMapping(value = "/timesheet/active", method = RequestMethod.GET)
 		public @ResponseBody List<TimesheetDto> getActiveTimesheet(Model model, HttpServletResponse response) {
 			

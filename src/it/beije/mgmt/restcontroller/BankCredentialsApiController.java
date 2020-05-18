@@ -5,11 +5,14 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.tomcat.util.http.parser.Authorization;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,12 +24,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 import it.beije.mgmt.entity.Address;
 import it.beije.mgmt.entity.BankCredentials;
+import it.beije.mgmt.entity.User;
 import it.beije.mgmt.exception.MasterException;
+import it.beije.mgmt.exception.NoContentException;
 import it.beije.mgmt.repository.BankCredentialsRepository;
 import it.beije.mgmt.service.BankCredentialsService;
 
 @RestController
 @RequestMapping("api")
+@PreAuthorize("hasAuthority('ADMIN')")
 public class BankCredentialsApiController {
 	private Logger log = LoggerFactory.getLogger(this.getClass());
 	@Autowired
@@ -34,14 +40,15 @@ public class BankCredentialsApiController {
 	@Autowired
 	private BankCredentialsService bankCredentialsService;
 
-	/****************** BANK CREDENTIALS *****************/
-	// storico bank credentials user
+	
 	@Transactional
+	@PreAuthorize("hasAuthority('USER')")
 	@RequestMapping(value = "/bank_credentials/user/{id}", method = RequestMethod.GET)
-	public @ResponseBody List<BankCredentials> getCredentialsForUser(@PathVariable Long id) {
+	public @ResponseBody List<BankCredentials> getCredentialsForUser(@PathVariable Long id, Authentication auth) {
 		
 		log.debug("GET /bank_credentials/user/{id}\"");
 		try {
+			ApiController.verifyLoggedUser(auth, id);
 			return bankCredentialsService.getBankCredentialsByUser(id);
 		} catch (MasterException e) {
 			throw e;

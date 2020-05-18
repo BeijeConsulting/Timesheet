@@ -20,6 +20,7 @@ import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import it.beije.mgmt.entity.User;
 import it.beije.mgmt.exception.InvalidJwtAuthenticationException;
 import it.beije.mgmt.service.UserService;
 
@@ -56,7 +57,7 @@ public class JwtTokenProvider {
     }    
 	
 	public Authentication getAuthentication(String token) {
-        UserDetails userDetails = this.userDetailsService.loadUserByUsername(getUsername(token));
+        User userDetails = this.userDetailsService.loadUserByUsername(getUsername(token));
         return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
     }    
 	

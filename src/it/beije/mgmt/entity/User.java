@@ -37,9 +37,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSetter;
 
 import it.beije.mgmt.tool.Utils;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
+
 
 
 @Entity
@@ -150,16 +148,6 @@ public class User implements Serializable, UserDetails {
                             nullable = false, updatable = false)})
 	@JsonIgnore
 	private List<Authority> authorityEntity = new ArrayList<>();
-	
-	@JsonIgnore
-	@Transient
-	private List<String> authority = createStringAuth();
-	
-	private List<String> createStringAuth() {
-		List<String> list = new ArrayList<>();
-		for(Authority r : authorityEntity) list.add(r.getAuthority());
-		return list;		 
-	}
 	
 	
 //	@ElementCollection( fetch = FetchType.EAGER)
@@ -447,7 +435,7 @@ public class User implements Serializable, UserDetails {
 
 	@JsonIgnore
 	public List<String> getAuthority() {
-		return authority;
+		return createStringAuth();
 	}
 
 
@@ -455,7 +443,13 @@ public class User implements Serializable, UserDetails {
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		// TODO Auto-generated method stub
-		return this.authority.stream().map(SimpleGrantedAuthority::new).collect(toList());
+		return createStringAuth().stream().map(SimpleGrantedAuthority::new).collect(toList());
+	}
+	
+	private List<String> createStringAuth() {
+		List<String> list = new ArrayList<>();
+		for(Authority r : authorityEntity) list.add(r.getAuthority());
+		return list;		 
 	}
 
 	@JsonIgnore

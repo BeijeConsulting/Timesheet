@@ -16,6 +16,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -32,10 +34,12 @@ import org.springframework.web.bind.annotation.RestController;
 import it.beije.mgmt.dto.UserSearchRequest;
 import it.beije.mgmt.entity.User;
 import it.beije.mgmt.exception.MasterException;
+import it.beije.mgmt.exception.NoContentException;
 import it.beije.mgmt.service.UserService;
 
 @RestController
 @RequestMapping("api")
+@PreAuthorize("hasAuthority('ADMIN')")
 public class UserApiController {
 	private Logger log = LoggerFactory.getLogger(this.getClass());
 
@@ -47,10 +51,11 @@ public class UserApiController {
 	private UserService userService;
 	
 	@RequestMapping(value = "/user/itsme", method = RequestMethod.GET)
-	public @ResponseBody User getLoggedUser(Principal user, Model model, HttpServletResponse response) {
+	public @ResponseBody User getLoggedUser(Authentication user, Model model, HttpServletResponse response) {
         
 		try{
-			return (User) userService.loadUserByUsername(user.getName());
+			return (User) user.getPrincipal();
+			//return (User) userService.loadUserByUsername(user.getName());
 		}catch(MasterException e) {
 			throw e;
 		}
@@ -75,13 +80,18 @@ public class UserApiController {
 	// Quando cerco "/user/{id} automaticamente mi da la versione short di User
 //	@RequestMapping(value = {"/user/{id}/{complete}", "/user/{id}"}, method = RequestMethod.GET)
 
+	@PreAuthorize("hasAuthority('USER')")
 	@RequestMapping(value = { "/user/{id}" }, method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
 	public @ResponseBody User getUser(@PathVariable Long id, // @PathVariable(required=false) boolean complete,
-			@RequestParam(required = false) boolean complete, Model model, HttpServletResponse response) throws IOException {
+			@RequestParam(required = false) boolean complete, Model model, HttpServletResponse response, Authentication auth) {
 		log.debug("GET /user/{id}");
 		
 		try {
+			User user = (User) auth.getPrincipal();
+			if(!user.getAuthority().contains("ADMIN") && user.getId()!=id)
+				throw new NoContentException("Non si possiedono i permessi necessari");	
 			return userService.find(id, complete);
+			
 		}catch(MasterException e) {
 			throw e;
 		}
