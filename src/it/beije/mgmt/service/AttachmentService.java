@@ -59,7 +59,7 @@ public class AttachmentService {
 	public List<Attachment> getAttachmentByUser(Long id) {
 		log.debug("GET /attachments/user/{user_id}");
 		try {
-			List<Attachment> attachment = attachmentRepository.findByIdUser(id, Sort.by(Sort.Direction.DESC, "startDate"));
+			List<Attachment> attachment = attachmentRepository.findByUserId(id, Sort.by(Sort.Direction.DESC, "startDate"));
 			if (attachment.size()==0)
 				throw new NoContentException("La lista è vuota");
 			return attachment;

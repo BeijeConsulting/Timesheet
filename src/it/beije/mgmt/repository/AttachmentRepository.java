@@ -15,12 +15,8 @@ import it.beije.mgmt.entity.Attachment;
 @Repository
 public interface AttachmentRepository extends JpaRepository<Attachment, Long> , JpaSpecificationExecutor<Attachment> {
 
-	
-		
-		
-		Optional<Attachment> findById(Long id);
 
-		List<Attachment> findByIdUser(Long id, Sort by);
+		List<Attachment> findByUserId(Long id, Sort by);
 		
 		
 
