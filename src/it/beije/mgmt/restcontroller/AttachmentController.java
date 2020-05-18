@@ -31,19 +31,15 @@ public class AttachmentController {
 	@Autowired
 	private AttachmentService attachmentService;
 	
-	@RequestMapping(value = "/attachments/user/{user_id}", method = RequestMethod.GET)
+	@RequestMapping(value = "/attachments/user/{id}", method = RequestMethod.GET)
 	public @ResponseBody List<Attachment> getAttachmentUser(@PathVariable Long id){
 		
 		return attachmentService.getAttachmentByUser(id);   
 		
-		
-		
 	}
 	@RequestMapping(value = "/attachment/{id}", method = RequestMethod.GET)
-	public @ResponseBody List<Attachment> getAttachment(@PathVariable Long id){
-		
-	
-		return attachmentService.getAttachmentByUser(id);   
+	public @ResponseBody Attachment getAttachment(@PathVariable Long id){
+		return attachmentService.find(id);   
 		
 		
 	}
@@ -51,21 +47,14 @@ public class AttachmentController {
 	public @ResponseBody Attachment getAttachmentsPost(@RequestBody Attachment attachment, Model model,
 			HttpServletResponse response) throws IOException {
 		
-	
-	
 		return attachmentService.create(attachment.getUserId(),attachment);   //da controllare l'id che si passa
-		
-		
-		
+			
 	}
 	
 	@RequestMapping(value = "/attachment/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody Attachment getAttachmentsPost(@PathVariable Long id, @RequestBody Attachment attachment, Model model,
-			HttpServletResponse response) throws IOException {
-		
-		
-		return attachmentService.update(id,attachment);  
-		
+			HttpServletResponse response) throws IOException {	
+		return attachmentService.update(id,attachment); 	
 		
 	}
 }

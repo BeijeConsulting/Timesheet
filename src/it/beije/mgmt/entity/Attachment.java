@@ -12,7 +12,7 @@ import javax.persistence.Table;
 
 
 
-@Table(name = "bank_credentials")
+@Table(name = "attachment")
 @Entity
 public class Attachment {
 	
