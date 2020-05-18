@@ -23,8 +23,7 @@ import it.beije.mgmt.service.ComputerService;
 
 @RestController
 @RequestMapping("api")
-@PreAuthorize("hasAuthority('ADMIN')")
-public class ComputerApiController {
+public class ComputerApiController extends BaseController{
 	private Logger log = LoggerFactory.getLogger(this.getClass());
 
 	@Autowired

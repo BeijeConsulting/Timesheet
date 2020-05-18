@@ -3,6 +3,7 @@
 
 	<persistence-unit transaction-type="RESOURCE_LOCAL" name="timesheetDB">
 		<class>it.beije.mgmt.entity.Address</class>
+		<class>it.beije.mgmt.entity.Attachment</class>
 		<class>it.beije.mgmt.entity.Authority</class>
 		<class>it.beije.mgmt.entity.BankCredentials</class>
 		<class>it.beije.mgmt.entity.ClientCompany</class>
@@ -39,17 +40,17 @@
 			<property name="javax.persistence.jdbc.user" value="beije"/>
 			<property name="javax.persistence.jdbc.password" value="beije001"/>
 			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5Dialect"/>
-		</properties>
+		</properties> 
 
-	<!-- LOCALE >
+	<!-- LOCALE 
 		<properties>
 			<property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
-			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/timesheet?serverTimezone=CET"/>
+			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/Timesheet?serverTimezone=CET"/>
 			<property name="javax.persistence.jdbc.user" value="root"/>
-			<property name="javax.persistence.jdbc.password" value="password"/>
+			<property name="javax.persistence.jdbc.password" value="Beije06"/>
 			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>
+<<<<<<< HEAD
 		</properties>-->
-	
 	
 	</persistence-unit>
 	

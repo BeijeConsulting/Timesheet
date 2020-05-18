@@ -26,11 +26,10 @@ import it.beije.mgmt.exception.MasterException;
 import it.beije.mgmt.exception.NoContentException;
 import it.beije.mgmt.service.ClientCompanyService;
 
-
 @RestController
 @RequestMapping("api")
-@PreAuthorize("hasAuthority('ADMIN')")
-public class ClientCompanyApiController {
+public class ClientCompanyApiController extends BaseController {
+	
 	private Logger log = LoggerFactory.getLogger(this.getClass());
 
 	@Autowired
@@ -92,7 +91,7 @@ public class ClientCompanyApiController {
 		log.debug("GET /clientcompanies/user/{id}");
 		
 		try {
-			ApiController.verifyLoggedUser(auth, id);	
+			verifyLoggedUser(auth, id);	
 			return clientService.getClientsByUser(id);
 		}catch(MasterException e) {
 			throw e;

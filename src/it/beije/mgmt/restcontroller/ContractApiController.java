@@ -29,8 +29,8 @@ import it.beije.mgmt.service.ContractService;
 
 @RestController
 @RequestMapping("api")
-@PreAuthorize("hasAuthority('ADMIN')")
-public class ContractApiController {
+public class ContractApiController extends BaseController{
+	
 	@Autowired
 	private ContractService contractService;
 	private Logger log = LoggerFactory.getLogger(this.getClass());
@@ -43,7 +43,7 @@ public class ContractApiController {
 		
 		log.debug("GET /contracts/user/{id}");
 		try {
-			ApiController.verifyLoggedUser(auth, id);
+			verifyLoggedUser(auth, id);
 			return contractService.getContractByUser(id);
 		}catch(MasterException e) {
 			throw e;

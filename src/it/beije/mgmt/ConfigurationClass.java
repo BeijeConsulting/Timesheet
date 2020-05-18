@@ -68,11 +68,13 @@ public class ConfigurationClass extends WebSecurityConfigurerAdapter {
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             .and()
                 .authorizeRequests()
-                .antMatchers("/api/signin").permitAll()
-           /*     .antMatchers(HttpMethod.GET, "/vehicles/**").permitAll()
+                .antMatchers("/signin").permitAll()
+               /* 
+                .antMatchers(HttpMethod.GET, "/vehicles/**").permitAll()
                 .antMatchers(HttpMethod.DELETE, "/vehicles/**").hasRole("ADMIN")
                 .antMatchers(HttpMethod.GET, "/v1/vehicles/**").permitAll()
-                .anyRequest().authenticated()*/
+                .anyRequest().authenticated()
+                */
             .and()
             .apply(new JwtConfigurer(jwtTokenProvider));
         //@formatter:on

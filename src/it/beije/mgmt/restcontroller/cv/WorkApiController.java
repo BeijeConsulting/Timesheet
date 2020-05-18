@@ -13,12 +13,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import it.beije.mgmt.entity.cv.Work;
+import it.beije.mgmt.restcontroller.BaseController;
 import it.beije.mgmt.service.CvService;
-
 
 @RestController
 @RequestMapping("api")
-public class WorkApiController {
+public class WorkApiController extends BaseController{
 	
 	@Autowired
 	CvService cvService;

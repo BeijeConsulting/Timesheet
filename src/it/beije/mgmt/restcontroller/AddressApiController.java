@@ -25,11 +25,9 @@ import it.beije.mgmt.exception.MasterException;
 import it.beije.mgmt.exception.NoContentException;
 import it.beije.mgmt.service.AddressService;
 
-
 @RestController
 @RequestMapping("api")
-@PreAuthorize("hasAuthority('ADMIN')")
-public class AddressApiController {
+public class AddressApiController extends BaseController{
 	private Logger log = LoggerFactory.getLogger(this.getClass());
 		
 	@Autowired
@@ -44,7 +42,7 @@ public class AddressApiController {
 		
 		log.debug("GET /addresses/user/{id}");
 		try {
-			ApiController.verifyLoggedUser(auth, id);
+			verifyLoggedUser(auth, id);
 			return addressService.getAddressByUser(id);
 		}catch(MasterException e) {
 			throw e;

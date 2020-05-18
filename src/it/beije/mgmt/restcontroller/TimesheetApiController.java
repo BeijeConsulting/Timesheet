@@ -32,11 +32,9 @@ import it.beije.mgmt.entity.User;
 import it.beije.mgmt.exception.MasterException;
 import it.beije.mgmt.service.TimesheetService;
 
-
 @RestController
 @RequestMapping("api")
-@PreAuthorize("hasAuthority('ADMIN')")
-public class TimesheetApiController {
+public class TimesheetApiController extends BaseController{
 	private Logger log = LoggerFactory.getLogger(this.getClass());
 	
 		@Autowired
@@ -47,6 +45,8 @@ public class TimesheetApiController {
 			log.debug("GET /timesheets");
 			return timesheetService.findAll();
 		}
+		
+		
 		@RequestMapping(value = "/timeshee/timesheetsts/svuotaserver", method = RequestMethod.GET) // METODO USATO SOLO PER TESTARE
 		public @ResponseBody boolean svuotaserver(Model model, HttpServletResponse response) {
 			log.debug("GET /timesheets/svuotaserver");
@@ -66,7 +66,7 @@ public class TimesheetApiController {
 		@RequestMapping(value = { "/timesheet/default/user/{idUser}" }, method = RequestMethod.POST, produces = {MediaType.APPLICATION_JSON_VALUE})
 		public @ResponseBody Timesheet insertDefaultTimesheet(@PathVariable long idUser, @RequestBody Timesheet timsheet, Model model,HttpServletResponse response, Authentication auth) {
 			log.debug("POST /timesheet/default/user/{idUser}");
-			ApiController.verifyLoggedUser(auth, idUser);
+			verifyLoggedUser(auth, idUser);
 			return timesheetService.insertDefault(idUser,timsheet);		
 		}
 		
@@ -74,7 +74,7 @@ public class TimesheetApiController {
 		@RequestMapping(value = { "/timesheet/default/user/{idUser}" }, method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
 		public @ResponseBody Timesheet getDefaultTimesheet(@PathVariable long idUser, Model model,HttpServletResponse response, Authentication auth) {
 			log.debug("GET /timesheet/default/user/{idUser}");
-			ApiController.verifyLoggedUser(auth, idUser);
+			verifyLoggedUser(auth, idUser);
 			return timesheetService.getDefaultTimesheet(idUser);		
 		}
 			
@@ -90,7 +90,7 @@ public class TimesheetApiController {
 		public @ResponseBody List<Timesheet> retrieveTimeSheetTables(@PathVariable Long id,@RequestParam(value = "datefrom", required = true)Date datefrom,@RequestParam(value = "dateto", required = false)Date dateto, Authentication auth) {
 			log.debug("GET /timesheets/user/{id}");
 
-			ApiController.verifyLoggedUser(auth, id);
+			verifyLoggedUser(auth, id);
 			dateto = dateto == null? new Date(System.currentTimeMillis()) : dateto;
 			List<Timesheet> timetablelist = timesheetService.retrieveTimatablesInDateRangeByUserId(id,datefrom,dateto);
 
@@ -107,8 +107,6 @@ public class TimesheetApiController {
 		}
 
 		@RequestMapping(value = "/timesheets/validate/{id}", method = RequestMethod.POST)
-		
-
 		public @ResponseBody boolean validazione(@PathVariable Long id,@RequestParam(value = "datefrom", required = true)Date datefrom,@RequestParam(value = "dateto", required = false)Date dateto) {
 			log.debug("POST /timesheets/validate/{id}");
 			return timesheetService.validator(id, datefrom, dateto);

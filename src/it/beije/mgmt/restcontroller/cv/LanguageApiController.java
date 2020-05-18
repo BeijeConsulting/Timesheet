@@ -10,11 +10,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import it.beije.mgmt.entity.cv.Language;
+import it.beije.mgmt.restcontroller.BaseController;
 import it.beije.mgmt.service.CvService;
 
 @RestController
 @RequestMapping("api")
-public class LanguageApiController {
+public class LanguageApiController extends BaseController{
 	
 	@Autowired
 	private CvService cvService;

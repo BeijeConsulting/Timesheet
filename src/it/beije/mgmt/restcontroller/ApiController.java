@@ -9,6 +9,8 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.logging.Logger;
 
+import javax.annotation.security.PermitAll;
+
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.slf4j.LoggerFactory;
@@ -38,10 +40,9 @@ import it.beije.mgmt.repository.UserRepository;
 import it.beije.mgmt.security.JwtTokenFilter;
 import it.beije.mgmt.security.JwtTokenProvider;
 
-
 @RestController
 @RequestMapping("api")
-public class ApiController {
+public class ApiController extends BaseController{
 
 	@Autowired
     AuthenticationManager authenticationManager;
@@ -54,6 +55,7 @@ public class ApiController {
 
 	///////// TEST //////////////////////
 	
+    @PreAuthorize("permitAll()")
 	@PostMapping("/signin")
     public ResponseEntity<Map<Object, Object>> signin(@RequestBody AuthenticationRequest data) {
 
@@ -71,22 +73,9 @@ public class ApiController {
             throw e;
         }
     }
+
 	
-	@RequestMapping(value = "/test", method = RequestMethod.GET)
-	private @ResponseBody User test(Locale locale, Model model) {
-		
-		System.out.println("Home Page Requested, locale = " + locale);
-
-		return new User();
-	}
-
-	@RequestMapping(value = "/testTT", method = RequestMethod.GET)
-	public @ResponseBody Timesheet testTT(Locale locale, Model model) {
-		System.out.println("Home Page Requested, locale = " + locale);
-
-		return new Timesheet();
-	}
-	
+	@PreAuthorize("isAuthenticated()")
 	@RequestMapping(value = "/constants", method = RequestMethod.GET)
 	public @ResponseBody JSONObject costant(Model model) {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm Z");
@@ -98,6 +87,42 @@ public class ApiController {
 		JSONObject objectGmap = new JSONObject();
 		objectGmap.put("gmap_key","XYZ");	
 		
+
+		JSONObject objectTT1 = new JSONObject();
+		JSONObject objectTT2 = new JSONObject();
+		JSONObject objectTT3 = new JSONObject();
+		JSONObject objectTT4 = new JSONObject();
+		JSONObject objectTT5 = new JSONObject();
+		JSONObject objectTT6 = new JSONObject();
+		JSONObject objectTT7 = new JSONObject();
+		
+		JSONArray arrayTimesheetTypes = new JSONArray();
+		JSONArray arrayTimesheetTypes1 = new JSONArray();
+		objectTT1.put("code", "W");
+		objectTT1.put("label", "Lavorativo");
+		objectTT2.put("code", "H");
+		objectTT2.put("label", "ferie");
+		objectTT3.put("code", "P");
+		objectTT3.put("label", "Permesso");
+		objectTT4.put("code", "S");
+		objectTT4.put("label", "Malattia");
+		objectTT5.put("code", "C");
+		objectTT5.put("label", "Cassa Integrazione");
+		objectTT6.put("code","R");
+		objectTT6.put("label","Residenza");
+		objectTT7.put("code","D");
+		objectTT7.put("label","Domicilio");
+		
+		
+		arrayTimesheetTypes.add(objectTT1);
+		arrayTimesheetTypes.add(objectTT2);
+		arrayTimesheetTypes.add(objectTT3);
+		arrayTimesheetTypes.add(objectTT4);
+		arrayTimesheetTypes.add(objectTT5);
+		arrayTimesheetTypes1.add(objectTT6);
+		arrayTimesheetTypes1.add(objectTT7);
+		
+
 		JSONArray timesheetTypes = new JSONArray();
 		JSONObject timesheetType = new JSONObject();
 		timesheetType.put("code", "W");
@@ -139,19 +164,18 @@ public class ApiController {
 		addressType.put("label","Domicilio");
 		addressTypes.add(addressType);
 
+
 		JSONObject mainJson = new JSONObject();
 		
 		mainJson.putAll(objectServerDate);
+
+		mainJson.put("address_types", arrayTimesheetTypes1);
+		mainJson.put("timesheet_types", arrayTimesheetTypes);
+
 		mainJson.put("address_types", addressTypes);
 		mainJson.put("timesheet_types", timesheetTypes);
 		mainJson.putAll(objectGmap);
 
 		return mainJson;
-	}
-	
-	static void verifyLoggedUser(Authentication auth, Long id) {
-		User user = (User) auth.getPrincipal();
-		if(!user.getAuthority().contains("ADMIN") && user.getId()!=id)
-			throw new NoContentException("Non si possiedono i permessi necessari");
 	}
 }

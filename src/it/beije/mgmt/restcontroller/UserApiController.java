@@ -39,28 +39,12 @@ import it.beije.mgmt.service.UserService;
 
 @RestController
 @RequestMapping("api")
-@PreAuthorize("hasAuthority('ADMIN')")
-public class UserApiController {
+public class UserApiController extends BaseController{
+	
 	private Logger log = LoggerFactory.getLogger(this.getClass());
 
-	/**
-	 * ANDARE NELLA CLASSE USERSERVICE PER VEDERE TUTTI I METODI UTILIZZATI PER LE
-	 * API
-	 */
 	@Autowired
 	private UserService userService;
-	
-	@RequestMapping(value = "/user/itsme", method = RequestMethod.GET)
-	public @ResponseBody User getLoggedUser(Authentication user, Model model, HttpServletResponse response) {
-        
-		try{
-			return (User) user.getPrincipal();
-			//return (User) userService.loadUserByUsername(user.getName());
-		}catch(MasterException e) {
-			throw e;
-		}
-	}
-
 	
 	@RequestMapping(value = "/users", method = RequestMethod.GET)
 	public @ResponseBody List<User> getUsers(Model model, HttpServletResponse response) {
@@ -82,14 +66,12 @@ public class UserApiController {
 
 	@PreAuthorize("hasAuthority('USER')")
 	@RequestMapping(value = { "/user/{id}" }, method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
-	public @ResponseBody User getUser(@PathVariable Long id, // @PathVariable(required=false) boolean complete,
-			@RequestParam(required = false) boolean complete, Model model, HttpServletResponse response, Authentication auth) {
+	public @ResponseBody User getUser(@PathVariable Long id, @RequestParam(required = false) boolean complete, 
+			Model model, HttpServletResponse response, Authentication auth) {
 		log.debug("GET /user/{id}");
 		
 		try {
-			User user = (User) auth.getPrincipal();
-			if(!user.getAuthority().contains("ADMIN") && user.getId()!=id)
-				throw new NoContentException("Non si possiedono i permessi necessari");	
+			verifyLoggedUser(auth, id);;	
 			return userService.find(id, complete);
 			
 		}catch(MasterException e) {

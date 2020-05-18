@@ -32,11 +32,9 @@ import it.beije.mgmt.service.BankCredentialsService;
 
 @RestController
 @RequestMapping("api")
-@PreAuthorize("hasAuthority('ADMIN')")
-public class BankCredentialsApiController {
+public class BankCredentialsApiController extends BaseController{
 	private Logger log = LoggerFactory.getLogger(this.getClass());
-	@Autowired
-	BankCredentialsRepository repository;
+
 	@Autowired
 	private BankCredentialsService bankCredentialsService;
 
@@ -48,7 +46,7 @@ public class BankCredentialsApiController {
 		
 		log.debug("GET /bank_credentials/user/{id}\"");
 		try {
-			ApiController.verifyLoggedUser(auth, id);
+			verifyLoggedUser(auth, id);
 			return bankCredentialsService.getBankCredentialsByUser(id);
 		} catch (MasterException e) {
 			throw e;
