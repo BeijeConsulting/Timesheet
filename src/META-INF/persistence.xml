@@ -22,6 +22,7 @@
 		<class>it.beije.mgmt.entity.cv.Technology</class>
 		<class>it.beije.mgmt.entity.cv.Work</class>
 
+
 	<!-- AWS TEST>
 		<properties>
 			<property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
@@ -33,6 +34,7 @@
 	 
 
 	<!-- AWS DEV -->
+
 		<properties>
 			<property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
 			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://beijedev.ccc2op6yesad.eu-west-1.rds.amazonaws.com:3306/beijedb?serverTimezone=CET"/>

@@ -3,6 +3,7 @@ package it.beije.mgmt.repository;
 import java.sql.Date;
 import java.util.List;
 
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
@@ -28,5 +29,7 @@ public interface TimesheetRepository extends JpaRepository<Timesheet, Long> , Jp
 	List<Timesheet> deleteByIdUserAndDate(Long idUser, Date dateFrom);
 
 	Timesheet findByIdUserAndType(Long idUser, String type);
+	
+	List<Timesheet> findByIdUserAndSubmitIsNull(Long idUser, Sort sort);
 
 }
