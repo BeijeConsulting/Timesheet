@@ -84,7 +84,6 @@ public class Timesheet implements Serializable {
 	public Date getDate() {
 		return date;
 	}
-	
 	@JsonGetter("date")
 	public String getJsonData() {
 		return Utils.formatDate(this.date);
@@ -93,20 +92,11 @@ public class Timesheet implements Serializable {
 		System.out.println("set date from Date");
 		this.date = date;
 	}
-	
 //	@JsonSetter("date")
 	public void setDate(String date) throws ParseException {
 		System.out.println("set date from String");
 		this.date = Utils.parseDate(date);
 	}
-	
-////	@JsonGetter("date")
-//	public String getJsonStartDate() {
-//		return Utils.formatDate(this.date);
-//	}
-//	public void setJsonEndDate(String endDate) throws ParseException {
-//		this.date = Utils.parseDate(endDate);
-//	}
 	
 	
 	public String getType() {
@@ -120,6 +110,10 @@ public class Timesheet implements Serializable {
 	
 	public Time getStart1() {
 		return start1;
+	}
+	@JsonGetter("start1")
+	public String getJsonStart1() {
+		return Utils.formatTime(this.start1);
 	}
 	public void setStart1(Time start1) {
 		this.start1 = start1;

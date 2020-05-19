@@ -310,7 +310,7 @@ public class TimesheetService {
 		log.debug("PUT /timesheets/modifica/{id}");
 		
 		try {
-			Timesheet t= timesheetRepository.findById(id).get();
+			Timesheet t = timesheetRepository.findById(id).get();
 		
 			if(t.getSubmit()!=null)
 				throw new UpdateException("ATTENZIONE: una timesheet già submittata non può essere modificata");

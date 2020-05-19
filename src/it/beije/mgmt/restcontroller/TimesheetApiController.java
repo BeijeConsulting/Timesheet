@@ -37,13 +37,15 @@ public class TimesheetApiController {
 
 		@RequestMapping(value = "/timesheets", method = RequestMethod.GET, consumes = MediaType.APPLICATION_JSON_VALUE)
 		public @ResponseBody List<Timesheet> searchUser(@RequestBody TimesheetSearchRequest req) {
-
+			log.debug("GET /timesheets (search)");
+			
 			return timesheetService.searchTimesheets(req);
 
 		}
 //		@RequestMapping(value = "/timesheets", method = RequestMethod.GET)
-//		public @ResponseBody List<Timesheet> getTimesheets(Model model, HttpServletResponse response) throws IOException {
-//			log.debug("GET /timesheets");
+//		public @ResponseBody List<Timesheet> getTimesheets(Model model, HttpServletResponse response) {
+//			log.info("GET /timesheets");
+//			System.out.println("GET /timesheets");
 //			return timesheetService.findAll();
 //		}
 //		@RequestMapping(value = "/timeshee/timesheetsts/svuotaserver", method = RequestMethod.GET) // METODO USATO SOLO PER TESTARE
@@ -60,7 +62,7 @@ public class TimesheetApiController {
 			return timesheetService.insertDefault(idUser,timsheet);		
 		}
 		
-		@RequestMapping(value = { "/timesheet/default/user/{idUser}" }, method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+		@RequestMapping(value = { "/timesheet/default/user/{idUser}" }, method = RequestMethod.GET)
 		public @ResponseBody Timesheet getDefaultTimesheet(@PathVariable long idUser, Model model,HttpServletResponse response) {
 			log.debug("GET /timesheet/default/user/" + idUser);
 			
@@ -68,10 +70,17 @@ public class TimesheetApiController {
 		}
 			
 		@RequestMapping(value = "/timesheets/user/{idUser}", method = RequestMethod.GET)
-		public @ResponseBody List<Timesheet> retrieveTimeSheetTables(@PathVariable Long idUser,@RequestParam(value = "datefrom", required = true)Date datefrom,@RequestParam(value = "dateto", required = false)Date dateto) {
-			log.debug("GET /timesheets/user/" + idUser);
+		public @ResponseBody List<Timesheet> getTimesheetsUser(@PathVariable long idUser, @RequestParam(value = "datefrom", required = false)Date datefrom, @RequestParam(value = "dateto", required = false)Date dateto) {
+			log.info("GET /timesheets/user/" + idUser);
+			System.out.println("GET /timesheets/user/" + idUser);
 			
-			dateto = dateto == null? new Date(System.currentTimeMillis()) : dateto;
+			if (datefrom == null) {
+				throw new MasterException("datefrom parameter is mandatory");
+			}
+			
+			if (dateto == null) {
+				dateto = new Date(System.currentTimeMillis());
+			}
 			List<Timesheet> timetablelist = timesheetService.retrieveTimesheetsInDateRangeByUserId(idUser, datefrom, dateto);
 
 			return timetablelist;
@@ -95,8 +104,9 @@ public class TimesheetApiController {
 //		}
 		
 		@RequestMapping(value = "/timesheet/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
-		public @ResponseBody  boolean modifyTimesheet (@PathVariable Long id, @RequestBody Timesheet timesheet) {
-			log.debug("PUT /timesheets/{id}");
+		public @ResponseBody  boolean modifyTimesheet (@PathVariable long id, @RequestBody Timesheet timesheet) {
+			log.debug("PUT /timesheets/" + id);
+			System.out.println("PUT /timesheets/" + id);
 			
 			timesheetService.updateTimesheet(id,timesheet);
 			return true;
@@ -108,12 +118,12 @@ public class TimesheetApiController {
 			log.debug("DELETE /timesheets/" + id);
 			
 			timesheetService.deleteOne(id);
-			 return true;
+			return true;
 		}
 		
 
 		@RequestMapping(value = "/timesheets/submit/{id}", method = RequestMethod.POST)
-		public @ResponseBody boolean submit(@PathVariable Long id,@RequestParam(value = "datefrom", required = true)Date datefrom,@RequestParam(value = "dateto", required = false)Date dateto) throws Exception {
+		public @ResponseBody boolean submit(@PathVariable long id, @RequestParam(value = "datefrom", required = true)Date datefrom, @RequestParam(value = "dateto", required = false)Date dateto) throws Exception {
 			log.debug("POST /timesheets/submit/{id}");
 			if(dateto !=null) {
 				int i=dateto.compareTo(datefrom);
