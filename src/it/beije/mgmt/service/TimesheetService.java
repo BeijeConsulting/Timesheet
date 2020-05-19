@@ -232,7 +232,7 @@ public class TimesheetService {
 		if(dateto.before(datefrom))
 			throw new IllegalDateException("ATTENZIONE: la data di fine non può essere precedente a quella di inizio");
 		
-		List<Timesheet> listaT = retrieveTimatablesInDateRangeByUserId(userId, datefrom, dateto);
+		List<Timesheet> listaT = retrieveTimesheetsInDateRangeByUserId(userId, datefrom, dateto);
 		for(Timesheet t: listaT) {
 			Date occorrenza = t.getDate();
 			if(t.getSubmit()==null)
@@ -242,14 +242,14 @@ public class TimesheetService {
 	}
 
 	
-	public boolean svuotaserver() {
-		log.debug("GET /timesheets/svuotaserver");
-		timesheetRepository.deleteAll();
-		return true;		
-	}
+//	public boolean svuotaserver() {
+//		log.debug("GET /timesheets/svuotaserver");
+//		timesheetRepository.deleteAll();
+//		return true;		
+//	}
 
 	
-	public List<Timesheet> retrieveTimatablesInDateRangeByUserId(Long idUser, Date dateFrom, Date dateTo) {
+	public List<Timesheet> retrieveTimesheetsInDateRangeByUserId(Long idUser, Date dateFrom, Date dateTo) {
 		log.debug("GET /timesheet/current");
 
 		TimesheetSpecification spFindDef = new TimesheetSpecification();
@@ -270,7 +270,7 @@ public class TimesheetService {
 		Date sqltoday= Date.valueOf(LocalDate.now());
 		
 		if(dateTo==null) {
-			List<Timesheet> lista = checkValidations(retrieveTimatablesInDateRangeByUserId(userId, dateFrom, dateFrom));
+			List<Timesheet> lista = checkValidations(retrieveTimesheetsInDateRangeByUserId(userId, dateFrom, dateFrom));
 			for(Timesheet t : lista) {
 				if(t.getSubmit()!=null) {
 					t.setValidated(sqltoday);
@@ -283,7 +283,7 @@ public class TimesheetService {
 		if(dateTo.before(dateFrom))
 			throw new IllegalDateException("ATTENZIONE: la data di fine non può essere precedente a quella di inizio");
 		
-		List<Timesheet> lista = checkValidations(retrieveTimatablesInDateRangeByUserId(userId,  dateFrom,dateTo));	
+		List<Timesheet> lista = checkValidations(retrieveTimesheetsInDateRangeByUserId(userId,  dateFrom,dateTo));	
 		for(Timesheet t : lista) {	
 			if(t.getSubmit()!=null) {
 				t.setValidated(sqltoday);
@@ -423,7 +423,7 @@ public class TimesheetService {
 					TimesheetDto dto = new TimesheetDto();
 					User user = userRepository.findById(t.getIdUser()).get();
 					dto.setIdUser(user.getId());
-					dto.setUserName(user.getFirstName()+" "+user.getLastName());
+					dto.setUserName(user.getLastName()+" "+user.getFirstName());
 					dto.addTimesheet(t);
 					list.add(dto);
 				}
