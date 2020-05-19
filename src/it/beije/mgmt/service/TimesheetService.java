@@ -41,7 +41,7 @@ public class TimesheetService {
 	private Logger log = LoggerFactory.getLogger(this.getClass());
 	
 	@Autowired
-	private TimesheetRepository timesheetRepository;
+	private TimesheetRepository timesheetRepository ;
 	
 	@Autowired
 	private UserRepository userRepository;
