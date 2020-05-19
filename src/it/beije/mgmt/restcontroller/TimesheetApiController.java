@@ -86,22 +86,22 @@ public class TimesheetApiController {
 			return timetablelist;
 		}
 
-		//IM 20200518 : serve ?
-		@RequestMapping(value = "/timesheets", method = RequestMethod.POST,	consumes = MediaType.APPLICATION_JSON_VALUE)
-		public @ResponseBody List<Timesheet> insertTimesheets(@RequestBody List<Timesheet> timesheets, Model model,	HttpServletResponse response) {
-			log.debug("POST /timesheets");
-			System.out.println("insert timesheets: " + timesheets);
-	
-			return timesheetService.insert(timesheets);
-		}
-		
-//		@RequestMapping(value = "/timesheet/user/{idUser}", method = RequestMethod.POST,	consumes = MediaType.APPLICATION_JSON_VALUE)
+//		//IM 20200518 : serve ?
+//		@RequestMapping(value = "/timesheets", method = RequestMethod.POST,	consumes = MediaType.APPLICATION_JSON_VALUE)
 //		public @ResponseBody List<Timesheet> insertTimesheets(@RequestBody List<Timesheet> timesheets, Model model,	HttpServletResponse response) {
-//			log.debug("POST /timesheet/user/" + idUser");
+//			log.debug("POST /timesheets");
 //			System.out.println("insert timesheets: " + timesheets);
 //	
 //			return timesheetService.insert(timesheets);
 //		}
+		
+		@RequestMapping(value = "/timesheet/user/{idUser}", method = RequestMethod.POST,	consumes = MediaType.APPLICATION_JSON_VALUE)
+		public @ResponseBody Timesheet insertTimesheet(@PathVariable long idUser, @RequestBody Timesheet timesheet, Model model,	HttpServletResponse response) {
+			log.debug("POST /timesheets/user/" + idUser);
+			System.out.println("insert timesheets: " + timesheet);
+	
+			return timesheetService.insertSingleTimesheet(timesheet);
+		}
 		
 		@RequestMapping(value = "/timesheet/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
 		public @ResponseBody  boolean modifyTimesheet (@PathVariable long id, @RequestBody Timesheet timesheet) {
