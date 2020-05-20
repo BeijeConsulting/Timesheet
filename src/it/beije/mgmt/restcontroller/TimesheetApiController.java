@@ -148,9 +148,10 @@ public class TimesheetApiController {
 			log.debug("GET /timesheet/current");
 			
 			try {
-				return timesheetService.retrieveTimesheetsInDateRangeByUserId((long) 1 , 
+				/*return timesheetService.retrieveTimesheetsInDateRangeByUserId((long) 1 , 
 						Date.valueOf(LocalDate.now().minus(Period.of(0, 1, LocalDate.now().getDayOfMonth()-1))),
-						Date.valueOf(LocalDate.now()));
+						Date.valueOf(LocalDate.now()));*/
+				return timesheetService.retrieveCurrentNotSubmitted(1L);
 			}catch(MasterException e) {
 				throw e;
 			}

@@ -10,6 +10,7 @@
 		<class>it.beije.mgmt.entity.ContractType</class>
 		<class>it.beije.mgmt.entity.Office</class>
 		<class>it.beije.mgmt.entity.Timesheet</class>
+		<class>it.beije.mgmt.entity.Attachment</class>
 		<class>it.beije.mgmt.entity.User</class>
 		<class>it.beije.mgmt.entity.UserComputer</class>
 		<class>it.beije.mgmt.entity.ClientOrder</class>
@@ -21,24 +22,24 @@
 		<class>it.beije.mgmt.entity.cv.Technology</class>
 		<class>it.beije.mgmt.entity.cv.Work</class>
 
-	<!-- AWS DEV --> 
+	<!-- AWS DEV -->
 		<properties>
 			<property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
 			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://beijedev.ccc2op6yesad.eu-west-1.rds.amazonaws.com:3306/beijedb?serverTimezone=CET"/>
 			<property name="javax.persistence.jdbc.user" value="beije"/>
 			<property name="javax.persistence.jdbc.password" value="beije001"/>
 			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5Dialect"/>
-		</properties>
+		</properties> 
 
-	<!-- LOCALE >
+	<!-- LOCALE 
 		<properties>
 			<property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
-			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/timesheet?serverTimezone=CET"/>
+			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/Timesheet?serverTimezone=CET"/>
 			<property name="javax.persistence.jdbc.user" value="root"/>
-			<property name="javax.persistence.jdbc.password" value="password"/>
+			<property name="javax.persistence.jdbc.password" value="Beije06"/>
 			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>
 		</properties>
-	<  -->
+	<-->
 	
 	</persistence-unit>
 	

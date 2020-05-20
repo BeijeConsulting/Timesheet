@@ -16,6 +16,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.IncorrectResultSizeDataAccessException;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -278,7 +279,7 @@ public class TimesheetService {
 
 	
 	public List<Timesheet> retrieveTimesheetsInDateRangeByUserId(Long idUser, Date dateFrom, Date dateTo) {
-		log.debug("GET /timesheet/current");
+		//log.debug("GET /timesheet/current");
 
 		TimesheetSpecification spFindDef = new TimesheetSpecification();
 		spFindDef.add(new SearchCriteria("idUser", idUser, SearchOperation.EQUAL));
@@ -290,6 +291,14 @@ public class TimesheetService {
 		return timetables;
 	}
 
+	public List<Timesheet> retrieveCurrentNotSubmitted(Long idUser)	{
+		//log.debug("GET /timesheet/current");
+		
+		List<Timesheet> timesheets = timesheetRepository.findByIdUserAndSubmitIsNull(idUser , Sort.by(Sort.Direction.ASC, "date"));
+		
+		return timesheets;
+		
+	}
 
 	@Transactional
 	public boolean validator(Long userId, Date dateFrom, Date dateTo) {
