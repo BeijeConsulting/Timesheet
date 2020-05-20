@@ -71,7 +71,7 @@ public class UserApiController extends BaseController{
 		log.debug("GET /user/{id}");
 		
 		try {
-			verifyLoggedUser(auth, id);;	
+			verifyLoggedUser(auth, id);	
 			return userService.find(id, complete);
 			
 		}catch(MasterException e) {
