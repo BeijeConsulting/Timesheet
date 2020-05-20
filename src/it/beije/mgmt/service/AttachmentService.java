@@ -1,7 +1,5 @@
 package it.beije.mgmt.service;
 
-import java.sql.Date;
-import java.time.LocalDate;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Objects;
@@ -17,15 +15,11 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import it.beije.mgmt.entity.Address;
 import it.beije.mgmt.entity.Attachment;
-import it.beije.mgmt.entity.BankCredentials;
-import it.beije.mgmt.entity.Contract;
 import it.beije.mgmt.exception.InvalidJSONException;
 import it.beije.mgmt.exception.MasterException;
 import it.beije.mgmt.exception.NoContentException;
 import it.beije.mgmt.exception.ServiceException;
-import it.beije.mgmt.repository.AddressRepository;
 import it.beije.mgmt.repository.AttachmentRepository;
 
 
@@ -58,7 +52,7 @@ public class AttachmentService {
 	}
 	
 	public List<Attachment> getAttachmentByUser(Long id) {
-		log.debug("GET /attachments/user/{user_id}");
+		log.debug("GET /attachments/user/{id}");
 		try {
 			List<Attachment> attachment = attachmentRepository.findByUserId(id, Sort.by(Sort.Direction.DESC, "uploadDate"));
 			if (attachment.size()==0)

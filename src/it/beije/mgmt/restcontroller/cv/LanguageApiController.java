@@ -1,6 +1,7 @@
 package it.beije.mgmt.restcontroller.cv;
 
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+
 import it.beije.mgmt.entity.cv.Language;
 import it.beije.mgmt.restcontroller.BaseController;
 import it.beije.mgmt.service.CvService;

@@ -28,6 +28,7 @@ import it.beije.mgmt.entity.Timesheet;
 import it.beije.mgmt.entity.User;
 import it.beije.mgmt.exception.IllegalDateException;
 import it.beije.mgmt.exception.IllegalHourException;
+import it.beije.mgmt.exception.InvalidJSONException;
 import it.beije.mgmt.exception.MasterException;
 import it.beije.mgmt.exception.NoContentException;
 import it.beije.mgmt.exception.ServiceException;
@@ -73,11 +74,40 @@ public class TimesheetService {
 	}
 
 	
-	@Transactional
-	public List<Timesheet> insert(List<Timesheet> timetables) {
-		log.debug("POST /timesheets");
+//	@Transactional
+//	public List<Timesheet> insert(List<Timesheet> timetables) {
+//		log.debug("POST /timesheets");
+//
+//		for(Timesheet t : timetables) {
+//			if((t.getStart1()==null && t.getEnd1()!=null) || (t.getStart2()==null && t.getEnd2()!=null) || (t.getStart1()!=null && t.getEnd1()==null) || (t.getStart2()!=null && t.getEnd2()==null)
+//					 || (t.getStart1()==null && t.getEnd1()==null && t.getStart2()==null && t.getEnd2()==null))
+//				 //SE GLI ORARI DI OGNI TIMESHEET HANNO UN INIZIO MA NON UNA FINE O VICEVERSA  OPPURE HA TUTTI ORARI NULL C'è  UN PROBLEMA
+//				 throw new IllegalHourException("ATTENZIONE: é presente una timesheet con orari non completi");
+//			if(t.getTot()>8)
+//				//SE LE ORE DI UNA TIMESHEET SONO MAGGIORI DI 8h C'è UN PROBLEMA
+//				throw new IllegalHourException("ATTENZIONE: le ore complessive della giornata sono maggiori di 8!");
+//			if(t.getType().equals("D"));
+//				//SE LE ORE DI UNA TIMESHEET SONO MAGGIORI DI 8h C'è UN PROBLEMA
+//				throw new IllegalHourException("ATTENZIONE: non è possibile inserire timesheet di default in questa sezione");
+//		}
+//		try {
+//			return timesheetRepository.saveAll(timetables);
+//		}catch(EntityExistsException e) {
+//			throw new ServiceException("Timesheet già presente nel database");
+//		}catch(IllegalStateException  | PersistenceException e) {
+//			throw new ServiceException("Al momento non è possibile soddisfare la richiesta");
+//		}
+//	}
+	
 
-		for(Timesheet t : timetables) {
+	@Transactional
+	public Timesheet insertSingleTimesheet(Timesheet t) {
+		log.debug("POST /timesheets");
+		
+		
+			if(t==null)
+				throw new InvalidJSONException("ATTENZIONE: è necessario inserire una timesheet da inserire");
+
 			if((t.getStart1()==null && t.getEnd1()!=null) || (t.getStart2()==null && t.getEnd2()!=null) || (t.getStart1()!=null && t.getEnd1()==null) || (t.getStart2()!=null && t.getEnd2()==null)
 					 || (t.getStart1()==null && t.getEnd1()==null && t.getStart2()==null && t.getEnd2()==null))
 				 //SE GLI ORARI DI OGNI TIMESHEET HANNO UN INIZIO MA NON UNA FINE O VICEVERSA  OPPURE HA TUTTI ORARI NULL C'è  UN PROBLEMA
@@ -85,20 +115,18 @@ public class TimesheetService {
 			if(t.getTot()>8)
 				//SE LE ORE DI UNA TIMESHEET SONO MAGGIORI DI 8h C'è UN PROBLEMA
 				throw new IllegalHourException("ATTENZIONE: le ore complessive della giornata sono maggiori di 8!");
-			if(t.getType().equals("D"));
-				//SE LE ORE DI UNA TIMESHEET SONO MAGGIORI DI 8h C'è UN PROBLEMA
+			if(t.getType().equals("D"))
 				throw new IllegalHourException("ATTENZIONE: non è possibile inserire timesheet di default in questa sezione");
-		}
+		
 		try {
-			return timesheetRepository.saveAll(timetables);
+			return timesheetRepository.saveAndFlush(t);
 		}catch(EntityExistsException e) {
 			throw new ServiceException("Timesheet già presente nel database");
 		}catch(IllegalStateException  | PersistenceException e) {
 			throw new ServiceException("Al momento non è possibile soddisfare la richiesta");
 		}
-	}
-	
-	
+	}	
+
 	public Timesheet insertDefault(Long idUser,Timesheet timesheet) {
 		log.debug("POST /timesheet/default/user/{idUser}");
 		
@@ -253,7 +281,7 @@ public class TimesheetService {
 
 	
 	public List<Timesheet> retrieveTimesheetsInDateRangeByUserId(Long idUser, Date dateFrom, Date dateTo) {
-		log.debug("GET /timesheet/current");
+		//log.debug("GET /timesheet/current");
 
 		TimesheetSpecification spFindDef = new TimesheetSpecification();
 		spFindDef.add(new SearchCriteria("idUser", idUser, SearchOperation.EQUAL));
@@ -265,6 +293,14 @@ public class TimesheetService {
 		return timetables;
 	}
 
+	public List<Timesheet> retrieveCurrentNotSubmitted(Long idUser)	{
+		//log.debug("GET /timesheet/current");
+		
+		List<Timesheet> timesheets = timesheetRepository.findByIdUserAndSubmitIsNull(idUser , Sort.by(Sort.Direction.ASC, "date"));
+		
+		return timesheets;
+		
+	}
 
 	@Transactional
 	public boolean validator(Long userId, Date dateFrom, Date dateTo) {
@@ -313,7 +349,7 @@ public class TimesheetService {
 		log.debug("PUT /timesheets/modifica/{id}");
 		
 		try {
-			Timesheet t= timesheetRepository.findById(id).get();
+			Timesheet t = timesheetRepository.findById(id).get();
 		
 			if(t.getSubmit()!=null)
 				throw new UpdateException("ATTENZIONE: una timesheet già submittata non può essere modificata");

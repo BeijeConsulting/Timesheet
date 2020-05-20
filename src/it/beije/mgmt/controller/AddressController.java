@@ -1,11 +1,9 @@
 package it.beije.mgmt.controller;
 
 import java.sql.Date;
-
 import java.util.Calendar;
 import java.util.List;
 
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;

@@ -1,9 +1,7 @@
 package it.beije.mgmt.restcontroller.cv;
 
 import java.util.List;
-import java.util.logging.Logger;
 
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -16,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+
 import it.beije.mgmt.entity.cv.Certification;
 import it.beije.mgmt.restcontroller.BaseController;
 import it.beije.mgmt.service.CvService;

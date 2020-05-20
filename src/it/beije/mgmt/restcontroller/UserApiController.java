@@ -1,13 +1,7 @@
 package it.beije.mgmt.restcontroller;
 
-import static java.util.stream.Collectors.toList;
-import static org.springframework.http.ResponseEntity.ok;
-
 import java.io.IOException;
-import java.security.Principal;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -15,14 +9,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,7 +23,6 @@ import org.springframework.web.bind.annotation.RestController;
 import it.beije.mgmt.dto.UserSearchRequest;
 import it.beije.mgmt.entity.User;
 import it.beije.mgmt.exception.MasterException;
-import it.beije.mgmt.exception.NoContentException;
 import it.beije.mgmt.service.UserService;
 
 @RestController
@@ -48,8 +36,6 @@ public class UserApiController extends BaseController{
 	
 	@RequestMapping(value = "/users", method = RequestMethod.GET)
 	public @ResponseBody List<User> getUsers(Model model, HttpServletResponse response) {
-		Map<Object, Object> mod = new HashMap<>();
-        
 		
 		log.debug("GET /users");
 		try{

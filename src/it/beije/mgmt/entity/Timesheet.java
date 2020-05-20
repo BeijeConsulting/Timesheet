@@ -84,7 +84,6 @@ public class Timesheet implements Serializable {
 	public Date getDate() {
 		return date;
 	}
-	
 	@JsonGetter("date")
 	public String getJsonData() {
 		return Utils.formatDate(this.date);
@@ -93,20 +92,11 @@ public class Timesheet implements Serializable {
 		System.out.println("set date from Date");
 		this.date = date;
 	}
-	
 //	@JsonSetter("date")
 	public void setDate(String date) throws ParseException {
 		System.out.println("set date from String");
 		this.date = Utils.parseDate(date);
 	}
-	
-////	@JsonGetter("date")
-//	public String getJsonStartDate() {
-//		return Utils.formatDate(this.date);
-//	}
-//	public void setJsonEndDate(String endDate) throws ParseException {
-//		this.date = Utils.parseDate(endDate);
-//	}
 	
 	
 	public String getType() {
@@ -118,36 +108,79 @@ public class Timesheet implements Serializable {
 	}
 	
 	
+	
 	public Time getStart1() {
 		return start1;
+	}
+	@JsonGetter("start1")
+	public String getJsonStart1() {
+		return Utils.formatTime(this.start1);
+	}
+	
+	public void setStart1(String start1) throws ParseException {
+		System.out.println("set time from String");
+		this.start1 = Utils.parseTime(start1);
 	}
 	public void setStart1(Time start1) {
 		this.start1 = start1;
 	}
 	
 	
+	
+	
 	public Time getEnd1() {
 		return end1;
+	}
+	@JsonGetter("end1")
+	public String getJsonEnd1() {
+		return Utils.formatTime(this.end1);
+	}
+	public void setEnd1(String end1) throws ParseException {
+		System.out.println("set time from String");
+		this.end1 = Utils.parseTime(end1);
 	}
 	public void setEnd1(Time end1) {
 		this.end1 = end1;
 	}
 	
 	
+	
+	
+	
 	public Time getStart2() {
 		return start2;
+	}
+	@JsonGetter("start2")
+	public String getJsonStart2() {
+		return Utils.formatTime(this.start2);
+	}
+	public void setStart2(String start2) throws ParseException {
+		System.out.println("set time from String");
+		this.start2 = Utils.parseTime(start2);
 	}
 	public void setStart2(Time start2) {
 		this.start2 = start2;
 	}
 	
 	
+	
+	
 	public Time getEnd2() {
 		return end2;
+	}
+	@JsonGetter("end2")
+	public String getJsonEnd2() {
+		return Utils.formatTime(this.end2);
+	}
+	public void setEnd2(String end2) throws ParseException {
+		System.out.println("set time from String");
+		this.end2 = Utils.parseTime(end2);
 	}
 	public void setEnd2(Time end2) {
 		this.end2 = end2;
 	}
+	
+	
 	
 	
 	public Double getTot() {
@@ -157,29 +190,30 @@ public class Timesheet implements Serializable {
 		this.tot = tot;
 	}
 
+	
+	
 	public Date getValidated() {
 		return validated;
 	}
-	
 	@JsonGetter("validated")
 	public String getJsonValidated() {
 		return Utils.formatDate(this.validated);
 	}
-	
 	public void setValidated(Date validated) {
 		this.validated = validated;
 	}
 
 	
+	
+	
+	
 	public Date getSubmit() {
 		return submit;
 	}
-	
 	@JsonGetter("submit")
 	public String getJsonSubmit() {
 		return Utils.formatDate(this.submit);
 	}
-	
 	public void setSubmit(Date submit) {
 		this.submit = submit;
 	}

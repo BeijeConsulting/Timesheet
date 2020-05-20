@@ -1,15 +1,12 @@
 package it.beije.mgmt.restcontroller;
 
-import java.io.IOException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.tomcat.util.http.parser.Authorization;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
@@ -22,12 +19,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import it.beije.mgmt.entity.Address;
 import it.beije.mgmt.entity.BankCredentials;
-import it.beije.mgmt.entity.User;
 import it.beije.mgmt.exception.MasterException;
-import it.beije.mgmt.exception.NoContentException;
-import it.beije.mgmt.repository.BankCredentialsRepository;
 import it.beije.mgmt.service.BankCredentialsService;
 
 @RestController
