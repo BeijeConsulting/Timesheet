@@ -4,6 +4,8 @@ import java.sql.Date;
 import java.sql.Time;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Objects;
@@ -43,7 +45,7 @@ public class TimesheetService {
 	private Logger log = LoggerFactory.getLogger(this.getClass());
 	
 	@Autowired
-	private TimesheetRepository timesheetRepository;
+	private TimesheetRepository timesheetRepository ;
 	
 	@Autowired
 	private UserRepository userRepository;
@@ -446,7 +448,7 @@ public class TimesheetService {
 		try {
 			spFindDef.add(new SearchCriteria("validated", null, SearchOperation.IS_NULL));
 			spFindDef.add(new SearchCriteria("submit", null, SearchOperation.IS_NOT_NULL));
-			allTimesheets = timesheetRepository.findAll(spFindDef);
+			allTimesheets = timesheetRepository.findAll(spFindDef, Sort.by(Sort.Direction.DESC, "date"));
 			for(Timesheet t : allTimesheets) {
 				boolean userIsPresent = false;
 				for(TimesheetDto dto : list) {
@@ -464,8 +466,10 @@ public class TimesheetService {
 					dto.addTimesheet(t);
 					list.add(dto);
 				}
-			}	
+			}
+			Collections.sort(list, Comparator.comparing(TimesheetDto::getUserName));
 			return list;
+			
 		}catch(MasterException e) {
 			throw e;
 		}
