@@ -5,6 +5,13 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
 public class Utils {
+	public static boolean isWeekDay(Date date) {
+
+		if(date.toLocalDate().getDayOfWeek().getValue()<6)
+		return true;
+		else
+		return false;
+		}
 	
 	private static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 	
